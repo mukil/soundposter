@@ -1,0 +1,307 @@
+<!--<html>-->
+  <head>
+    <title>soundposter.</title>
+    <script src="jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $("#a2n").hover(over, out);
+        $("#a2n").click(function () { window.location.href = "http://soundposter.com/a2n.htm"; });
+        $("#besto").hover(over, out);
+        $("#besto").click(function () { window.location.href = "http://soundposter.com/besto.htm"; });
+        $("#undb1").hover(over, out);
+        $("#undb1").click(function () { window.location.href = "http://soundposter.com/undb1.htm"; });
+        $("#reboot").hover(over, out);
+        $("#reboot").click(function () { window.location.href = "http://soundposter.com/reboot.htm"; });
+        
+        /** $("#radioposter").hover(over, out);
+        $("#radioposter").click(function () { 
+          // 
+          var myframe = '<iframe src="" frameBorder="0" width="800px" height="460px" id="posterframe">Browser not compatible.</iframe>';
+          $("#radioposter").append(myframe);
+          $("#posterframe").hide();
+          $("#posterframe").attr("src", "http://mikromedia.de/sp/radioposter.htm");
+          $("#radioposter #more").html("... loading");
+          $('#posterframe').load(function() 
+          {
+              $("#radioposter #more").html("... soundposter loaded!");
+              $("#posterframe").show();
+          });
+        });*/
+      });
+      function showEmbedCode(event) {
+        //
+        $("#embed").value(event.target.id);
+      }
+      // 
+      function over(event) {
+        showPlayIcon(event.target);
+      }
+      // 
+      function out(event) {
+        hidePlayIcon(event.target);
+      }
+      // 
+      function showPlayIcon(target) {
+        var name = "";
+        if (target.id == "a2n") {
+          name = "a2n_unconvention factory : berlin sampler";
+        } else if (target.id == "besto") {
+          name = "herr ehrhardt + the moh - besto";
+        } else if (target.id == "undb1") {
+          name = "mothabod - undb1";
+        } else if (target.id == "radioposter") {
+          name = "malt`s radioposter";
+        }
+        // 
+        somehtml = '<div id="more" class="info">Play <b>\"'+name+ '\"</b> soundposter...</div>';
+        $("#" + target.id).append(somehtml);
+        // $("#" + target.id).append();
+      }
+      // 
+      function hidePlayIcon(target) {
+        $('#more').remove();
+      }
+    </script>
+  </head>
+  <style type="text/css">
+    body { font-family: "Myriad Pro Regular","Trebuchet MS"; }
+    .title, .title a { font-size: 24px; text-decoration: none; }
+    .shadowed {
+      text-shadow: 1px 1px 10px #5c5c5c;
+      filter: dropshadow(color=#5c5c5c, offx=1, offy=1);
+    }
+    .info { 
+      font-size: 24px; position: relative; top: 20px;
+      background-color: #000; opacity: 0.8; color: #40b0e2;
+      padding: 20px; margin-left: auto; margin-right: auto; width: 760px;
+    }
+    .meta {
+      color: #e9e9e9; font-size: 24px;
+    }
+    .embed, #embed {
+      color: #e9e9e9; font-size: 14px; position: relative; top: 450px;
+    }
+    .content { width: 400px; margin-right: auto; margin-left: auto; }
+    .tcontent { align: center; text-align: }
+    .footer { margin-left: auto; margin-right: auto; }
+    .note { padding: 20px; background-color: #40b0e2; opacity: 0.6; width: 500px; color: #E9E9E9; margin-left: auto; margin-right: auto; }
+    .note h4 { color: #aa0000; }
+    
+    #a2n, #besto, #undb1, #radioposter { 
+      position: relative; height: 500px; width: 800px;
+      margin-left: auto; margin-right: auto; cursor: pointer;
+    }    
+    #a2n {
+      background: url(img/a2n_unconventionfactorybln-soundposter800.png) no-repeat 0 0;
+    }
+    
+    #besto {
+      background: url(img/besto_soundposter800.png) no-repeat 0 0;
+    }
+    
+    #undb1 {
+      background: url(img/undb1-soundposter800.png) no-repeat 0 0;
+    }
+    #radioposter {
+      background: url(img/Radioposter800.png) no-repeat 0 0;
+    }
+  </style>
+  <body>
+    <div style="margin-left: auto; margin-right: auto; text-align:center; width: 100%; position:relative; top: 67px;">
+      <!-- <b class="shadowed">&lt;</b> -->
+     <p><a name="story">&nbsp;</a><p/>
+            
+      <b class="meta"><br />We give the face back to digital audio distribution.<br /></b><br /><p/>
+      <p>
+      	<a href="mailto:mail@soundposter.com" class="footer">mail@soundposter.com</a> - follow us <a href="http://twitter.com/soundposter" class="footer">@soundposter</a><p/>
+      </p>
+    
+    
+      <b class="meta"><br/>Help us through sending us a recording of your voice for soundposter.com <br/> and become part of our mixtape of user stories.</b><br /><br /><p/>
+      
+      <div id="thestory">
+            <iframe src="http://soundposter.com/thestory.htm" frameBorder="0" style="border: 4px solid #333;" width="536px" height="326px" id="posterframe">Browser not compatible.</iframe><br/>This soundposter: <a href="http://soundposter.com/thestory.htm">LP sized</a>
+      </div>
+      
+      <p>&nbsp;</p>
+      
+      <div class="note">
+        <h4>Please note that we* are still building up.</h4>
+        <p>Besides creating new soundposters every day we are focused on stabilizing playback functionality across as many devices as possible. </p>
+        <p>Once accomplished that, a more sophisticated editorial interface designed to make it easy for everyone start creating personal soundposters will be our next step.</p>
+        <p style="font-size: 75%;">*we are just two humans/geeks passionate<br/>about bringing a good idea to life</p>
+      </div>
+      
+      <p style="text-align: left; width: 536px; margin-left: auto; margin-right: auto;">
+          <b class="meta"><br />All soundposter<br /></b><br/>
+          <b class="meta">hip hop mixtapes</b>&nbsp;<a href="http://soundposter.com/mixtapes.htm">LP sized</a><br/>
+          <b class="meta">soundposter webradios</b>&nbsp;<a href="http://soundposter.com/radioposter.htm">LP sized</a><br/>
+          <b class="meta">reboot.fm bestof 2011</b>&nbsp;<a href="http://soundposter.com/reboot.htm">LP sized</a><br/>
+          <b class="meta">mothabod - undb1</b>&nbsp;<a href="http://soundposter.com/undb1.htm">LP sized</a><br/>
+          <b class="meta">herr ehrhardt + the moh - best off</b>&nbsp;<a href="http://soundposter.com/besto.htm">LP sized</a><br/>
+          <b class="meta">a2n unconvention factory:berlin sampler</b>&nbsp;<a href="http://soundposter.com/a2n.htm">LP sized</a><br/>
+      </p>
+      
+      <p>&nbsp;</p>
+      
+      <!-- b class="meta"><br/>Check out our favourite webradios in one soundposter, the radioposter.</b><br /><br /><p/>
+      <div id="radiobookmarks">
+            <iframe src="http://soundposter.com/radioposter.htm" frameBorder="0" style="border: 4px solid #333;" width="800px" height="540px" id="posterframe">Browser not compatible.</iframe><br/>This soundposter: <a href="http://soundposter.com/radioposter.htm">LP sized</a>
+      </div-->
+      
+      <p>&nbsp;</p>
+            
+      <b class="meta"><br />You can also listen to one of our currently featured soundposters:<br /></b><br /><br /><p/>
+
+      <div id="a2n"></div>
+      <!-- <span class="embed">embed code</span><input id="embed" type="text" value=""> -->
+
+      <div id="besto"></div>
+      
+      <div id="undb1"></div>
+      
+      <!-- div id="radioposter"></div-->
+      
+      <!-- <a href="http://rand.soundposter.com/manymore/" alt="listen to: many more`s mixtape" title="listen to: many more`s mixtape"></a> -->
+      <!-- h1 style="color: #40b0e2;">malt`s radioposter</h1>
+      <p>
+        
+      </p-->
+      
+      <!-- div id="hiphopclassis">
+            <iframe src="http://mikromedia.de/sp/hopclassics.htm" frameBorder="0" style="border: 4px solid #ffff00;" width="536px" height="326px" id="posterframe">Browser not compatible.</iframe>
+      </div--> <!-- 3917 -->
+      
+      <!-- div id="wortwedding">  4349
+            <iframe src="http://mikromedia.de/sp/wortwedding.htm" frameBorder="0" style="border: 4px solid #ffff00;" width="536px" height="326px" id="posterframe">Browser not compatible.</iframe>
+      </div-->
+      
+      <!-- div id="clubtransmedial12">  6613
+            <iframe src="http://mikromedia.de/sp/ctm2012.htm" frameBorder="0" style="border: 4px solid #ffff00;" width="536px" height="326px" id="posterframe">Browser not compatible.</iframe>
+      </div-->
+      
+      <p>
+        <br/><a href="mailto:mail@soundposter.com" class="footer">mail@soundposter.com</a> - follow us <a href="http://twitter.com/soundposter" class="footer">@soundposter</a><p><br/></p>
+        <!-- <br/> <i style="color: #888888; font-size: 12px;">soundposters.com is a product of <a href="http://www.mikromedia.de">mikromedia.de</a></i> -->
+      </p>
+      <p>
+        <b class="meta">What the **** is soundposter?<a name="about">&nbsp;</a></b><p/>
+        <p style="text-align: left; width: 700px; margin-left: auto; margin-right: auto;">
+            a soundposter is an arbitray sequence of sound (-streams) arranged ontop of your personal graphic-file, accessible as an audible website.
+        </p>
+        <p style="text-align: left; width: 700px; margin-left: auto; margin-right: auto;">
+            soundposter` is a website which allows mixing of all sound resources available on the internet.
+        </p>
+        <p style="text-align: left; width: 700px; margin-left: auto; margin-right: auto;">
+            soundposter` is a platform which has the potential to empower people to start cinematic thinking in a browser.
+        </p>
+        
+      </p>
+  
+    <p>
+        <b class="meta">For whom is soundposter made?<a name="forwhom">&nbsp;</a></b><p/>
+        <p style="text-align: left; width: 700px; margin-left: auto; margin-right: auto;">
+            soundposter was created to act reanimating for the genre of classical music graphic (e.g. artworks, booklets) in times of a digital music ecosystem. therewith it`s aim is to support musicians, publishers of music as well as organizers of various music events to innovatively promote/paste their sound in the web, the heart of the digital music ecosystem.
+        </p>
+        
+      </p>
+      
+      
+      <!-- p>
+        <b>Create yours <a name="yours">&nbsp;</a></b>
+      </p-->
+      
+      <p>
+<!-- b>Buy Yours</b><p/ -->
+<p><a name="buy">&nbsp;</a><p/>
+        
+<b class="meta">
+    Yay, you are looking at our fancy products page!<br/>
+</b>
+        
+<p style="text-align: left; width: 700px; margin-left: auto; margin-right: auto;">Check out these 2 very first kickstart-offers and read what is a soundposter for you, when it`s ready to be pasted all over the web!<p>
+
+<p><a name="buy-basic">&nbsp;</a><p/>
+
+<p style="text-align: left; width: 700px; margin-left: auto; margin-right: auto;">
+
+<b class="meta">Basic Soundposter</b> a.k.a "Get ready to paste!" <br/>
+
+<p style="text-align: left; width: 700px; margin-left: auto; margin-right: auto;">
+<b>Your Soundposter</b><br/>
+Your soundposter published online within a working day, delivered and accesible to everyone under the soundposter.com/<url> of your choice (where <url> is to be replaced with the name of your choice).
+</p>
+<p style="text-align: left; width: 700px; margin-left: auto; margin-right: auto;">
+<b>A "Buy it"-link</b><br/>
+A featured link on your soundposter so people easily know where to buy your music or know how to support you through checking your website or following you on twitter.
+</p>
+<p style="text-align: left; width: 700px; margin-left: auto; margin-right: auto;">
+<b>Simple stats</b><br/>
+On demand, you get access to anonymized statistics telling you how many times your soundposter was looked at. And if we shall store and stream soundfiles for you, we can tell you also which songs got played how many times. Otherwise you just have to look at the playback stats of e.g. <a hre="http://www.bandcamp.com">Bandcamp</a> or <a href="http://soundcloud.com">SoundCloud</a> account.
+</p>
+<p style="text-align: left; width: 700px; margin-left: auto; margin-right: auto;">
+<b>An <\embed>-code</b><br/>
+You get a snippet of HTML-code with which you and everyone else can easily embed your soundposter on any other website, such as a blog or on such fancy things as facebook.
+<br/><br/>
+<b class="meta" text-align: left;>Costs</b> 100 Euros once, 2 Euros for each Month your poster is online.<br/>
+</p>
+
+<p style="text-align: left; width: 700px; margin-left: auto; margin-right: auto;">
+<b>Customized styling</b><br/>
+We currently have distilled two glorious design framing your soundposter and you can choose between these in which stylesheet you want to paste/embed your soundposter on the web. Furthermore everyone can deploy personal stylesheets, while sharing these afterwards is highly appreciated.
+</p>
+
+<p><a name="buy-featured">&nbsp;</a><p/>
+
+<p style="text-align: left; width: 700px; margin-left: auto; margin-right: auto;">
+<b class="meta">Featured Soundposter</b> a.k.a. "Best Place- and Pastement"
+</p>
+
+<p style="text-align: left; width: 700px; margin-left: auto; margin-right: auto;">
+Everything what is called a "basic soundposter", plus:
+</p>
+
+<!-- p style="text-align: left; width: 700px; margin-left: auto; margin-right: auto;">
+<!-- b>2 additional styles for embeds</b><br/>
+Our lovely designers have distilled two more glorious stylesheets framing your soundposter both of which you can additionally use to paste your soundposter all over the web.
+</p-->
+<p style="text-align: left; width: 700px; margin-left: auto; margin-right: auto;">
+<b>Assistance and Support</b><br/>
+Your graphic artist can always talk and meet with us to make your soundposter the most awesome on the web. With this package you make sure that one of our employees listens carefully to all your wishes and helps you get everything done just in time. No matter how quick you wanna have it, you get it. And if something gets really awkward, we`re standing right beside you to get everyone back on your tracks, asap.
+</p>
+<p style="text-align: left; width: 700px; margin-left: auto; margin-right: auto;">
+<b>Your poster highlighted on soundposter.com</b><br/>
+For sure we are proud of every soundposter on our platform and we`re going to list them all but with this package you make sure that yours gets highlighted as _the default soundposter_ visible at first, for all visitors of http://www.soundposter.com for either <b class="meta">A</b>3*24h or <b class="meta">B</b>7*24h.
+<br/><p/>
+<p style="text-align: left; width: 700px; margin-left: auto; margin-right: auto;">
+<b class="meta">
+FeaturedA Costs</b> 500 Euros once (3*24h), 1 Year online for free, 2 Euros for each extra Month your poster is online.<br/>
+<b class="meta">FeaturedB Costs</b> 1000 Euros once (7*24h), 1 Year online for free, 2 Euros for each extra Month your poster is online.
+</p>
+
+<p><a name="buy-additional">&nbsp;</a><p/>
+
+<p style="text-align: left; width: 700px; margin-left: auto; margin-right: auto;">
+<b class="meta">Additional Feature</b> a.k.a. "The honeypot..."
+
+<p style="text-align: left; width: 700px; margin-left: auto; margin-right: auto;">
+<b>Advanced Twitter-Integration</b><br/>
+May it be your personal account which is becoming part of your soundposter or a dedicated area displaying results for your specific hashtag. With this feature you can easily talk instantly to all the listeners who currently tuned into your soundposter, a.k.a. connect with all your current listeners! And if you decide to go for the hashtag-option, all your currently tuned in listeners can talk with all other listeners about your soundposter!
+</p>
+<p style="text-align: left; width: 700px; margin-left: auto; margin-right: auto;">
+    <b class="meta">Cost</b> 500 Euros once and forever 
+</p>
+    
+<p style="text-align: left; width: 700px; margin-left: auto; margin-right: auto;">
+    <b class="meta">That`s it. Hopefully this sounds very useful to you.</b> To order yours just write us a mail.
+</p>  
+
+<p>
+        <br/><a href="mailto:mail@soundposter.com" class="footer">mail@soundposter.com</a> - follow us <a href="http://twitter.com/soundposter" class="footer">@soundposter</a><p><br/></p>
+        <!-- <br/> <i style="color: #888888; font-size: 12px;">soundposters.com is a product of <a href="http://www.mikromedia.de">mikromedia.de</a></i> -->
+      </p>
+      
+      <!-- <div id="footer">But today seems to be your lucky day. We're hiring!</div> -->
+    </div>
+  </body>
+</html>
