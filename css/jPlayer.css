@@ -17,7 +17,7 @@ body {
   min-height: 38px;
   background-color: #000;
   color: #fff; border-bottom: 2px solid #fff;
-  position: absolute; left: 0px; top: 0px;
+  position: fixed; left: 0px; top: 0px;
   z-index: 2001;
 }
 /** ### firefox: psition relative form trakcname.. +2px fromt op **/
@@ -54,8 +54,21 @@ body {
 }
 
 #trackMenu {
-  position: absolute; left: 215px; top: 15px;
+  position: absolute; left: 345px; top: 15px;
   font-family: "Myriad Pro Regular","Trebuchet MS", sans-serif;
+}
+
+ul.control-area {
+    display: inline; position: fixed; top: 5px; left: 10px; margin: 0px; padding: 0px; z-index: 2;
+}
+
+ul.info-area {
+    display: inline; position: fixed; top: 5px; left: 385px; margin: 0px; padding: 0px; z-index: 3;
+}
+
+.map-info, 
+.start-button {
+  display: none;
 }
 
 #trackMenu ul {
@@ -71,15 +84,9 @@ body {
   background-color: #000; color: #fff; border-left: 1px solid #fff; border-right: 1px solid #fff;
 }
 
-.playFromStart { cursor: pointer; }
-
-.playFromStart li {
-  background-color: #fff; color: #000; height: 23px; padding-left: 6px; padding-right: 6px; padding-top: 2px; padding-bottom: 2px;
-  border-left: 1px solid #fff; border-right: 1px solid #fff;
-}
-
-.playFromStart li:hover {
-  background-color: #000; color: #fff; border-left: 1px solid #fff; border-right: 1px solid #fff;
+li.playFromStart {
+  background-color: #000; color: #40b0e2; height: 23px; padding-left: 6px; padding-right: 6px; padding-top: 2px; padding-bottom: 2px;
+  cursor: pointer; position: fixed; left: 325px; top: 2px; /* border-left: 1px solid #fff; border-right: 1px solid #fff;  */ z-index: 4;
 }
 
 .selectedTrackname {
@@ -148,7 +155,7 @@ body {
 }
 
 #mapName {
-  position: relative; top: 2px;
+  padding-top: 2px;
 }
 
 .player a.jp-volume-bar {
@@ -161,10 +168,10 @@ body {
 
 .player ul {
   list-style-type:none; padding: 0px; min-width: 1200px; overflow: hidden;
-  width:100%; overflow:hidden; margin-top: 12px;
+  width:100%; overflow:hidden;
 }
 
-.jp-unmute, jp-pause, .jp-stop {
+.jp-unmute, .jp-stop {
   display:none;
 }
 

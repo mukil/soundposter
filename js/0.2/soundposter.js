@@ -10,7 +10,7 @@ var sp = new function() {
     this.playlist = new Array()
     // this.images_uri = "http://localhost:8080/proxy/file:"
     // this.core_service_uri = "http://mikromedia.de/sp"
-    this.core_service_uri = "http://soundposter.com/service"
+    this.core_service_uri = "http://www.soundposter.com/service"
     // this.core_service_uri = "http://localhost/sp/service"
     this.images_uri = "http://www.soundposter.com:8080/proxy/file:"
     // Notes for Android: Webkit-Settings needs to be changed;
@@ -35,6 +35,17 @@ var sp = new function() {
         sp.render_sp_player()
         sp.render_map_info(info)
     }
+    
+    /* this.list = function(sp_id) {
+        //
+        // sp.render_sp_header()
+        jQuery("#cp_container_1").remove()
+        // 
+        var soundposter = sp.get_topic_by_id(sp_id, false)
+        // sp.load_playlist(sound)
+        // sp.render_sp_player()
+        // sp.render_map_info(info)
+    } */
 
     /** when topicmaps are changed, this must be called..needs some topicmap_loaded_hook ***/
     this.load_playlist = function(topicmap) {
@@ -380,6 +391,10 @@ var sp = new function() {
     this.get_related_topics = function(topic_id, uri) {
         return request("GET", "/related.php?t=" + topic_id + '&uri=' + uri)
     }
+    
+    /** this.get_topics_by_type = function(uri) {
+        return request("GET", "/list.php?uri=" + uri)
+    }**/
     
     /**
      * Retrieves and returns the URL topic for the given Song.

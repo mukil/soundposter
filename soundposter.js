@@ -1,6 +1,7 @@
 var sp = new function() {
 
     this.maptape = {} // topicmap object
+    this.all = []
     // 
     this.my_jPlayer = undefined
     // some play utility model
@@ -10,8 +11,13 @@ var sp = new function() {
     this.playlist = new Array()
     // this.images_uri = "http://localhost:8080/proxy/file:"
     // this.core_service_uri = "http://mikromedia.de/sp"
-    this.core_service_uri = "http://localhost/sp/service"
-    this.images_uri = "http://www.soundposter.com:8080/proxy/file:"
+    this.core_service_uri = "http://soundposter.com/service"
+    // this.core_service_uri = "http://localhost/sp/service"
+    this.images_uri = "http://soundposter.com:8080/proxy/file:"
+    // Notes for Android: Webkit-Settings needs to be changed;
+    // I found out that at least the Option "Activate plugins" should be set to "Always", which is stupid, but works!
+    // Also, zoom-level should be set to at least "Middle" or "Near" to show the correct style, which is also stupid!
+    // Website Screen rotation on device rotation is also optional and need to be activated in the browser setting!
     // 
     this.load = function(sp_id) {
         //
@@ -24,11 +30,22 @@ var sp = new function() {
           sp.render_sp_image(poster_full)
         }
         // 
-        var sound = sp.get_topicmap_by_id(sp_id)
-        var info = sp.maptape = sp.get_topic_by_id(sp_id)
+        var sound = sp.get_topicmap_by_id(sp_id, false)
+        var info = sp.maptape = sp.get_topic_by_id(sp_id, false)
         sp.load_playlist(sound)
         sp.render_sp_player()
         sp.render_map_info(info)
+    }
+    
+    this.load_all_poster = function(sp_id) {
+        //
+        // sp.render_sp_header()
+        // jQuery("#cp_container_1").remove()
+        // 
+        var soundposter = sp.get_topics_by_type("dm4.topicmaps.topicmap", false)
+        // TODO: sp.render_poster_listing(soundposter)
+        // 
+        sp.all = soundposter.items;
     }
 
     /** when topicmaps are changed, this must be called..needs some topicmap_loaded_hook ***/
@@ -49,9 +66,26 @@ var sp = new function() {
       }
     }
     
+    this.render_poster_list = function() {
+        if (sp.all != undefined) {
+          //
+          var listing = "<ul class=\"all-poster-listing\">";
+          for (item in sp.all) {
+            var label = sp.all[item].value
+            var topicId = sp.all[item].id
+            var linkitem = "<li><a href=\"http://soundposter.com:8080/topicmap/" + topicId + "\">" + label + "</a></li>";
+            listing += linkitem
+          }
+          listing += "</ul>";
+          jQuery("#soundposter").append(listing)
+        } else {
+          alert("SP All undefined..")
+        }
+    }
+    
     this.render_map_info = function (info) {
       document.title = info.value + " - soundposter/"
-      jQuery("#mapName").html('<b id="lgn" title="soundposter/">sp/</b><b class="mapname">' + info.value + '</b>')
+      jQuery("#mapName").html('<b id="lgn" title="soundposter/">sp/&nbsp;</b><b class="mapname">"' + info.value + '"</b>')
     }
     
     this.render_sp_image = function (image) {
@@ -60,7 +94,8 @@ var sp = new function() {
         var file_resource = sp.images_uri + file_path
         // console.log(file_resource)
         jQuery("#soundposter").append('<img src="'+ file_resource + '" class="postergraphic">')
-        jQuery("#soundposter").draggable()
+        // alert("rendered.. " + file_resource )
+        // jQuery("#soundposter").draggable()
       }
     }
  
@@ -91,16 +126,22 @@ var sp = new function() {
       // 
       var html = '<div id="jquery_jplayer"></div>'
       var container = '<div id="jp_container" class="player">' + 
-        '<ul>' +
-          '<li><a class="jp-play" href="#"><img src="images/playb.png" height="24" title="Play"/></a></li>' +
-          '<li><a class="jp-pause" href="#"><img src="images/pauseb.png" height="24" title="Pause"/></a></li>' +
-          /** '<li><a class="jp-stop" href="#">Stop</a></li>' + **/
-          '<li><a class="jp-prev" href="#"><img src="images/prevb.png" height="24" title="Previous"/></a></li>' +
-          '<li><a class="jp-next" href="#"><img src="images/nextb.png" height="24" title="Next"/></a></li>' +
+        '<ul class="info-area">' +
           '<li class="playFromStart">Start</li>' +
+          '<li id="mapName"></li>' +
           '<li class="myTrackname">Select:</li>' +
           '<li class="jp-current-time"></li>' +
           '<li class="jp-duration"></li>' +
+        '</ul>' + 
+        '<div class="map-info"><span class="start-button">Start</span>' +
+          '<b id="lgn" title="soundposter/">sp/&nbsp;</b><b class="mapname">"' + sp.maptape.value + '"</b>' + 
+        '</div>' +
+        '<ul class="control-area">' +
+          '<li><a class="jp-prev" href="#"><img src="images/prevb.png" height="24" title="Previous"/></a></li>' +
+          '<li><a class="jp-play" href="#"><img src="images/playb.png" height="24" title="Play"/></a></li>' +
+          '<li><a class="jp-pause" href="#"><img src="images/pauseb.png" height="24" title="Pause"/></a></li>' +
+          /** '<li><a class="jp-stop" href="#">Stop</a></li>' + **/
+          '<li><a class="jp-next" href="#"><img src="images/nextb.png" height="24" title="Next"/></a></li>' +
         // '</ul>' +
         // '<ul>' +
           /** '<li>Volume:</li>' + **/
@@ -108,7 +149,6 @@ var sp = new function() {
           '<li><a class="jp-unmute" href="#">Unmute</a></li>' + **/
           '<li> <a class="jp-volume-bar" href="#">|&lt;----------&gt;|</a></li>' +
           /** '<li><a class="jp-volume-max" href="#">Max</a></li>' + **/
-          '<li id="mapName"></li>' +
         '</ul>' +
       '</div>'
       // 
@@ -117,6 +157,7 @@ var sp = new function() {
       // updateMapInfo()
       // maximizeCanvas()
       jQuery(".playFromStart").click(function(e) { sp.playFromStart() })
+      jQuery(".map-info").click(function(e) { sp.playFromStart() }) // used by mobile style..
       jQuery(".myTrackname").click(function(e) { sp.toggleTrackList() })
       jQuery(".jp-next").click(function(e) { sp.playNextTrack() })
       jQuery(".jp-prev").click(function(e) { sp.playPrevTrack() })
@@ -161,6 +202,7 @@ var sp = new function() {
           my_playState.text(opt_text_playing)
           sp.isPlaying = true
           document.title = "♪ " + document.title
+          jQuery('.map-info').fadeOut(500)
         },
         loadedmetadata: function(event) {
           // TODO: loaded some metadata... 
@@ -169,6 +211,8 @@ var sp = new function() {
           my_playState.text(opt_text_selected)
           sp.isPlaying = false
           document.title = sp.maptape.value + " - soundposter/"
+          jQuery('.map-info').html("♪ " + sp.selected_track.value)
+          jQuery('.map-info').fadeIn(500)
         },
         ended: function(event) {
           my_playState.text(opt_text_selected)
@@ -182,8 +226,8 @@ var sp = new function() {
             sp.playNextTrack()
           } else if (event.jPlayer.error.type == "e_flash") {
             // ###
-            alert('A problem with your browsers flash plugin occured. Please make sure flash works or use ' + 
-              'a webbrowser which supports the HTML Audio-Element.')
+              alert('Sorry, an error occured during playback of media file. ErrorCode: \"' + 
+                event.jPlayer.error.type + '\"')
           } else {
             // ####
             // alert('Sorry, an unknown error occured with our jPlayer setup. Please mail the following ' + 
@@ -215,7 +259,14 @@ var sp = new function() {
         my_jPlayer.jPlayer("setMedia", { mp3: address.value })
         my_jPlayer.jPlayer("play")
         latestTrack = sp.selected_track
+        // if something was played, remove start button from the ui..
+        jQuery('.map-info .start-button').remove()
+        jQuery(".map-info").unbind('click');
+        // 
         trackName.text(sp.selected_track.value)
+        // 
+        jQuery('.map-info').html("♪ " + sp.selected_track.value)
+        jQuery('.map-info').fadeIn(500).delay(2700).fadeOut(500);
       }
     }
     
@@ -253,7 +304,7 @@ var sp = new function() {
     }
     
     this.playFromStart = function () {
-      // 
+      // start playing and hide start button..
       var nextTrack = undefined
       if (sp.playlist.length >= 1) {
         nextTrack = sp.playlist[0] // play first item in sequence..
@@ -344,11 +395,11 @@ var sp = new function() {
     }
     
     // --
-    // --- 3 REST Methods to query a complete soundposter from the dm4.webservice-module
+    // --- 4 REST Methods to query a complete soundposter from the dm4.webservice-module
     // --
     
     this.get_topicmap_by_id = function(topic_id, fetch_composite) {
-        return request("GET", "/topicmap.php?t=" + topic_id) // + "?" + params.to_query_string())
+        return request("GET", "/topicmap.php?t=" + topic_id + "&fetch_composite=" + fetch_composite ) // + "?" + params.to_query_string())
     }
     
     this.get_topic_by_id = function(topic_id, fetch_composite) {
@@ -357,6 +408,11 @@ var sp = new function() {
     
     this.get_related_topics = function(topic_id, uri) {
         return request("GET", "/related.php?t=" + topic_id + '&uri=' + uri)
+    }
+    
+    this.get_topics_by_type = function(uri) {
+        // dm4.topicmaps.topicmap
+        return request("GET", "/topics.php?uri=" + uri)
     }
     
     /**
@@ -387,12 +443,16 @@ var sp = new function() {
       // ### assoc_type_uri: "dm4.core.composition", my_role_type_uri: "dm4.core.whole", 
       // ### others_role_type_uri: "dm4.core.part", others_topic_type_uri: "dm4.webbrowser.url"
       //
-      if (imagefiles.length > 1) {
+      if (imagefiles != undefined && imagefiles.length == 1) {
+          // OK
+          return imagefiles[0]
+      } else if (imagefiles == undefined && imagefiles.length > 1) {
           alert("WARNING: data inconsistency\n\nThere are " + imagefiles.length + " imagefiles for URL \"" +
               topicmapId + "\" (expected is one)")
+          return imagefiles[0]
       }
       //
-      return imagefiles[0]
+      return undefined
     }
     
 }
