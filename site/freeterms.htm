@@ -1,0 +1,143 @@
+<!--<html>-->
+  <head>
+    <title>soundposter.</title>
+    <script src="jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $("#a2n").hover(over, out);
+        $("#a2n").click(function () { window.location.href = "http://soundposter.com/a2n.htm"; });
+        $("#besto").hover(over, out);
+        $("#besto").click(function () { window.location.href = "http://soundposter.com/besto.htm"; });
+        $("#undb1").hover(over, out);
+        $("#undb1").click(function () { window.location.href = "http://soundposter.com/undb1.htm"; });
+        $("#reboot").hover(over, out);
+        $("#reboot").click(function () { window.location.href = "http://soundposter.com/reboot.htm"; });
+        
+        /** $("#radioposter").hover(over, out);
+        $("#radioposter").click(function () { 
+          // 
+          var myframe = '<iframe src="" frameBorder="0" width="800px" height="460px" id="posterframe">Browser not compatible.</iframe>';
+          $("#radioposter").append(myframe);
+          $("#posterframe").hide();
+          $("#posterframe").attr("src", "http://mikromedia.de/sp/radioposter.htm");
+          $("#radioposter #more").html("... loading");
+          $('#posterframe').load(function() 
+          {
+              $("#radioposter #more").html("... soundposter loaded!");
+              $("#posterframe").show();
+          });
+        });*/
+      });
+      function showEmbedCode(event) {
+        //
+        $("#embed").value(event.target.id);
+      }
+      // 
+      function over(event) {
+        showPlayIcon(event.target);
+      }
+      // 
+      function out(event) {
+        hidePlayIcon(event.target);
+      }
+      // 
+      function showPlayIcon(target) {
+        var name = "";
+        if (target.id == "a2n") {
+          name = "a2n_unconvention factory : berlin sampler";
+        } else if (target.id == "besto") {
+          name = "herr ehrhardt + the moh - besto";
+        } else if (target.id == "undb1") {
+          name = "mothabod - undb1";
+        } else if (target.id == "radioposter") {
+          name = "malt`s radioposter";
+        }
+        // 
+        somehtml = '<div id="more" class="info">Play <b>\"'+name+ '\"</b> soundposter...</div>';
+        $("#" + target.id).append(somehtml);
+        // $("#" + target.id).append();
+      }
+      // 
+      function hidePlayIcon(target) {
+        $('#more').remove();
+      }
+    </script>
+  </head>
+  <style type="text/css">
+    body { font-family: "Myriad Pro Regular","Trebuchet MS"; }
+    .title, .title a { font-size: 24px; text-decoration: none; }
+    .shadowed {
+      text-shadow: 1px 1px 10px #5c5c5c;
+      filter: dropshadow(color=#5c5c5c, offx=1, offy=1);
+    }
+    .info { 
+      font-size: 24px; position: relative; top: 20px;
+      background-color: #000; opacity: 0.8; color: #40b0e2;
+      padding: 20px; margin-left: auto; margin-right: auto; width: 760px;
+    }
+    .meta {
+      color: #e9e9e9; font-size: 24px;
+    }
+    .embed, #embed {
+      color: #e9e9e9; font-size: 14px; position: relative; top: 450px;
+    }
+    .content { width: 400px; margin-right: auto; margin-left: auto; }
+    .tcontent { align: center; text-align: }
+    .footer { margin-left: auto; margin-right: auto; }
+    .note { padding: 20px; background-color: #40b0e2; opacity: 0.6; width: 500px; color: #E9E9E9; margin-left: auto; margin-right: auto; }
+    .note h4 { color: #aa0000; }
+    
+    #a2n, #besto, #undb1, #radioposter { 
+      position: relative; height: 500px; width: 800px;
+      margin-left: auto; margin-right: auto; cursor: pointer;
+    }    
+    #a2n {
+      background: url(img/a2n_unconventionfactorybln-soundposter800.png) no-repeat 0 0;
+    }
+    
+    #besto {
+      background: url(img/besto_soundposter800.png) no-repeat 0 0;
+    }
+    
+    #undb1 {
+      background: url(img/undb1-soundposter800.png) no-repeat 0 0;
+    }
+    #radioposter {
+      background: url(img/Radioposter800.png) no-repeat 0 0;
+    }
+    .menu-item a {
+      background-color: #333; color: #fff; padding: 4px; text-decoration: none;
+    }
+    .menu {
+      position: relative; top: 20px; width: 420px;
+      margin-left: auto; margin-right: auto;
+    }
+    a {
+      text-decoration: none; color: #333;
+    }
+    
+  </style>
+  <body>
+    
+    <div style="text-align: center; width: 100%;">
+      <p>&nbsp;<p/>          
+        <b class="meta">
+          <br/>We understand that this is about <i>your terms</i> of service! 
+          <br/>So our terms are negotiated between human beings individually.<br /><br />
+        </b>
+      <p/>
+      <p>
+        <img src="images/free_terms_of_service.gif">
+      </p>
+      
+      <p>
+        <br/>
+      </p>
+    
+      <p>
+        <b class="meta"><a href="http://soundposter.com">Ok, i got it. Get me back to the more interesting stuff.</a></b>
+      <p/>
+    </div>
+
+  </body>
+</html>
