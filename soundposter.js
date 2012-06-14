@@ -1,6 +1,8 @@
 var sp = new function() {
 
     this.maptape = {} // topicmap object
+    this.offsetX = undefined
+    this.offsetY = undefined;
     this.all = []
     // 
     this.my_jPlayer = undefined
@@ -11,8 +13,8 @@ var sp = new function() {
     this.playlist = new Array()
     // this.images_uri = "http://localhost:8080/proxy/file:"
     // this.core_service_uri = "http://mikromedia.de/sp"
-    this.core_service_uri = "http://soundposter.com/service"
-    // this.core_service_uri = "http://localhost/sp/service"
+    // this.core_service_uri = "http://soundposter.com/service"
+    this.core_service_uri = "http://localhost/sp/service"
     this.images_uri = "http://soundposter.com:8080/proxy/file:"
     // Notes for Android: Webkit-Settings needs to be changed;
     // I found out that at least the Option "Activate plugins" should be set to "Always", which is stupid, but works!
@@ -23,6 +25,7 @@ var sp = new function() {
         //
         sp.render_sp_header()
         jQuery("#cp_container_1").remove()
+        jQuery("#soundposter").css("opacity", 0.6);
         // 
         var poster = sp.get_background_url(sp_id)
         if (poster != undefined) {
@@ -35,6 +38,7 @@ var sp = new function() {
         sp.load_playlist(sound)
         sp.render_sp_player()
         sp.render_map_info(info)
+        jQuery("#soundposter").css("opacity", 1);
     }
     
     this.load_all_poster = function(sp_id) {
@@ -95,7 +99,13 @@ var sp = new function() {
         // console.log(file_resource)
         jQuery("#soundposter").append('<img src="'+ file_resource + '" class="postergraphic">')
         // alert("rendered.. " + file_resource )
-        // jQuery("#soundposter").draggable()
+        jQuery(".postergraphic").draggable({
+          stop: function(event, ui) { 
+            sp.offsetX = ui.position.left;
+            sp.offsetY = ui.position.top;
+            // console.log(sp.offsetX + " " + sp.offsetY);
+          }
+        });
       }
     }
  
@@ -127,13 +137,12 @@ var sp = new function() {
       var html = '<div id="jquery_jplayer"></div>'
       var container = '<div id="jp_container" class="player">' + 
         '<ul class="info-area">' +
-          '<li class="playFromStart">Start</li>' +
           '<li id="mapName"></li>' +
           '<li class="myTrackname">Select:</li>' +
           '<li class="jp-current-time"></li>' +
           '<li class="jp-duration"></li>' +
         '</ul>' + 
-        '<div class="map-info"><span class="start-button">Start</span>' +
+        '<div class="map-info">' +
           '<b id="lgn" title="soundposter/">sp/&nbsp;</b><b class="mapname">"' + sp.maptape.value + '"</b>' + 
         '</div>' +
         '<ul class="control-area">' +
@@ -142,12 +151,13 @@ var sp = new function() {
           '<li><a class="jp-pause" href="#"><img src="images/pauseb.png" height="24" title="Pause"/></a></li>' +
           /** '<li><a class="jp-stop" href="#">Stop</a></li>' + **/
           '<li><a class="jp-next" href="#"><img src="images/nextb.png" height="24" title="Next"/></a></li>' +
+          '<div class="jp-progress"><div class="jp-seek-bar"><div class="jp-play-bar"></div></div></div>' +
         // '</ul>' +
         // '<ul>' +
           /** '<li>Volume:</li>' + **/
           /** '<li><a class="jp-mute" href="#">Mute</a></li>' +
           '<li><a class="jp-unmute" href="#">Unmute</a></li>' + **/
-          '<li> <a class="jp-volume-bar" href="#">|&lt;----------&gt;|</a></li>' +
+          //'<li> <a class="jp-volume-bar" href="#">|&lt;----------&gt;|</a></li>' +
           /** '<li><a class="jp-volume-max" href="#">Max</a></li>' + **/
         '</ul>' +
       '</div>'
@@ -156,7 +166,6 @@ var sp = new function() {
       jQuery("#soundposter").append(container)
       // updateMapInfo()
       // maximizeCanvas()
-      jQuery(".playFromStart").click(function(e) { sp.playFromStart() })
       jQuery(".map-info").click(function(e) { sp.playFromStart() }) // used by mobile style..
       jQuery(".myTrackname").click(function(e) { sp.toggleTrackList() })
       jQuery(".jp-next").click(function(e) { sp.playNextTrack() })
@@ -245,15 +254,17 @@ var sp = new function() {
     }
      
     this.play_selected_track = function() {
+      sp.hideStartButton();
       // animate
       var visualization = sp.selected_track['visualization']
       var x = visualization['dm4.topicmaps.x'].value
       var y = visualization['dm4.topicmaps.y'].value
       // console.log("song: {" + x + "," + y + "} / graphic: {" + jQuery(".postergraphic").css('left') + "," + jQuery(".postergraphic").css('top') + "}")
-      jQuery(".postergraphic").animate({ left: -x, top: -y }, { duration: 720, specialEasing: { width: 'linear', height: 'easeOutBounce' } });
-      // jQuery(".postergraphic").css('left', -x)
-      // jQuery(".postergraphic").css('top', -y)
-      // 
+      // console.log("offsetX => " + sp.offsetX + " offsetY = >" + sp.offsetY);
+      jQuery(".postergraphic").animate({ 
+        left: -x, top: -y }, { 
+        duration: 720, specialEasing: { width: 'linear', height: 'easeOutBounce' }
+      });
       var address = sp.get_audiofile_url(sp.selected_track)
       if (address != undefined) {
         my_jPlayer.jPlayer("setMedia", { mp3: address.value })
@@ -304,6 +315,7 @@ var sp = new function() {
     }
     
     this.playFromStart = function () {
+      sp.hideStartButton();
       // start playing and hide start button..
       var nextTrack = undefined
       if (sp.playlist.length >= 1) {
@@ -392,6 +404,10 @@ var sp = new function() {
     this.playListedTrack = function (e) {
       // 
       sp.playTrackById(e.target.id);
+    }
+    
+    this.hideStartButton = function () {
+      jQuery(".map-start").hide();
     }
     
     // --

@@ -14,7 +14,7 @@
 	position: relative;
 	width: 104px; /* 200 - (2 * 48) */
 	height: 104px;
-	background: url("bgr.jpg") 0 0 no-repeat;
+	/* background: url("bgr.jpg") 0 0 no-repeat; **/
 	padding: 48px;
 	margin-top: 100px;
 	-webkit-tap-highlight-color:rgba(0,0,0,0);
@@ -41,26 +41,12 @@
 	border-radius:52px;
 }
 
-.cp-buffer-1,
-.cp-buffer-2 {
-	background: url("buffer.png") 0 0 no-repeat;
-}     
-
 
 /* FALLBACK for .progress
  * (24 steps starting from 1hr filled progress, Decrease second value by 104px for next step)
  * (It needs the container selector to work. Or use div)
  */ 
 
-.cp-container .cp-fallback {
-	background: url("progress_sprite.jpg") no-repeat;
-	background-position: 0 104px; 
-}
-
-.cp-progress-1,
-.cp-progress-2 {
-	background: url("progress.png") 0 0 no-repeat;
-} 
 
 .cp-buffer-holder,
 .cp-progress-holder,
@@ -109,22 +95,6 @@
 	height:50px;
 	text-indent:-9999px;
 	z-index:1;      
-}
-
-.cp-controls .cp-play {
-	background: url("controls.jpg") 0 0 no-repeat;
-}
-
-.cp-controls .cp-play:hover {
-	background: url("controls.jpg") -50px 0 no-repeat;
-}
-
-.cp-controls .cp-pause {
-	background: url("controls.jpg") 0 -50px no-repeat;
-}
-
-.cp-controls .cp-pause:hover {
-	background: url("controls.jpg") -50px -50px no-repeat;
 }
 
 .cp-jplayer {
