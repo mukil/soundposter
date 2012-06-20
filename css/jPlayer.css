@@ -33,7 +33,19 @@ body {
 }
 
 #contact {
-  position: absolute; left: 20px; bottom: 20px; color: #e8e8e8;
+  position: absolute; left: 20px; bottom: 10px; color: #e8e8e8; display: none;
+}
+
+#support-link-2 {
+  position: absolute; right: 20px; bottom: 10px; color: #e8e8e8; z-index: 100;
+}
+
+#support-link-2 a {
+  font-style: italic; color: #fff; font-weight: bold; text-decoration: none;
+}
+
+#support-link-2 p {
+  padding: 0; margin: 0;
 }
 /** background-color: #000; padding-top: 5px;
   height: 35px; width:210px; position: absolute; bottom: 20px; right: 0px;
@@ -181,6 +193,14 @@ ul.info-area {
   /** color: #333; **/
   color: #40b0e2; padding: 6px;
 }
+
+/***.map-start img {
+  -moz-box-shadow: 3px 3px 4px #fff;
+  -webkit-box-shadow: 3px 3px 4px #fff;
+  box-shadow: 3px 3px 4px #fff;
+
+  -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#ffffff')";
+}**/
 
 .jp-play-bar {
   background-color: #40B0E2;

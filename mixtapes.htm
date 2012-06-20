@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>soundposter loads...</title>
-    <meta name="viewport" content="width=device-width; height=device-height; initial-scale=1.2;"/>
+  <head>
+    <meta charset="utf-8">
+    <title>soundposter loads...</title>
+    <meta name="viewport" content="width=device-width; height=device-height; initial-scale=1.2; user-scalable=no;"/>
 
 		<link rel="stylesheet" href="css/not.the.skin.css">
 		<link rel="stylesheet" href="css/circle.player.css">
 
-		<script type="text/javascript" src="js/0.2/soundposter.js"></script>
 		<script type="text/javascript" src="js/jquery.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="js/jquery.transform.js"></script>
@@ -17,8 +16,9 @@
 		<script type="text/javascript" src="js/mod.csstransforms.min.js"></script>
 		<!--<script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>-->
 
-		<script type="text/javascript">
-		var ADAPT_CONFIG = {
+    <script type="text/javascript">
+    // 
+    var ADAPT_CONFIG = {
       // Where is your CSS?
       path: 'css/',
       // true = Change on window resize and page tilt.
@@ -32,17 +32,30 @@
         '2540px           = jPlayer.css'
       ]
     };
-		// 
-		$(document).ready(function(){
+    // 
+    $(document).ready(function(){
+      var head= document.getElementsByTagName('head')[0];
+      var script= document.createElement('script');
+      script.type= 'text/javascript';
+      script.onreadystatechange = function () {
+        if (this.readyState == 'complete') { loader(); }
+      }
+      script.onload = loader;
+      script.src= 'js/0.3/soundposter.js';
+      head.appendChild(script);
       // 
+    });
+    // 
+    function loader() {
       sp.load(3917)
-		});
+    }
 		</script>
 		<script type="text/javascript" src="js/adapt.min.js"></script>
 	</head>
 	<body>
 		<!-- The jPlayer div must not be hidden. Keep it at the root of the body element to avoid any such problems. -->
 		<div id="jquery_jplayer_1" class="cp-jplayer"></div>
+		<div class="map-start" onclick="javascript:sp.playFromStart()"></div>
 		<!-- -->
     <div id="soundposter">
 
