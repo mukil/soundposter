@@ -1,8 +1,10 @@
 var sp = new function() {
 
-    this.maptape = {} // topicmap object
-    this.offsetX = undefined
-    this.offsetY = undefined;
+    this.maptape = {} // empty topicmap object
+    this.offsetX = 0
+    this.offsetY = 0;
+    this.centerX = 0;
+    this.centerY = 0;
     this.all = []
     // 
     this.my_jPlayer = undefined
@@ -22,7 +24,7 @@ var sp = new function() {
     // Website Screen rotation on device rotation is also optional and need to be activated in the browser setting!
     // 
     this.load = function(sp_id) {
-        // quick fix for one stupid cross domain policy.. issue:
+        // fixme: find another quick fix for one stupid cross domain policy.. issue:
         if (parent.window.location.href.lastIndexOf("http://www.", 0) === 0) {
           var url = parent.window.location.href;
           var newUrl = url.substr(11);
@@ -30,8 +32,11 @@ var sp = new function() {
         }
         sp.render_sp_header()
         jQuery("#cp_container_1").remove()
-        jQuery("#soundposter").css("opacity", 0.6);
-        // 
+        // jQuery("#soundposter").css("opacity", 0.6);
+        //
+        sp.handleResize()
+        jQuery(window).resize(sp.handleResize)
+        //
         var poster = sp.get_background_url(sp_id)
         if (poster != undefined) {
           var poster_full = sp.get_topic_by_id(poster.id, true)
@@ -44,9 +49,10 @@ var sp = new function() {
         sp.render_sp_player()
         sp.render_map_info(info)
         sp.render_sp_footer(sp_id)
-        jQuery("#soundposter").css("opacity", 1);
+        sp.render_items()
+        // jQuery("#soundposter").css("opacity", 1)
     }
-    
+
     this.load_all_poster = function(sp_id) {
         //
         // sp.render_sp_header()
@@ -76,6 +82,21 @@ var sp = new function() {
       }
     }
     
+    this.render_items = function() {
+        if (sp.playlist != undefined) {
+          //
+          for (item in sp.playlist) {
+            var song = sp.playlist[item]
+            var visualization = song['visualization']
+            var itemX = visualization['dm4.topicmaps.x'].value
+            var itemY = visualization['dm4.topicmaps.y'].value
+            var element = "<div class=\"posteritem\" style=\"position: absolute; top:" + itemY + "px; left: " + itemX
+              + "px;\">" + song.value + "</div>";
+            jQuery(".postercontainer").append(element)
+          }
+        }
+    }
+    
     this.render_poster_list = function() {
         if (sp.all != undefined) {
           //
@@ -103,18 +124,62 @@ var sp = new function() {
         var file_path = image['composite']['dm4.files.path'].value
         var file_resource = sp.images_uri + file_path
         // console.log(file_resource)
-        jQuery("#soundposter").append('<img src="'+ file_resource + '" class="postergraphic">')
-        // alert("rendered.. " + file_resource )
-        jQuery(".postergraphic").draggable({
-          stop: function(event, ui) { 
-            sp.offsetX = ui.position.left;
-            sp.offsetY = ui.position.top;
-            // console.log(sp.offsetX + " " + sp.offsetY);
+        jQuery(".postercontainer").append('<img src="'+ file_resource + '" class="postergraphic">')
+        // 
+        jQuery(".postergraphic").load(function() {
+            // getting graphic size...
+            var graphicWidth = jQuery("img.postergraphic").width()
+            var graphicHeight = jQuery("img.postergraphic").height()
+            // adjusting graphic-container size
+            jQuery(".postercontainer").width(graphicWidth)
+            jQuery(".postercontainer").height(graphicHeight)
+            // focus the center of the graphic in the center of the windows viewport
+            var moveX = sp.centerX - (graphicWidth / 2) - sp.offsetX
+            var moveY = sp.centerY - (graphicHeight / 2) - sp.offsetY
+            // 
+            // sp.movePosterAbout(moveX, moveY)
+        })
+        // 
+        jQuery(".postercontainer").draggable({
+          stop: function(event, ui) {
+              console.log("drag.offsetX:" + sp.offsetX + " drag.offsetY: " + sp.offsetY)
+              sp.offsetX = ui.position.left;
+              sp.offsetY = ui.position.top;
+              console.log("drag.newOffsetX:" + sp.offsetX + " drag.newOffsetY: " + sp.offsetY)
           }
         });
       }
     }
- 
+    
+    this.movePosterAbout = function(aboutX, aboutY) {
+        console.log("move.aboutX:" + aboutX + " aboutY: " + aboutY)
+        jQuery(".postercontainer").animate(
+            {
+                left: aboutX, top: aboutY
+            }, {
+                duration: 720, specialEasing: { width: 'linear', height: 'easeOutBounce' } 
+            }
+        )
+        sp.offsetX = sp.offsetX + aboutX
+        sp.offsetY = sp.offsetY + aboutY
+        console.log("initial.centerX:" + sp.offsetX + " centerY: " + sp.offsetY)
+    }
+    
+    this.movePosterTo = function(toX, toY) {
+        console.log("move.toX:" + toX + " toY: " + toY)
+        jQuery(".postercontainer").animate(
+            {
+                left: -(toX - sp.centerX), top: -(toY - sp.centerY)
+            }, {
+                duration: 720, specialEasing: { width: 'linear', height: 'easeOutBounce' } 
+            }
+        )
+        // console.log("sp.offsetX:" + sp.offsetX + " offsetY: " + sp.offsetY)
+        sp.offsetX = toX
+        sp.offsetY = toY
+        console.log("=> sp.newOffsetX:" + sp.offsetX + " newOffsetY: " + sp.offsetY)
+    }
+    
     // compare "a" and "b" in some fashion, and return -1, 0, or 1
     this.topic_sort = function (a, b) {
         var nameA = a.value
@@ -230,7 +295,6 @@ var sp = new function() {
           if (my_jPlayer.jPlayer.event !== undefined) {
             my_extraPlayInfo.text(parseInt(my_jPlayer.jPlayer.event.jPlayer.status.currentPercentAbsolute, 10) + "%")
           }
-          // 
           trackName.text(sp.selected_track.value)
         },
         play: function(event) {
@@ -247,7 +311,7 @@ var sp = new function() {
           sp.isPlaying = false
           document.title = sp.maptape.value + " - soundposter/"
           jQuery('.map-info').html("♪ " + sp.selected_track.value)
-          jQuery('.map-info').fadeIn(500)
+          /* *jQuery('.map-info').fadeIn(500) */
         },
         ended: function(event) {
           my_playState.text(opt_text_selected)
@@ -283,14 +347,12 @@ var sp = new function() {
       sp.hideStartButton();
       // animate
       var visualization = sp.selected_track['visualization']
-      var x = visualization['dm4.topicmaps.x'].value
-      var y = visualization['dm4.topicmaps.y'].value
-      // console.log("song: {" + x + "," + y + "} / graphic: {" + jQuery(".postergraphic").css('left') + "," + jQuery(".postergraphic").css('top') + "}")
-      // console.log("offsetX => " + sp.offsetX + " offsetY = >" + sp.offsetY);
-      jQuery(".postergraphic").animate({ 
-        left: -x, top: -y }, { 
-        duration: 720, specialEasing: { width: 'linear', height: 'easeOutBounce' }
-      });
+      var songX = visualization['dm4.topicmaps.x'].value// + 600
+      var songY = visualization['dm4.topicmaps.y'].value// + 600
+      console.log("sp.offsetX: " + sp.offsetX + " offsetY: " + sp.offsetY)
+      console.log("  => songX: " + songX + " : songY: " + songY)
+      // sp.movePosterAbout(songX + sp.offsetX, songY + sp.offsetY)
+      sp.movePosterTo(songX, songY)
       var address = sp.get_audiofile_url(sp.selected_track)
       if (address != undefined) {
         my_jPlayer.jPlayer("setMedia", { mp3: address.value })
@@ -496,7 +558,38 @@ var sp = new function() {
       //
       return undefined
     }
-    
+
+    this.handleResize = function() {
+        sp.centerX = (sp.windowWidth() / 2) - 55 // center label
+        sp.centerY = (sp.windowHeight() / 2) - 30
+    }
+
+    this.windowHeight = function () {
+      if (self.innerHeight) {
+        return self.innerHeight
+      }
+      if (document.documentElement && document.documentElement.clientHeight) {
+        return jQuery.clientHeight
+      }
+      if (document.body) {
+        return document.body.clientHeight
+      }
+      return 0
+    }
+
+    this.windowWidth = function () {
+      if (self.innerWidth) {
+        return self.innerWidth
+      }
+      if (document.documentElement && document.documentElement.clientWidth) {
+        return jQuery.clientWidth
+      }
+      if (document.body) {
+        return document.body.clientWidth
+      }
+      return 0
+    }
+
 }
 
 // --------------------------------------------------------------------------------------------------- Private Functions

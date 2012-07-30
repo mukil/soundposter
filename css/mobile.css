@@ -8,8 +8,24 @@ body {
 }
 
 #soundposter {
-  font-family: "Myriad Pro Regular","Trebuchet MS", sans-serif;
+  font-family: "Myriad Pro Regular", "Trebuchet MS", sans-serif;
   width: 100%; height: 100%; margin: 0px; padding: 0px;
+}
+
+.postergraphic {
+  position: absolute; left: -600px; top: -600px;
+  /* position: absolute; top: 0px; left: 0px; **/
+  z-index: 0;
+}
+
+.postercontainer {
+  position: relative; top: 0px; left: 0px;
+}
+
+.posteritem {
+  background-color: #efefef;
+  padding: 4px; font-weight: bold; color: #40B0E2; /** font-style: italic; **/
+  z-index: 100; font-size: 10px; font-family: "Myriad Pro Regular", "Trebuchet MS", sans-serif;
 }
 
 #sp-bar {
@@ -17,7 +33,7 @@ body {
   min-height: 80px; background-color: transparent;
   background: url(../images/tape_deck_grey__low.png) 50% 100% no-repeat;
   position: fixed; bottom: 0px;
-  z-index: 1;
+  z-index: 111;
 }
 /** ### firefox: psition relative form trakcname.. +2px fromt op **/
 #sp-bar a,
@@ -49,11 +65,11 @@ body {
 }
 
 ul.control-area {
-  position: fixed; bottom: 3px; z-index: 2; padding-left: 8px !important; margin-bottom: 2px;
+  position: fixed; bottom: 3px; z-index: 112; padding-left: 8px !important; margin-bottom: 2px;
 }
 
 .map-info {
-  position: fixed; bottom: 52%; z-index: 3; left: 42%;
+  position: fixed; bottom: 52%; z-index: 107; left: 42%;
   /** margin-right: auto; margin-left: auto; **/
   background-color: #fff; cursor: pointer;
   /** color: #333; **/
@@ -159,8 +175,8 @@ li.playFromStart:after {
 
 .player {
   font-family: "Myriad Pro Regular","Trebuchet MS", sans-serif;
-  margin-right: auto; margin-left: auto; width: 185px;
-  /** bottom: 40px; left: 40px; position: fixed; ***/ z-index: 2003;
+  margin-right: auto; margin-left: auto; width: 185px; z-index: 109;
+  /** bottom: 40px; left: 40px; position: fixed; ***/
   /** top: -8px; left: 20px; position: fixed; **/
   /** background-color: #e8e8e8; border: 1px solid #2a75c6;**/
 }
@@ -170,10 +186,6 @@ li.playFromStart:after {
 
 #jp-container .track-name {
   background-color: #383838; padding: 10px; color: #40b0e2;
-}
-
-.postergraphic {
-  position: absolute; left: -600px; top: -600px;
 }
 
 .player a img {
