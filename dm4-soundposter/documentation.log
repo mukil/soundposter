@@ -1,0 +1,162 @@
+start "file:///home/malted/source/v5/deepamehta-audioposter/target/deepamehta-audioposter-1.0.jar"
+
+## deployment
+start "file:/var/www/vhosts/soundposter.com/rand/deepamehta/audioposter/deepamehta-audioposter-1.0.jar"
+
+${project.basedir}/audioposter
+
+
+### core changes
+- changed favicon.ico
+- webclient.css - body.. canvas typo..
+
+- canvas.js typo
+- background image drawing starts -500 in x and y direction (see canvas render extension... positioning..)
+## tweets
+.. hat aufgrund temporärer liquidität dem finanzamt dann mal eben 1200euro mehr zu zahlen #superstupid #2011
+
+ es ist ein anerzogener sprachgebrauch. der fehler war bereits relative angefügt. ja, hätte. irrealis, da kommen wir gleich noch drauf. vielmehr hat das land verschiedene sicherheitsbehörden, .. "es wird regiert von sicherheitsbeamten". und martin haase ist unbestritten mein fall, ha`ick gefressen. surfen sie im internet ausschließlich mit anonymisierungssoftware (wie beispielweise http://www.torproject.org). 
+ 
+bitcoin is irreversible. and no one is actually able to link your spending to your real identity. bitcoin is a "luxury good". but what do you understand of inflation, kay?
+ 
+ 
+
+## Stats
+
+https://soundposter.com/plesk-stat/webstat/
+audiodude..eix1it6Quohk1
+
+
+## .. Some Memorable partially obsolete partial currtn debug logs 
+
+Error: topicmap is undefined
+Source File: http://localhost:8080/topicmap/2844
+Line: 276
+
+creating songs with url
+
+http://jrimixes.de/Load%203.mp3
+
+calling a topic url
+
+makes the post_select_topic hook be called before the init hook of the js plugin file..
+
+
+## callinga a topic-permalink http://localhost:8080/topicmap/3667/topic/3719 or a topicmap-permalink http://localhost:8080/topicmap/3667 in firefox 7.0.1 leads both times too.
+
+Error: topicmap is undefined
+Source File: http://localhost:8080/topicmap/3667/topic/3719
+Line: 276
+
+Error: topicmap is undefined
+Source File: http://localhost:8080/topicmap/3667
+Line: 276
+
+## calling a topicmap with background image when computer is offline causes multiple with firefox 7.0.1
+
+
+Error: uncaught exception: [Exception... "Component returned failure code: 0x80040111 (NS_ERROR_NOT_AVAILABLE) [nsIDOMCanvasRenderingContext2D.drawImage]"  nsresult: "0x80040111 (NS_ERROR_NOT_AVAILABLE)"  location: "JS frame :: http://localhost:8080/topicmap/2844 :: <TOP_LEVEL> :: line 247"  data: no]
+
+
+## topicmap selected does not work again after used once ..
+
+
+
+## calling (seems to just happen if the first undefined map or an unknown topicmap is called, e.g. via permalink)
+
+Uncaught TypeError: Cannot call method 'draw_background' of undefined
+pre_draw_canvas2475:277
+trigger_plugin_hookwebclient.js:650
+drawcanvas.js:286
+Canvas.refreshcanvas.js:245
+init2475:47
+trigger_plugin_hookwebclient.js:648
+setup_guiwebclient.js:1245
+$.iwebclient.js:1222
+bjquery-1.4.2.min.js:124
+c.extend.ajax.g.x.onreadystatechange
+
+## clicking on "create song"
+
+Uncaught TypeError: Cannot call method 'prepare_topic_for_display' of undefined
+pre_show_topic2356:152
+trigger_plugin_hookwebclient.js:650
+show_topicwebclient.js:339
+do_create_topicwebclient.js:173
+do_create_topictoolbar_panel.js:70
+GUIToolkit.menu.item.domgui_toolkit.js:269
+c.event.handlejquery-1.4.2.min.js:55
+c.event.add.j.handle.o
+
+
+## something made this happen
+
+Uncaught ReferenceError: dm4 is not defined ----> http://localhost:8080/:153
+
+
+## clicking on "new file browser" led to the following result
+
+Uncaught TypeError: Cannot read property 'split' of undefined ---> http://localhost:8080/script/util/js_utils.js:263
+
+
+                <title>soundposter/ a2n_unconvention factory : berlin 2011 @kater holzig</title>
+                <style type="text/css"> body { margin: 0px; padding: 0px; } </style>
+
+
+
+## calling not available topicmap..
+
+Uncaught TypeError: Cannot call method 'get' of undefined at 2460:402
+
+
+
+## 
+        at org.apache.felix.http.base.internal.dispatch.HttpFilterChain.doFilter(HttpFilterChain.java:33)
+        at org.apache.felix.http.base.internal.dispatch.FilterPipeline.dispatch(FilterPipeline.java:48)
+        at org.apache.felix.http.base.internal.dispatch.Dispatcher.dispatch(Dispatcher.java:39)
+        at org.apache.felix.http.base.internal.DispatcherServlet.service(DispatcherServlet.java:67)
+        at javax.servlet.http.HttpServlet.service(HttpServlet.java:820)
+        at org.mortbay.jetty.servlet.ServletHolder.handle(ServletHolder.java:511)
+        at org.mortbay.jetty.servlet.ServletHandler.handle(ServletHandler.java:390)
+        at org.mortbay.jetty.servlet.SessionHandler.handle(SessionHandler.java:182)
+        at org.mortbay.jetty.handler.ContextHandler.handle(ContextHandler.java:765)
+        at org.mortbay.jetty.handler.HandlerWrapper.handle(HandlerWrapper.java:152)
+        at org.mortbay.jetty.Server.handle(Server.java:326)
+        at org.mortbay.jetty.HttpConnection.handleRequest(HttpConnection.java:542)
+        at org.mortbay.jetty.HttpConnection$RequestHandler.headerComplete(HttpConnection.java:926)
+        at org.mortbay.jetty.HttpParser.parseNext(HttpParser.java:549)
+        at org.mortbay.jetty.HttpParser.parseAvailable(HttpParser.java:212)
+        at org.mortbay.jetty.HttpConnection.handle(HttpConnection.java:404)
+        at org.mortbay.io.nio.SelectChannelEndPoint.run(SelectChannelEndPoint.java:410)
+        at org.mortbay.thread.QueuedThreadPool$PoolThread.run(QueuedThreadPool.java:582)
+Caused by: java.lang.RuntimeException: Fetching the topic's composite failed (topic (id=2460, uri="", value="club malte", typeUri="dm4.topicmaps.topicmap", composite={}))
+        at de.deepamehta.core.impl.service.AttachedDeepaMehtaObject.fetchComposite(AttachedDeepaMehtaObject.java:399)
+        at de.deepamehta.core.impl.service.AttachedDeepaMehtaObject.loadComposite(AttachedDeepaMehtaObject.java:377)
+        at de.deepamehta.core.impl.service.EmbeddedService.fetchComposite(EmbeddedService.java:851)
+        at de.deepamehta.core.impl.service.EmbeddedService.attach(EmbeddedService.java:789)
+        at de.deepamehta.core.impl.service.EmbeddedService.attach(EmbeddedService.java:800)
+        at de.deepamehta.core.impl.service.AttachedTopic.getRelatedTopics(AttachedTopic.java:175)
+        at de.deepamehta.core.impl.service.AttachedDeepaMehtaObject.getRelatedTopics(AttachedDeepaMehtaObject.java:216)
+        at de.deepamehta.core.impl.service.EmbeddedService.getTopics(EmbeddedService.java:167)
+        ... 41 more
+Caused by: java.lang.RuntimeException: Ambiguity: there are 2 related topics (object ID=2460, assocTypeUri="dm4.core.aggregation", myRoleTypeUri="dm4.core.whole", othersRoleTypeUri="dm4.core.part", othersTopicTypeUri="dm4.files.file")
+        at de.deepamehta.core.impl.service.AttachedDeepaMehtaObject.getRelatedTopic(AttachedDeepaMehtaObject.java:206)
+        at de.deepamehta.core.impl.service.AttachedDeepaMehtaObject.fetchChildTopic(AttachedDeepaMehtaObject.java:654)
+        at de.deepamehta.core.impl.service.AttachedDeepaMehtaObject.fetchComposite(AttachedDeepaMehtaObject.java:392)
+        ... 48 more
+
+## clicking on a topic after a while (after a couple of suspends) leads to
+
+Uncaught TopicTypeNotFound: topic type "undefined" not found in type cache
+TypeCache.get_topic_typetype_cache.js:15
+Topic.get_typetopic.js:14
+get_page_rendererwebclient.js:681
+trigger_page_renderer_hookwebclient.js:670
+prepare_pagepage_panel.js:110
+render_pagepage_panel.js:78
+PagePanel.refreshpage_panel.js:52
+PagePanel.displaypage_panel.js:20
+do_select_topicwebclient.js:91
+do_mouseupcanvas.js:455
+c.event.handlejquery-1.4.2.min.js:55
+c.event.add.j.handle.o

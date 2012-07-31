@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <name>DeepaMehta 4 Soundposter</name>
+    <groupId>de.deepamehta</groupId>
+    <artifactId>deepamehta-soundposter</artifactId>
+    <version>1.0b</version>
+    <packaging>bundle</packaging>
+
+    <parent>
+        <groupId>de.deepamehta</groupId>
+        <artifactId>deepamehta-parent</artifactId>
+        <version>2</version>
+        <relativePath>../deepamehta/deepamehta-parent/pom.xml</relativePath>
+    </parent>
+
+    <dependencies>                                   <!-- Most DeepaMehta plugin projects           -->
+        <dependency>                                 <!-- depend on the DeepaMehta core module.     -->
+            <groupId>de.deepamehta</groupId>         <!-- Copy this declaration as is.              -->
+            <artifactId>deepamehta-core</artifactId> <!-- Just update the version number, if a      -->
+            <version>4.0.12-SNAPSHOT</version>       <!-- newer version of DeepaMehta is available. -->
+        </dependency>                                <!-- If your plugin has no Java code at all,   -->
+    </dependencies>                                  <!-- the dependencies element is not needed.   -->
+
+</project>
