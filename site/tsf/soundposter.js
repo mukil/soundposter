@@ -26,15 +26,13 @@ var sp = new function() {
     // 
     this.load = function(sp_id) {
         // fixme: find another quick fix for one stupid cross domain policy.. issue:
-        try {
-          if (parent.window.location.href != undefined) { // catches crossdomain failure, when a sp is embedded
-              if (parent.window.location.href.lastIndexOf("http://www.", 0) === 0) {
-                  var url = parent.window.location.href;
-                  var newUrl = url.substr(11);
-                  parent.window.location.href = 'http://'+newUrl;
-              }
-          }
-        } catch (err) {}
+        if (parent.window.location.href != undefined) { // catches crossdomain failure, when a sp is embedded
+            if (parent.window.location.href.lastIndexOf("http://www.", 0) === 0) {
+                var url = parent.window.location.href;
+                var newUrl = url.substr(11);
+                parent.window.location.href = 'http://'+newUrl;
+            }
+        }
         sp.render_sp_header()
         jQuery("#cp_container_1").remove()
         // jQuery("#soundposter").css("opacity", 0.6);
@@ -117,7 +115,7 @@ var sp = new function() {
             var itemX = visualization['dm4.topicmaps.x'].value
             var itemY = visualization['dm4.topicmaps.y'].value
             var element = "<div id=\"" + song.id + "\" class=\"posteritem\" style=\"position: absolute; top:"
-              + itemY + "px; left: " + itemX + "px;\">" + song.value.substr(2) + "</div>";
+              + itemY + "px; left: " + itemX + "px;\">" + song.value + "</div>";
             jQuery(".postercontainer").append(element)
           }
         }
@@ -343,7 +341,7 @@ var sp = new function() {
           if (my_jPlayer.jPlayer.event !== undefined) {
             my_extraPlayInfo.text(parseInt(my_jPlayer.jPlayer.event.jPlayer.status.currentPercentAbsolute, 10) + "%")
           }
-          trackName.text(sp.selected_track.value.substr(8))
+          trackName.text(sp.selected_track.value)
         },
         play: function(event) {
           my_playState.text(opt_text_playing)
@@ -411,7 +409,7 @@ var sp = new function() {
         jQuery('.map-info .start-button').remove()
         jQuery(".map-info").unbind('click');
         // 
-        trackName.text(sp.selected_track.value.substr(8))
+        trackName.text(sp.selected_track.value)
         // 
         jQuery('#' + sp.selected_track.id).addClass('played')
         jQuery('.map-info').html("♪ " + sp.selected_track.value)
@@ -456,7 +454,7 @@ var sp = new function() {
       if (nextTrack != undefined) {
         // ### dm4c.show_topic(dm4c.fetch_topic(nextTrack.id), "show", false, true)
         sp.selected_track = nextTrack
-        trackName.text(sp.selected_track.value.substr(8))
+        trackName.text(sp.selected_track.value)
         sp.play_selected_track()
         document.title = sp.maptape.value + " - soundposter/"
       }
@@ -474,7 +472,7 @@ var sp = new function() {
       if (nextTrack != undefined) {
         // #### dm4c.show_topic(dm4c.fetch_topic(nextTrack.id), "show", false, true)
         sp.selected_track = nextTrack
-        trackName.text(sp.selected_track.value.substr(8))
+        trackName.text(sp.selected_track.value)
         sp.play_selected_track()
         document.title = sp.maptape.value + " - soundposter/"
       }
@@ -497,7 +495,7 @@ var sp = new function() {
       if (nextTrack != undefined) {
         // ### dm4c.show_topic(dm4c.fetch_topic(nextTrack.id), "show", false, true)
         sp.selected_track = nextTrack
-        trackName.text(sp.selected_track.value.substr(8))
+        trackName.text(sp.selected_track.value)
         sp.play_selected_track()
         document.title = sp.maptape.value + " - soundposter/"
       }
@@ -537,11 +535,11 @@ var sp = new function() {
           if (topic.id != undefined && sp.selected_track == undefined) {
             // list all songs.. 
             // console.log(topic)
-            listing += '<li id="' + topic.id + '" class="trackItem">' + topic.value.substr(8) + '</li>'
+            listing += '<li id="' + topic.id + '" class="trackItem">' + topic.value + '</li>'
           } else {
             // if one is selected, list all but the current..
             if (topic.id != undefined && topic.id != sp.selected_track.id) {
-              listing += '<li id="' + topic.id + '" class="trackItem">' + topic.value.substr(8) + '</li>'
+              listing += '<li id="' + topic.id + '" class="trackItem">' + topic.value + '</li>'
             }
           }
           

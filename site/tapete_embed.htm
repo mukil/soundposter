@@ -2,6 +2,20 @@
   <head>
     <title>soundposter.</title>
     <script src="jquery-1.7.1.min.js" type="text/javascript"></script>
+
+    <!-- Piwik -->
+    <script type="text/javascript">
+      var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.soundposter.com/p/" : "http://stats.soundposter.com/p/");
+      document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+      </script><script type="text/javascript">
+      try {
+        var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 2);
+          piwikTracker.trackPageView();
+          piwikTracker.enableLinkTracking();
+      } catch( err ) {}
+    </script><noscript><p><img src="http://stats.soundposter.com/p/piwik.php?idsite=2" style="border:0" alt="" /></p></noscript>
+    <!-- End Piwik Tracking Tag -->
+
   </head>
   <style type="text/css">
     body { font-family: "Myriad Pro Regular","Trebuchet MS"; }
