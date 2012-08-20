@@ -121,8 +121,8 @@ ul.info-area {
 }
 
 #trackMenu li {
-  background-color: #fff; color: #000; height: 16px; padding-left: 6px; padding-right: 6px; padding-top: 2px; padding-bottom: 2px;
-  border-left: 1px solid #fff; border-right: 1px solid #fff; font-size: 12px;
+  background-color: #fff; color: #000; height: 16px; padding-left: 6px; padding-right: 6px;
+  padding-top: 4px; padding-bottom: 4px; border-left: 1px solid #fff; border-right: 1px solid #fff;
 }
 
 #trackMenu li:hover {

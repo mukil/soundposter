@@ -343,7 +343,7 @@ var sp = new function() {
           if (my_jPlayer.jPlayer.event !== undefined) {
             my_extraPlayInfo.text(parseInt(my_jPlayer.jPlayer.event.jPlayer.status.currentPercentAbsolute, 10) + "%")
           }
-          trackName.text(sp.selected_track.value.substr(8))
+          trackName.text(sp.selected_track.value)
         },
         play: function(event) {
           my_playState.text(opt_text_playing)
@@ -411,7 +411,7 @@ var sp = new function() {
         jQuery('.map-info .start-button').remove()
         jQuery(".map-info").unbind('click');
         // 
-        trackName.text(sp.selected_track.value.substr(8))
+        trackName.text(sp.selected_track.value)
         // 
         jQuery('#' + sp.selected_track.id).addClass('played')
         jQuery('.map-info').html("♪ " + sp.selected_track.value)
@@ -456,7 +456,7 @@ var sp = new function() {
       if (nextTrack != undefined) {
         // ### dm4c.show_topic(dm4c.fetch_topic(nextTrack.id), "show", false, true)
         sp.selected_track = nextTrack
-        trackName.text(sp.selected_track.value.substr(8))
+        trackName.text(sp.selected_track.value)
         sp.play_selected_track()
         document.title = sp.maptape.value + " - soundposter/"
       }
@@ -474,7 +474,7 @@ var sp = new function() {
       if (nextTrack != undefined) {
         // #### dm4c.show_topic(dm4c.fetch_topic(nextTrack.id), "show", false, true)
         sp.selected_track = nextTrack
-        trackName.text(sp.selected_track.value.substr(8))
+        trackName.text(sp.selected_track.value)
         sp.play_selected_track()
         document.title = sp.maptape.value + " - soundposter/"
       }
@@ -497,7 +497,7 @@ var sp = new function() {
       if (nextTrack != undefined) {
         // ### dm4c.show_topic(dm4c.fetch_topic(nextTrack.id), "show", false, true)
         sp.selected_track = nextTrack
-        trackName.text(sp.selected_track.value.substr(8))
+        trackName.text(sp.selected_track.value)
         sp.play_selected_track()
         document.title = sp.maptape.value + " - soundposter/"
       }
@@ -537,11 +537,11 @@ var sp = new function() {
           if (topic.id != undefined && sp.selected_track == undefined) {
             // list all songs.. 
             // console.log(topic)
-            listing += '<li id="' + topic.id + '" class="trackItem">' + topic.value.substr(8) + '</li>'
+            listing += '<li id="' + topic.id + '" class="trackItem">' + topic.value + '</li>'
           } else {
             // if one is selected, list all but the current..
             if (topic.id != undefined && topic.id != sp.selected_track.id) {
-              listing += '<li id="' + topic.id + '" class="trackItem">' + topic.value.substr(8) + '</li>'
+              listing += '<li id="' + topic.id + '" class="trackItem">' + topic.value + '</li>'
             }
           }
           
