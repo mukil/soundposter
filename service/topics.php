@@ -16,7 +16,15 @@ $fetch = urlencode($fetch);
 // topic/by_type/dm4.topicmaps.topicmap
 $daurl = 'http://www.soundposter.com:8080/core/topic/by_type/'.$uri.'?fetch_composite='.$fetch;
 
-// Get that website's content
+$ch = curl_init($daurl);
+// curl_setopt($ch, CURLOPT_HTTPHEADERS, array('Content-Type: application/json'));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+$output = curl_exec($ch);
+// close curl resource to free up system resources
+curl_close($ch);
+echo $output;
+
+/** // Get that website's content
 $handle = fopen($daurl, "r");
 
 // If there is something, read and return
@@ -24,5 +32,5 @@ while (!feof($handle)) {
     $buffer = fgets($handle, 4096);
     echo $buffer;
 }
-fclose($handle);
+fclose($handle); **/
 ?>

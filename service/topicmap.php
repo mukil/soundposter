@@ -12,6 +12,16 @@ $q = urlencode($q);
 // Website url to open
 $daurl = 'http://www.soundposter.com:8080/topicmap/'.$q;
 
+$ch = curl_init($daurl);
+// curl_setopt($ch, CURLOPT_HTTPHEADERS, array('Content-Type: application/json'));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+$output = curl_exec($ch);
+// close curl resource to free up system resources
+curl_close($ch);
+echo $output;
+
+/** 
+
 // Get that website's content
 $handle = fopen($daurl, "r");
 
@@ -24,5 +34,5 @@ while (!feof($handle)) {
     echo $buffer;
 }
 fclose($handle);
-// }
+// } **/
 ?>
