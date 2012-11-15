@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1352975056201
+Build-Jdk: 1.6.0_24
+Built-By: malt
+Bundle-Activator: de.deepamehta.core.osgi.PluginActivator
+Bundle-ManifestVersion: 2
+Bundle-Name: Soundposter Web-Application
+Bundle-SymbolicName: com.soundposter.webapp
+Bundle-Version: 0.9.0
+Created-By: Apache Maven Bundle Plugin
+Export-Package: com.soundposter.plugin.migrations;uses:="de.deepamehta.c
+ ore.model,de.deepamehta.core,de.deepamehta.core.service";version="0.9.0
+ "
+Import-Package: de.deepamehta.core;version="[4.0,5)",de.deepamehta.core.
+ model;version="[4.0,5)",de.deepamehta.core.osgi;version="[4.0,5)",de.de
+ epamehta.core.service;version="[4.0,5)"
+Tool: Bnd-1.50.0

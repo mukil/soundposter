@@ -6,7 +6,7 @@
 
     <name>Soundposter Web-Application</name>
     <groupId>com.soundposter</groupId>
-    <artifactId>soundposter-webapp</artifactId>
+    <artifactId>soundposter.webapp</artifactId>
     <version>0.9</version>
     <packaging>bundle</packaging>
 

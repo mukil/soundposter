@@ -1,7 +1,7 @@
 {
     topic_types: [
         {
-            value:         "Label",
+            value:         "Text",
             uri:           "com.soundposter.text",
             data_type_uri: "dm4.core.text",
             index_mode_uris: ["dm4.core.fulltext", "dm4.core.key"],
@@ -56,8 +56,8 @@
                 {
                     "type_uri": "dm4.webclient.view_config",
                     "composite": {
-                        "dm4.webclient.add_to_create_menu": false,
-                        "dm4.webclient.is_searchable_unit": false,
+                        "dm4.webclient.add_to_create_menu": true,
+                        "dm4.webclient.is_searchable_unit": true,
                         "dm4.webclient.rows": 1
                     }
                 }
@@ -72,8 +72,8 @@
                 {
                     "type_uri": "dm4.webclient.view_config",
                     "composite": {
-                        "dm4.webclient.add_to_create_menu": false,
-                        "dm4.webclient.is_searchable_unit": false,
+                        "dm4.webclient.add_to_create_menu": true,
+                        "dm4.webclient.is_searchable_unit": true,
                         "dm4.webclient.rows": 1
                     }
                 }
@@ -158,143 +158,10 @@
             ]
         },
         {
-            value:         "3rd Party Identifier",
-            uri:           "com.soundposter.thirdparty_id",
-            data_type_uri: "dm4.core.text",
-            index_mode_uris: ["dm4.core.key"],
-            "view_config_topics": [
-                {
-                    "type_uri": "dm4.webclient.view_config",
-                    "composite": {
-                        "dm4.webclient.add_to_create_menu": false,
-                        "dm4.webclient.is_searchable_unit": false,
-                        "dm4.webclient.rows": 1
-                    }
-                }
-            ]
-        },
-        {
-            value:         "3rd Party Key",
-            uri:           "com.soundposter.thirdparty_key",
-            data_type_uri: "dm4.core.text",
-            index_mode_uris: ["dm4.core.key"],
-            "view_config_topics": [
-                {
-                    "type_uri": "dm4.webclient.view_config",
-                    "composite": {
-                        "dm4.webclient.add_to_create_menu": false,
-                        "dm4.webclient.is_searchable_unit": false,
-                        "dm4.webclient.rows": 1
-                    }
-                }
-            ]
-        },
-        {
-            value:         "3rd Party Account",
+            value:         "3rd Party ID",
             uri:           "com.soundposter.thirdparty",
-            data_type_uri: "dm4.core.composite",
+            data_type_uri: "dm4.core.text",
             index_mode_uris: ["dm4.core.key"],
-            assoc_defs: [
-                {
-                    part_topic_type_uri:  "com.soundposter.thirdparty_id",
-                    part_cardinality_uri: "dm4.core.one",
-                    assoc_type_uri:       "dm4.core.composition_def"
-                },
-                {
-                    part_topic_type_uri:  "com.soundposter.thirdparty_key",
-                    part_cardinality_uri: "dm4.core.one",
-                    assoc_type_uri:       "dm4.core.composition_def"
-                },
-            ],
-            "view_config_topics": [
-                {
-                    "type_uri": "dm4.webclient.view_config",
-                    "composite": {
-                        "dm4.webclient.add_to_create_menu": false,
-                        "dm4.webclient.is_searchable_unit": false,
-                        "dm4.webclient.rows": 1
-                    }
-                }
-            ]
-        },
-        {
-            value:         "Account",
-            uri:           "com.soundposter.account",
-            data_type_uri: "dm4.core.composite",
-            "view_config_topics": [
-                {
-                    "type_uri": "dm4.webclient.view_config",
-                    "composite": {
-                        "dm4.webclient.add_to_create_menu": true,
-                        "dm4.webclient.is_searchable_unit": true,
-                        "dm4.webclient.rows": 1
-                    }
-                }
-            ]
-        },
-        {
-            value:         "Account Active",
-            uri:           "com.soundposter.account_active",
-            data_type_uri: "dm4.core.boolean",
-            "view_config_topics": [
-                {
-                    "type_uri": "dm4.webclient.view_config",
-                    "composite": {
-                        "dm4.webclient.add_to_create_menu": false,
-                        "dm4.webclient.is_searchable_unit": false
-                    }
-                }
-            ]
-        },
-        {
-            value:         "Account Type",
-            uri:           "com.soundposter.account_type",
-            data_type_uri: "dm4.core.text",
-            "view_config_topics": [
-                {
-                    "type_uri": "dm4.webclient.view_config",
-                    "composite": {
-                        "dm4.webclient.add_to_create_menu": false,
-                        "dm4.webclient.is_searchable_unit": false,
-                        "dm4.webclient.rows": 1
-                    }
-                }
-            ]
-        },
-        {
-            value:         "Account Activation",
-            uri:           "com.soundposter.account_started",
-            data_type_uri: "dm4.core.number",
-            "view_config_topics": [
-                {
-                    "type_uri": "dm4.webclient.view_config",
-                    "composite": {
-                        "dm4.webclient.add_to_create_menu": false,
-                        "dm4.webclient.is_searchable_unit": false,
-                        "dm4.webclient.rows": 1
-                    }
-                }
-            ]
-        },
-        {
-            value:         "Account Web Alias",
-            uri:           "com.soundposter.account_alias",
-            data_type_uri: "dm4.core.text",
-            "view_config_topics": [
-                {
-                    "type_uri": "dm4.webclient.view_config",
-                    "composite": {
-                        "dm4.webclient.add_to_create_menu": false,
-                        "dm4.webclient.is_searchable_unit": false,
-                        "dm4.webclient.rows": 1
-                    }
-                }
-            ]
-        },
-        {
-            value:         "Account Expires",
-            uri:           "com.soundposter.account_expires",
-            data_type_uri: "dm4.core.number",
             "view_config_topics": [
                 {
                     "type_uri": "dm4.webclient.view_config",
@@ -464,54 +331,6 @@
                     }
                 }
             ]
-        },
-        {
-            value:         "Source of Information",
-            uri:           "com.soundposter.source_info",
-            data_type_uri: "dm4.core.text",
-            index_mode_uris: ["dm4.core.fulltext", "dm4.core.key"],
-            "view_config_topics": [
-                {
-                    "type_uri": "dm4.webclient.view_config",
-                    "composite": {
-                        "dm4.webclient.add_to_create_menu": false,
-                        "dm4.webclient.is_searchable_unit": false,
-                        "dm4.webclient.rows": 1
-                    }
-                }
-            ]
-        },
-        {
-            value:         "Publisher / Author Information",
-            uri:           "com.soundposter.author_info",
-            data_type_uri: "dm4.core.text",
-            index_mode_uris: ["dm4.core.fulltext", "dm4.core.key"],
-            "view_config_topics": [
-                {
-                    "type_uri": "dm4.webclient.view_config",
-                    "composite": {
-                        "dm4.webclient.add_to_create_menu": false,
-                        "dm4.webclient.is_searchable_unit": false,
-                        "dm4.webclient.rows": 1
-                    }
-                }
-            ]
-        },
-        {
-            value:         "License Information",
-            uri:           "com.soundposter.license_info",
-            data_type_uri: "dm4.core.text",
-            index_mode_uris: ["dm4.core.fulltext", "dm4.core.key"],
-            "view_config_topics": [
-                {
-                    "type_uri": "dm4.webclient.view_config",
-                    "composite": {
-                        "dm4.webclient.add_to_create_menu": false,
-                        "dm4.webclient.is_searchable_unit": false,
-                        "dm4.webclient.rows": 1
-                    }
-                }
-            ]
         }
     ], "assoc_types": [
         {
@@ -570,67 +389,15 @@
         {
             "value": "Marker",
             "uri": "com.soundposter.marker",
-            "data_type_uri": "dm4.core.composite",
+            "data_type_uri": "dm4.core.text",
             "view_config_topics": [
                 {
                     "type_uri": "dm4.webclient.view_config",
                     "composite": {
-                        "dm4.webclient.color": "#309cff"
+                        "dm4.webclient.color": "#00ffff"
                     }
                 }
             ]
-        }
-    ],
-    "topics": [
-        {
-            "value": "Standard",
-            "uri": "com.soundposter.account_standard",
-            "type_uri": "com.soundposter.account_type"
-        },
-        {
-            "value": "Publisher",
-            "uri": "com.soundposter.account_publisher",
-            "type_uri": "com.soundposter.account_type"
-        },
-        {
-            "value": "Professional",
-            "uri": "com.soundposter.account_professional",
-            "type_uri": "com.soundposter.account_type"
-        },
-        {
-            "value": "Musicplayr",
-            "uri": "com.soundposter.thirdparty_musicplayr",
-            "type_uri": "com.soundposter.thirdparty_id"
-        },
-        {
-            "value": "Bandcamp",
-            "uri": "com.soundposter.thirdparty_bandcamp",
-            "type_uri": "com.soundposter.thirdparty_id"
-        },
-        {
-            "value": "FreeMusicArchive",
-            "uri": "com.soundposter.thirdparty_freemusicarchive",
-            "type_uri": "com.soundposter.thirdparty_id"
-        },
-        {
-            "value": "SoundCloud",
-            "uri": "com.soundposter.thirdparty_soundcloud",
-            "type_uri": "com.soundposter.thirdparty_id"
-        },
-        {
-            "value": "Twitter",
-            "uri": "com.soundposter.thirdparty_twitter",
-            "type_uri": "com.soundposter.thirdparty_id"
-        },
-        {
-            "value": "Facebook",
-            "uri": "com.soundposter.thirdparty_facebook",
-            "type_uri": "com.soundposter.thirdparty_id"
-        },
-        {
-            "value": "Google+",
-            "uri": "com.soundposter.thirdparty_googleplus",
-            "type_uri": "com.soundposter.thirdparty_id"
         }
     ]
 }

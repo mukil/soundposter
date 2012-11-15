@@ -1,0 +1,42 @@
+package com.soundposter.plugin.migrations;
+
+import de.deepamehta.core.TopicType;
+import de.deepamehta.core.model.AssociationDefinitionModel;
+import de.deepamehta.core.service.Migration;
+
+
+
+public class Migration2 extends Migration {
+
+    // -------------------------------------------------------------------------------------------------- Public Methods
+
+    @Override
+    public void run() {
+        /** Enrich topicmap type about soundposter properties */
+        TopicType type = dms.getTopicType("dm4.topicmaps.topicmap", null);
+        type.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
+            "dm4.topicmaps.topicmap", "com.soundposter.web_alias", "dm4.core.one", "dm4.core.one"));
+        type.addAssocDef(new AssociationDefinitionModel("dm4.core.aggregation_def",
+            "dm4.topicmaps.topicmap", "com.soundposter.tag", "dm4.core.one", "dm4.core.many"));
+        type.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
+            "dm4.topicmaps.topicmap", "com.soundposter.published", "dm4.core.one", "dm4.core.one"));
+        type.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
+            "dm4.topicmaps.topicmap", "com.soundposter.featured", "dm4.core.one", "dm4.core.one"));
+        type.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
+            "dm4.topicmaps.topicmap", "com.soundposter.last_modified", "dm4.core.one", "dm4.core.one"));
+        /** E-Mail, 3rd Party Id and username to account */
+        TopicType account = dms.getTopicType("com.soundposter.account", null);
+        account.addAssocDef(new AssociationDefinitionModel("dm4.core.aggregation_def",
+            "com.soundposter.account", "dm4.accesscontrol.username", "dm4.core.one", "dm4.core.one"));
+        account.addAssocDef(new AssociationDefinitionModel("dm4.core.aggregation_def",
+            "com.soundposter.account", "dm4.contacts.email_address", "dm4.core.one", "dm4.core.one"));
+        account.addAssocDef(new AssociationDefinitionModel("dm4.core.aggregation_def",
+            "com.soundposter.account", "com.sondposter.thirdparty", "dm4.core.one", "dm4.core.one"));
+        /** "com.soundposter.marker_time" to AssocType "com.soundposter.marker" */
+        TopicType markerEdge = dms.getTopicType("com.soundposter.marker", null);
+        markerEdge.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
+            "com.soundposter.marker", "com.soundposter.marker_time", "dm4.core.one", "dm4.core.one"));
+
+    }
+
+}
