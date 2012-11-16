@@ -18,11 +18,53 @@
     </parent>
 
     <dependencies>                                   <!-- Most DeepaMehta plugin projects           -->
+    
         <dependency>                                 <!-- depend on the DeepaMehta core module.     -->
             <groupId>de.deepamehta</groupId>         <!-- Copy this declaration as is.              -->
             <artifactId>deepamehta-core</artifactId> <!-- Just update the version number, if a      -->
             <version>4.0.13-SNAPSHOT</version>       <!-- newer version of DeepaMehta is available. -->
         </dependency>                                <!-- If your plugin has no Java code at all,   -->
+        
+        <dependency>                                 <!-- depend on the DeepaMehta core module.     -->
+            <groupId>de.deepamehta</groupId>         <!-- Copy this declaration as is.              -->
+            <artifactId>deepamehta-topicmaps</artifactId> <!-- Just update the version number, if a      -->
+            <version>4.0.13-SNAPSHOT</version>       <!-- newer version of DeepaMehta is available. -->
+        </dependency>                                <!-- If your plugin has no Java code at all,   -->
+        
+        <dependency>                                 <!-- depend on the DeepaMehta core module.     -->
+            <groupId>de.deepamehta</groupId>         <!-- Copy this declaration as is.              -->
+            <artifactId>deepamehta-contacts</artifactId> <!-- Just update the version number, if a      -->
+            <version>4.0.13-SNAPSHOT</version>       <!-- newer version of DeepaMehta is available. -->
+        </dependency>                                <!-- If your plugin has no Java code at all,   -->
+        
+        <dependency>                                 <!-- depend on the DeepaMehta core module.     -->
+            <groupId>de.deepamehta</groupId>         <!-- Copy this declaration as is.              -->
+            <artifactId>deepamehta-accesscontrol</artifactId> <!-- Just update the version number, if a      -->
+            <version>4.0.13-SNAPSHOT</version>       <!-- newer version of DeepaMehta is available. -->
+        </dependency>                                <!-- If your plugin has no Java code at all,   -->
+        
+        <dependency>                                 <!-- depend on the DeepaMehta core module.     -->
+            <groupId>de.deepamehta</groupId>         <!-- Copy this declaration as is.              -->
+            <artifactId>deepamehta-notes</artifactId> <!-- Just update the version number, if a      -->
+            <version>4.0.13-SNAPSHOT</version>       <!-- newer version of DeepaMehta is available. -->
+        </dependency>                                <!-- If your plugin has no Java code at all,   -->
+        
     </dependencies>                                  <!-- the dependencies element is not needed.   -->
-
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <instructions>
+                        <Bundle-Activator>   <!-- fully qualified name of your plugin "main" class. -->
+                            com.soundposter.plugin.SoundposterPlugin
+                        </Bundle-Activator>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    
 </project>

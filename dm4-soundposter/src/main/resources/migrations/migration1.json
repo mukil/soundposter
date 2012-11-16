@@ -17,8 +17,8 @@
             ]
         },
         {
-            value:         "Track Name",
-            uri:           "com.soundposter.track_name",
+            value:         "Sound Name",
+            uri:           "com.soundposter.sound_name",
             data_type_uri: "dm4.core.text",
             index_mode_uris: ["dm4.core.fulltext", "dm4.core.key"],
             "view_config_topics": [
@@ -33,8 +33,8 @@
             ]
         },
         {
-            value:         "Track Number",
-            uri:           "com.soundposter.track_number",
+            value:         "Ordinal Number",
+            uri:           "com.soundposter.ordinal_number",
             data_type_uri: "dm4.core.number",
             index_mode_uris: ["dm4.core.fulltext", "dm4.core.key"],
             "view_config_topics": [
@@ -197,8 +197,9 @@
             assoc_defs: [
                 {
                     part_topic_type_uri:  "com.soundposter.thirdparty_id",
+                    whole_cardinality_uri: "dm4.core.one",
                     part_cardinality_uri: "dm4.core.one",
-                    assoc_type_uri:       "dm4.core.composition_def"
+                    assoc_type_uri:       "dm4.core.aggregation_def"
                 },
                 {
                     part_topic_type_uri:  "com.soundposter.thirdparty_key",
@@ -280,6 +281,22 @@
             value:         "Account Web Alias",
             uri:           "com.soundposter.account_alias",
             data_type_uri: "dm4.core.text",
+            index_mode_uris: ["dm4.core.fulltext", "dm4.core.key"],
+            "view_config_topics": [
+                {
+                    "type_uri": "dm4.webclient.view_config",
+                    "composite": {
+                        "dm4.webclient.add_to_create_menu": false,
+                        "dm4.webclient.is_searchable_unit": false,
+                        "dm4.webclient.rows": 1
+                    }
+                }
+            ]
+        },
+        {
+            value:         "Profile Age",
+            uri:           "com.soundposter.profile_age",
+            data_type_uri: "dm4.core.text",
             "view_config_topics": [
                 {
                     "type_uri": "dm4.webclient.view_config",
@@ -295,22 +312,6 @@
             value:         "Account Expires",
             uri:           "com.soundposter.account_expires",
             data_type_uri: "dm4.core.number",
-            "view_config_topics": [
-                {
-                    "type_uri": "dm4.webclient.view_config",
-                    "composite": {
-                        "dm4.webclient.add_to_create_menu": false,
-                        "dm4.webclient.is_searchable_unit": false,
-                        "dm4.webclient.rows": 1
-                    }
-                }
-            ]
-        },
-        {
-            value:         "Plays",
-            uri:           "com.soundposter.playcount",
-            data_type_uri: "dm4.core.number",
-            index_mode_uris: ["dm4.core.fulltext", "dm4.core.key"],
             "view_config_topics": [
                 {
                     "type_uri": "dm4.webclient.view_config",
@@ -418,7 +419,7 @@
             ]
         },
         {
-            value:         "Date / Time",
+            value:         "Event Date / Time",
             uri:           "com.soundposter.date_time",
             data_type_uri: "dm4.core.number",
             index_mode_uris: ["dm4.core.fulltext"],
@@ -466,7 +467,7 @@
             ]
         },
         {
-            value:         "Source of Information",
+            value:         "Source Info",
             uri:           "com.soundposter.source_info",
             data_type_uri: "dm4.core.text",
             index_mode_uris: ["dm4.core.fulltext", "dm4.core.key"],
@@ -482,7 +483,7 @@
             ]
         },
         {
-            value:         "Publisher / Author Information",
+            value:         "Publisher / Author Info",
             uri:           "com.soundposter.author_info",
             data_type_uri: "dm4.core.text",
             index_mode_uris: ["dm4.core.fulltext", "dm4.core.key"],
@@ -498,10 +499,58 @@
             ]
         },
         {
-            value:         "License Information",
+            value:         "License Info",
             uri:           "com.soundposter.license_info",
             data_type_uri: "dm4.core.text",
             index_mode_uris: ["dm4.core.fulltext", "dm4.core.key"],
+            "view_config_topics": [
+                {
+                    "type_uri": "dm4.webclient.view_config",
+                    "composite": {
+                        "dm4.webclient.add_to_create_menu": false,
+                        "dm4.webclient.is_searchable_unit": false,
+                        "dm4.webclient.rows": 1
+                    }
+                }
+            ]
+        },
+        {
+            value:         "Custom Stylesheet",
+            uri:           "com.soundposter.custom_style",
+            data_type_uri: "dm4.core.text",
+            index_mode_uris: ["dm4.core.fulltext", "dm4.core.key"],
+            "view_config_topics": [
+                {
+                    "type_uri": "dm4.webclient.view_config",
+                    "composite": {
+                        "dm4.webclient.add_to_create_menu": false,
+                        "dm4.webclient.is_searchable_unit": false,
+                        "dm4.webclient.rows": 1
+                    }
+                }
+            ]
+        },
+        {
+            value:         "Custom JavaScript",
+            uri:           "com.soundposter.custom_script",
+            data_type_uri: "dm4.core.text",
+            index_mode_uris: ["dm4.core.fulltext", "dm4.core.key"],
+            "view_config_topics": [
+                {
+                    "type_uri": "dm4.webclient.view_config",
+                    "composite": {
+                        "dm4.webclient.add_to_create_menu": false,
+                        "dm4.webclient.is_searchable_unit": false,
+                        "dm4.webclient.rows": 1
+                    }
+                }
+            ]
+        },
+        {
+            value:         "Display Option",
+            uri:           "com.soundposter.display_options",
+            data_type_uri: "dm4.core.text",
+            index_mode_uris: ["dm4.core.key"],
             "view_config_topics": [
                 {
                     "type_uri": "dm4.webclient.view_config",
@@ -579,7 +628,21 @@
                     }
                 }
             ]
+        },
+        {
+            "value": "Author",
+            "uri": "com.soundposter.author",
+            "data_type_uri": "dm4.core.text",
+            "view_config_topics": [
+                {
+                    "type_uri": "dm4.webclient.view_config",
+                    "composite": {
+                        "dm4.webclient.color": "#309cff"
+                    }
+                }
+            ]
         }
+        
     ],
     "topics": [
         {
@@ -631,6 +694,22 @@
             "value": "Google+",
             "uri": "com.soundposter.thirdparty_googleplus",
             "type_uri": "com.soundposter.thirdparty_id"
+        },
+        {
+            "value": "Show sound labels",
+            "uri": "com.soundposter.display_song_labels",
+            "type_uri": "com.soundposter.display_options"
+        },
+        {
+            "value": "Show event labels",
+            "uri": "com.soundposter.display_event_labels",
+            "type_uri": "com.soundposter.display_options"
+        },
+        {
+            "value": "Show text labels",
+            "uri": "com.soundposter.display_text_labels",
+            "type_uri": "com.soundposter.display_options"
         }
+        
     ]
 }

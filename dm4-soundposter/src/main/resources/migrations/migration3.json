@@ -2,7 +2,7 @@
     topic_types: [
         {
             value:         "Song",
-            uri:           "com.soundposter.track",
+            uri:           "com.soundposter.sound",
             data_type_uri: "dm4.core.composite",
             assoc_defs: [
                 {
@@ -11,12 +11,12 @@
                     assoc_type_uri:       "dm4.core.composition_def"
                 },
                 {
-                    part_topic_type_uri:  "com.soundposter.track_name",
+                    part_topic_type_uri:  "com.soundposter.sound_name",
                     part_cardinality_uri: "dm4.core.one",
                     assoc_type_uri:       "dm4.core.composition_def"
                 },
                 {
-                    part_topic_type_uri:  "com.soundposter.track_number",
+                    part_topic_type_uri:  "com.soundposter.ordinal_number",
                     part_cardinality_uri: "dm4.core.one",
                     assoc_type_uri:       "dm4.core.composition_def"
                 },
@@ -66,8 +66,8 @@
                   }
               }
             ], "label_config": [ ### not possible, caused by many/ambiguity "com.soundposter.artist_name",
-                "com.soundposter.track_number",
-                "com.soundposter.track_name",
+                "com.soundposter.ordinal_number",
+                "com.soundposter.sound_name",
             ]
         },
         {
@@ -79,6 +79,12 @@
                     part_topic_type_uri:  "com.soundposter.event_name",
                     part_cardinality_uri: "dm4.core.one",
                     assoc_type_uri:       "dm4.core.composition_def"
+                },
+                {
+                    part_topic_type_uri:    "com.soundposter.date_time",
+                    part_cardinality_uri:   "dm4.core.one",
+                    whole_cardinality_uri:  "dm4.core.one",
+                    assoc_type_uri:         "dm4.core.aggregation_def"
                 },
                 {
                     part_topic_type_uri:  "com.soundposter.location_name",
@@ -94,12 +100,6 @@
                     part_topic_type_uri:  "com.soundposter.location_lat",
                     part_cardinality_uri: "dm4.core.one",
                     assoc_type_uri:       "dm4.core.composition_def"
-                },
-                {
-                    part_topic_type_uri:    "com.soundposter.date_time",
-                    part_cardinality_uri:   "dm4.core.one",
-                    whole_cardinality_uri:  "dm4.core.one",
-                    assoc_type_uri:         "dm4.core.aggregation_def"
                 }
             ], view_config_topics : [
               {
