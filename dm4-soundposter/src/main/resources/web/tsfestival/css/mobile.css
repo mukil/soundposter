@@ -48,7 +48,7 @@ body {
 #sp-bar {
   width: 100%;
   min-height: 80px; background-color: transparent;
-  /** background: url('/com.soundposter.webapp/images/tape_deck_grey__low.png') 50% 100% no-repeat; **/
+  background: url(../images/tape_deck_grey__low.png) 50% 100% no-repeat;
   position: fixed; bottom: 0px;
   z-index: 111;
 }
@@ -70,7 +70,7 @@ body {
 }
 
 #support-link-2 {
-  position: absolute; right: 20px; bottom: 10px; color: #e8e8e8; z-index: 1000;
+  position: absolute; right: 20px; bottom: 10px; color: #e8e8e8; z-index: 100;
 }
 
 #support-link-2 a {
@@ -83,11 +83,10 @@ body {
 
 ul.control-area {
   position: fixed; bottom: 3px; z-index: 112; padding-left: 8px !important; margin-bottom: 2px;
-  display: none;
 }
 
 .map-info {
-  position: fixed; bottom: 23%; z-index: 107; left: 0px;
+  position: fixed; bottom: 52%; z-index: 107; left: 33%;
   /** margin-right: auto; margin-left: auto; **/
   background-color: #fff; cursor: pointer;
   /** color: #333; **/
@@ -248,7 +247,7 @@ li.playFromStart:after {
 }
 
 .player ul {
-  list-style-type:none; padding: 0px; overflow: hidden;
+  list-style-type:none; padding: 0px; overflow: hidden; width:100%;
 }
 
 .jp-unmute, .jp-stop {

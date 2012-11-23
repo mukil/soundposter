@@ -1,7 +1,7 @@
 {
     topic_types: [
         {
-            value:         "Song",
+            value:         "Sound",
             uri:           "com.soundposter.sound",
             data_type_uri: "dm4.core.composite",
             assoc_defs: [

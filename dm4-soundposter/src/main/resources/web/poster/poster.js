@@ -1,10 +1,14 @@
 
-var host = "http://localhost:8080"
+var host = "http://new.soundposter.com"
+var STATUS_INTERNAL = "Internal Server Error"
+var STATUS_NOT_FOUND = "Not Found"
+var STATUS_ACCESS_DENIED = "Unauthorized"
 
 var poster = new function () {
 
     this.historyApiSupported = window.history.pushState
-
+    this.mod = Modernizr
+    
     this.initializeByPath = function() {
 
         // handling deep links
@@ -15,17 +19,71 @@ var poster = new function () {
         var posterAlias = path[path.length - 1]
         var loaded = undefined
 
-        console.log("requested profile " + profileAlias + " and poster " + posterAlias);
         try {
             loaded = request("GET", "/poster/" + profileAlias + "/" + posterAlias)
         } catch (err) {
             loaded = undefined
-            console.log(err)
+            if (err.code == STATUS_ACCESS_DENIED) {
+                // console.log("Soundposter not published, access denied.")
+                poster.renderFullMessage("The delicate soundposter you requested was not yet published world wide "
+                    + "by its creator.")
+            } else if (err.code == STATUS_NOT_FOUND) {
+                // console.log("Soundposter for profile not found.")
+                poster.renderFullMessage("It looks like something is wrong with the letters in the "
+                    + "address bar of your browser. We don't know of any soundposter und this web-address.")
+            } else if (err.code == STATUS_INTERNAL) {
+                // console.log("Internal Server Error.")
+                poster.renderFullMessage("Oops, upside your head, we say Ooops inside *our* head!<br/>"
+                    + "Something went wrong, we' just send ourselves a report of how we broke things up and will"
+                    + "fix this stage as soon as possible.<br/>")
+            }
         }
+        
+        console.log(sp.mod)
+        
+        return loaded
+    }
+    
+    this.initialize = function(profile, posterAlias) {
+
+        var loaded = undefined
+
+        try {
+            loaded = request("GET", "/poster/" + profile + "/" + posterAlias)
+        } catch (err) {
+            loaded = undefined
+            if (err.code == STATUS_ACCESS_DENIED) {
+                // console.log("Soundposter not published, access denied.")
+                poster.renderFullMessage("The delicate soundposter you requested was not yet published world wide "
+                    + "by its creator.")
+            } else if (err.code == STATUS_NOT_FOUND) {
+                // console.log("Soundposter for profile not found.")
+                poster.renderFullMessage("It looks like something is wrong with the letters in the "
+                    + "address bar of your browser. We don't know of any soundposter und this web-address.")
+            } else if (err.code == STATUS_INTERNAL) {
+                // console.log("Internal Server Error.")
+                poster.renderFullMessage("Oops, upside your head, we say Ooops inside *our* head!<br/>"
+                    + "Something went wrong, we' just send ourselves a report of how we broke things up and will"
+                    + "fix this stage as soon as possible.<br/>")
+            }
+        }
+        
         return loaded
     }
 
-     /**
+    this.noWay = function () {
+        window.location.href = host
+    }
+    
+    this.renderFullMessage = function (message) {
+        $(".map-start").remove()
+        // render these messages also in mobile style, where there's no sp-bar
+        $("#sp-bar").html("<div class=\"error-message\"><br/>"+ message +"<br/><br/>"
+            + "<span><a href=\""+ host +"\" class=\"btn ok\">Ok, no problem.</a></span>"
+            + "<span><a href=\"javascript:poster.noWay()\" class=\"btn no-way\">Are you kidding me!?</a></span></div>")
+    }
+
+    /**
      * Sends an AJAX request.
      *
      * @param   method              The HTTP method: "GET", "POST", "PUT", "DELETE".
@@ -67,17 +125,11 @@ var poster = new function () {
             processData: false,
             async: async,
             success: function(data, text_status, jq_xhr) {
-                // if (LOG_AJAX_REQUESTS) dm4c.log("..... " + jq_xhr.status + " " + jq_xhr.statusText +
-                   //  "\n..... " + JSON.stringify(data))
-                if (callback) {
-                    callback(data)
-                }
+                if (callback) callback(data)
                 response_data = data
             },
             error: function(jq_xhr, text_status, error_thrown) {
-                // if (LOG_AJAX_REQUESTS) dm4c.log("..... " + jq_xhr.status + " " + jq_xhr.statusText +
-                   //  "\n..... exception: " + JSON.stringify(error_thrown))
-                throw "RESTClientError: " + method + " request failed (" + text_status + ": " + error_thrown + ")"
+                throw {"status": text_status, "code": error_thrown}
             },
             complete: function(jq_xhr, text_status) {
                 status = text_status

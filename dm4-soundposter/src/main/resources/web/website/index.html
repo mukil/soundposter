@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>soundposter.com/ welcome to the platform for creating awesome audible websites.</title>
+        <script type="text/javascript" src="/com.soundposter.webapp/script/js/jquery.min.js"></script>
+        <script type="text/javascript" src="/com.soundposter.webapp/website/site.js"></script>
+        <link rel="stylesheet" href="/com.soundposter.webapp/website/css/base.css">
+
+        <!-- Piwik
+        <script type="text/javascript">
+            var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.soundposter.com/p/" : "http://stats.soundposter.com/p/");
+            document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+            </script><script type="text/javascript">
+            try {
+            var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 2);
+                piwikTracker.trackPageView();
+                piwikTracker.enableLinkTracking();
+            } catch( err ) {}
+        </script><noscript><p><img src="http://stats.soundposter.com/p/piwik.php?idsite=2" style="border:0" alt="" /></p></noscript>
+        <!-- End Piwik Tracking Tag -->
+
+        <script type="text/javascript">
+
+            var ADAPT_CONFIG = {
+                path: '/com.soundposter.webapp/website/css/', dynamic: true,
+                range: [
+                    '0px    to 410px  = mobile.css',
+                    '410px            = big.css'
+                ]
+            };
+
+            $(document).ready(function() { site.initView() });
+
+        </script>
+        <script type="text/javascript" src="/com.soundposter.webapp/website/adapt.min.js"></script>
+        
+    </head>
+
+    <body>
+        <div id="header">
+            <!-- We give digital sound promotion back it's face. -->
+            <!-- We give digital audio distribution back it's face. -->
+            <a href="javascript:site.showSignupInterestDialog()" class="btn sign-up">Sign up your interest</a>
+            <a href="javascript:site.getAndSetRandomSoundposter()" class="btn random">Random</a>
+            <div class="title">
+                <span class="highlight">soundposter/</span>
+                <br/><b class="message">listen with your eyes</b>
+            </div>
+            <!-- a href="javascript:site.contactUs()" class="btn contact">Contact us</a-->
+        </div>
+        <div id="hello"></div>
+        <div id="cover"></div>
+        <div id="footer"></div>
+    </body>
+</html>

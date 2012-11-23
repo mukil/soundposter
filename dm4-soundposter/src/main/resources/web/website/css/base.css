@@ -1,0 +1,136 @@
+body {
+    font-family: "Open Sans", "Myriad Pro Regular", "Trebuchet MS", "sans-serif";
+    padding: 0px; margin: 0px;
+    color: darkgray;
+    /** background: #F9F9F9 url(/com.soundposter.webapp/images/mozillas-bg-stone.png) 50% -100px repeat-x; **/
+}
+
+/**  old-styling
+ *   font-family: "Myriad Pro Regular","Trebuchet MS"; font-size: 20px; 
+ *   note: #40b0e2; shadowed: #5c5c5c; light-bleu:
+ */
+
+.highlight {
+    color: #40B0E2; /** #5b7b95;*/
+    font-weight: bold;
+    font-size: 48px;
+}
+ 
+a, a:link, a:visited {
+    text-decoration: none;
+    color: #333;
+}
+
+#header {
+    /** background-color: #000; 
+     *  border-bottom: 3px solid #a9a9a9;
+     **/
+    /** background: #F9F9F9 url(/com.soundposter.webapp/images/mozillas-bg-stone.png) 50% -200px repeat-x; **/
+    background-image: linear-gradient(bottom, rgb(250,250,250) 3%, rgb(240,237,240) 52%);
+    background-image: -o-linear-gradient(bottom, rgb(250,250,250) 3%, rgb(240,237,240) 52%);
+    background-image: -moz-linear-gradient(bottom, rgb(250,250,250) 3%, rgb(240,237,240) 52%);
+    background-image: -webkit-linear-gradient(bottom, rgb(250,250,250) 3%, rgb(240,237,240) 52%);
+    background-image: -ms-linear-gradient(bottom, rgb(250,250,250) 3%, rgb(240,237,240) 52%);
+
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.03, rgb(250,250,250)),
+        color-stop(0.52, rgb(240,237,240))
+    );
+    font-size: 18px;
+    color: #fff;
+    width: 100%;
+    padding-top: 25px; padding-bottom: 25px;
+}
+
+#header .title {
+    margin-left: 40px;
+    color: #3a3a3a;
+}
+
+#header .message {
+    margin-left: 130px;
+    font-size: 18px;
+    color: #000;
+}
+
+#header a.btn {
+    color: #a9a9a9;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+    margin-left: 20px;
+    font-size: 14px;
+}
+
+#header a.btn.random {
+    position: absolute;
+    top: 99px; right: 220px;
+    text-decoration: none;
+    padding-top: 7px;
+    padding-bottom: 5px;
+}
+
+#header a.btn.sign-up {
+    position: absolute;
+    top: 99px; right: 20px;
+    text-decoration: none;
+    padding-top: 7px;
+    padding-bottom: 5px;
+}
+
+#header a.btn.random:active,
+#header a.btn.random:hover,
+#header a.btn.sign-up:hover,
+#header a.btn.sign-up:active,
+#header a.btn.sign-up:focus,
+#header a.btn.contact:hover,
+#header a.btn.contact:active {
+    color: #000;
+    text-decoration: none;
+    border-bottom: 3px solid #40B0E2;
+}
+
+#sign-up-dialog {
+    position: absolute;
+    top: 40px; right: 0px;
+    margin-right: 20px;
+}
+
+.mailfield {
+    padding: 0px; border: 1px solid #333; height: 30px;
+    padding-left: 8px; width: 30%; min-width: 328px; /** top: -25px; left: 475px; */
+    margin-right: 10px; border: 0px solid #fff;
+}
+
+.submit.btn {
+    height: 30px;
+    background-color: #fff;
+    border: 2px solid #40B0E2;
+    cursor: pointer;
+}
+
+#cover {
+    border: 1px solid #5b7b95;
+    margin-left: auto; margin-right: auto;
+    margin-top: 40px; width: 480px; padding: 10px;
+    /** -webkit-box-shadow: 0 2px 4px rgba(0,0,0,.25);
+    -moz-box-shadow: 0 2px 4px rgba(0,0,0,.25);
+    -ms-box-shadow: 0 2px 4px rgba(0,0,0,.25);
+    -box-shadow: 0 2px 4px rgba(0,0,0,.25);
+    box-shadow: 0 2px 4px rgba(0,0,0,.25);**/
+}
+
+#footer {
+    margin-left: auto; margin-right: auto;
+    margin-top: 40px; width: 480px; padding: 10px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+#footer a {
+    text-decoration: underline;
+}

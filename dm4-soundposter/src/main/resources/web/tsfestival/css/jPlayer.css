@@ -3,36 +3,6 @@ body {
   font-family: "Myriad Pro Regular","Trebuchet MS", sans-serif;
 }
 
-.error-message {
-    font-weight: bold;
-    color: #fff;
-    padding: 20px;
-}
-
-#sp-bar .error-message a.btn {
-    backgrund-color: #a9a9a9;
-    color: #333; 
-    font-weight: bold;
-    padding: 5px;
-    cursor: pointer;
-    margin-left: 20px;
-    margin-right: 20px;
-}
-
-#sp-bar .error-message a.btn.no-way:hover,
-#sp-bar .error-message a.btn.no-way:active {
-    background-color: #ff0000;
-    color: #fff;
-    text-decoration: none;
-}
-
-#sp-bar .error-message a.btn.ok:hover,
-#sp-bar .error-message a.btn.ok:active {
-    background-color: #000000;
-    color: #a9a9a9;
-    text-decoration: none;
-}
-
 #page-toolbar {
   margin-top: 0em;
 }
@@ -66,7 +36,7 @@ body {
 .postertext {
   background-color: #3d3d3d; color: #fff; /** color: #40B0E2; **/
   padding: 4px; font-weight: bold; /* font-style: italic; */
-  z-index: 100; font-size: 16px; font-family: "OopenMyriad Pro Regular", "Trebuchet MS", sans-serif;
+  z-index: 100; font-size: 16px; font-family: "Myriad Pro Regular", "Trebuchet MS", sans-serif;
 }
 
 .played {
@@ -151,8 +121,8 @@ ul.info-area {
 }
 
 #trackMenu li {
-  background-color: #fff; color: #000; height: 16px; padding-left: 6px; padding-right: 6px;
-  padding-top: 4px; padding-bottom: 4px; border-left: 1px solid #fff; border-right: 1px solid #fff;
+  background-color: #fff; color: #000; height: 16px; padding-left: 6px; padding-right: 6px; padding-top: 2px; padding-bottom: 2px;
+  border-left: 1px solid #fff; border-right: 1px solid #fff; font-size: 12px;
 }
 
 #trackMenu li:hover {
@@ -265,7 +235,7 @@ ul.info-area {
 .map-start {
   position: fixed; bottom: 42%; z-index: 3; left: 45%;
   margin-right: auto; margin-left: auto; width: 100px; height: 110px;
-  background: url('/com.soundposter.webapp/images/gtk_play.png') no-repeat; cursor: pointer;
+  background: url(../images/gtk_play.png) no-repeat; cursor: pointer;
   /** color: #333; **/
   color: #40b0e2; padding: 6px;
 }
