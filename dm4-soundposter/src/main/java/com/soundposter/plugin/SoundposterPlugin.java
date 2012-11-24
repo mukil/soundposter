@@ -251,7 +251,7 @@ public class SoundposterPlugin extends PluginActivator implements SoundposterSer
         // ### check if profile is active.. 
         Topic profile = profileAlias.getRelatedTopic("dm4.core.composition", "dm4.core.part", "dm4.core.whole", 
                 "com.soundposter.account", true, false, null);
-        ResultSet<RelatedTopic> items = profile.getRelatedTopics("com.soundposter.author", "dm4.core.default", 
+        ResultSet<RelatedTopic> items = profile.getRelatedTopics("com.soundposter.author_edge", "dm4.core.default", 
                 "dm4.core.default", "dm4.topicmaps.topicmap", true, false, 0, null);
         if (items.getSize() > 0) {
             Iterator<RelatedTopic> soundposter = items.getIterator();
@@ -268,7 +268,7 @@ public class SoundposterPlugin extends PluginActivator implements SoundposterSer
     
     private String getProfileAliasForPoster(Topic poster) {
         // ### check if profile is active.. 
-        RelatedTopic author = poster.getRelatedTopic("com.soundposter.author", "dm4.core.default", 
+        RelatedTopic author = poster.getRelatedTopic("com.soundposter.author_edge", "dm4.core.default", 
                 "dm4.core.default", "com.soundposter.account", true, false, null);
         if (author.getCompositeValue().has("com.soundposter.account_alias")) {
             return author.getCompositeValue().getString("com.soundposter.account_alias");
