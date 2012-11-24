@@ -1,5 +1,5 @@
 
-var host = "http://new.soundposter.com"
+var host = "http://localhost:8080"
 
 var site = new function () {
     
@@ -18,22 +18,19 @@ var site = new function () {
         var website = commands[0]
         var websiteView = commands[1]
 
-        console.log("requested " + website + " and website-view" + websiteView);
-
         site.getAndSetRandomSoundposter()
 
     }
     
     this.showSignupInterestDialog = function () {
-        console.log($("#sign-up-dialog"))
         if ($("#sign-up-dialog").length == 0) {
             var dialog = "<div id=\"sign-up-dialog\"><form id=\"add-me\" action=\"javascript:site.signUpInterest()\">"
                 + "<input type=\"text\" name=\"mailbox\" placeholder=\"Enter your e-mail address, "
                 + "so we can get back to you..\" class=\"mailfield\"></input>"
-                + "<input type=\"submit\" class=\"submit btn\" value=\"Ok, do so\"></input>"
+                + "<input type=\"submit\" class=\"submit btn\" value=\"Fine, do so!\"></input>"
                 + "</form></div>"
             $("#header").append(dialog)
-            $(".btn.sign-up").css("border-bottom", "3px solid #5b7b95;")
+            $(".btn.sign-up").addClass("selected")
         } else {
             site.removeSignupInterestDialog()
         }
@@ -41,20 +38,20 @@ var site = new function () {
     
     this.removeSignupInterestDialog = function () {
         $("#sign-up-dialog").remove()
-        $(".btn.sign-up").css("", "")
+        $(".btn.sign-up").removeClass("selected")
     }
 
     this.signUpInterest = function () {
         var mailbox = $("[name=mailbox]").val()
         var name = "x"
-        console.log("signing up " + mailbox)
         request("GET", "/create/signup/" + mailbox + "/" + name)
-        
+
         site.removeSignupInterestDialog()
     }
     
     this.contactUs = function () {
         console.log("user wants to contact us..")
+        alert("to be implemented... ")
     }
     
     this.countPageView = function () {
@@ -70,10 +67,9 @@ var site = new function () {
         if (coverPoster != undefined) {
             var address = host + site.getFullSoundposterURL(coverPoster.id).url
             var cover = "<iframe src=\""+ address +"\" frameBorder=\"0\" style=\"border: 0px solid #333;\""
-                +" width=\"480px\" height=\"582px\" id=\"posterframe\">Browser not compatible.</iframe>"
+                +" width=\"582px\" height=\"380px\" id=\"posterframe\">Browser not compatible.</iframe>"
                 +" <br/><br/>Watch the selected soundposter <a href=\""+ address +"\">in full size</a></iframe>."
            $("#cover").html(cover)
-           $("#footer").html("<a href=\"http://twitter.com/soundposter\">subscribe @soundposter</a>")
         }
     }
     

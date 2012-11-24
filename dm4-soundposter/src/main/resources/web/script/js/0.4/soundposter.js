@@ -14,7 +14,8 @@ var sp = new function() {
     this.isPlaying = false
     this.playlist = new Array()
     this.texts = new Array()
-    this.core_service_uri = "http://new.soundposter.com"
+    // this.core_service_uri = "http://new.soundposter.com"
+    this.core_service_uri = "http://localhost:8080"
     this.poster_graphics_uri = this.core_service_uri + "/filerepo/"
     this.icon_folder_path = this.core_service_uri + "/com.soundposter.webapp/images"
     
@@ -278,7 +279,7 @@ var sp = new function() {
     
     this.render_sp_footer = function (id) {
         // ### support more links, clean up this method
-        var buy_link = sp.get_related_topics(id, 'dm4.webbrowser.web_resource', 'com.soundposter.buy_link')
+        var buy_link = sp.get_related_topics(id, 'dm4.webbrowser.web_resource', 'com.soundposter.buy_edge')
         if (buy_link.items.length == 0) {
           return;
         }
@@ -437,7 +438,7 @@ var sp = new function() {
             }
           // backup, unselection of highlighted track
         },
-        swfPath: "js",
+        swfPath: "/com.soundposter.webapp/script/js",
         cssSelectorAncestor: "#jp_container",
         supplied: "mp3, m4a, ogg, wav",
         wmode: "window",

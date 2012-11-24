@@ -39,7 +39,7 @@ dm4c.add_plugin("com.soundposter.webapp", function() {
      */
     dm4c.add_listener('topic_doubleclicked', function(topic) {
       //
-      if (topic.type_uri == "com.soundposter.track") {
+      if (topic.type_uri == "com.soundposter.sound") {
         playSelectedTopic()
       }
     })

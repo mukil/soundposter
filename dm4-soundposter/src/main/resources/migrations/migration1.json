@@ -142,22 +142,6 @@
             ]
         },
         {
-            value:         "Description",
-            uri:           "com.soundposter.description",
-            data_type_uri: "dm4.core.html",
-            index_mode_uris: ["dm4.core.fulltext"],
-            "view_config_topics": [
-                {
-                    "type_uri": "dm4.webclient.view_config",
-                    "composite": {
-                        "dm4.webclient.add_to_create_menu": false,
-                        "dm4.webclient.is_searchable_unit": false,
-                        "dm4.webclient.rows": 1
-                    }
-                }
-            ]
-        },
-        {
             value:         "3rd Party Identifier",
             uri:           "com.soundposter.thirdparty_id",
             data_type_uri: "dm4.core.text",
@@ -565,7 +549,7 @@
     ], "assoc_types": [
         {
             "value": "Buy Link",
-            "uri": "com.soundposter.buy_link",
+            "uri": "com.soundposter.buy_edge",
             "data_type_uri": "dm4.core.text",
             "view_config_topics": [
                 {
@@ -578,7 +562,7 @@
         },
         {
             "value": "Homepage Link",
-            "uri": "com.soundposter.home_link",
+            "uri": "com.soundposter.home_edge",
             "data_type_uri": "dm4.core.text",
             "view_config_topics": [
                 {
@@ -592,7 +576,7 @@
         },
         {
             "value": "More Link",
-            "uri": "com.soundposter.more_link",
+            "uri": "com.soundposter.more_edge",
             "data_type_uri": "dm4.core.text",
             "view_config_topics": [
                 {
@@ -605,7 +589,7 @@
         },
         {
             "value": "Graphic",
-            "uri": "com.soundposter.graphic",
+            "uri": "com.soundposter.graphic_edge",
             "data_type_uri": "dm4.core.text",
             "view_config_topics": [
                 {
@@ -618,7 +602,7 @@
         },
         {
             "value": "Marker",
-            "uri": "com.soundposter.marker",
+            "uri": "com.soundposter.marker_edge",
             "data_type_uri": "dm4.core.composite",
             "view_config_topics": [
                 {
@@ -631,7 +615,7 @@
         },
         {
             "value": "Author",
-            "uri": "com.soundposter.author",
+            "uri": "com.soundposter.author_edge",
             "data_type_uri": "dm4.core.text",
             "view_config_topics": [
                 {

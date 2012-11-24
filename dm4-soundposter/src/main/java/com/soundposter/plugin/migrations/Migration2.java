@@ -73,9 +73,9 @@ public class Migration2 extends Migration {
             "com.soundposter.account", "com.soundposter.account_expires", "dm4.core.one", "dm4.core.one"));
 
         /** Assign "com.soundposter.marker_time" to AssocType "com.soundposter.marker" */
-        AssociationType markerEdge = dms.getAssociationType("com.soundposter.marker", null);
+        AssociationType markerEdge = dms.getAssociationType("com.soundposter.marker_edge", null);
         markerEdge.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
-            "com.soundposter.marker", "com.soundposter.marker_time", "dm4.core.one", "dm4.core.one"));
+            "com.soundposter.marker_edge", "com.soundposter.marker_time", "dm4.core.one", "dm4.core.one"));
 
         /** Hide some dm-topics from create_menu */
         dms.getTopicType("dm4.contacts.person", null).getViewConfig()

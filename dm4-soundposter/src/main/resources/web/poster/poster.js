@@ -1,5 +1,5 @@
 
-var host = "http://new.soundposter.com"
+var host = "http://localhost:8080"
 var STATUS_INTERNAL = "Internal Server Error"
 var STATUS_NOT_FOUND = "Not Found"
 var STATUS_ACCESS_DENIED = "Unauthorized"
@@ -7,7 +7,7 @@ var STATUS_ACCESS_DENIED = "Unauthorized"
 var poster = new function () {
 
     this.historyApiSupported = window.history.pushState
-    this.mod = Modernizr
+    this.mod = undefined
     
     this.initializeByPath = function() {
 
@@ -39,7 +39,8 @@ var poster = new function () {
             }
         }
         
-        console.log(sp.mod)
+        poster.mod = Modernizr
+        console.log(poster.mod)
         
         return loaded
     }

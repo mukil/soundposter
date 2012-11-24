@@ -5,6 +5,10 @@ body {
     /** background: #F9F9F9 url(/com.soundposter.webapp/images/mozillas-bg-stone.png) 50% -100px repeat-x; **/
 }
 
+#hello {
+    height: 60px; 
+}
+
 /**  old-styling
  *   font-family: "Myriad Pro Regular","Trebuchet MS"; font-size: 20px; 
  *   note: #40b0e2; shadowed: #5c5c5c; light-bleu:
@@ -46,29 +50,28 @@ a, a:link, a:visited {
 }
 
 #header .title {
-    margin-left: 40px;
+    position: absolute; right: 35px; top: 40px;
+    margin-top: 10px;
     color: #3a3a3a;
 }
 
 #header .message {
-    margin-left: 130px;
+    margin-left: 127px;
     font-size: 18px;
     color: #000;
 }
 
-#header a.btn {
+a.btn {
     color: #a9a9a9;
     padding: 5px;
     padding-left: 10px;
     padding-right: 10px;
     cursor: pointer;
-    margin-left: 20px;
     font-size: 14px;
 }
 
 #header a.btn.random {
-    position: absolute;
-    top: 99px; right: 220px;
+    position: absolute; top: 20px; right: 40px;
     text-decoration: none;
     padding-top: 7px;
     padding-bottom: 5px;
@@ -76,28 +79,34 @@ a, a:link, a:visited {
 
 #header a.btn.sign-up {
     position: absolute;
-    top: 99px; right: 20px;
+    top: 20px; left: 40px;
     text-decoration: none;
     padding-top: 7px;
     padding-bottom: 5px;
+}
+
+#header a.selected {
+    color: #000;
+    text-decoration: none;
+    border-bottom: 3px solid #40B0E2;    
 }
 
 #header a.btn.random:active,
 #header a.btn.random:hover,
 #header a.btn.sign-up:hover,
 #header a.btn.sign-up:active,
-#header a.btn.sign-up:focus,
-#header a.btn.contact:hover,
-#header a.btn.contact:active {
+#header a.btn.sign-up:focus {
     color: #000;
     text-decoration: none;
     border-bottom: 3px solid #40B0E2;
 }
 
 #sign-up-dialog {
-    position: absolute;
-    top: 40px; right: 0px;
+    /** position: absolute;
+    top: 40px; left: 40px; **/
+    margin-left: 40px;
     margin-right: 20px;
+    margin-top: 40px;
 }
 
 .mailfield {
@@ -113,10 +122,16 @@ a, a:link, a:visited {
     cursor: pointer;
 }
 
+@-moz-document url-prefix() {
+    .submit.btn {
+        padding-bottom: 4px;
+    }
+}
+
 #cover {
     border: 1px solid #5b7b95;
     margin-left: auto; margin-right: auto;
-    margin-top: 40px; width: 480px; padding: 10px;
+    margin-top: 60px; width: 582px; padding: 10px;
     /** -webkit-box-shadow: 0 2px 4px rgba(0,0,0,.25);
     -moz-box-shadow: 0 2px 4px rgba(0,0,0,.25);
     -ms-box-shadow: 0 2px 4px rgba(0,0,0,.25);
@@ -126,11 +141,27 @@ a, a:link, a:visited {
 
 #footer {
     margin-left: auto; margin-right: auto;
-    margin-top: 40px; width: 480px; padding: 10px;
+    margin-top: 80px; width: 90%; padding: 10px;
     text-align: center;
     margin-bottom: 40px;
+    /** border-top: 1px dashed #a9a9a9; **/
 }
 
-#footer a {
-    text-decoration: underline;
+a.btn.twitter {
+    float: right;
+    border-top: 3px solid #fff;
+}
+
+a.btn.contact {
+    float:left;
+    border-top: 3px solid #fff;
+}
+
+a.btn.twitter:active,
+a.btn.twitter:hover,
+a.btn.contact:hover,
+a.btn.contact:active {
+    color: #000;
+    text-decoration: none;
+    border-top: 3px solid #40B0E2;
 }

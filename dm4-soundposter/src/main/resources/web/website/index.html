@@ -41,16 +41,26 @@
         <div id="header">
             <!-- We give digital sound promotion back it's face. -->
             <!-- We give digital audio distribution back it's face. -->
-            <a href="javascript:site.showSignupInterestDialog()" class="btn sign-up">Sign up your interest</a>
-            <a href="javascript:site.getAndSetRandomSoundposter()" class="btn random">Random</a>
+            <a href="javascript:site.showSignupInterestDialog()" class="btn sign-up selected">Sign up your interest</a>
+            <div id="sign-up-dialog">
+                <form id="add-me" action="javascript:site.signUpInterest()">
+                    <input type="text" name="mailbox"
+                        placeholder="Enter your e-mail address, so we can get back to you.." class="mailfield"/>
+                    <input type="submit" class="submit btn" value="Fine, do so!"/>
+                </form>
+            </div>
             <div class="title">
                 <span class="highlight">soundposter/</span>
                 <br/><b class="message">listen with your eyes</b>
             </div>
-            <!-- a href="javascript:site.contactUs()" class="btn contact">Contact us</a-->
+            <a href="javascript:site.getAndSetRandomSoundposter()" class="btn random">random</a>
         </div>
         <div id="hello"></div>
         <div id="cover"></div>
-        <div id="footer"></div>
+        <div id="footer">
+            <!-- javascript:site.contactUs() -->
+            <a href="mailto:info@soundposter.com" class="btn contact">info|at|soundposter.com</a>
+            <a href="http://twitter.com/soundposter" class="btn twitter">subscribe @soundposter</a>
+        </div>
     </body>
 </html>

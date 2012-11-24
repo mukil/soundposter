@@ -12,7 +12,7 @@ body {
     min-height: 38px;
     background-color: #000;
     color: #fff; border-bottom: 2px solid #fff;
-    position: absolute; left: 0px; bottom: 0px;
+    position: absolute; left: 0px; bottom: 28px;
     z-index: 2001;
 }
 /** ### firefox: psition relative form trakcname.. +2px fromt op **/
@@ -103,7 +103,7 @@ body {
 .player {
     font-family: "Myriad Pro Regular","Trebuchet MS", sans-serif;
     /** bottom: 40px; left: 40px; position: fixed; ***/ z-index: 2003;
-    bottom: -8px; left: 20px; position: fixed; width: 65%;
+    bottom: 20px; left: 20px; position: fixed; width: 65%;
     /** background-color: #e8e8e8; border: 1px solid #2a75c6;**/
 }
 

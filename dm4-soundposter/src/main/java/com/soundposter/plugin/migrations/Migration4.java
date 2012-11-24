@@ -3,97 +3,124 @@ package com.soundposter.plugin.migrations;
 import de.deepamehta.core.AssociationType;
 import de.deepamehta.core.Topic;
 import de.deepamehta.core.TopicType;
-import de.deepamehta.core.model.AssociationDefinitionModel;
-import de.deepamehta.core.model.SimpleValue;
-import de.deepamehta.core.model.TopicModel;
+import de.deepamehta.core.model.*;
 import de.deepamehta.core.service.Migration;
+import java.util.logging.Logger;
 
 
-
-public class Migration2 extends Migration {
-
+public class Migration4 extends Migration {
+    
+    private Logger log = Logger.getLogger(getClass().getName());
+    
     // -------------------------------------------------------------------------------------------------- Public Methods
 
     @Override
     public void run() {
         
-        /** Create default workspace for all soundposter users */
-        // Topic workspace = dms.createTopic(new TopicModel("dm4.workspaces.workspace"), null);
-        // workspace.setSimpleValue(new SimpleValue("Soundposter"));
-        // workspace.setUri("com.soundposter.workspace");
-
-        /** Enrich topicmap type about soundposter properties */
-        TopicType topicmap = dms.getTopicType("dm4.topicmaps.topicmap", null);
-        topicmap.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
-            "dm4.topicmaps.topicmap", "com.soundposter.published", "dm4.core.one", "dm4.core.one"));
-        topicmap.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
-            "dm4.topicmaps.topicmap", "com.soundposter.featured", "dm4.core.one", "dm4.core.one"));
-        topicmap.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
-            "dm4.topicmaps.topicmap", "com.soundposter.web_alias", "dm4.core.one", "dm4.core.one"));
-        topicmap.addAssocDef(new AssociationDefinitionModel("dm4.core.aggregation_def",
-            "dm4.topicmaps.topicmap", "com.soundposter.display_options", "dm4.core.one", "dm4.core.many"));
-        topicmap.addAssocDef(new AssociationDefinitionModel("dm4.core.aggregation_def",
-            "dm4.topicmaps.topicmap", "com.soundposter.custom_style", "dm4.core.one", "dm4.core.many"));
-        topicmap.addAssocDef(new AssociationDefinitionModel("dm4.core.aggregation_def",
-            "dm4.topicmaps.topicmap", "com.soundposter.custom_script", "dm4.core.one", "dm4.core.many"));
-        topicmap.addAssocDef(new AssociationDefinitionModel("dm4.core.aggregation_def",
-            "dm4.topicmaps.topicmap", "com.soundposter.tag", "dm4.core.one", "dm4.core.many"));
-        topicmap.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
-            "dm4.topicmaps.topicmap", "com.soundposter.license_info", "dm4.core.one", "dm4.core.one"));
-        topicmap.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
-            "dm4.topicmaps.topicmap", "com.soundposter.last_modified", "dm4.core.one", "dm4.core.one"));
-
-        /** E-Mail, 3rd Party Id, username and a lot of other stuff for a user account */
+        // Assign all new topicTypes to the default workspace
+        TopicType text = dms.getTopicType("com.soundposter.text", null);
+        assignWorkspace(text);
+        TopicType event = dms.getTopicType("com.soundposter.event", null);
+        assignWorkspace(event);
         TopicType account = dms.getTopicType("com.soundposter.account", null);
-        account.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
-            "com.soundposter.account", "com.soundposter.account_alias", "dm4.core.one", "dm4.core.one"));
-        account.addAssocDef(new AssociationDefinitionModel("dm4.core.aggregation_def",
-            "com.soundposter.account", "dm4.accesscontrol.username", "dm4.core.one", "dm4.core.one"));
-        account.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
-            "com.soundposter.account", "com.soundposter.account_active", "dm4.core.one", "dm4.core.one"));
-        account.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
-            "com.soundposter.account", "dm4.contacts.email_address", "dm4.core.one", "dm4.core.one"));
-        account.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
-            "com.soundposter.account", "dm4.contacts.first_name", "dm4.core.one", "dm4.core.one"));
-        account.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
-            "com.soundposter.account", "dm4.contacts.last_name", "dm4.core.one", "dm4.core.one"));
-        account.addAssocDef(new AssociationDefinitionModel("dm4.core.aggregation_def",
-            "com.soundposter.account", "dm4.contacts.city", "dm4.core.one", "dm4.core.one"));
-        account.addAssocDef(new AssociationDefinitionModel("dm4.core.aggregation_def",
-            "com.soundposter.account", "dm4.contacts.country", "dm4.core.one", "dm4.core.one"));
-        account.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
-            "com.soundposter.account", "com.soundposter.profile_age", "dm4.core.one", "dm4.core.one"));
-        account.addAssocDef(new AssociationDefinitionModel("dm4.core.aggregation_def",
-            "com.soundposter.account", "com.soundposter.account_type", "dm4.core.one", "dm4.core.one"));
-        account.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
-            "com.soundposter.account", "com.soundposter.thirdparty", "dm4.core.one", "dm4.core.many"));
-        account.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
-            "com.soundposter.account", "com.soundposter.account_started", "dm4.core.one", "dm4.core.one"));
-        account.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
-            "com.soundposter.account", "com.soundposter.account_expires", "dm4.core.one", "dm4.core.one"));
+        assignWorkspace(account);
+        TopicType sound = dms.getTopicType("com.soundposter.sound", null);
+        assignWorkspace(sound);
+        TopicType soundName = dms.getTopicType("com.soundposter.sound_name", null);
+        assignWorkspace(soundName);
+        TopicType ordinaNumber = dms.getTopicType("com.soundposter.ordinal_number", null);
+        assignWorkspace(ordinaNumber);
+        TopicType artistName = dms.getTopicType("com.soundposter.artist_name", null);
+        assignWorkspace(ordinaNumber);
+        TopicType albumName = dms.getTopicType("com.soundposter.album_name", null);
+        assignWorkspace(albumName);
+        TopicType tag = dms.getTopicType("com.soundposter.tag", null);
+        assignWorkspace(tag);
+        TopicType report = dms.getTopicType("com.soundposter.report", null);
+        assignWorkspace(report);
+        TopicType lastModified = dms.getTopicType("com.soundposter.last_modified", null);
+        assignWorkspace(lastModified);
+        TopicType dateTime = dms.getTopicType("com.soundposter.date_time", null);
+        assignWorkspace(dateTime);
+        TopicType eventName = dms.getTopicType("com.soundposter.event_name", null);
+        assignWorkspace(eventName);
+        TopicType locationName = dms.getTopicType("com.soundposter.location_name", null);
+        assignWorkspace(locationName);
+        TopicType locationLon = dms.getTopicType("com.soundposter.location_lon", null);
+        assignWorkspace(locationLon);
+        TopicType locationLat = dms.getTopicType("com.soundposter.location_lat", null);
+        assignWorkspace(locationLat);
+        TopicType markerTime = dms.getTopicType("com.soundposter.marker_time", null);
+        assignWorkspace(markerTime);
+        TopicType remark = dms.getTopicType("com.soundposter.remark", null);
+        assignWorkspace(remark);
+        TopicType accountExpires = dms.getTopicType("com.soundposter.account_expires", null);
+        assignWorkspace(accountExpires);
+        TopicType accountAlias = dms.getTopicType("com.soundposter.account_alias", null);
+        assignWorkspace(accountAlias);
+        TopicType accountStarted = dms.getTopicType("com.soundposter.account_started", null);
+        assignWorkspace(accountStarted);
+        TopicType accountActive = dms.getTopicType("com.soundposter.account_active", null);
+        assignWorkspace(accountActive);
+        TopicType accountType = dms.getTopicType("com.soundposter.account_type", null);
+        assignWorkspace(accountType);
+        TopicType thirdParty = dms.getTopicType("com.soundposter.thirdparty", null);
+        assignWorkspace(thirdParty);
+        TopicType thirdPartyKey = dms.getTopicType("com.soundposter.thirdparty_key", null);
+        assignWorkspace(thirdPartyKey);
+        TopicType thirdPartyId = dms.getTopicType("com.soundposter.thirdparty_id", null);
+        assignWorkspace(thirdPartyId);
+        TopicType featuredFlag = dms.getTopicType("com.soundposter.featured", null);
+        assignWorkspace(featuredFlag);
+        TopicType publishedFlag = dms.getTopicType("com.soundposter.published", null);
+        assignWorkspace(publishedFlag);
+        TopicType webAlias = dms.getTopicType("com.soundposter.web_alias", null);
+        assignWorkspace(webAlias);
+        TopicType sourceInfo = dms.getTopicType("com.soundposter.source_info", null);
+        assignWorkspace(sourceInfo);
+        TopicType authorInfo = dms.getTopicType("com.soundposter.author_info", null);
+        assignWorkspace(authorInfo);
+        TopicType licenseInfo = dms.getTopicType("com.soundposter.license_info", null);
+        assignWorkspace(licenseInfo);
+        TopicType customStyle = dms.getTopicType("com.soundposter.custom_style", null);
+        assignWorkspace(customStyle);
+        TopicType customScript = dms.getTopicType("com.soundposter.custom_script", null);
+        assignWorkspace(customScript);
+        TopicType displayOptions = dms.getTopicType("com.soundposter.display_options", null);
+        assignWorkspace(displayOptions);
+        
+        // Assign all assocTypes to the default workspace
+        AssociationType buyLink = dms.getAssociationType("com.soundposter.buy_edge", null);
+        assignWorkspace(buyLink);
+        AssociationType homeLink = dms.getAssociationType("com.soundposter.home_edge", null);
+        assignWorkspace(homeLink);
+        AssociationType moreLink = dms.getAssociationType("com.soundposter.more_edge", null);
+        assignWorkspace(moreLink);
+        AssociationType graphicLink = dms.getAssociationType("com.soundposter.graphic_edge", null);
+        assignWorkspace(graphicLink);
+        AssociationType makerLink = dms.getAssociationType("com.soundposter.marker_edge", null);
+        assignWorkspace(makerLink);
+        AssociationType authorLink = dms.getAssociationType("com.soundposter.author_edge", null);
+        assignWorkspace(authorLink);
 
-        /** Assign "com.soundposter.marker_time" to AssocType "com.soundposter.marker" */
-        AssociationType markerEdge = dms.getAssociationType("com.soundposter.marker", null);
-        markerEdge.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
-            "com.soundposter.marker", "com.soundposter.marker_time", "dm4.core.one", "dm4.core.one"));
 
-        /** Hide some dm-topics from create_menu */
-        dms.getTopicType("dm4.contacts.person", null).getViewConfig()
-            .addSetting("dm4.webclient.view_config", "dm4.webclient.add_to_create_menu", false);
-        dms.getTopicType("dm4.contacts.institution", null).getViewConfig()
-            .addSetting("dm4.webclient.view_config", "dm4.webclient.add_to_create_menu", false);
-        dms.getTopicType("dm4.notes.note", null).getViewConfig()
-            .addSetting("dm4.webclient.view_config", "dm4.webclient.add_to_create_menu", false);
-
-        /** Enrich "File" (Graphics) about source_info, author_info and  license_info */
-        TopicType file = dms.getTopicType("dm4.files.file", null);
-        file.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
-            "dm4.files.file", "com.soundposter.source_info", "dm4.core.one", "dm4.core.one"));
-        file.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
-            "dm4.files.file", "com.soundposter.author_info", "dm4.core.one", "dm4.core.one"));
-        file.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
-            "dm4.files.file", "com.soundposter.license_info", "dm4.core.one", "dm4.core.one"));
-
+    }
+    
+    /** Worskpace Assignment Helpers */
+    
+    private void assignWorkspace(Topic topic) {
+        if (hasWorkspace(topic)) {
+            return;
+        }
+        dms.createAssociation(new AssociationModel("dm4.core.aggregation",
+            new TopicRoleModel(topic.getId(), "dm4.core.whole"),
+            new TopicRoleModel("de.workspaces.deepamehta", "dm4.core.part")
+        ), null);
+    }
+    
+    private boolean hasWorkspace(Topic topic) {
+        return topic.getRelatedTopics("dm4.core.aggregation", "dm4.core.whole", "dm4.core.part",
+            "dm4.workspaces.workspace", false, false, 0, null).getSize() > 0;
     }
 
 }
