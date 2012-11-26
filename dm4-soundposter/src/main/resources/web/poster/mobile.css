@@ -87,7 +87,7 @@ ul.control-area {
 }
 
 .map-info {
-  position: fixed; bottom: 23%; z-index: 107; left: 0px;
+  position: fixed; top: 23%; z-index: 107; left: 0px;
   /** margin-right: auto; margin-left: auto; **/
   background-color: #fff; cursor: pointer;
   /** color: #333; **/

@@ -6,7 +6,7 @@ body {
 }
 
 #hello {
-    height: 60px; 
+    height: 40px; 
 }
 
 /**  old-styling
@@ -46,17 +46,18 @@ a, a:link, a:visited {
     font-size: 18px;
     color: #fff;
     width: 100%;
+    min-height: 120px;
     padding-top: 25px; padding-bottom: 25px;
 }
 
 #header .title {
-    position: absolute; right: 35px; top: 40px;
+    position: absolute; left: 45px; top: 25px;
     margin-top: 10px;
     color: #3a3a3a;
 }
 
 #header .message {
-    margin-left: 127px;
+    position: relative; left: 127px; top: 10px;
     font-size: 18px;
     color: #000;
 }
@@ -71,15 +72,14 @@ a.btn {
 }
 
 #header a.btn.random {
-    position: absolute; top: 20px; right: 40px;
+    position: absolute; top: 99px; right: 140px;
     text-decoration: none;
     padding-top: 7px;
     padding-bottom: 5px;
 }
 
 #header a.btn.sign-up {
-    position: absolute;
-    top: 20px; left: 40px;
+    position: absolute; top: 99px; right: 40px;
     text-decoration: none;
     padding-top: 7px;
     padding-bottom: 5px;
@@ -102,16 +102,12 @@ a.btn {
 }
 
 #sign-up-dialog {
-    /** position: absolute;
-    top: 40px; left: 40px; **/
-    margin-left: 40px;
-    margin-right: 20px;
-    margin-top: 40px;
+    position: absolute; right: 40px; top: 50px;
 }
 
 .mailfield {
     padding: 0px; border: 1px solid #333; height: 30px;
-    padding-left: 8px; width: 30%; min-width: 328px; /** top: -25px; left: 475px; */
+    padding-left: 8px; min-width: 348px; /** top: -25px; left: 475px; */
     margin-right: 10px; border: 0px solid #fff;
 }
 
@@ -129,9 +125,9 @@ a.btn {
 }
 
 #cover {
-    border: 1px solid #5b7b95;
+    /** border: 1px solid #5b7b95; **/
     margin-left: auto; margin-right: auto;
-    margin-top: 60px; width: 582px; padding: 10px;
+    margin-top: 0px; width: 480px; padding: 10px;
     /** -webkit-box-shadow: 0 2px 4px rgba(0,0,0,.25);
     -moz-box-shadow: 0 2px 4px rgba(0,0,0,.25);
     -ms-box-shadow: 0 2px 4px rgba(0,0,0,.25);
@@ -141,7 +137,7 @@ a.btn {
 
 #footer {
     margin-left: auto; margin-right: auto;
-    margin-top: 80px; width: 90%; padding: 10px;
+    margin-top: 20px; width: 450px; padding: 5px;
     text-align: center;
     margin-bottom: 40px;
     /** border-top: 1px dashed #a9a9a9; **/
@@ -150,11 +146,13 @@ a.btn {
 a.btn.twitter {
     float: right;
     border-top: 3px solid #fff;
+    margin-right: 5px;
 }
 
 a.btn.contact {
     float:left;
     border-top: 3px solid #fff;
+    margin-left: 5px;
 }
 
 a.btn.twitter:active,
