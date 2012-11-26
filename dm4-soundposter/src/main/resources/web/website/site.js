@@ -77,6 +77,11 @@ var site = new function () {
            $("#cover").html(cover)
         }
     }
+
+    this.openSoundposterInFullSize = function() {
+        var address = host + site.getFullSoundposterURL(coverPoster.id).url
+        window.location.href = address
+    }
     
     this.getFullSoundposterURL = function (posterId) {
         return request("GET", "/poster/url/" + posterId)

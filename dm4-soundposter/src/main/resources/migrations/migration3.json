@@ -6,52 +6,52 @@
             data_type_uri: "dm4.core.composite",
             assoc_defs: [
                 {
-                    part_topic_type_uri:  "dm4.webbrowser.url",
+                    part_type_uri:  "dm4.webbrowser.url",
                     part_cardinality_uri: "dm4.core.one",
                     assoc_type_uri:       "dm4.core.composition_def"
                 },
                 {
-                    part_topic_type_uri:  "com.soundposter.sound_name",
+                    part_type_uri:  "com.soundposter.sound_name",
                     part_cardinality_uri: "dm4.core.one",
                     assoc_type_uri:       "dm4.core.composition_def"
                 },
                 {
-                    part_topic_type_uri:  "com.soundposter.ordinal_number",
+                    part_type_uri:  "com.soundposter.ordinal_number",
                     part_cardinality_uri: "dm4.core.one",
                     assoc_type_uri:       "dm4.core.composition_def"
                 },
                 {
-                    part_topic_type_uri:    "com.soundposter.artist_name",
+                    part_type_uri:    "com.soundposter.artist_name",
                     part_cardinality_uri:   "dm4.core.many",
                     whole_cardinality_uri:  "dm4.core.one",
                     assoc_type_uri:         "dm4.core.aggregation_def"
                 },
                 {
-                    part_topic_type_uri:    "com.soundposter.album_name",
+                    part_type_uri:    "com.soundposter.album_name",
                     part_cardinality_uri:   "dm4.core.many",
                     whole_cardinality_uri:  "dm4.core.one",
                     assoc_type_uri:         "dm4.core.aggregation_def"
                 },
                 {
-                    part_topic_type_uri:  "com.soundposter.tag",
+                    part_type_uri:  "com.soundposter.tag",
                     part_cardinality_uri: "dm4.core.many",
                     whole_cardinality_uri:  "dm4.core.one",
                     assoc_type_uri:       "dm4.core.aggregation_def"
                 },
                 {
-                    part_topic_type_uri:    "com.soundposter.source_info",
+                    part_type_uri:    "com.soundposter.source_info",
                     part_cardinality_uri:   "dm4.core.one",
                     whole_cardinality_uri:  "dm4.core.one",
                     assoc_type_uri:         "dm4.core.composition_def"
                 },
                 {
-                    part_topic_type_uri:    "com.soundposter.author_info",
+                    part_type_uri:    "com.soundposter.author_info",
                     part_cardinality_uri:   "dm4.core.one",
                     whole_cardinality_uri:  "dm4.core.one",
                     assoc_type_uri:         "dm4.core.composition_def"
                 },
                 {
-                    part_topic_type_uri:    "com.soundposter.license_info",
+                    part_type_uri:    "com.soundposter.license_info",
                     part_cardinality_uri:   "dm4.core.one",
                     whole_cardinality_uri:  "dm4.core.one",
                     assoc_type_uri:         "dm4.core.composition_def"
@@ -76,28 +76,28 @@
             data_type_uri: "dm4.core.composite",
             assoc_defs: [
                 {
-                    part_topic_type_uri:  "com.soundposter.event_name",
+                    part_type_uri:  "com.soundposter.event_name",
                     part_cardinality_uri: "dm4.core.one",
                     assoc_type_uri:       "dm4.core.composition_def"
                 },
                 {
-                    part_topic_type_uri:    "com.soundposter.date_time",
+                    part_type_uri:    "com.soundposter.date_time",
                     part_cardinality_uri:   "dm4.core.one",
                     whole_cardinality_uri:  "dm4.core.one",
                     assoc_type_uri:         "dm4.core.aggregation_def"
                 },
                 {
-                    part_topic_type_uri:  "com.soundposter.location_name",
+                    part_type_uri:  "com.soundposter.location_name",
                     part_cardinality_uri: "dm4.core.one",
                     assoc_type_uri:       "dm4.core.composition_def"
                 },
                 {
-                    part_topic_type_uri:  "com.soundposter.location_lon",
+                    part_type_uri:  "com.soundposter.location_lon",
                     part_cardinality_uri: "dm4.core.one",
                     assoc_type_uri:       "dm4.core.composition_def"
                 },
                 {
-                    part_topic_type_uri:  "com.soundposter.location_lat",
+                    part_type_uri:  "com.soundposter.location_lat",
                     part_cardinality_uri: "dm4.core.one",
                     assoc_type_uri:       "dm4.core.composition_def"
                 }

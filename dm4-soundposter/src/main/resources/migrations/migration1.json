@@ -180,15 +180,15 @@
             index_mode_uris: ["dm4.core.key"],
             assoc_defs: [
                 {
-                    part_topic_type_uri:  "com.soundposter.thirdparty_id",
-                    whole_cardinality_uri: "dm4.core.one",
-                    part_cardinality_uri: "dm4.core.one",
-                    assoc_type_uri:       "dm4.core.aggregation_def"
+                    part_type_uri:    "com.soundposter.thirdparty_id",
+                    part_cardinality_uri:   "dm4.core.one",
+                    whole_cardinality_uri:  "dm4.core.one",
+                    assoc_type_uri:         "dm4.core.aggregation_def"
                 },
                 {
-                    part_topic_type_uri:  "com.soundposter.thirdparty_key",
-                    part_cardinality_uri: "dm4.core.one",
-                    assoc_type_uri:       "dm4.core.composition_def"
+                    part_type_uri:    "com.soundposter.thirdparty_key",
+                    part_cardinality_uri:   "dm4.core.one",
+                    assoc_type_uri:         "dm4.core.composition_def"
                 },
             ],
             "view_config_topics": [
