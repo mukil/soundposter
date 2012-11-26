@@ -42,20 +42,17 @@ public class SoundposterPlugin extends PluginActivator implements SoundposterSer
     private AccessControlService acService;
     private boolean isInitialized = false;
     
-    /**
-     * Initialize the migrated soundsets ACL-Entries.
-     */
-    public void initializePlugin() {
+    /** Initialize the migrated soundsets ACL-Entries. */
+    @Override
+    public void init() {
         isInitialized = true;
-        log.info(" -------------- SoundposterPlugin.. initializePlugin was called!!!");
         configureIfReady();
     }
     
     
     private void configureIfReady() {
-        if (isInitialized && acService != null) {
+        if (isInitialized) {
             checkACLsOfMigration();
-            log.info("fixed all ACL-Entries of all soundtracks during initialization of plugin");
         }
     }
     
@@ -301,10 +298,11 @@ public class SoundposterPlugin extends PluginActivator implements SoundposterSer
     private void checkACLsOfMigration() {
         ResultSet<RelatedTopic> sounds = dms.getTopics("com.soundposter.sound", false, 0, null);
         Iterator<RelatedTopic> soundset = sounds.getIterator();
+        log.info("initial ACL update of all imported soundtracks");
         while (soundset.hasNext()) {
             RelatedTopic sound = soundset.next();
             if (acService.getCreator(sound.getId()) == null) {
-                log.info("initial ACL update of all imported soundtracks");
+                log.info("initial ACL update of imported soundtrack " + sound.getSimpleValue().toString());
                 Topic admin = acService.getUsername("admin");
                 String adminName = admin.getSimpleValue().toString();
                 acService.setCreator(sound.getId(), adminName);
@@ -316,16 +314,20 @@ public class SoundposterPlugin extends PluginActivator implements SoundposterSer
     }
     
     /** --- Implementing PluginService Interfaces to consume AccessControlService --- */
-
-    @ConsumesService("de.deepamehta.plugins.facets.service.AccessControlService")
-    public void pluginServiceArrived(PluginService service) {
+    
+    @Override
+    @ConsumesService("de.deepamehta.plugins.accesscontrol.service.AccessControlService")
+    public void serviceArrived(PluginService service) {
+        log.info("serviceArrive...");
         if (service instanceof AccessControlService) {
+            log.info("AccessControlServer has ARRIVED.. Y'EAH\n\r\n\r");
             acService = (AccessControlService) service;
         }
     }
-
-    @ConsumesService("de.deepamehta.plugins.facets.service.AccessControlService")
-    public void pluginServiceGone(PluginService service) {
+    
+    @Override
+    @ConsumesService("de.deepamehta.plugins.accesscontrol.service.AccessControlService")
+    public void serviceGone(PluginService service) {
         if (service == acService) {
             acService = null;
         }
