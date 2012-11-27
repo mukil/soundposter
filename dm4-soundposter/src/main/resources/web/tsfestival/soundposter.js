@@ -279,7 +279,7 @@ var sp = new function() {
     
     this.render_sp_footer = function (id) {
         // ### support more links, clean up this method
-        var buy_link = sp.get_related_topics(id, 'dm4.webbrowser.web_resource', 'com.soundposter.buy_link')
+        var buy_link = sp.get_related_topics(id, 'dm4.webbrowser.web_resource', 'com.soundposter.buy_edge')
         if (buy_link.items.length == 0) {
           return;
         }
