@@ -71,8 +71,8 @@ var site = new function () {
         coverPoster = request("GET", "/poster/random")
         if (coverPoster != undefined) {
             var address = host + site.getFullSoundposterURL(coverPoster.id).url
-            var cover = "<iframe src=\""+ address +"\" frameBorder=\"0\" style=\"border: 0px solid #333;\""
-                +" width=\"480px\" height=\"600px\" id=\"posterframe\">Browser not compatible.</iframe>"
+            var cover = "<iframe src=\""+ address +"\" frameBorder=\"0\" style=\"border: 1px solid #333;\""
+                +" width=\"520px\" height=\"640px\" id=\"posterframe\">Browser not compatible.</iframe>"
                 +" <br/>"
            $("#cover").html(cover)
         }
