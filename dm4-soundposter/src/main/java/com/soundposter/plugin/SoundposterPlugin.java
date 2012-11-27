@@ -27,10 +27,11 @@ import javax.ws.rs.*;
 
 /**
  *
- * Soundposter Webservice
+ * Soundposter Webservice running on <http://www.soundposter.com>
+ * @version 0.9
+ * @author Copyright 2012, Malte Reißig <malte@mikromedia.de>
  * 
- * @author Malte Reißig <malte@mikromedia.de>
- * 
+ * Last modified: Nov 27, 2012
  */
 
 @Path("/")
@@ -298,7 +299,6 @@ public class SoundposterPlugin extends PluginActivator implements SoundposterSer
     private void checkACLsOfMigration() {
         ResultSet<RelatedTopic> sounds = dms.getTopics("com.soundposter.sound", false, 0, null);
         Iterator<RelatedTopic> soundset = sounds.getIterator();
-        log.info("initial ACL update of all imported soundtracks");
         while (soundset.hasNext()) {
             RelatedTopic sound = soundset.next();
             if (acService.getCreator(sound.getId()) == null) {
@@ -318,9 +318,7 @@ public class SoundposterPlugin extends PluginActivator implements SoundposterSer
     @Override
     @ConsumesService("de.deepamehta.plugins.accesscontrol.service.AccessControlService")
     public void serviceArrived(PluginService service) {
-        log.info("serviceArrive...");
         if (service instanceof AccessControlService) {
-            log.info("AccessControlServer has ARRIVED.. Y'EAH\n\r\n\r");
             acService = (AccessControlService) service;
         }
     }
