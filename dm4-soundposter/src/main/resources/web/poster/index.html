@@ -9,19 +9,25 @@
    
     <!-- link rel="stylesheet" href="/com.soundposter.webapp/style/not.the.skin.css"-->
     <!-- link rel="stylesheet" href="/com.soundposter.webapp/poster/circle.player.css"-->
+    <link rel="stylesheet" href="/com.soundposter.webapp/poster/base.css">
+    <link rel="stylesheet" href="/com.soundposter.webapp/poster/jPlayer.css">
 
-    <!-- Piwik
+    <!-- Piwik --> 
     <script type="text/javascript">
-      var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.soundposter.com/p/" : "http://stats.soundposter.com/p/");
-      document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-      </script><script type="text/javascript">
-      try {
-        var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 2);
-          piwikTracker.trackPageView();
-          piwikTracker.enableLinkTracking();
-      } catch( err ) {}
-    </script><noscript><p><img src="http://stats.soundposter.com/p/piwik.php?idsite=2" style="border:0" alt="" /></p></noscript>
-    <!-- End Piwik Tracking Tag -->
+        var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.soundposter.com/p/" : "http://stats.soundposter.com/p/");
+        document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+        </script><script type="text/javascript">
+        try {
+            var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 1);
+            piwikTracker.trackPageView();
+            piwikTracker.enableLinkTracking();
+        } catch( err ) {}
+    </script><noscript><p><img src="http://stats.soundposter.com/p/piwik.php?idsite=1" style="border:0" alt="" /></p></noscript>
+    <!-- End Piwik Tracking Code -->
+    
+    <!-- Piwik Image Tracker 
+        <img src="http://stats.soundposter.com/p/piwik.php?idsite=1&amp;rec=1" style="border:0" alt="" />
+    <!-- End Piwik -->
 
     <script type="text/javascript" src="/com.soundposter.webapp/script/js/jquery.min.js"></script>
     <script type="text/javascript" src="/com.soundposter.webapp/script/js/jquery-ui.min.js"></script>
@@ -38,8 +44,8 @@
     var ADAPT_CONFIG = { path: '/com.soundposter.webapp/poster/', dynamic: true, 
         range: [
             '0px    to 810px  = mobile.css',
-            '810px  to 2540px = jPlayer.css',
-            '2540px           = jPlayer.css'
+            '810px  to 2540px = poster.css',
+            '2540px           = poster.css'
         ]
     };
     // 

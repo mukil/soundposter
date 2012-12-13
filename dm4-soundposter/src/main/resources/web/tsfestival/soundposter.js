@@ -14,7 +14,7 @@ var sp = new function() {
     this.isPlaying = false
     this.playlist = new Array()
     this.texts = new Array()
-    this.core_service_uri = "http://new.soundposter.com"
+    this.core_service_uri = ""
       // this.core_service_uri = "http://localhost/sp/service"
     this.poster_graphics_uri = this.core_service_uri + "/filerepo/"
     this.icon_folder_path = this.core_service_uri + "/com.soundposter.webapp/images"
@@ -38,15 +38,6 @@ var sp = new function() {
         sp.tape = soundposter
 
         // fixme: find another quick fix for one stupid cross domain policy.. issue:
-        try {
-          if (parent.window.location.href != undefined) { // catches crossdomain failure, when a sp is embedded
-              if (parent.window.location.href.lastIndexOf("http://www.", 0) === 0) {
-                  var url = parent.window.location.href;
-                  var newUrl = url.substr(11);
-                  parent.window.location.href = 'http://'+newUrl;
-              }
-          }
-        } catch (err) {}
 
         var poster = sp.get_background_url(soundposter.id)
         if (poster != undefined) {

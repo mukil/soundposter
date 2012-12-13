@@ -18,6 +18,8 @@ public interface SoundposterService extends PluginService {
     String createSignupInformation(String signup, String name, ClientState clientState);
     
     ResultSet<RelatedTopic> getAllPublishedSoundposter(ClientState clientState);
+    
+    ResultSet<RelatedTopic> getAllFeaturedSoundposter(ClientState clientState);
 
     InputStream getSoundposterView(String profileAlias, String posterAlias, ClientState clientState);
     

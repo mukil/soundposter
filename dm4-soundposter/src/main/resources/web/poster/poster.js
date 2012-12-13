@@ -1,5 +1,5 @@
 
-var host = "http://localhost:8080"
+var host = ""
 var STATUS_INTERNAL = "Internal Server Error"
 var STATUS_NOT_FOUND = "Not Found"
 var STATUS_ACCESS_DENIED = "Unauthorized"
@@ -40,7 +40,7 @@ var poster = new function () {
         }
         
         poster.mod = Modernizr
-        console.log(poster.mod)
+        // console.log(poster.mod)
         
         return loaded
     }

@@ -13,9 +13,10 @@ var sp = new function() {
     this.latestTrack = undefined
     this.isPlaying = false
     this.playlist = new Array()
+    this.sounds = new Array()
     this.texts = new Array()
     // this.core_service_uri = "http://new.soundposter.com"
-    this.core_service_uri = "http://localhost:8080"
+    this.core_service_uri = ""
     this.poster_graphics_uri = this.core_service_uri + "/filerepo/"
     this.icon_folder_path = this.core_service_uri + "/com.soundposter.webapp/images"
     
@@ -38,15 +39,6 @@ var sp = new function() {
         sp.tape = soundposter
 
         // fixme: find another quick fix for one stupid cross domain policy.. issue:
-        try {
-          if (parent.window.location.href != undefined) { // catches crossdomain failure, when a sp is embedded
-              if (parent.window.location.href.lastIndexOf("http://www.", 0) === 0) {
-                  var url = parent.window.location.href;
-                  var newUrl = url.substr(11);
-                  parent.window.location.href = 'http://'+newUrl;
-              }
-          }
-        } catch (err) {}
 
         var poster = sp.get_background_url(soundposter.id)
         if (poster != undefined) {
@@ -107,13 +99,20 @@ var sp = new function() {
         for (topic in topicmap.topics) { // (function(topic) {
           // access the topic's properties:
           if (topicmap.topics[topic].type_uri == "com.soundposter.sound") {
-            sp.playlist.push(topicmap.topics[topic]);
-            if (sp.debugPlayback) console.log("TrackNr.: " + fullTrack.composite['com.soundposter.track_number'].value)
+            var topic = topicmap.topics[topic];
+            if (topic['visualization']['dm4.topicmaps.visibility'].value) {
+              // playlist [topic.id, topic['visualization']]
+              sp.playlist.push(topic);
+              // load full composite of each sound-item
+              sp.sounds.push(sp.get_topic_by_id(topic.id, true));
+              if (sp.debugPlayback) console.log("TrackNr.: " + fullTrack.composite['com.soundposter.track_number'].value)
+            }
           } else if (topicmap.topics[topic].type_uri == "com.soundposter.text") {
             sp.texts.push(topicmap.topics[topic]);
           }
         }
         sp.playlist.sort(sp.topic_sort); // alphabetical ascending
+        sp.sounds.sort(sp.track_sort); // ordinal number sorting ascending
         if (sp.debugPlayback) console.log(sp.playlist)
       }
     }
@@ -143,7 +142,7 @@ var sp = new function() {
             var itemX = visualization['dm4.topicmaps.x'].value
             var itemY = visualization['dm4.topicmaps.y'].value
             var element = "<div id=\"" + song.id + "\" class=\"posteritem\" style=\"position: absolute; top:"
-              + itemY + "px; left: " + itemX + "px;\">" + song.value.substr(2) + "</div>";
+              + itemY + "px; left: " + itemX + "px;\">" + song.value + "</div>";
             jQuery(".postercontainer").append(element)
           }
         }
@@ -248,18 +247,20 @@ var sp = new function() {
     }
     
     // compare "a" and "b" in some fashion, and return -1, 0, or 1
-    this.track_sort = function (a, b) {
-        var trackA = a.composite['com.soundposter.track_number']
-        var trackB = b.composite['com.soundposter.track_number']
+    this.track_sort = function (compositeA, compositeB) {
+        var trackA = compositeA.composite['com.soundposter.ordinal_number']
+        var trackB = compositeB.composite['com.soundposter.ordinal_number']
         if (trackA == undefined) {
+          if (sp.debugPlayback) console.log("trackA undefined ordinal number value")
           return -1
         } else if (trackB == undefined) {
+          if (sp.debugPlayback) console.log("trackB undefined ordinal number value")
           return 1
         }
         // 
         var valueA = trackA.value
         var valueB = trackB.value
-        if (valueA < valueB) // sort string ascending
+        if (valueA < valueB) // sort numeric ascending?
             return -1
         if (valueA > valueB)
             return 1
@@ -458,7 +459,7 @@ var sp = new function() {
       var address = sp.get_audiofile_url(sp.selected_track)
       if (sp.debugPlayback) console.log("playing stream " + address)
       if (address != undefined) {
-        my_jPlayer.jPlayer("setMedia", { mp3: address })
+        my_jPlayer.jPlayer("setMedia", {mp3: address})
         my_jPlayer.jPlayer("play")
         latestTrack = sp.selected_track
         // if something was played, remove start button from the ui..
@@ -478,18 +479,19 @@ var sp = new function() {
     }
     
     this.playTrackById = function (topicId) {
-      var idx = sp.getCurrentTrack()
-      var track = sp.playlist[idx]
-      if (track != undefined) {
-        jQuery('#' + track.id).removeClass('played')
+      var idx = sp.getCurrentSound()
+      var item = sp.sounds[idx]
+      if (item != undefined) {
+        jQuery('#' + item.id).removeClass('played')
       }
-      for (var track in sp.playlist) {
-        var topic = sp.playlist[track]
+      for (var track in sp.sounds) {
+        var topic = sp.sounds[track]
         if (topic.id == topicId) {
-          // ### select this topic.. /animate picture..
-          sp.selected_track = topic
+          // select this topic.. 
+          // sp.selected_track must be the playlist-item (with a visualization-property)
+          sp.selected_track = sp.getVisualizationTopicById(topic.id)
+          // animate picture..
           sp.play_selected_track()
-          jQuery("#trackMenu").remove()
           document.title = sp.tape.value + " - soundposter/"
         }
       } 
@@ -497,22 +499,22 @@ var sp = new function() {
     
     // start "file:///home/malted/source/v5/deepamehta-audioposter/target/deepamehta-audioposter-1.0.jar"
     this.playNextTrack = function () {
-      var idx = sp.getCurrentTrack()
-      var track = sp.playlist[idx]
+      var idx = sp.getCurrentSound()
+      var track = sp.sounds[idx]
       if (track != undefined) {
         jQuery('#' + track.id).removeClass('played')
       }
       var nextTrack = undefined
       // 
-      if (idx+1 == sp.playlist.length) {
-        nextTrack = sp.playlist[0] // play first again..
+      if (idx+1 == sp.sounds.length) {
+        nextTrack = sp.sounds[0] // play first again..
       } else {
-        nextTrack = sp.playlist[idx+1]
+        nextTrack = sp.sounds[idx+1]
       }
       // 
       if (nextTrack != undefined) {
         // ### dm4c.show_topic(dm4c.fetch_topic(nextTrack.id), "show", false, true)
-        sp.selected_track = nextTrack
+        sp.selected_track = sp.getVisualizationTopicById(nextTrack.id)
         var sound_name = sp.selected_track.value // .composite["com.soundposter.sound_name"].value
         selected_track_item.text(sound_name)
         sp.play_selected_track()
@@ -525,14 +527,14 @@ var sp = new function() {
       $("ul.control-area").show() // show soundposter-controls
       // start playing and hide start button..
       var nextTrack = undefined
-      if (sp.playlist.length >= 1) {
-        nextTrack = sp.playlist[0] // play first item in sequence..
+      if (sp.sounds.length >= 1) {
+        nextTrack = sp.sounds[0] // play first item in our (alredy sorted) sequence of sounds
         // console.log("playing " + nextTrack)
       }
       // 
       if (nextTrack != undefined) {
         // #### dm4c.show_topic(dm4c.fetch_topic(nextTrack.id), "show", false, true)
-        sp.selected_track = nextTrack
+        sp.selected_track = sp.getVisualizationTopicById(nextTrack.id)
         var sound_name = sp.selected_track.value // composite["com.soundposter.sound_name"].value
         selected_track_item.text(sound_name)
         sp.play_selected_track()
@@ -541,22 +543,22 @@ var sp = new function() {
     }
     
     this.playPrevTrack = function () {
-      var idx = sp.getCurrentTrack()
-      var track = sp.playlist[idx]
+      var idx = sp.getCurrentSound()
+      var track = sp.sounds[idx]
       if (track != undefined) {
         jQuery('#' + track.id).removeClass('played')
       }
       var nextTrack = undefined
       // 
       if (idx == 0) {
-        nextTrack = sp.playlist[sp.playlist.length-1] // play last
+        nextTrack = sp.sounds[sp.sounds.length-1] // play last
       } else {
-        nextTrack = sp.playlist[idx-1]
+        nextTrack = sp.sounds[idx-1]
       }
       // 
       if (nextTrack != undefined) {
         // ### dm4c.show_topic(dm4c.fetch_topic(nextTrack.id), "show", false, true)
-        sp.selected_track = nextTrack
+        sp.selected_track = sp.getVisualizationTopicById(nextTrack.id)
         var sound_name = sp.selected_track.value // .composite["com.soundposter.sound_name"].value
         selected_track_item.text(sound_name)
         sp.play_selected_track()
@@ -564,16 +566,31 @@ var sp = new function() {
       }
     }
     
-    this.getCurrentTrack = function () {
+    this.getVisualizationTopicById = function (item_id) {
       // 
-      var idx = 0
       for (var track in sp.playlist) {
         // 
-        var topic = sp.playlist[track]
+        var item = sp.playlist[track]
+        if (item_id != undefined) {
+          // 
+          if (item.id == item_id) {
+            // 
+            return item
+          }
+        }
+      }
+    }
+    
+    this.getCurrentSound = function () {
+      // 
+      var idx = 0
+      for (var track in sp.sounds) {
+        // 
+        var topic = sp.sounds[track]
         if (sp.selected_track != undefined) {
           // 
           if (topic.id == sp.selected_track.id) {
-            // 
+            // index of track in sp.sounds-array
             return idx
           }
           idx++
@@ -583,18 +600,21 @@ var sp = new function() {
     }
     
     this.toggleTrackList = function () {
-      if (sp.playlist.length == 0) {
+      if (sp.sounds.length == 0) {
+        if (sp.debugLayout) console.log("quit toggling tracklistMenu, sounds-array is empty..")
         // alert("playlist empty..")
         return ""
       }
       var tracklist = jQuery("#trackMenu")
       if (tracklist.length) {
+        if (sp.debugLayout) console.log("removing tracklistMenu, already present..")
         jQuery("#trackMenu").remove()
         jQuery(".selectedTrackname").attr("class", "myTrackname") // fixme: double class standards
       } else {
+        if (sp.debugLayout) console.log("adding tracklistMenu, not present yet..")
         var listing = '<div id="trackMenu"><ul>'
-        for (var track in sp.playlist) {
-          var topic = sp.playlist[track]
+        for (var track in sp.sounds) {
+          var topic = sp.sounds[track]
           if (topic.id != undefined && sp.selected_track == undefined) {
             // list all songs.. 
             // console.log(topic)
@@ -616,6 +636,7 @@ var sp = new function() {
     
     this.playListedTrack = function (e) {
       // 
+      sp.toggleTrackList();
       sp.playTrackById(e.target.id);
     }
     

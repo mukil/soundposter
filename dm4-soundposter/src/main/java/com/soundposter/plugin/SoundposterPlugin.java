@@ -159,12 +159,32 @@ public class SoundposterPlugin extends PluginActivator implements SoundposterSer
 
         return new ResultSet<RelatedTopic>(resultset.size(), resultset);
     }
+    
+    @GET
+    @Path("/poster/featured/all")
+    @Override
+    public ResultSet<RelatedTopic> getAllFeaturedSoundposter(@HeaderParam("Cookie") ClientState clientState) {
+        // performs no sanity check if poster is published, means featured poster is herewith publishde implicitly
+        ResultSet<RelatedTopic> soundposter = dms.getTopics("dm4.topicmaps.topicmap", true, 100, clientState);
+        Set<RelatedTopic> resultset = new LinkedHashSet<RelatedTopic>();
+        Iterator<RelatedTopic> results = soundposter.iterator();
+        while (results.hasNext()) {
+            RelatedTopic element = results.next();
+            if (element.getCompositeValue().has("com.soundposter.featured")) {
+                if (element.getCompositeValue().getBoolean("com.soundposter.featured")) {
+                    resultset.add(element);
+                }
+            }
+        }
+
+        return new ResultSet<RelatedTopic>(resultset.size(), resultset);
+    }
 
     @GET
     @Path("/poster/random")
     @Override
     public Topic getRandomPublishedSoundposter(@HeaderParam("Cookie") ClientState clientState) {
-        ResultSet<RelatedTopic> soundposter = getAllPublishedSoundposter(clientState);
+        ResultSet<RelatedTopic> soundposter = getAllFeaturedSoundposter(clientState);
         Random rand = new Random();
         Object[] results = soundposter.getItems().toArray();
         Topic randomOne = null;
