@@ -22,6 +22,8 @@ var sp = new function() {
     
     this.debugPlayback = false
     this.debugLayout = false
+    // Check out the last commit to see the changes for this commit message:
+    // see at https://github.com/mukil/soundposter/commit/a8774a83fa81dbfab40379558e1d0c3129007584
     // Notes for Android: Webkit-Settings needs to be changed;
     // I found out that at least the Option "Activate plugins" should be set to "Always", which is stupid, but works!
     // Also, zoom-level should be set to at least "Middle" or "Near" to show the correct style, which is also stupid!
