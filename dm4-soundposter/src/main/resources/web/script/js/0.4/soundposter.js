@@ -196,7 +196,7 @@ var sp = new function() {
             // 
             sp.movePosterAbout(moveX, moveY)
         })
-        // 
+        /**
         jQuery(".postercontainer").draggable({
           stop: function(event, ui) {
                 if (sp.debugLayout) console.log("drag.offsetX:" + sp.offsetX + " drag.offsetY: " + sp.offsetY)
@@ -204,7 +204,7 @@ var sp = new function() {
                 sp.offsetY = ui.position.top;
                 if (sp.debugLayout) console.log("drag.newOffsetX:" + sp.offsetX + " drag.newOffsetY: " + sp.offsetY)
           }
-        });
+        }); **/
       }
     }
     

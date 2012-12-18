@@ -16,7 +16,7 @@
 }
 
 .map-start {
-  position: fixed; bottom: 42%; z-index: 3; left: 45%;
+  position: fixed; bottom: 42%; z-index: 2043; left: 45%;
   margin-right: auto; margin-left: auto; width: 100px; height: 110px;
   background: url('/com.soundposter.webapp/images/gtk_play.png') no-repeat; cursor: pointer;
   /** color: #333; **/
