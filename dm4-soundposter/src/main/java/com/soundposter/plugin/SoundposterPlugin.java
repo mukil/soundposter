@@ -1,9 +1,9 @@
 package com.soundposter.plugin;
 
-import de.deepamehta.core.osgi.PluginActivator;
 import de.deepamehta.core.service.ClientState;
 
 import com.soundposter.plugin.service.SoundposterService;
+import com.sun.jersey.api.view.Viewable;
 import de.deepamehta.core.RelatedTopic;
 import de.deepamehta.core.ResultSet;
 import de.deepamehta.core.Topic;
@@ -16,6 +16,7 @@ import de.deepamehta.core.service.accesscontrol.Operation;
 import de.deepamehta.core.service.accesscontrol.UserRole;
 import de.deepamehta.plugins.accesscontrol.service.AccessControlService;
 import de.deepamehta.core.service.annotation.ConsumesService;
+import de.deepamehta.plugins.webactivator.WebActivatorPlugin;
 
 import java.io.InputStream;
 import java.util.Iterator;
@@ -37,7 +38,7 @@ import javax.ws.rs.*;
 @Path("/")
 @Consumes("application/json")
 @Produces("application/json")
-public class SoundposterPlugin extends PluginActivator implements SoundposterService {
+public class SoundposterPlugin extends WebActivatorPlugin implements SoundposterService {
 
     private Logger log = Logger.getLogger(getClass().getName());
     private AccessControlService acService;
@@ -48,6 +49,7 @@ public class SoundposterPlugin extends PluginActivator implements SoundposterSer
     public void init() {
         isInitialized = true;
         configureIfReady();
+        setupRenderContext();
     }
     
     
@@ -240,6 +242,25 @@ public class SoundposterPlugin extends PluginActivator implements SoundposterSer
             throw new WebApplicationException(e, 500);
         }
         return "{}";
+    }
+    
+    @GET
+    @Path("/posterview/{authorAlias}/{posterAlias}")
+    @Produces("text/html")
+    public Viewable getPosterView (@PathParam("authorAlias") String author, @PathParam("posterAlias") String poster) {
+        log.info("requesting posterview \""+ poster +"\" by author \"" + author + "\"");
+        Topic soundposter = getSoundposter(author, poster, null);
+        context.setVariable("name", soundposter.getSimpleValue());
+        String posterDescription = "";
+        if (soundposter.getCompositeValue().has("com.soundposter.description")) {
+            posterDescription = soundposter.getCompositeValue().getString("com.soundposter.description");
+        } else {
+            log.info("Requested soundposter does not have a detailed textual description.");
+        }
+        context.setVariable("authorAlias", author);
+        context.setVariable("posterAlias", poster);
+        context.setVariable("posterText", posterDescription);
+        return view("poster");
     }
     
     // ------------------------------------------------------------------------------------------------ Private Methods

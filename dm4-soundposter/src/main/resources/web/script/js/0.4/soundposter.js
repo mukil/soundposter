@@ -449,7 +449,8 @@ var sp = new function() {
       }) // catch flash error warning
       initialized = true // helper flag to initialize player just once in a soundposters lifetime
     }
-     
+
+    // This is the main "play" method which every other method uses, after having set sp.selected_track.
     this.play_selected_track = function() {
       sp.hideStartButton();
       // animate
@@ -471,6 +472,7 @@ var sp = new function() {
         var sound_name = sp.selected_track.value // .composite["com.soundposter.sound_name"].value
         selected_track_item.text(sound_name)
         // 
+        piwikTracker.trackGoal(1, sound_name);
         jQuery('#' + sp.selected_track.id).addClass('played')
         jQuery('.map-info').html("♪ " + sp.selected_track.value)
         // jQuery('.map-info').fadeIn(500).delay(2700).fadeOut(500)

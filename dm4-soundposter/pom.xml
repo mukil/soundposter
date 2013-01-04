@@ -49,6 +49,12 @@
             <version>4.0.13-SNAPSHOT</version>       <!-- newer version of DeepaMehta is available. -->
         </dependency>                                <!-- If your plugin has no Java code at all,   -->
         
+        <dependency>
+            <groupId>de.deepamehta</groupId>
+            <artifactId>deepamehta-webactivator</artifactId>
+            <version>0.3</version>
+        </dependency>
+        
     </dependencies>                                  <!-- the dependencies element is not needed.   -->
     
     <build>

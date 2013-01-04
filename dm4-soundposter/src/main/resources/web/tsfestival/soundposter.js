@@ -429,7 +429,7 @@ var sp = new function() {
             }
           // backup, unselection of highlighted track
         },
-        swfPath: "swf",
+        swfPath: "/com.soundposter.webapp/tsfestival/swf",
         cssSelectorAncestor: "#jp_container",
         supplied: "mp3, m4a, ogg, wav",
         wmode: "window",
