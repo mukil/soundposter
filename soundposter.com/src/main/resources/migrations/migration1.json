@@ -545,22 +545,6 @@
                     }
                 }
             ]
-        },
-		{
-            value:         "Poster Subtitle",
-            uri:           "com.soundposter.poster_subtitle",
-            data_type_uri: "dm4.core.text",
-            index_mode_uris: ["dm4.core.fulltext"],
-            "view_config_topics": [
-                {
-                    "type_uri": "dm4.webclient.view_config",
-                    "composite": {
-                        "dm4.webclient.add_to_create_menu": false,
-                        "dm4.webclient.is_searchable_unit": false,
-                        "dm4.webclient.rows": 1
-                    }
-                }
-            ]
         }
     ], "assoc_types": [
         {
@@ -588,7 +572,7 @@
                     }
                 }
             ]
-
+            
         },
         {
             "value": "More Link",
@@ -642,7 +626,7 @@
                 }
             ]
         }
-
+        
     ],
     "topics": [
         {
@@ -710,6 +694,6 @@
             "uri": "com.soundposter.display_text_labels",
             "type_uri": "com.soundposter.display_options"
         }
-
+        
     ]
 }

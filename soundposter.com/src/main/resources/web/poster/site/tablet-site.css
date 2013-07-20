@@ -1,0 +1,35 @@
+
+body.page {
+	margin-top: 20px;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-bottom: 70px;
+}
+
+div.area {
+	margin: 20px;
+}
+
+div.header {
+	background-color: #fff;
+	color: #000;
+}
+
+div.logo.area {
+	background-image: url("/com.soundposter.website/images/soundposter_button_blue_with_arrow_out_600.png");
+	height: 400px; width: 400px;
+	background-size: 400px;
+	background-repeat: no-repeat;
+	background-position-x: center;
+	background-position-y: center;
+	margin-left: auto; margin-right: auto;
+	cursor: pointer;
+}
+
+ul.top-menu {
+	position: fixed; top: 0px; right: 30px;
+}
+
+ul.menu {
+	position: relative; top: 20px; left: 30px;
+}

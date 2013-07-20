@@ -1,0 +1,123 @@
+
+body {
+	overflow: hidden;
+}
+
+#soundposter {
+  font-family: "Myriad Pro Regular", "Trebuchet MS", sans-serif;
+  width: 100%; height: 100%; margin: 0px; padding: 0px;
+  position: relative; left: 0px; top: 0px;
+}
+
+#start-mobile-play {
+  display: hidden;
+}
+
+.map-info,
+.start-button {
+  display: none;
+  z-index: 107;
+}
+
+.map-start {
+  position: fixed; bottom: 42%; z-index: 2043; left: 45%;
+  margin-right: auto; margin-left: auto; width: 100px; height: 110px;
+  background: url('/com.soundposter.webapp/images/gtk_play.png') no-repeat; cursor: pointer;
+  /** color: #333; **/
+  color: #40b0e2; padding: 6px;
+}
+
+.mapname {
+  color: #40b0e2; padding-left: 2px; background-color: #000;
+}
+
+#mapName {
+  padding-top: 2px;
+}
+
+ul.control-area {
+    display: inline; position: fixed; top: 5px; left: 10px; margin: 0px; padding: 0px;
+}
+
+ul.info-area {
+    display: inline; position: fixed; top: 5px; left: 385px; margin: 0px; padding: 0px;
+    z-index: 107;
+}
+
+.player a, .player a:link, .player a:visited, .player a:focus, .player a:active {
+  background-color: #000; border: 1px solid #000;
+  color: #383838; text-decoration: none; padding: 5px; padding-bottom: 0px; padding-top: 18px;
+  border-bottom: 1px solid #000;
+}
+
+.player ul {
+  min-width: 1200px; overflow: hidden; width:100%;
+}
+
+.player a:hover {
+  background-color: #000; border: 1px solid #fff; border-bottom: 1px solid #000;
+  color: #fff; text-decoration: none; padding: 5px; padding-bottom: 0px; padding-top: 18px;
+}
+
+.jp-seek-bar {
+  width: 100%; height: 100%;
+  background-color: #3d3d3d;
+  cursor: pointer;
+  position: relative; top: 0px; left: 0px;
+  /** background: url("jplayer.blue.monday.jpg") repeat-x scroll 0pt -202px transparent **/
+}
+
+#trackMenu {
+  position: absolute; left: 345px; top: 20px; z-index: 112;
+  font-family: "Myriad Pro Regular","Trebuchet MS", sans-serif;
+}
+
+#trackMenu ul {
+  list-style-type: none; cursor: pointer; padding-top: 0px;
+}
+
+#trackMenu li {
+  background-color: #fff; color: #000; height: 16px; padding-left: 6px; padding-right: 6px;
+  padding-top: 4px; padding-bottom: 4px; border-left: 1px solid #fff; border-right: 1px solid #fff;
+}
+
+#trackMenu li:hover {
+  background-color: #000; color: #fff; border-left: 1px solid #fff; border-right: 1px solid #fff;
+}
+
+@-moz-document url-prefix() {
+    .myTrackname {
+      background-position-y: 7px !important;
+      background-position-x: 11px !important;
+    }
+
+    .selectedTrackname {
+      background-position-y: 7px !important;
+      background-position-x: 11px !important;
+    }
+}
+
+.selectedTrackname {
+  border-left: 1px solid #fff; border-right: 1px solid #fff; background-color: #000; color: #fff !important;
+  position: relative; top: 3px; cursor: pointer; padding-left: 36px; padding-right: 6px;
+  background: url(../images/down_arrow_20.png) 7px 0px no-repeat;
+  /** background-repeat: no-repeat;
+  background-position-y: 3px;
+  background-position-x: 7px; **/
+}
+
+.selectedTrackname:hover {
+  border-left: 1px solid #fff; border-right: 1px solid #fff; background-color: #000; color: #fff;
+  position: relative; top: 3px;
+}
+
+.myTrackname {
+  /** position: absolute; left: 240px; top: 15px; **/
+  position: relative; top: 0px; border-left: 1px solid #000; border-right: 1px solid #000;
+  cursor: pointer; padding-left: 36px; padding-right: 6px; background-color: #000; color: #fff !important;
+  background: url(../images/down_arrow_20.png) 7px 0px no-repeat;
+}
+
+.myTrackname:hover {
+  border-left: 1px solid #fff; border-right: 1px solid #fff; background-color: #000; color: #fff;
+}

@@ -1,0 +1,21 @@
+
+
+#contact {
+  position: absolute; left: 20px; bottom: 10px; color: #3d3d3d !important; display: none;
+}
+
+#support-link-2 {
+  position: absolute; right: 20px; bottom: 10px; color: #3d3d3d !important; z-index: 100;
+}
+
+#support-link-2 a {
+  font-style: italic; color: #3d3d3d !important; font-weight: bold; text-decoration: none;
+}
+
+#support-link-2 p {
+  padding: 0; margin: 0;
+}
+/** background-color: #000; padding-top: 5px;
+  height: 35px; width:210px; position: absolute; bottom: 20px; right: 0px;
+  -moz-border-radius-topleft: 50px; border-top-left-radius: 50px;  **/
+

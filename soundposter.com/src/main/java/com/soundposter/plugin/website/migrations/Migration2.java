@@ -1,4 +1,4 @@
-package com.soundposter.plugin.migrations;
+package com.soundposter.plugin.website.migrations;
 
 import de.deepamehta.core.AssociationType;
 import de.deepamehta.core.Topic;
@@ -30,8 +30,6 @@ public class Migration2 extends Migration {
             "dm4.topicmaps.topicmap", "com.soundposter.featured", "dm4.core.one", "dm4.core.one"));
         topicmap.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
             "dm4.topicmaps.topicmap", "com.soundposter.web_alias", "dm4.core.one", "dm4.core.one"));
-        topicmap.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
-            "dm4.topicmaps.topicmap", "com.soundposter.poster_subtitle", "dm4.core.one", "dm4.core.one"));
         topicmap.addAssocDef(new AssociationDefinitionModel("dm4.core.aggregation_def",
             "dm4.topicmaps.topicmap", "com.soundposter.display_options", "dm4.core.one", "dm4.core.many"));
         topicmap.addAssocDef(new AssociationDefinitionModel("dm4.core.aggregation_def",

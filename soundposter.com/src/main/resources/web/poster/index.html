@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>soundposter is loading ...</title>
+    <meta name="viewport" content="width=device-width; height=device-height; initial-scale=1.2;"/>
+
+    <!-- Note: We are proudly build on free and open source tools, namely jQuery, Modernizr and DeepaMehta 4. -->
+   
+    <!-- link rel="stylesheet" href="/com.soundposter.webapp/style/not.the.skin.css"-->
+    <!-- link rel="stylesheet" href="/com.soundposter.webapp/poster/circle.player.css"-->
+    <link rel="stylesheet" href="/com.soundposter.webapp/poster/base.css">
+    <link rel="stylesheet" href="/com.soundposter.webapp/poster/jPlayer.css">
+
+    <!-- Piwik --> 
+    <script type="text/javascript">
+        var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.soundposter.com/p/" : "http://stats.soundposter.com/p/");
+        document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+        </script><script type="text/javascript">
+        try {
+            var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 1);
+            piwikTracker.trackPageView();
+            piwikTracker.enableLinkTracking();
+        } catch( err ) {}
+    </script><noscript><p><img src="http://stats.soundposter.com/p/piwik.php?idsite=1" style="border:0" alt="" /></p></noscript>
+    <!-- End Piwik Tracking Code -->
+    
+    <!-- Piwik Image Tracker 
+        <img src="http://stats.soundposter.com/p/piwik.php?idsite=1&amp;rec=1" style="border:0" alt="" />
+    <!-- End Piwik -->
+
+    <script type="text/javascript" src="/com.soundposter.webapp/script/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/com.soundposter.webapp/script/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/com.soundposter.webapp/script/js/jquery.transform.js"></script>
+    <script type="text/javascript" src="/com.soundposter.webapp/script/js/jquery.grab.js"></script>
+    <script type="text/javascript" src="/com.soundposter.webapp/script/js/jquery.jplayer.min.js"></script>
+    <script type="text/javascript" src="/com.soundposter.webapp/script/js/mod.csstransforms.min.js"></script>
+    <script type="text/javascript" src="/com.soundposter.webapp/poster/poster.js"></script>
+    <!--<script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>-->
+    <!-- script type="text/javascript" src="http://modernizr.com/downloads/modernizr-latest.js"></script-->
+    <script type="text/javascript" src="/com.soundposter.webapp/script/vendor/modernizr/custom.36000.js"></script>
+    <script type="text/javascript">
+    // 
+    var ADAPT_CONFIG = { path: '/com.soundposter.webapp/poster/', dynamic: true, 
+        range: [
+            '0px    to 810px  = mobile.css',
+            '810px  to 2540px = poster.css',
+            '2540px           = poster.css'
+        ]
+    };
+    // 
+    $(document).ready(function() {
+
+      var head= document.getElementsByTagName('head')[0];
+      var script= document.createElement('script');
+      script.type= 'text/javascript';
+      script.onreadystatechange = function () {
+        if (this.readyState == 'complete') { loader(); }
+      }
+      script.onload = loader;
+      script.src= '/com.soundposter.webapp/script/js/0.4/soundposter.js';
+      head.appendChild(script);
+      // 
+    });
+    // 
+    function loader() {
+        
+        sp.setup()
+
+        var soundposter = poster.initializeByPath()
+
+        if (soundposter != undefined) {
+            sp.load(soundposter)
+        }
+        
+    }
+    </script>
+    <script type="text/javascript" src="/com.soundposter.webapp/script/js/adapt.min.js"></script>
+</head>
+<body>
+    <!-- The jPlayer div must not be hidden. Keep it at the root of the body element to avoid any such problems. -->
+    <div id="jquery_jplayer_1" class="cp-jplayer"></div>
+    <div class="map-start" onclick="javascript:sp.playFromStart()"></div>
+    <!-- -->
+    <div id="soundposter">
+
+      <!-- A Wrapper to establish a new coord -->
+      <div class="postercontainer"></div>
+      <!-- A wrapper to emulate use in a webpage and center align -->
+      <div class="prototype-wrapper">
+        <!-- The container for the interface can go where you want to display it. Show and hide it as you need. -->
+        <div id="cp_container_1" class="cp-container">
+            <div class="cp-buffer-holder"> <!-- .cp-gt50 only needed when buffer is > than 50% -->
+            <div class="cp-buffer-1"></div>
+            <div class="cp-buffer-2"></div>
+          </div>
+          <div class="cp-progress-holder"> <!-- .cp-gt50 only needed when progress is > than 50% -->
+            <div class="cp-progress-1"></div>
+            <div class="cp-progress-2"></div>
+          </div>
+          <div class="cp-circle-control"></div>
+          <ul class="cp-controls">
+            <li><a href="#" class="cp-play" tabindex="1">play</a></li>
+            <!-- Needs the inline style here, or jQuery.show() uses display:inline instead of display:block -->
+            <li><a href="#" class="cp-pause" style="display:none;" tabindex="1">pause</a></li> 
+          </ul>
+        </div>
+
+      </div>
+      
+    </div>
+    
+  </body>
+</html>

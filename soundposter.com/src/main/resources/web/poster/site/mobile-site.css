@@ -1,0 +1,44 @@
+
+body.page {
+	margin-top: 20px;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-bottom: 70px;
+}
+
+div.area {
+	margin: 10px;
+}
+
+div.header {
+	background-color: #fff;
+	color: #000;
+}
+
+ul.top-menu {
+	position: fixed; top: 0px; right: 10px;
+}
+
+div.logo.area {
+	text-align: center;
+	background-color: white;
+	border: 0px solid transparent;
+	color: #343434;
+	font-weight: 900;
+	font-size: 1.4em;
+}
+
+div.logo.area {
+	background-image: url("/com.soundposter.website/images/soundposter_button_blue_with_arrow_out_600.png");
+	height: 240px; width: 240px;
+	background-size: 240px;
+	background-repeat: no-repeat;
+	background-position-x: center;
+	background-position-y: center;
+	margin-left: auto; margin-right: auto;
+	cursor: pointer;
+}
+
+ul.menu {
+	position: relative; top: 20px; left: 10px;
+}

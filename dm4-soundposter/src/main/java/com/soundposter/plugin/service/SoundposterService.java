@@ -8,25 +8,25 @@ import de.deepamehta.core.service.PluginService;
 import java.io.InputStream;
 
 public interface SoundposterService extends PluginService {
-    
-    Topic getSoundposter(String profileAlias, String posterAlias, ClientState clientState);
-    
+
+    /* Topic getSoundposter(String profileAlias, String posterAlias, ClientState clientState);
+
     Topic getRandomPublishedSoundposter(ClientState clientState);
-    
+
     String getPublishedSoundposterUrl(String posterId, ClientState clientState);
-    
+
     String createSignupInformation(String signup, String name, ClientState clientState);
-    
+
     ResultSet<RelatedTopic> getAllPublishedSoundposter(ClientState clientState);
-    
+
     ResultSet<RelatedTopic> getAllFeaturedSoundposter(ClientState clientState);
 
     InputStream getSoundposterView(String profileAlias, String posterAlias, ClientState clientState);
-    
+
     InputStream getWebsiteView(String pathInfo, ClientState clientState);
-    
+
     // InputStream getRootView(ClientState clientState);
-    
-    InputStream getSiteIcon(ClientState clientState);
+
+    InputStream getSiteIcon(ClientState clientState); **/
 
 }

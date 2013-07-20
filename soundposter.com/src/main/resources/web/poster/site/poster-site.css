@@ -1,0 +1,12 @@
+
+div.area {
+	margin: 30px;
+}
+
+ul.top-menu {
+	position: fixed; top: 0px; right: 40px;
+}
+
+ul.menu {
+	position: relative; bottom: 10px; left: 40px;
+}
