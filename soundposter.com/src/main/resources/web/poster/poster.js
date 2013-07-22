@@ -46,7 +46,7 @@ var poster = new function () {
         // initialize nodes
         this.initialize_nodes() // loads playlist and rendering_options
 
-        // initialize poster graphic
+        // initialize poster graphic first, and when loaded, the whole soundposter player
         $container = $('div.postergraphic')
         $image = $('img.graphic')
         $image.attr('src', graphicUrl)
@@ -70,6 +70,9 @@ var poster = new function () {
             poster.move_poster_about(moveX, moveY)
             poster.show_graphics()
 
+            // in any case initialize setlist dialog
+            poster.initialize_setlist_dialog()
+
             poster.path = "/posterview/" + username + "/" + webalias
             if (trackId != 0) {
                 // dive deep into a soundposter
@@ -81,6 +84,7 @@ var poster = new function () {
             } else {
                 // start soundposter
                 poster.show_interactives(poster.play_from_start)
+                poster.show_setlist_dialog()
             }
             return null
         })
@@ -128,6 +132,39 @@ var poster = new function () {
         }
         $('a.support-link').text(poster.data.buylabel)
         $('a.support-link').attr("href", poster.data.buylink)
+    }
+
+    this.initialize_setlist_dialog = function () {
+        var $listing = $('ul.listing')
+            $listing.empty()
+            $listing.listview({headerTheme: "a"})
+        for (var item in poster.sounds) {
+            var sound = poster.sounds[item]
+            //
+            var $playnow = $('<a href="javascript:;" id="play-' + sound.id + '" class="playnow">Play now</a>')
+                $playnow.click(function(e) {
+                    poster.set_sound_visuals_by_id(parseInt(e.target.id.substr(5)))
+                    poster.play_selected_track()
+                })
+            var $entry = $('<div id="entry-' + sound.id + '" class="element">')
+                $entry.append($playnow)
+                $entry.append(sound.value)
+            var $listitem = $('<li>')
+                $listitem.append($entry)
+            //
+            $listing.append($listitem)
+        }
+    }
+
+    this.show_setlist_dialog = function () {
+        $('ul.listing').show('fast')
+        $('ul.listing').listview( 'refresh' );
+        // $('div.setlist').show('fast')
+    }
+
+    this.hide_setlist_dialog = function () {
+        // $('div.setlist').hide('fast')
+        $('ul.listing').hide('fast')
     }
 
     this.initialize_player = function () {
@@ -401,6 +438,16 @@ var poster = new function () {
         $('#jp_container_1').fadeIn({duration: 900});
     }
 
+    this.remove_style_from_currently_played_items = function (itemId) {
+        $('#' + itemId).removeClass('playing')
+        $('ul.listing div#entry-' + itemId).removeClass('playing')
+    }
+
+    this.add_style_to_currently_played_items = function (itemId) {
+        $('#' + itemId).addClass('playing')
+        $('ul.listing div#entry-' + itemId).addClass('playing')
+    }
+
     this.toggle_interactives = function () {
         $('#interactives').toggle({duration: 900});
     }
@@ -490,7 +537,8 @@ var poster = new function () {
             // piwikTracker.trackGoal(1, sound_name);
             // some gui rubbish after each play
             poster.hide_interactives()
-            $('#' + poster.selected_track.id).addClass('played')
+            // some more
+            poster.add_style_to_currently_played_items(poster.selected_track.id)
             // $('.map-info').html("♪ " + this.selected_track.value)
             // $('.map-info').fadeIn(500).delay(2700).fadeOut(500)
             // $('.map-info').hide()
@@ -501,7 +549,7 @@ var poster = new function () {
         var idx = poster.get_current_sound_idx()
         var track = poster.sounds[idx]
         if (track != undefined) {
-            jQuery('#' + track.id).removeClass('played')
+            poster.remove_style_from_currently_played_items(track.id)
         }
         var nextTrack = undefined
         //
@@ -521,7 +569,7 @@ var poster = new function () {
       var idx = poster.get_current_sound_idx()
         var track = poster.sounds[idx]
         if (track != undefined) {
-            jQuery('#' + track.id).removeClass('played')
+            poster.remove_style_from_currently_played_items(track.id)
         }
         var nextTrack = undefined
         //
@@ -575,7 +623,7 @@ var poster = new function () {
         var idx = this.get_current_sound_idx()
         var played_item = this.sounds[idx]
         if (played_item != undefined) {
-            $('#' + played_item.id).removeClass('played')
+            poster.remove_style_from_currently_played_items(played_item.id)
         }
         for (var track in this.sounds) {
             var item = this.sounds[track]
@@ -587,7 +635,6 @@ var poster = new function () {
             }
         }
     }
-
 
     /** when topicmaps are changed, this must be called..needs some topicmap_loaded_hook **/
     this.load_playlist= function(topicmap) {
