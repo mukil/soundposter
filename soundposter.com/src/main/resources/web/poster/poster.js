@@ -41,6 +41,8 @@ var poster = new function () {
         this.perform_audio_check()
         // jplayer (flash-fallback) integration
         this.initialize_player()
+        // hide play-controls for now
+        this.hide_buttons()
         // parse and render support-links
         this.initialize_outlinks(hyperlink)
         // initialize nodes
@@ -97,7 +99,7 @@ var poster = new function () {
     this.initialize_nodes = function () {
 
         // sort and initialize elements
-        this.load_playlist(this.data) // fixme: do server side
+        this.load_lists(this.data) // fixme: do server side
 
         // var soundposter_name = this.data.info.value
         // var soundposter_tags = this.data.info.composite["com.soundposter.tag"]
@@ -130,35 +132,102 @@ var poster = new function () {
             poster.data.buylabel = hyperlink.composite['dm4.webbrowser.web_resource_description'].value;
             poster.data.buylabel = poster.data.buylabel.toString() // .replaceAll("<p>", "").replaceAll("</p>", "")
         }
-        $('a.support-link').text(poster.data.buylabel)
+        $('a.support-link').text("Artist Link")
         $('a.support-link').attr("href", poster.data.buylink)
     }
 
     this.initialize_setlist_dialog = function () {
+        // todo: if (tracklist is active), seekbar should be within tracklist-item
         var $listing = $('ul.listing')
             $listing.empty()
             $listing.listview({headerTheme: "a"})
         for (var item in poster.sounds) {
             var sound = poster.sounds[item]
+            var sound_name = (sound.composite.hasOwnProperty('com.soundposter.sound_name')) ? sound.composite['com.soundposter.sound_name'].value  : ""
+            var album_name = (sound.composite.hasOwnProperty('com.soundposter.album_name')) ? sound.composite['com.soundposter.album_name'][0].value  : "" // just render 1st album at hand
+            var artists_name = (sound.composite.hasOwnProperty('com.soundposter.artist_name')) ? sound.composite['com.soundposter.artist_name'].value  : [""]
+            var artist_name = ""
+            var idx = 0
+            for (var name in artists_name) {
+                if (artists_name.hasOwnProperty('value')) {
+                    artist_name += artists_name[name].value
+                    if (artists_name.length > 1 && idx !== artists_name.length) artist_name += ", "
+                    idx++
+                }
+            }
+            var author_info = (sound.composite.hasOwnProperty('com.soundposter.author_info')) ? sound.composite['com.soundposter.author_info'].value  : ""
+            var license_info = (sound.composite.hasOwnProperty('com.soundposter.license_info')) ? sound.composite['com.soundposter.license_info'].value  : ""
+            var track_position = (sound.composite.hasOwnProperty('com.soundposter.ordinal_number')) ? parseInt(sound.composite['com.soundposter.ordinal_number'].value) : 0
+            var source_info = (sound.composite.hasOwnProperty('com.soundposter.ordinal_number')) ? sound.composite['com.soundposter.source_info'].value : "com.soundposter.unspecified_source"
+            var stream_info = (sound.composite.hasOwnProperty('dm4.webbrowser.url')) ? sound.composite['dm4.webbrowser.url'].value : ""
+            var stream_provider_class = "unspecified-stream"
+            var stream_provider_placeholder = "unspecified-stream"
+            if (stream_info.indexOf("soundcloud") != -1) {
+                stream_provider_class = "soundcloud-stream"
+                stream_provider_placeholder = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+            } else if (stream_info.indexOf("poppler") != -1) {
+                stream_provider_class = "bandcamp-stream"
+                stream_provider_placeholder = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+                    + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+            }
             //
-            var $playnow = $('<a href="javascript:;" id="play-' + sound.id + '" class="playnow">Play now</a>')
+            // todo: console.log("Source-Info => " + source_info)
+            // todo: console.log("License-Info => " + license_info)
+            // todo: console.log("Author-Info => " + author_info)
+            // todo: console.log("Stream-Info => " + stream_info)
+            //
+            var $playnow = $('<a href="javascript:;" id="play-' + sound.id + '" class="playnow">')
+                $playnow.append('<span id="posi-' + sound.id + '" class="track-position">' + track_position + '</span>')
+                $playnow.append('<span id="name-' + sound.id + '" class="track-name">' + sound_name + '</span>')
+                $playnow.append('<span id="arts-' + sound.id + '" class="artist-name">' + artist_name + '</span>')
+                $playnow.append('<span id="albu-' + sound.id + '" class="album-name">' + album_name + '</span>')
                 $playnow.click(function(e) {
                     poster.set_sound_visuals_by_id(parseInt(e.target.id.substr(5)))
                     poster.play_selected_track()
                 })
+            var $share = $('<a href="javascript:;" id="share-' + sound.id + '" class="share">Share</a>')
+                $share.click(function(e) {
+                    poster.share(parseInt(e.target.id.substr(5)))
+                })
             var $entry = $('<div id="entry-' + sound.id + '" class="element">')
+            var $source_btn = $('<span class="source-info">')
                 $entry.append($playnow)
-                $entry.append(sound.value)
+                $entry.append($source_btn)
+                if (source_info !== "") {
+                    $source_btn.append('<a class="' +stream_provider_class+ '" href="' +source_info+ '"'
+                    + 'title="' +source_info+ '" ' + 'target="_blank">' +stream_provider_placeholder+ '</a>')
+                } else {
+                    $source_btn.append('<a class="' +stream_provider_class+ ' no-interaction" href="javascript:;"'
+                    + 'title="' +source_info+ '">' +stream_provider_placeholder+ '</a>')
+                }
             var $listitem = $('<li>')
                 $listitem.append($entry)
             //
             $listing.append($listitem)
         }
+        // list-divider: $listing.append('<li data-role="list-divider" data-divider-theme="a">Spot X</a>')
     }
 
-    this.show_setlist_dialog = function () {
+    this.share = function () {
+
+    }
+
+    this.toggle_tracklist_view = function () {
+        // toggle-button
+        var $tracklist_button = $('a.tracklist-toogle')
+        if ($tracklist_button.hasClass('active')) {
+            $tracklist_button.removeClass('active')
+        } else {
+            $tracklist_button.addClass('active')
+        }
+        // list-view
+        $('ul.listing').slideToggle('fast')
+        $('ul.listing').listview('refresh')
+    }
+
+    this.show_setlist_dialog = function () {v
         $('ul.listing').show('fast')
-        $('ul.listing').listview( 'refresh' );
+        $('ul.listing').listview('refresh')
         // $('div.setlist').show('fast')
     }
 
@@ -223,8 +292,12 @@ var poster = new function () {
                         + "<br/>The author of this soundposter will be notified.<br/>")
                 } else if (event.jPlayer.error.type == "e_flash") {
                     console.log('ERROR: An error occured during flash-playback of media file.')
+                } else if (event.jPlayer.error.type == "e_flash_disabled") {
+                    poster.show_modal_notification("It looks like Adobe Flash is disabled. Please activate it.")
                 } else if (event.jPlayer.error.type == "e_no_support") {
                     console.log('WARNING: Browser does not support any format supplied.')
+                } else if (event.jPlayer.error.type == "e_no_solution") {
+                    console.log('WARNING: Browser does not offer a solution for the compressed audio-format supplied.')
                 } else if (event.jPlayer.error.type == "e_version") {
                     console.log('ERROR: JS/Flash Version Mismatch')
                 } else {
@@ -237,7 +310,7 @@ var poster = new function () {
             // backup, unselection of highlighted track
             },
             swfPath: "/com.soundposter.website/script/js",
-            supplied: "mp3, m4a",
+            supplied: "mp3",
             solution: "html, flash",
             errorAlerts: false
         });
@@ -259,12 +332,20 @@ var poster = new function () {
             if (value === "") value = "Not supported"
             poster.show_notification(key + ': ' + value)
         }
+        console.log(poster.mod)
+        //
+        poster.show_notification((poster.mod.svg == false) ? "svg: Not supported" : "svg: OK")
+        poster.show_notification((poster.mod.inlinesvg == false) ? "inlinesvg: Not supported" : "inlinesvg: OK")
+        poster.show_notification((poster.mod.audiodata == false) ? "audiodata: Not supported" : "audiodata: OK")
+        poster.show_notification((poster.mod.webaudio == false) ? "webaudio: Not supported" : "webaudio: OK")
+        poster.show_notification((poster.mod.indexeddb == false) ? "indexeddb: Not supported" : "indexeddb: OK")
+        poster.show_notification((poster.mod.boxshado == false) ? "box shadow: Not supported" : "box shadow: OK")
     }
 
     this.show_notification = function (text) {
         // todo: if notification area is already visible, do not animate it
         var $message = $('<div>').text(text)
-            $message.fadeIn('fast').delay(2000).fadeOut('slow')
+            $message.fadeIn('fast').delay(3500).fadeOut('slow')
         $notifications.append($message)
         /** .show('fast', function() {
             $notifications.delay(6000, function(){
@@ -318,12 +399,12 @@ var poster = new function () {
         var graphicRadius = 50
         var graphicX = $image.width() / 2 + (graphicRadius / 2)
         var graphicY = $image.height() / 2 + (graphicRadius / 2)
-        poster.paper = Raphael("interactives", 6321, 6321)
+        poster.paper = Raphael("interactives", 6321, 6321) // todo: dont set max raphael-canvas-size
         // poster.paper.image(graphicUrl, 1000, 1000, 2000, 2000)
         // and lets place our interactives not in the center of the postergraphic, but at the spot of the sound
         if (pos != undefined) {
             graphicX = pos.x + 55
-            graphicY = pos.y - 70
+            graphicY = pos.y - 65
         }
         // Creates circle
         var circle = poster.paper.circle(graphicX, graphicY, graphicRadius)
@@ -379,8 +460,8 @@ var poster = new function () {
             for (var item in this.texts) {
                 var text = this.texts[item]
                 var visualization = text['visualization']
-                var itemX = visualization['dm4.topicmaps.x'].value
-                var itemY = visualization['dm4.topicmaps.y'].value
+                var itemX = visualization['dm4.topicmaps.x'].value - 25
+                var itemY = visualization['dm4.topicmaps.y'].value - 25
                 var element = "<div class=\"postertext\" style=\"position: absolute; top:" + itemY + "px; left: " + itemX
                 + "px;\">" + text.value + "</div>";
                 $(".postergraphic").append(element)
@@ -401,15 +482,17 @@ var poster = new function () {
                     + itemY + "px; left: " + itemX + "px;\">" + song.value + "</div>");
                     $element.click(function(e) {
                         // sound click handler
-                        console.log("clicked... " + e.target.id)
                         if (poster.selected_track == undefined) {
+                            //
                             console.log("Compelte Start (Visualize and then play): Settg sound id to => " + e.target.id)
                             poster.set_sound_visuals_by_id(e.target.id)
                             poster.play_selected_track()
                         } else if (poster.selected_track.id == e.target.id) {
+                            //
                             if (poster.now_playing) {
                                 poster.pause_selected_track()
                             } else {
+                                // fixme: might occur if selected_track (was set by url) but not the media object (yet)
                                 console.log("not playing... " + e.target.id)
                                 // continue with current track
                                 $player.jPlayer("play")
@@ -435,7 +518,22 @@ var poster = new function () {
     }
 
     this.show_buttons = function () {
-        $('#jp_container_1').fadeIn({duration: 900});
+        // $('a.jp-play').fadeIn({duration: 900})
+        // $('a.jp-pause').fadeIn({duration: 900})
+        // $('a.jp-prev').fadeIn({duration: 900})
+        // $('a.jp-next').fadeIn({duration: 900})
+        //
+        $('a.jp-play').show()
+        $('a.jp-pause').show()
+        $('a.jp-prev').show()
+        $('a.jp-next').show()
+    }
+
+    this.hide_buttons = function () {
+        $('a.jp-play').hide()
+        $('a.jp-pause').hide()
+        $('a.jp-prev').hide()
+        $('a.jp-next').hide()
     }
 
     this.remove_style_from_currently_played_items = function (itemId) {
@@ -637,10 +735,11 @@ var poster = new function () {
     }
 
     /** when topicmaps are changed, this must be called..needs some topicmap_loaded_hook **/
-    this.load_playlist= function(topicmap) {
+    this.load_lists = function(topicmap) {
         // get selected topicmap
         poster.playlist = new Array()
         poster.sounds = new Array()
+        poster.texts = new Array()
         //
         if (topicmap != undefined) {
             // iterate through topics
@@ -792,7 +891,8 @@ var poster = new function () {
      */
     this.get_audiofile_url = function (url_topic) {
 
-        var audiofile = this.get_topic_by_id(url_topic.id, true)
+        // var audiofile = this.get_topic_by_id(url_topic.id, true)
+        var audiofile = this.load_sound_from_local_setlist(url_topic.id)
         if (audiofile.composite["dm4.webbrowser.url"] != undefined) {
             if (debugModel) console.log("fetched url: " + audiofile.composite["dm4.webbrowser.url"].value)
             return audiofile.composite["dm4.webbrowser.url"].value

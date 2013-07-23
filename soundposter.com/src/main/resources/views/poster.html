@@ -11,7 +11,7 @@
         <meta name="description" th:content="${description}" />
         <meta name="title" th:content="${name}" />
         <meta name="author" th:content="${author}" />
-        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.2"/>
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=.9, user-scalable=no"/>
 
         <!-- Note: We are proudly build on free and open source tools, namely jQuery, Modernizr and DeepaMehta 4. -->
 
@@ -88,10 +88,10 @@
         <div class="postergraphic">
             <div id="interactives"></div>
             <img src="" class="graphic"/>
-            <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="100" height="210"
+            <!-- object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="100" height="210"
                     id="dummy_movie" align="middle">
                 <param name="movie" value="/com.soundposter.website/script/js/Jplayer.swf"/>
-            </object>
+            </object-->
         </div>
 
         <div class="notifications"></div>
@@ -115,6 +115,7 @@
                 <a href="javascript:;" class="jp-pause btn">Pause</a>
                 <a href="javascript:;" class="jp-prev btn">Previous</a>
                 <a href="javascript:;" class="jp-next btn">Next</a>
+                <a href="javascript:poster.toggle_tracklist_view()" class="tracklist-toogle">Setlist</a>
             </div>
         </div>
 
@@ -126,16 +127,18 @@
             </ul>
         </div-->
 
+        <div class="lower-menu">
+            <a class="support-link" href="javascript:;" target="_blank" rel="publisher"></a>
+            <!-- a class="share" href="javascript:poster.share()">Share</a-->
+        </div>
+
         <!-- div data-role="page" id="tracklist"-->
-            <ul class="listing" data-role="listview" data-filter="true">
+            <ul class="listing" data-role="listview" data-theme="a">
                 <li>
                     <div class="element">Track One: This is how we do it.</div>
                 </li>
             </ul>
-
         <!-- /div-->
-
-        <a href="javascript:;" class="support-link" target="_blank" rel="publisher"></a>
 
         <!--noscript>
             <p><img src="http://stats.soundposter.com/p/piwik.php?idsite=1" style="border:0" alt="" /></p>

@@ -82,6 +82,77 @@ public class WebsitePlugin extends WebActivatorPlugin {
     }
 
 	@GET
+    @Path("/manifest.webapp")
+    @Produces("application/x-web-app-manifest+json")
+    public String getFirefoxOSWebAppManifest(@HeaderParam("Cookie") ClientState clientState) {
+        // todo: fix ApacheConfig with "AddType application/x-web-app-manifest+json .webapp"
+        try {
+            log.info("Requesting FirefoxOS Web-App Manifest");
+            JSONObject manifest = new JSONObject();
+            manifest.put("version", "0.1-SNAPSHOT");
+            manifest.put("name", "Soundposter");
+            manifest.put("description", "Soundposter - Audible websites with images");
+            manifest.put("launch_path", "/");
+            manifest.put("type", "web");
+            manifest.put("icons", new JSONObject()
+                    .put("128", "/com.soundposter.website/images/soundposter_play_button_600.png")); // todo:
+            manifest.put("developer", new JSONObject()
+                    .put("name", "Malte Reißig")
+                    .put("url", "http://www.mikromedia.de"));
+            manifest.put("install_allowed_from", new JSONArray().put("*"));
+            manifest.put("locales", new JSONObject()  // todo:
+                    .put("en", new JSONObject()
+                        .put("description", "The Soundposter Web-App is an audio-player for streaming sounds "
+                            + "with images.")
+                        .put("developer", "http://www.mikromedia.de")));
+            manifest.put("default_locale", "en");  // todo:
+            manifest.put("permissions", new JSONObject()
+                    .put("audio-channel-normal", true)
+                    .put("audio-channel-content", true)); // todo: check FFOS audio?
+            // we would like to have the permission for "backgroundservice", "systemXHR" to load data in "packaged" app?
+            /** {
+                "version": "0.1",
+                "name": "Your App",
+                "description": "Your new awesome Open Web App",
+                "launch_path": "/index.html",
+                "icons": {
+                    "16": "/img/icons/mortar-16.png",
+                    "48": "/img/icons/mortar-48.png",
+                    "128": "/img/icons/mortar-128.png"
+                },
+                "developer": {
+                    "name": "Your Name",
+                    "url": "http://yourawesomeapp.com"
+                },
+                "installs_allowed_from": ["*"],
+                "locales": {
+                    "es": {
+                        "description": "Su nueva aplicación impresionante Open Web",
+                        "developer": {
+                            "url": "http://yourawesomeapp.com"
+                        }
+                    },
+                    "it": {
+                        "description": "Il vostro nuovo fantastico Open Web App",
+                        "developer": {
+                            "url": "http://yourawesomeapp.com"
+                        }
+                    }
+                },
+                "default_locale": "en",
+                "permissions": {
+                    "systemXHR": {}
+                }
+            } **/
+
+            return manifest.toString();
+        } catch (JSONException ex) {
+            Logger.getLogger(WebsitePlugin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "Error";
+    }
+
+	@GET
     @Path("/sign-up")
     @Produces(MediaType.TEXT_HTML)
     public Viewable getSignupPage(@HeaderParam("Cookie") ClientState clientState) {
