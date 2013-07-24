@@ -29,3 +29,11 @@ ul.listing {
 ul.listing li.ui-li-static.ui-li div.element {
     margin-right: 15px;
 }
+
+ul.top-menu {
+    right: 10px;
+}
+
+div.notifications {
+    top: 50px; max-width: 340px;
+}

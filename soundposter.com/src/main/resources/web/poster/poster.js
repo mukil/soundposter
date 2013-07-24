@@ -40,7 +40,7 @@ var poster = new function () {
         poster.data = meta
         poster.data.setlist = setlist
         //
-        this.perform_audio_check()
+        this.perform_browser_check()
         // jplayer (flash-fallback) integration
         this.initialize_player()
         // hide play-controls for now
@@ -333,7 +333,7 @@ var poster = new function () {
 
     }
 
-    this.perform_audio_check = function() {
+    this.perform_browser_check = function() {
 
         // initialize modernizr
         poster.mod = Modernizr
@@ -345,7 +345,6 @@ var poster = new function () {
             if (value === "") value = "Not supported"
             poster.show_notification(key + ': ' + value)
         }
-        console.log(poster.mod)
         //
         poster.show_notification((poster.mod.svg == false) ? "svg: Not supported" : "svg: OK")
         poster.show_notification((poster.mod.inlinesvg == false) ? "inlinesvg: Not supported" : "inlinesvg: OK")
@@ -353,6 +352,7 @@ var poster = new function () {
         poster.show_notification((poster.mod.webaudio == false) ? "webaudio: Not supported" : "webaudio: OK")
         poster.show_notification((poster.mod.indexeddb == false) ? "indexeddb: Not supported" : "indexeddb: OK")
         poster.show_notification((poster.mod.boxshado == false) ? "box shadow: Not supported" : "box shadow: OK")
+        poster.show_notification("user-agent: " + navigator.userAgent)
     }
 
     this.show_notification = function (text) {
