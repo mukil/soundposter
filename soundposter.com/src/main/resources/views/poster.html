@@ -82,63 +82,68 @@
 
         <!-- jQuery Mobile inserts a page-containing div itself directly here.-->
 
-        <div id="soundsystem" class="control player"></div>
-        <audio src="" id="channel" class="control">HTML5 audio not supported</audio>
+        <div data-role="page" class="jquery-mobile-container">
 
-        <div class="postergraphic">
-            <div id="interactives"></div>
-            <img src="" class="graphic"/>
-            <!-- object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="100" height="210"
-                    id="dummy_movie" align="middle">
-                <param name="movie" value="/com.soundposter.website/script/js/Jplayer.swf"/>
-            </object-->
-        </div>
+            <div id="soundsystem" class="control player"></div>
+            <audio src="" id="channel" class="control">HTML5 audio not supported</audio>
 
-        <div class="notifications"></div>
-
-        <ul class="top-menu">
-            <li><a id="postername" class="active" href="javascript:;" th:text="${name}">Name</a></li>
-            <li><a id="sign-up" href="/sign-up">Sign-up</a></li>
-            <li><a id="browse" href="/browse">Browse</a></li>
-        </ul>
-
-        <div class="controls">
-            <div id="selection">Trackname</div>
-            <div id="jp_container_1">
-                <div class="jp-progress">
-                    <div class="jp-seek-bar">
-                        <div class="jp-play-bar"></div>
-                    </div>
-                    <div class="timer"></div>
-                </div>
-                <a href="javascript:;" class="jp-play btn">Play</a>
-                <a href="javascript:;" class="jp-pause btn">Pause</a>
-                <a href="javascript:;" class="jp-prev btn">Previous</a>
-                <a href="javascript:;" class="jp-next btn">Next</a>
-                <a href="javascript:poster.toggle_tracklist_view()" class="tracklist-toogle">Setlist</a>
+            <div class="postergraphic">
+                <div id="interactives"></div>
+                <img src="" class="graphic"/>
+                <!-- object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="100" height="210"
+                        id="dummy_movie" align="middle">
+                    <param name="movie" value="/com.soundposter.website/script/js/Jplayer.swf"/>
+                </object-->
             </div>
-        </div>
 
-        <!-- div class="setlist" data-filter="true">
-            <ul>
-                <li>
-                    <div class="element">Track One: This is how we do it.</div>
-                </li>
+            <div class="notifications"></div>
+
+            <ul class="top-menu">
+                <li><a id="postername" class="active" href="javascript:;" th:text="${name}">Name</a></li>
+                <li><a id="sign-up" href="/sign-up">Sign-up</a></li>
+                <li><a id="browse" href="/browse">Browse</a></li>
             </ul>
-        </div-->
 
-        <div class="lower-menu">
-            <a class="support-link" href="javascript:;" target="_blank" rel="publisher"></a>
-            <!-- a class="share" href="javascript:poster.share()">Share</a-->
+            <div class="controls">
+                <div id="selection">Trackname</div>
+                <div id="jp_container_1">
+                    <div class="jp-progress">
+                        <div class="jp-seek-bar">
+                            <div class="jp-play-bar"></div>
+                        </div>
+                        <div class="timer"></div>
+                    </div>
+                    <a href="javascript:;" class="jp-play btn">Play</a>
+                    <a href="javascript:;" class="jp-pause btn">Pause</a>
+                    <a href="javascript:;" class="jp-prev btn">Previous</a>
+                    <a href="javascript:;" class="jp-next btn">Next</a>
+                    <a href="javascript:poster.toggle_tracklist_view()" class="tracklist-toogle">Setlist</a>
+                </div>
+            </div>
+
+            <!-- div class="setlist" data-filter="true">
+                <ul>
+                    <li>
+                        <div class="element">Track One: This is how we do it.</div>
+                    </li>
+                </ul>
+            </div-->
+
+            <div class="lower-menu">
+                <a class="support-link" href="javascript:;" target="_blank" rel="publisher"></a>
+                <!-- a class="share" href="javascript:poster.share()">Share</a-->
+            </div>
+
+
+            <div data-role="content" id="tracklist">
+                <ul class="listing" data-role="listview" data-theme="a">
+                    <li>
+                        <div class="element">Track One: This is how we do it.</div>
+                    </li>
+                </ul>
+            </div>
+            <!-- end jquerymobile page -->
         </div>
-
-        <!-- div data-role="page" id="tracklist"-->
-            <ul class="listing" data-role="listview" data-theme="a">
-                <li>
-                    <div class="element">Track One: This is how we do it.</div>
-                </li>
-            </ul>
-        <!-- /div-->
 
         <!--noscript>
             <p><img src="http://stats.soundposter.com/p/piwik.php?idsite=1" style="border:0" alt="" /></p>

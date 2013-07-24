@@ -140,7 +140,10 @@ var poster = new function () {
         // todo: if (tracklist is active), seekbar should be within tracklist-item
         var $listing = $('ul.listing')
             $listing.empty()
-            $listing.listview({headerTheme: "a"})
+            $listing.listview({headerTheme: "a",
+                swipe: function (e) { poster.stop_propagation(e) },
+                mousemove: function (e) { poster.stop_propagation(e) }
+            })
         for (var item in poster.sounds) {
             var sound = poster.sounds[item]
             var sound_name = (sound.composite.hasOwnProperty('com.soundposter.sound_name')) ? sound.composite['com.soundposter.sound_name'].value  : ""
@@ -210,6 +213,14 @@ var poster = new function () {
 
     this.share = function () {
 
+    }
+
+    this.stop_propagation = function (e) {
+        console.log("trying to stop event propagation in general and on registered elements...")
+        // stop event propagation, like quirksmode proposed it
+        if (!e) e = window.event;
+        e.cancelBubble = true;
+        if (e.stopPropagation) e.stopPropagation();
     }
 
     this.toggle_tracklist_view = function () {

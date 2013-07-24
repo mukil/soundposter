@@ -144,7 +144,7 @@ body.ui-body-c {
 
 .lower-menu {
     position: fixed;
-    bottom: 0px; right: 0px;
+    bottom: 0px; right: 30px;
     margin-left: auto;
     margin-right: auto;
     z-index: 200;
@@ -161,10 +161,15 @@ body.ui-body-c {
 a.share,
 a.support-link {
     display: inline-block;
-    color: #fff;
+    color: #999;
     text-decoration: none;
     padding: 5px;
     padding-top: 7px;
+}
+
+a.share:hover,
+a.support-link:hover {
+    color: #fff;
 }
 
 ul.listing li div.element a {
@@ -216,14 +221,14 @@ div.controls {
 
 div.controls #selection {
     display: none;
-    position: relative; top: 2px; right: 0px;
+    position: fixed; top: 90px; right: 30px;
     /** background-color: #fff; color: #000; **/ color: #fff;
     padding: 5px; padding-left: 10px; padding-right: 10px;
     opacity: 1;
 }
 
 div.controls #jp_container_1 {
-    position: absolute; top: 20px; right: 0px;
+    position: fixed; top: 60px; right: 30px;
     text-align: right; width: 290px;
 }
 
@@ -273,7 +278,7 @@ a.tracklist-toogle,
 a.jp-play, a.jp-pause,
 a.jp-next, a.jp-prev {
     text-decoration: none;
-    color: #fff; /** background-color: #fff; **/
+    color: #999; /** background-color: #fff; **/
     background: linear-gradient(to bottom, #3a3a3a 0%,#333333 100%);
     -moz-linear-gradient(top, #3a3a3a 0%, #333333 100%);
     -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3a3a3a), color-stop(100%,#333333));
@@ -292,13 +297,14 @@ a.jp-next, a.jp-prev {
 a.tracklist-toogle:hover,
 a.tracklist-toogle.active {
     background: #40B0E2;
-    color: #000;
+    color: #fff;
 }
 
-a.jp-play:hover, a.jp-pause:hover,
-a.jp-next:hover, a.jp-prev:hover  {
-    background: #fff;
-    color: #000;
+#jp_container_1 a.jp-play:hover,
+#jp_container_1 a.jp-pause:hover,
+#jp_container_1 a.jp-next:hover,
+#jp_container_1 a.jp-prev:hover  {
+    color: #fff;
 }
 
 div.posteritem.playing {

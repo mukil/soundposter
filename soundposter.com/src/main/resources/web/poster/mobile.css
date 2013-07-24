@@ -8,6 +8,16 @@ a.tracklist-toggle {
     padding: 5px;
 }
 
+a.tracklist-toogle,
+a.jp-play, a.jp-pause,
+a.jp-next, a.jp-prev {
+    color: #fff;
+}
+
+a.tracklist-toogle.active {
+    background: #40b0e2;
+}
+
 #sign-up {
     display: none;
 }
