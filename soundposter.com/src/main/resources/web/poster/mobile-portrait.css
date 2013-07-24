@@ -2,8 +2,10 @@
 a.share,
 a.support-link,
 a.tracklist-toggle {
+    display: inline-block;
     color: #fff;
-    padding: 10px;
+    text-decoration: none;
+    padding: 5px;
 }
 
 a.tracklist-toogle,
@@ -14,6 +16,14 @@ a.jp-next, a.jp-prev {
 
 a.tracklist-toogle.active {
     background: #40b0e2;
+}
+
+#sign-up {
+    display: none;
+}
+
+ul.listing {
+    max-height: 65%;
 }
 
 ul.listing li.ui-li-static.ui-li div.element {

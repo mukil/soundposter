@@ -50,9 +50,10 @@
 
             var ADAPT_CONFIG = { path: '/com.soundposter.website/poster/', dynamic: true,
                 range: [
-                    '0px    to 510px	= mobile.css',
-                    '510px  to 840px	= tablet.css',
-                    '840px  to 1380px	= poster.css',
+                    '0px    to 410px	= mobile-portrait.css',
+                    '410px  to 610px	= mobile-panorama.css',
+                    '610px  to 1050px	= tablet.css',
+                    '1050px  to 1380px	= poster.css',
                     '1380px				= panorama.css'
                 ]
             }
@@ -90,10 +91,6 @@
             <div class="postergraphic">
                 <div id="interactives"></div>
                 <img src="" class="graphic"/>
-                <!-- object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="100" height="210"
-                        id="dummy_movie" align="middle">
-                    <param name="movie" value="/com.soundposter.website/script/js/Jplayer.swf"/>
-                </object-->
             </div>
 
             <div class="notifications"></div>

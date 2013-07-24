@@ -35,6 +35,8 @@ var poster = new function () {
 
     this.initialize = function(meta, graphicUrl, hyperlink, setlist, trackId) {
 
+        // fixme: if one of these is not set, we may get a syntax error during initialization?
+
         poster.data = meta
         poster.data.setlist = setlist
         //
@@ -86,7 +88,7 @@ var poster = new function () {
             } else {
                 // start soundposter
                 poster.show_interactives(poster.play_from_start)
-                poster.show_setlist_dialog()
+                // poster.show_setlist_dialog()
             }
             return null
         })
