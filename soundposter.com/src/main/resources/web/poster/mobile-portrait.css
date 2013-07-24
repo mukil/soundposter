@@ -26,10 +26,11 @@ ul.listing {
     max-height: 65%;
 }
 
-ul.listing li.ui-li-static.ui-li div.element {
-    margin-right: 15px;
+ul.listing .ui-li-static.ui-li {
+    margin-right: 10px;
 }
 
+div.controls #jp_container_1,
 ul.top-menu {
     right: 10px;
 }

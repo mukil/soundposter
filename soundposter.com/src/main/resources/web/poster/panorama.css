@@ -2,3 +2,7 @@
 #interactives {
     z-index: 111;
 }
+
+ul.listing .ui-li-static.ui-li {
+    margin-right: 20px;
+}

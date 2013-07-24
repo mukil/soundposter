@@ -166,7 +166,7 @@ var poster = new function () {
             var source_info = (sound.composite.hasOwnProperty('com.soundposter.ordinal_number')) ? sound.composite['com.soundposter.source_info'].value : "com.soundposter.unspecified_source"
             var stream_info = (sound.composite.hasOwnProperty('dm4.webbrowser.url')) ? sound.composite['dm4.webbrowser.url'].value : ""
             var stream_provider_class = "unspecified-stream"
-            var stream_provider_placeholder = "unspecified-stream"
+            var stream_provider_placeholder = ""
             if (stream_info.indexOf("soundcloud") != -1) {
                 stream_provider_class = "soundcloud-stream"
                 stream_provider_placeholder = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
@@ -194,7 +194,7 @@ var poster = new function () {
                 $share.click(function(e) {
                     poster.share(parseInt(e.target.id.substr(5)))
                 })
-            var $entry = $('<div id="entry-' + sound.id + '" class="element">')
+            var $entry = $('<div class="element">')
             var $source_btn = $('<span class="source-info">')
                 $entry.append($playnow)
                 $entry.append($source_btn)
@@ -202,10 +202,10 @@ var poster = new function () {
                     $source_btn.append('<a class="' +stream_provider_class+ '" href="' +source_info+ '"'
                     + 'title="' +source_info+ '" ' + 'target="_blank">' +stream_provider_placeholder+ '</a>')
                 } else {
-                    $source_btn.append('<a class="' +stream_provider_class+ ' no-interaction" href="javascript:;"'
+                    $source_btn.append('<a class="' +stream_provider_class+ ' unavailable" href="javascript:;"'
                     + 'title="' +source_info+ '">' +stream_provider_placeholder+ '</a>')
                 }
-            var $listitem = $('<li>')
+            var $listitem = $('<li id="entry-' + sound.id + '">')
                 $listitem.append($entry)
             //
             $listing.append($listitem)
@@ -551,12 +551,12 @@ var poster = new function () {
 
     this.remove_style_from_currently_played_items = function (itemId) {
         $('#' + itemId).removeClass('playing')
-        $('ul.listing div#entry-' + itemId).removeClass('playing')
+        $('ul.listing li#entry-' + itemId).removeClass('playing')
     }
 
     this.add_style_to_currently_played_items = function (itemId) {
         $('#' + itemId).addClass('playing')
-        $('ul.listing div#entry-' + itemId).addClass('playing')
+        $('ul.listing li#entry-' + itemId).addClass('playing')
     }
 
     this.toggle_interactives = function () {

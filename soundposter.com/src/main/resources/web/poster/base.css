@@ -343,10 +343,26 @@ div.posteritem.playing {
     text-shadow: 0px -1px 2rgba(255,255,255,1); **/
 /** } **/
 
-ul.listing li div.element {
-    /** text-shadow: 0px -1px rgba(255,255,255,1); **/
-    padding-left: 5px;
-    overflow: hidden;
+ul.listing .ui-li-static.ui-li {
+    padding: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.7), inset 0 1px 1px rgba(255,255,255,.2);
+    background-color: #3a3a3a;
+    background: linear-gradient(to bottom, #3a3a3a 0%,#333333 100%);
+    -moz-linear-gradient(top, #3a3a3a 0%, #333333 100%);
+    -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3a3a3a), color-stop(100%,#333333));
+    -o-linear-gradient(top, #3a3a3a 0%,#333333 100%);
+    -ms-linear-gradient(top, #3a3a3a 0%,#333333 100%);
+    progid:DXImageTransform.Microsoft.gradient( startColorstr='#3a3a3a', endColorstr='#333333',GradientType=0 );
+    margin-top: 7px; margin-right: 15px;
+}
+
+ul.listing .ui-li-static.ui-li.ui-last-child {
+    margin-bottom: 15px;
+}
+
+ul.listing .ui-li-static.ui-li.playing {
+    background: #40B0E2;
+    color: #fff;
 }
 
 /** ul.listing li.ui-li-static.ui-li div.element.playing {
@@ -383,15 +399,18 @@ ul.listing div.element .source-info a {
     border: 0px solid transparent;
 }
 
-ul.listing div.element .source-info a.no-interaction {
-    cursor: default;
-}
-
 ul.listing div.element .source-info a.soundcloud-stream {
     background: url("/com.soundposter.website/images/80x50_orange.png") no-repeat 0 5px;
     background-size: contain;
     text-decoration: none;
     width: 60px;
+}
+
+ul.listing div.element .source-info a.unspecified-stream.unavailable,
+ul.listing div.element .source-info a.bandcamp-stream.unavailable,
+ul.listing div.element .source-info a.soundcloud-stream.unavailable {
+    opacity: .5;
+    cursor: default;
 }
 
 ul.listing div.element .source-info a.bandcamp-stream {

@@ -16,6 +16,11 @@ a.tracklist-toogle.active {
     background: #40b0e2;
 }
 
-ul.listing li.ui-li-static.ui-li div.element {
+ul.listing .ui-li-static.ui-li {
     margin-right: 15px;
+}
+
+div.controls #jp_container_1,
+ul.top-menu {
+    right: 15px;
 }
