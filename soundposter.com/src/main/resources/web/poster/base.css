@@ -85,15 +85,16 @@ ul.listing {
     color: #fff;
 }
 
-ul.listing li {
+
+/** ul.listing li {
     list-style: none;
     margin: 0px; padding: 5px;
     margin-right: 30px;
-}
+} **/
 
 /** Start: Override ui.jquery-mobile theme */
 
-ul.listing li.ui-li-static.ui-li div.element {
+/** ul.listing li.ui-li-static.ui-li div.element {
     box-shadow: 0 1px 3px rgba(0,0,0,.7), inset 0 1px 1px rgba(255,255,255,.2);
     background-color: #3a3a3a;
     background: linear-gradient(to bottom, #3a3a3a 0%,#333333 100%);
@@ -104,28 +105,54 @@ ul.listing li.ui-li-static.ui-li div.element {
     progid:DXImageTransform.Microsoft.gradient( startColorstr='#3a3a3a', endColorstr='#333333',GradientType=0 );
     padding: 5px; padding-top: 7px;
     margin-right: 50px;
-}
+} **/
 
-ul.listing li.ui-li-static.ui-li {
-    display: inline-block;
+/** ul.listing li.ui-li-static.ui-li {
+    display: inline-block; **/
     /** text-shadow: 0px -1px rgba(255,255,255,1); **/
-    padding: 5px;
+    /** padding: 5px;
     padding-left: 0px;
     width: 100%;
     margin-right: 30px;
     background: transparent;
     background-image: none;
-}
+} **/
 
-ul.listing .ui-btn-up-c {
+/** ul.listing .ui-btn-up-c {
     color: #fff;
     font-weight: normal;
     border: 0px solid transparent;
-}
+} **/
 
 ul.listing {
     overflow-y: scroll;
     overflow-x: hidden;
+}
+
+.poster .ui-body-c .ui-link,
+.poster .ui-btn-up-a {
+    font-weight: normal;
+    font-family: "Myriad Pro Regular","Trebuchet MS", sans-serif;
+    text-shadow: none;
+    text-decoration: none;
+}
+
+.poster .listing .playnow {
+    color: #fff;
+    text-decoration: none;
+}
+
+.lower-menu .ui-body-c .ui-link:hover,
+.poster .controls .ui-body-c .ui-link:hover {
+    color: #999;
+}
+
+.poster .controls .ui-body-c .ui-link:hover {
+    color: #fff;
+}
+
+poster. .controls .ui-body-c .ui-link:active {
+    color: #fff;
 }
 
 /** needs JS-placement */
@@ -294,11 +321,11 @@ div.posteritem.playing {
 
 /** Setlist Styling */
 
-ul.listing li div.element a {
+/** ul.listing li div.element a {
     margin-right: 5px;
     padding-top: 7px;
     text-decoration: none;
-    color: #fff;
+    color: #fff; **/
     /* border-right: 1px solid #fff;
     background: linear-gradient(to bottom, #fff 0%, #bbb 100%);
     -moz-linear-gradient(top, #fff 0%, #bbb 100%);
@@ -307,18 +334,18 @@ ul.listing li div.element a {
     -ms-linear-gradient(top, #fff 0%,#bbb 100%);
     progid:DXImageTransform.Microsoft.gradient( startColorstr='#fff', endColorstr='#bbb',GradientType=0 );
     text-shadow: 0px -1px 2rgba(255,255,255,1); **/
-}
+/** } **/
 
 ul.listing li div.element {
     /** text-shadow: 0px -1px rgba(255,255,255,1); **/
-    padding-left: 0px;
+    padding-left: 5px;
     overflow: hidden;
 }
 
-ul.listing li.ui-li-static.ui-li div.element.playing {
+/** ul.listing li.ui-li-static.ui-li div.element.playing {
   background: linear-gradient(to bottom, #1a9de2 0%,#40B0E2 100%);
-  color: #fff; /** padding-left: 5px; **/
-}
+  color: #fff; /** padding-left: 5px;
+} **/
 
 /** ul.listing li.ui-li-static.ui-li div.element.playing a.playnow {
     display: none;
@@ -356,16 +383,19 @@ ul.listing div.element .source-info a.no-interaction {
 ul.listing div.element .source-info a.soundcloud-stream {
     background: url("/com.soundposter.website/images/80x50_orange.png") no-repeat 0 5px;
     background-size: contain;
+    text-decoration: none;
     width: 60px;
 }
 
 ul.listing div.element .source-info a.bandcamp-stream {
-    background: url("/com.soundposter.website/images/logowhite_bc.png") no-repeat 0 10px;
+    background: url("/com.soundposter.website/images/logowhite_bc.png") no-repeat 0 5px;
     background-size: contain;
+    text-decoration: none;
     width: 60px;
 }
 
 ul.listing div.element .source-info a.unspecified-stream {
+    text-decoration: none;
     background: none;
     width: 60px;
 }
@@ -473,10 +503,14 @@ ul.top-menu a {
     padding-left: 10px; padding-right: 10px;
 }
 
-a.jp-next:hover,
-a.jp-prev:hover,
-a.jp-play:hover,
-a.jp-pause:hover,
+.ui-body-c .ui-link .top-menu li a:hover,
+.ui-body-c .ui-link .controls a.jp-next:hover,
+.ui-body-c .ui-link .controls a.jp-prev:hover,
+.ui-body-c .ui-link .controls a.jp-play:hover,
+.ui-body-c .ui-link .controls a.jp-pause:hover {
+    color: #fff;
+}
+
 ul.top-menu li a.active,
 ul.top-menu a:hover {
     background-color: #40B0E2;
