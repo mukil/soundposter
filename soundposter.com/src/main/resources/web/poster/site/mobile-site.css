@@ -82,3 +82,7 @@ div.logo.area {
     padding-top: 0px;
     font-size: 1em;
 }
+
+.page.about div.main.area ul {
+    padding-left: 15px;
+}

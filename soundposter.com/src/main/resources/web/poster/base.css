@@ -498,6 +498,13 @@ body.page {
     color: #343434;
 }
 
+.page .subtitle a.active {
+    background-color: #40B0E2;
+    color: #fff;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
 .page .subtitle a {
     float: none;
     text-decoration: none;

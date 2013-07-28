@@ -88,7 +88,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
         context.setVariable("poster", featured.getModel().toJSON().toString());
         context.setVariable("graphic", graphicPath);
         context.setVariable("subtitle", "Be aware of the baseline.");
-        context.setVariable("author", "by Mohjil");
+        context.setVariable("author", "by " + username);
         context.setVariable("link", url);
         return view("index");
     }

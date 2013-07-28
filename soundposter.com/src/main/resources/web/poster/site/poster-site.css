@@ -19,3 +19,7 @@ div.left-side {
 .page div.info .box {
     max-width: 42%;
 }
+
+.page ul.low-menu {
+    margin-left: 90px;
+}
