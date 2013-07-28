@@ -45,6 +45,10 @@ div.logo.area {
     margin-bottom: 10px;
 }
 
+.page.about div.main {
+    padding-left: 0px;
+}
+
 .page ul.low-menu {
-    margin-left: 40px;
+    margin-left: 36px;
 }

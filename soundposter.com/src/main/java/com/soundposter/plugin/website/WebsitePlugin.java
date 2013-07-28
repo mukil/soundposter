@@ -1,5 +1,6 @@
 package com.soundposter.plugin.website;
 
+import com.soundposter.plugin.website.model.PreviewPoster;
 import de.deepamehta.core.service.ClientState;
 
 import com.sun.jersey.api.view.Viewable;
@@ -20,11 +21,7 @@ import de.deepamehta.plugins.topicmaps.service.TopicmapsService;
 import de.deepamehta.plugins.webactivator.WebActivatorPlugin;
 
 import java.io.InputStream;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.*;
@@ -56,6 +53,8 @@ public class WebsitePlugin extends WebActivatorPlugin {
     private static final String PARENT_TYPE_URI = "dm4.core.whole";
     private static final String DEFAULT_TYPE_URI = "dm4.core.default";
 
+    private static final String VIEW_POSTER_URL_PREFIX = "/posterview";
+
     /** Initialize the migrated soundsets ACL-Entries. */
     @Override
     public void init() {
@@ -79,11 +78,10 @@ public class WebsitePlugin extends WebActivatorPlugin {
         context.setVariable("pageId", "welcome");
         Topic featured = getRandomFeaturedSoundposter(clientState);
         // prepare page, find the poster graphic
-        TopicModel graphic = featured.getCompositeValue().getTopic("dm4.files.file");
-        String graphicPath = "/filerepo" + graphic.getCompositeValue().getString("dm4.files.path");
+        String graphicPath = getPosterGraphicURL(featured);
         String webalias = featured.getCompositeValue().getString("com.soundposter.web_alias");
         String username = getProfileAliasForPoster(featured);
-        String url = "/posterview/" + username + "/" + webalias;
+        String url = VIEW_POSTER_URL_PREFIX + "/" + username + "/" + webalias;
         log.info("Poster URL => " + url);
         context.setVariable("poster", featured.getModel().toJSON().toString());
         context.setVariable("graphic", graphicPath);
@@ -187,7 +185,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
 	@GET
     @Path("/browse/{pageNr}")
 	@Produces(MediaType.TEXT_HTML)
-    public Viewable getPosterPage(@PathParam("pageNr") int pageNr, @HeaderParam("Cookie") ClientState clientState) {
+    public Viewable getBrowsePage(@PathParam("pageNr") int pageNr, @HeaderParam("Cookie") ClientState clientState) {
         log.info("Requesting page " +pageNr+ " to browse all published soundposter.. ");
 		context.setVariable("pageId", "browse");
         return view("browse");
@@ -196,14 +194,41 @@ public class WebsitePlugin extends WebActivatorPlugin {
     @GET
     @Path("/browse")
 	@Produces(MediaType.TEXT_HTML)
-    public Viewable getPosterFrontPage(@PathParam("pageNr") int pageNr, @HeaderParam("Cookie") ClientState clientState) {
-        log.info("Requesting page " +pageNr+ " to browse all published soundposter.. ");
+    public Viewable getBrowsePage(@HeaderParam("Cookie") ClientState clientState) {
+        log.info("Requesting page nr. 1 to browse all published soundposter.. ");
 		context.setVariable("pageId", "browse");
+        ArrayList<PreviewPoster> resultset = new ArrayList<PreviewPoster>();
+        ResultSet<RelatedTopic> all = getAllPublishedSoundposter(clientState);
+        int max_count = 8, count = 0;
+        for (RelatedTopic item : all) {
+            if (count == max_count) {
+                context.setVariable("total_count", all.getTotalCount());
+                context.setVariable("page", 1);
+                context.setVariable("pages", all.getTotalCount() / max_count);
+                context.setVariable("offset", 0);
+                context.setVariable("set", resultset);
+                return view("browse");
+            }
+            String title = item.getModel().getSimpleValue().toString();
+            String username = getProfileAliasForPoster(item);
+            String web_alias = item.getCompositeValue().getString("com.soundposter.web_alias");
+            String url = VIEW_POSTER_URL_PREFIX + "/" + username + "/" + web_alias;
+            String preview_graphic_style = "background: url(" + getPosterGraphicURL(item) + ") -30px 0px; no-repeat";
+            PreviewPoster poster = new PreviewPoster(title, url, username, preview_graphic_style);
+            //
+            resultset.add(poster);
+            count++;
+        }
+        context.setVariable("total_count", all.getTotalCount());
+		context.setVariable("page", 1);
+		context.setVariable("pages", all.getTotalCount() / max_count);
+        context.setVariable("offset", 0);
+        context.setVariable("set", resultset);
         return view("browse");
     }
 
 	@GET
-    @Path("/posterview/{authorAlias}/{posterAlias}")
+    @Path(VIEW_POSTER_URL_PREFIX + "/{authorAlias}/{posterAlias}")
     @Produces(MediaType.TEXT_HTML)
     public Viewable getPosterView (@PathParam("authorAlias") String author, @PathParam("posterAlias") String poster) {
         log.info("requesting posterview \""+ poster +"\" by author \"" + author + "\"");
@@ -211,7 +236,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
     }
 
     @GET
-    @Path("/posterview/{authorAlias}/{posterAlias}/{trackId}")
+    @Path(VIEW_POSTER_URL_PREFIX + "/{authorAlias}/{posterAlias}/{trackId}")
     @Produces(MediaType.TEXT_HTML)
     public Viewable getPosterViewWithTrack (@PathParam("authorAlias") String author, @PathParam("posterAlias") String poster,
             @PathParam("trackId") long trackId) {
@@ -239,8 +264,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
                 Logger.getLogger(WebsitePlugin.class.getName()).log(Level.SEVERE, null, ex);
             }
             // prepare page, find the poster graphic
-            TopicModel graphic = soundposter.getCompositeValue().getTopic("dm4.files.file");
-            graphicUrl = "/filerepo" + graphic.getCompositeValue().getString("dm4.files.path");
+            graphicUrl = getPosterGraphicURL(soundposter);
             // get partner website link
             Topic map = dms.getTopic(soundposter.getId(), true, null);
             Topic linkOne = map.getRelatedTopic("com.soundposter.buy_edge",
@@ -510,6 +534,11 @@ public class WebsitePlugin extends WebActivatorPlugin {
             }
         }
         return false;
+    }
+
+    private String getPosterGraphicURL (Topic poster) {
+        TopicModel graphic = poster.getCompositeValue().getTopic("dm4.files.file");
+        return "/filerepo" + graphic.getCompositeValue().getString("dm4.files.path");
     }
 
     private String getProfileAliasForPoster(Topic poster) {

@@ -34,13 +34,12 @@
         <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
 
-            var poster = /*[[${poster}]]*/ '{}'
             var ADAPT_CONFIG = { path: '/com.soundposter.website/poster/site/', dynamic: true,
                 range: [
-                    '0px    to 510px	= mobile-site.css',
-                    '510px  to 840px	= tablet-site.css',
-                    '840px  to 1380px	= poster-site.css',
-                    '1380px				= panorama-site.css'
+                    '0px    to 710px	= mobile-site.css',
+                    '710px  to 960px	= tablet-site.css',
+                    '960px  to 1480px	= poster-site.css',
+                    '1480px				= panorama-site.css'
                 ]
             }
 
@@ -50,56 +49,37 @@
 
     </head>
 
-    <body class="browse page" th:attrappend="class=${' ' + pageId}">
+    <body class="page" th:attrappend="class=${' ' + pageId}">
 
         <div class="title">
-            <span class="pre-logo">Welcome to&nbsp;</span><span class="logo">soundposter.com</span><br/>
+            <span class="pre-logo">Welcome to&nbsp;</span><span class="logo"><a href="/" title="Back Home">soundposter.com</a></span><br/>
         </div>
 
         <div class="subtitle">
-            At the moment you can <a class="expanded" href="/sign-up">/sign</a> your interest to collaborate with us, read what others say <a href="/about-us">/about us</a> or just <a href="/browse">/browse</a> all soundposters.
-        </div>
-
-        <div class="header area">
-            <div class="logo area">
-                <!-- <img src="/com.soundposter.website/images/soundposter_play_button_600.png" class="play"
-                        alt="Image: Play Random Soundposter" title="Image/Button: Play Random Soundposter Now" />-->
-            </div>
+            At the moment you can <a href="/sign-up">/sign</a> your interest to collaborate with us or <a href="/browse" class="active">/browse</a> all soundposters. Additionally, you can read <a href="/#say-what">what others say</a> or what <a href="/about-us">/we say about us</a>.
         </div>
 
         <div class="main area">
-            <div class="plan-a area">
-                <h3>Plan A</h3>
-                <p>..</p>
-            </div>
-            <div class="plan-b area">
-                <h3>Plan B</h3>
-                <p>...</p>
-            </div>
-            <div class="plan-c area">
-                <h3>Plan C</h3>
-                <p>....</p>
+            <div class="poster-preview" th:each="poster : ${set}">
+                <div th:style="${poster.background_css}" class="graphic">
+                    <!-- span class="title" th:text="${poster.title}"></span-->
+                    <span class="username" th:title="'Username ' + ${poster.username}" th:alt="'Username ' + ${poster.username}" th:text="${poster.username}"></span>
+                    <a class="link" th:title="'Watch Soundposter: ' + ${poster.title}" th:href="${poster.url}" th:text="${poster.title}"></a>
+                </div>
             </div>
         </div>
 
-        <div class="main area">
-            <div class="info area">
-                <h3>In the wild</h3>
-                <p>...</p>
-            </div>
-            <p>&nbsp;</p>
-            <div class="info area">
-                <h3>About Us</h3>
-                <p>...</p>
-            </div>
+        <div class="bottom area">
+            <span class="number" th:text="'Showing ' + ${set.size}" /> of <span class="numbers" th:text="${total_count}" /> available soundposters.
+            <span class="page" th:text="'Page ' + ${page}" /> of <span class="pages" th:text="${pages} + ' pages'" />
         </div>
 
-        <ul class="menu">
+        <ul class="low-menu">
             <li>Help</li>
-            <li>Legal</li>
+            <li>Legal / Imprint</li>
             <li>Philosophy</li>
-            <li>Partner/Buy</li>
-            <li>Imprint</li>
+            <li><a href="/about-us">About us</a></li>
+            <li><a href="http://soundposter.tumblr.com" title="Editing Soundposter">Blog</a></li>
         </ul>
 
         <!--noscript>
