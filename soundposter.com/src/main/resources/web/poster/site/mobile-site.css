@@ -1,33 +1,4 @@
 
-body.page {
-	margin-top: 20px;
-	margin-left: 10px;
-	margin-right: 10px;
-	margin-bottom: 70px;
-}
-
-div.area {
-	margin: 10px;
-}
-
-div.header {
-	background-color: #fff;
-	color: #000;
-}
-
-ul.top-menu {
-	position: fixed; top: 0px; right: 10px;
-}
-
-div.logo.area {
-	text-align: center;
-	background-color: white;
-	border: 0px solid transparent;
-	color: #343434;
-	font-weight: 900;
-	font-size: 1.4em;
-}
-
 div.logo.area {
 	background-image: url("/com.soundposter.website/images/soundposter_button_blue_with_arrow_out_600.png");
 	height: 240px; width: 240px;
@@ -39,6 +10,75 @@ div.logo.area {
 	cursor: pointer;
 }
 
-ul.menu {
-	position: relative; top: 20px; left: 10px;
+.page div.header .featured img {
+    padding-top: 20px;
+}
+
+.page div.header.area {
+    margin-top: 0px;
+}
+
+.page div.title
+.page div.subtitle,
+.page div.area {
+    margin: 15px 15px;
+}
+
+.page div.subtitle {
+    font-weight: 500;
+}
+
+.page div.left-side,
+.page div.right-side {
+    width: 15px;
+}
+
+.page div.box {
+    float: none;
+    max-width: 95%;
+}
+
+.page .title {
+    font-size: 1.5em;
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+
+.page .subtitle {
+    font-size: 1em;
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-bottom: 0px;
+}
+
+.page div.header .featured .author,
+.page div.header .featured .headline {
+    margin-top: 30px;
+    margin-left: 15px;
+    margin-bottom: 10px;
+    font-size: 1.5em;
+}
+
+.page ul.low-menu {
+    margin-left: 15px;
+}
+
+.page div.info.child-area {
+    padding: 15px;
+}
+
+.page div.info.child-area div.box {
+    margin: 5px;
+}
+
+.page div.info.child-area b.by,
+.page div.info.child-area quote {
+    font-size: 1em;
+}
+
+.page.about div.main.area {
+    padding-top: 0px;
+    font-size: 1em;
 }

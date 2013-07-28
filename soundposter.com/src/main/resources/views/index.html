@@ -52,51 +52,71 @@
 
     <body class="page" th:attrappend="class=${' ' + pageId}">
 
-        <ul class="top-menu">
-            <li class="active"><a href="#">Welcome</a></li>
+        <div class="left-side"></div>
+        <div class="right-side"></div>
+
+        <!-- ul class="top-menu">
+            <li><a class="active" href="#">Welcome</a></li>
             <li><a href="/sign-up">Sign-up</a></li>
             <li><a href="/browse">Browse</a></li>
-        </ul>
+        </ul-->
+
+        <div class="title">
+            <span class="pre-logo">Welcome to&nbsp;</span><span class="logo">soundposter.com</span><br/>
+        </div>
+
+        <div class="subtitle">
+            At the moment you can <a class="expanded" href="/sign-up">/sign</a> your interest to collaborate with us, read what others say <a href="/about-us">/about us</a> or just <a href="/browse">/browse</a> all soundposters.
+        </div>
 
         <div class="header area">
-            <div class="logo area">
-                <!-- <img src="/com.soundposter.website/images/soundposter_play_button_600.png" class="play"
-                        alt="Image: Play Random Soundposter" title="Image/Button: Play Random Soundposter Now" />-->
+            <div class="featured" th:attr="style='background-image:url(' + ${graphic} + ');'">
+                <div class="headline"><a th:text="${subtitle}" th:href="${link}"></a></div>
+                <div class="author"><a th:text="${author}" th:href="${link}"></a></div>
+                <!-- img src="/com.soundposter.website/images/soundposter_play_button_600.png" class="play"
+                        alt="Image: Play Random Soundposter" title="Image/Button: Play Random Soundposter Now" /-->
             </div>
         </div>
 
         <div class="main area">
-            <div class="plan-a area">
+            <div class="plan-a child-area">
                 <h3>Plan A</h3>
                 <p>..</p>
             </div>
-            <div class="plan-b area">
+            <div class="plan-b child-area">
                 <h3>Plan B</h3>
                 <p>...</p>
             </div>
-            <div class="plan-c area">
+            <div class="plan-c child-area">
                 <h3>Plan C</h3>
                 <p>....</p>
             </div>
         </div>
 
         <div class="main area">
-            <div class="info area">
-                <h3>In the wild</h3>
-                <p>...</p>
-            </div>
-            <div class="info area">
-                <h3>About Us</h3>
-                <p>...</p>
+            <div class="info child-area">
+                <h3>What others say?</h3>
+                <div class="box">
+                    <quote><span class="marks">&#8220;</span>Finally a player which allows me to make my record look really nice in the web.<span class="marks">&#8221;</span></quote>
+                    <b class="by"><a href="/posterview/moh/joestrommler" title="Soundposter: Joes Trommler">Ben (Joes Trommler)</a></b><br/><br/>
+                    <quote><span class="marks">&#8220;</span>And a very special highlight: Based on our SoundCloud-Compilation we have a fantastic tool allowing you to cruise over the sound and the area of the Torstra&szlig;enfestival in advance.<span class="marks">&#8221;</span></quote>
+                    <b class="by"><a href="https://newthinking.de/2012/08/24/die-karte-der-zeitplandie-musik-torstrasen-festival-2012/" title="Blog entry (German) by newthinking communications GmbH">newthinking</a></b>
+                </div>
+                <div class="box">
+                    <quote><span class="marks">&#8220;</span>This is absolutely the perfect tool for events with music in the program.<span class="marks">&#8221;</span></quote>
+                    <b class="by"><a href="http://www.blogbleistift.de/post/30029987835/soundposter" title="Blog und Bleistift (German)">Anna-Lena</a></b><br/><br/>
+                    <quote><span class="marks">&#8220;</span>Through this piece of technology I came across Oscar &amp; The Wolf.<span class="marks">&#8221;</span></quote>
+                    <b class="by"><a href="http://onrealitysedge.wordpress.com/2012/08/29/oscar-the-wolf-und-das-torstrasenfestival/" title="Blog: On Reality's Edge (German)">Christoph</a></b>
+                </div>
             </div>
         </div>
 
-        <ul class="menu">
+        <ul class="low-menu">
             <li>Help</li>
-            <li>Legal</li>
+            <li>Legal / Imprint</li>
             <li>Philosophy</li>
-            <li>Partner/Buy</li>
-            <li>Imprint</li>
+            <li><a href="/about-us">About us</a></li>
+            <li><a href="http://soundposter.tumblr.com" title="Editing Soundposter">Blog</a></li>
         </ul>
 
         <!--noscript>

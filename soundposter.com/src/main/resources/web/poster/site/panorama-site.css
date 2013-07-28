@@ -1,18 +1,4 @@
 
-body.page {
-	margin-left: 40px;
-	margin-right: 40px;
-}
-
-div.area {
-	margin: 40px;
-}
-
-ul.top-menu {
-	position: fixed; top: 0px; right: 60px;
-}
-
-ul.menu {
-	position: relative; bottom: 10px; left: 60px;
-	max-width: 1200px;
+.page div.header .featured img {
+    padding-top: 240px;
 }

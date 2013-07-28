@@ -1,12 +1,21 @@
 
-div.area {
-	margin: 30px;
+div.left-side,
+div.right-side {
+    width: 48px;
 }
 
-ul.top-menu {
-	position: fixed; top: 0px; right: 40px;
+div.left-side {
+    background-position-x: -10px;
 }
 
-ul.menu {
-	position: relative; bottom: 10px; left: 40px;
+.page div.header .featured img {
+    padding-top: 40px;
+}
+
+.page div.info {
+    min-height: 475px;
+}
+
+.page div.info .box {
+    max-width: 42%;
 }

@@ -77,7 +77,19 @@ public class WebsitePlugin extends WebActivatorPlugin {
     public Viewable getFrontpage(@HeaderParam("Cookie") ClientState clientState) {
         log.info("Requesting front page without pathinfo.. ");
         context.setVariable("pageId", "welcome");
-        context.setVariable("poster", getRandomFeaturedSoundposter(clientState).toJSON().toString());
+        Topic featured = getRandomFeaturedSoundposter(clientState);
+        // prepare page, find the poster graphic
+        TopicModel graphic = featured.getCompositeValue().getTopic("dm4.files.file");
+        String graphicPath = "/filerepo" + graphic.getCompositeValue().getString("dm4.files.path");
+        String webalias = featured.getCompositeValue().getString("com.soundposter.web_alias");
+        String username = getProfileAliasForPoster(featured);
+        String url = "/posterview/" + username + "/" + webalias;
+        log.info("Poster URL => " + url);
+        context.setVariable("poster", featured.getModel().toJSON().toString());
+        context.setVariable("graphic", graphicPath);
+        context.setVariable("subtitle", "Be aware of the baseline.");
+        context.setVariable("author", "by Mohjil");
+        context.setVariable("link", url);
         return view("index");
     }
 
@@ -152,6 +164,8 @@ public class WebsitePlugin extends WebActivatorPlugin {
         return "Error";
     }
 
+    /** fixme: return robots.txt */
+
 	@GET
     @Path("/sign-up")
     @Produces(MediaType.TEXT_HTML)
@@ -159,6 +173,15 @@ public class WebsitePlugin extends WebActivatorPlugin {
         log.info("Requesting soundposter.com sign-up page .. ");
 		context.setVariable("pageId", "sign-up");
         return view("sign-up");
+    }
+
+    @GET
+    @Path("/about-us")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable getAboutPage(@HeaderParam("Cookie") ClientState clientState) {
+        log.info("Requesting soundposter.com about page .. ");
+		context.setVariable("pageId", "about");
+        return view("about");
     }
 
 	@GET
@@ -195,7 +218,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
         log.info("requesting posterview \""+ poster +"\" by author \"" + author + "\" and track \""+trackId+"\"");
 		try {
 			Topic soundposter = getSoundposter(author, poster, null); // sanity checks already built-in
-			String posterDescription = "", posterName ="", graphicUrl = "", buylink = "";
+			String posterDescription = "", posterName ="", graphicUrl = "", buylink = "{}";
 			posterName = soundposter.getSimpleValue().toString();
 			if (soundposter.getCompositeValue().has("com.soundposter.description")) {
 				posterDescription = soundposter.getCompositeValue().getString("com.soundposter.description");
@@ -217,7 +240,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
             }
             // prepare page, find the poster graphic
             TopicModel graphic = soundposter.getCompositeValue().getTopic("dm4.files.file");
-            graphicUrl = graphic.getCompositeValue().getString("dm4.files.path");
+            graphicUrl = "/filerepo" + graphic.getCompositeValue().getString("dm4.files.path");
             // get partner website link
             Topic map = dms.getTopic(soundposter.getId(), true, null);
             Topic linkOne = map.getRelatedTopic("com.soundposter.buy_edge",
@@ -229,7 +252,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
 			context.setVariable("description", posterDescription);
 			context.setVariable("poster", topicmap.toJSON().toString());
 			context.setVariable("keywords", "");
-            context.setVariable("graphic", "/filerepo" + graphicUrl);
+            context.setVariable("graphic", graphicUrl);
             context.setVariable("buylink", buylink);
             context.setVariable("setlist", soundlist.toString());
             context.setVariable("track", trackId);

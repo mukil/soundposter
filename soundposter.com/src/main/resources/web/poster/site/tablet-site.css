@@ -1,20 +1,4 @@
 
-body.page {
-	margin-top: 20px;
-	margin-left: 10px;
-	margin-right: 10px;
-	margin-bottom: 70px;
-}
-
-div.area {
-	margin: 20px;
-}
-
-div.header {
-	background-color: #fff;
-	color: #000;
-}
-
 div.logo.area {
 	background-image: url("/com.soundposter.website/images/soundposter_button_blue_with_arrow_out_600.png");
 	height: 400px; width: 400px;
@@ -26,10 +10,38 @@ div.logo.area {
 	cursor: pointer;
 }
 
-ul.top-menu {
-	position: fixed; top: 0px; right: 30px;
+.page div.header .featured img {
+    padding-top: 40px;
 }
 
-ul.menu {
-	position: relative; top: 20px; left: 30px;
+.page div.box {
+    float: none;
+    max-width: 95%;
 }
+
+.page div.title,
+.page div.area {
+    margin: 30px 45px;
+}
+
+.page div.left-side,
+.page div.right-side {
+    width: 25px;
+}
+
+.page .title {
+    margin-left: 45px;
+    margin-right: 45px;
+}
+
+.page .subtitle{
+    margin-left: 45px;
+    margin-right: 45px;
+}
+
+.page div.header .featured .author,
+.page div.header .featured .headline {
+    margin-left: 30px;
+    margin-bottom: 10px;
+}
+

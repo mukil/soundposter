@@ -50,6 +50,9 @@ var poster = new function () {
         // initialize nodes
         this.initialize_nodes() // loads playlist and rendering_options
 
+        // fixme: initialize svg-interactives earlier, for e.g. image load percentage..
+        this.perform_flash_check_call()
+
         // initialize poster graphic first, and when loaded, the whole soundposter player
         $container = $('div.postergraphic')
         $image = $('img.graphic')
@@ -129,23 +132,37 @@ var poster = new function () {
 
     this.initialize_outlinks = function (hyperlink) {
 
-        if (hyperlink.composite.hasOwnProperty('dm4.webbrowser.url')) {
-            poster.data.buylink = hyperlink.composite['dm4.webbrowser.url'].value;
-            poster.data.buylabel = hyperlink.composite['dm4.webbrowser.web_resource_description'].value;
-            poster.data.buylabel = poster.data.buylabel.toString() // .replaceAll("<p>", "").replaceAll("</p>", "")
+        if (hyperlink.composite != undefined) {
+            if (hyperlink.composite.hasOwnProperty('dm4.webbrowser.url')) {
+                poster.data.buylink = hyperlink.composite['dm4.webbrowser.url'].value;
+                poster.data.buylabel = hyperlink.composite['dm4.webbrowser.web_resource_description'].value;
+                poster.data.buylabel = poster.data.buylabel.toString() // .replaceAll("<p>", "").replaceAll("</p>", "")
+            }
+            $('a.support-link').text("Artist Link")
+            $('a.support-link').attr("href", poster.data.buylink)
         }
-        $('a.support-link').text("Artist Link")
-        $('a.support-link').attr("href", poster.data.buylink)
+    }
+
+    this.perform_flash_check_call = function () {
+        var flash_object = document.getElementById('dummy_movie')
+        try {
+            // console.log(flash_object)
+            flash_object.callFlash("Hi Flash!")
+        } catch (e) {
+            console.log(e)
+            // throw new Error("Flash not active")
+        }
     }
 
     this.initialize_setlist_dialog = function () {
         // todo: if (tracklist is active), seekbar should be within tracklist-item
         var $listing = $('ul.listing')
             $listing.empty()
-            $listing.listview({headerTheme: "a",
-                swipe: function (e) { poster.stop_propagation(e) },
-                mousemove: function (e) { poster.stop_propagation(e) }
-            })
+            /** http://www.quirksmode.org/js/events_order.html
+             *  $listing.listview({headerTheme: "a",
+             *  swipe: function (e) { poster.stop_propagation(e) },
+             *  mousemove: function (e) { poster.stop_propagation(e) }
+            }) **/
         for (var item in poster.sounds) {
             var sound = poster.sounds[item]
             var sound_name = (sound.composite.hasOwnProperty('com.soundposter.sound_name')) ? sound.composite['com.soundposter.sound_name'].value  : ""

@@ -3,7 +3,7 @@ a.share,
 a.support-link,
 a.tracklist-toggle {
     color: #fff;
-    padding: 10px;
+    padding: 5px;
 }
 
 a.tracklist-toogle,
@@ -20,7 +20,12 @@ ul.listing .ui-li-static.ui-li {
     margin-right: 15px;
 }
 
+div.controls #selection,
 div.controls #jp_container_1,
 ul.top-menu {
     right: 15px;
+}
+
+div.jp-progress {
+    width: 210px;
 }

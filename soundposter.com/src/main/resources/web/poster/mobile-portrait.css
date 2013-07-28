@@ -26,15 +26,25 @@ ul.listing {
     max-height: 65%;
 }
 
-ul.listing .ui-li-static.ui-li {
-    margin-right: 10px;
+ul.listing div.element .source-info {
+
 }
 
+ul.listing .ui-li-static.ui-li {
+    margin-right: 20px;
+}
+
+div.controls #selection,
 div.controls #jp_container_1,
-ul.top-menu {
+.poster ul.top-menu {
     right: 10px;
 }
 
 div.notifications {
     top: 50px; max-width: 240px;
 }
+
+div.jp-progress {
+    display: none;
+}
+

@@ -203,14 +203,14 @@ div.controls {
 
 div.controls #selection {
     display: none;
-    position: fixed; top: 90px; right: 30px;
+    position: fixed; top: 140px; right: 20px;
     /** background-color: #fff; color: #000; **/ color: #fff;
     padding: 5px; padding-left: 10px; padding-right: 10px;
     opacity: 1;
 }
 
 div.controls #jp_container_1 {
-    position: fixed; top: 60px; right: 30px;
+    position: fixed; top: 65px; right: 30px;
     text-align: right; width: 290px;
 }
 
@@ -231,7 +231,7 @@ div.jp-progress {
 }
 
 div.jp-progress:hover {
-    width: 230px;
+    width: 210px;
     cursor: pointer;
 }
 
@@ -379,19 +379,21 @@ ul.listing div.element .album-name {
     font-style: italic;
 } **/
 
+ul.listing div.element .track-position,
 ul.listing div.element .track-name,
 ul.listing div.element .artist-name,
-ul.listing div.element .source-info,
 ul.listing div.element .album-name {
-    padding-left: 5px;
+    margin-right: 5px;
+    z-index: 2;
 }
 
 ul.listing div.element .source-info {
     cursor: pointer;
     text-shadow: none;
-    float: right;
+    position: absolute; right: 10px;
     border: 0px;
-    margin-right: 10px;
+    padding-left: 10px;
+    z-index: 0;
 }
 
 ul.listing div.element .source-info a {
@@ -400,7 +402,7 @@ ul.listing div.element .source-info a {
 }
 
 ul.listing div.element .source-info a.soundcloud-stream {
-    background: url("/com.soundposter.website/images/80x50_orange.png") no-repeat 0 5px;
+    background: url("/com.soundposter.website/images/80x50_orange.png") no-repeat 0 2px;
     background-size: contain;
     text-decoration: none;
     width: 60px;
@@ -414,7 +416,7 @@ ul.listing div.element .source-info a.soundcloud-stream.unavailable {
 }
 
 ul.listing div.element .source-info a.bandcamp-stream {
-    background: url("/com.soundposter.website/images/logowhite_bc.png") no-repeat 0 5px;
+    background: url("/com.soundposter.website/images/logowhite_bc.png") no-repeat 0 3px;
     background-size: contain;
     text-decoration: none;
     width: 60px;
@@ -426,109 +428,6 @@ ul.listing div.element .source-info a.unspecified-stream {
     width: 60px;
 }
 
-/** pages design does start here **/
-
-body.page {
-	margin-left: 30px;
-	margin-right: 30px;
-	margin-top: 0px;
-	margin-bottom: 0px;
-	padding-top: 30px;
-	padding-bottom: 40px;
-	border-left: 2px solid #343434;
-	border-right: 2px solid #343434;
-	background-color: linen;
-}
-
-div.area {
-	margin: 20px;
-	border: 1px solid #434343;
-	padding: 0px;
-	background-color: #e8e8e8;
-}
-
-div.logo.area {
-	background-color: transparent;
-	border: 0px solid transparent;
-	color: #343434;
-	font-weight: 900;
-	font-size: 1.4em;
-}
-
-div.logo.area {
-	background-image: url("/com.soundposter.website/images/soundposter_play_button_600.png");
-	height: 600px; width: 600px;
-	background-size: 600px;
-	background-repeat: no-repeat;
-	background-position-x: center;
-	background-position-y: center;
-	margin-left: auto; margin-right: auto;
-	cursor: pointer;
-}
-
-/** div.logo.area:hover {
-	background-image: url("/com.soundposter.website/images/soundposter_button_blue_with_arrow_out_600.png");
-} **/
-
-div.main {
-	margin-left: 0px;
-	margin-right: 0px;
-	background-color: #e8e8e8;
-}
-
-div.header {
-	color: #fff;
-	padding: 10px;
-	background-color: white;
-}
-
-div.info {
-	padding: 10px;
-	background-color: linen;
-	background-color: #e8e8e8;
-}
-
-div.plan-a, div.plan-b, div.plan-c {
-	background-color: #40B0E2;
-	opacity: .8;
-	padding: 10px;
-}
-
-ul.top-menu {
-	position: fixed; top: 0px; right: 30px;
-	z-index: 11; margin-top: 10px;
-	background-color: #fff;
-	padding-left: 0px;
-}
-
-ul.top-menu li {
-	list-style-type: none;
-	margin: 0px; padding: 4px; padding-left: 0px; padding-right: 0px;
-    float: left;
-}
-
-ul.menu {
-	position: relative; bottom: 10px; left: 30px;
-	list-style-type: none;
-	margin: 0px;
-	padding: 0px;
-	line-height: 1.2em;
-	margin-right: 30px;
-}
-
-ul.menu li {
-	float: left;
-	margin-left: 20px;
-}
-
-ul.menu a,
-ul.top-menu a {
-	text-decoration: none;
-	color: #40B0E2;
-    padding: 7px;
-    padding-left: 10px; padding-right: 10px;
-}
-
 .ui-body-c .ui-link .top-menu li a:hover,
 .ui-body-c .ui-link .controls a.jp-next:hover,
 .ui-body-c .ui-link .controls a.jp-prev:hover,
@@ -537,13 +436,309 @@ ul.top-menu a {
     color: #fff;
 }
 
-ul.top-menu li a.active,
-ul.top-menu a:hover {
-    background-color: #40B0E2;
-    color: #000;
+
+
+
+
+
+
+
+
+
+/** Site-wide styles does start here **/
+
+body.page {
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-top: 30px;
+	padding-bottom: 70px;
+    /** background: linen; **/
+    color: darkgray;
 }
 
-ul.top-menu li a.active {
+.page .title {
+    font-size: 2.5em;
+    font-weight: 700;
+    line-height: 1.5em;
+    margin: 30px 90px;
+    margin-bottom: 20px;
+}
+
+.page .subtitle {
+    font-size: 1.5em;
+    margin: 30px 90px;
+    font-weight: 700;
+    line-height: 1.5em;
+    margin-top: 0px;
+}
+
+/** .page .title .subtitle {
+    font-size: 1.4em;
+} **/
+
+.page a {
+    color: rgb(64, 176, 226);
+}
+
+/** .page .title a.expanded {
+    background: #40B0E2;
+} **/
+
+.page .title .pre-logo {
+}
+
+.page .title .logo {
+    color: #343434;
+}
+
+.page .title a {
+    text-decoration: none;
+    color: #343434;
+}
+
+.page .subtitle a {
+    float: none;
+    text-decoration: none;
+}
+
+.page div.left-side {
+    position: fixed; top: 0px; left: 0px;
+    background-color: white;
+    /** background: url('/com.soundposter.website/images/site/_background_left_side.png') repeat-y;
+    border-right: 1px solid #3a3a3a; **/
+    height: 100%; width: 57px;
+}
+
+.page div.right-side {
+    position: fixed; top: 0px; right: 0px;
+    background-color: white;
+    /* background: url('/com.soundposter.website/images/site/_background_right_side.png') repeat-y;
+    border-left: 1px solid #3a3a3a; **/
+    height: 100%; width: 58px;
+}
+
+.page div.area {
+    margin: 30px 90px;
+	padding: 0px;
+	background-color: #e8e8e8;
+}
+
+/** div.logo.area:hover {
+	background-image: url("/com.soundposter.website/images/soundposter_button_blue_with_arrow_out_600.png");
+} **/
+
+.page div.header {
+	background-color: white;
+    margin-top: 30px;
+    overflow: hidden;
+}
+
+.page div.header .featured {
+	background-repeat: no-repeat;
+	background-position-x: center;
+	background-position-y: center;
+    height: 700px;
+    text-align: center;
+}
+
+.page div.header .featured img {
+	background-color: transparent;
+	border: 0px solid transparent;
+	cursor: pointer; float: right; padding-right: 100px;
+    max-height: 400px; padding-top: 200px;
+}
+
+.page div.header .featured .headline {
+    font-size: 2.4em;
+    line-height: 2em;
+    max-width: 600px;
+    font-weight: 900;
+    margin: 60px; margin-bottom: -8px;
+    float: left;
+    text-align: left;
+}
+
+.page div.header .featured .author {
+    font-size: 1.8em;
+    line-height: 2em;
+    max-width: 375px;
+    font-weight: 900;
+    margin: 10px;
+    margin-left: 60px;
+    color: #fff;
+    text-align: left;
+    font-style: italic;
+}
+
+.page div.header .featured .headline a {
+    background-color: #343434;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+}
+
+.page div.header .featured .author a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+}
+
+.page div.header .featured .author a:hover {
+    background-color: #40B0E2;
+    color: #fff;
+}
+
+.page div.main.area {
+    background: #fff;
+    font-size: 1.1em;
+}
+
+.page.about div.main {
+    border-top: 2px solid #40B0E2;
+    max-width: 600px;
+    padding-top: 15px;
+    padding-right: 30px;
+    padding-left: 15px;
+    padding-bottom: 30px;
+}
+
+.page.about div.main ul li {
+    margin: 5px;
+}
+
+.page div.main h3 {
+    color: #40B0E2;
+}
+
+.page div.plan-a,
+.page div.plan-b,
+.page div.plan-c {
+	background-color: #40B0E2;
+	opacity: .8;
+	padding: 30px;
+    display: none;
+}
+
+.page div.info {
+	padding: 30px;
+    padding-bottom: 10px;
+	background-color: #e8e8e8;
+    position: relative;
+    min-height: 370px;
+}
+
+quote {
+    display: block;
+    margin: 10px;
+    line-height: 1.5em;
+    font-size: 1.1em;
+    font-style: italic;
+}
+
+quote span.marks {
+    font-size: 2em;
+    font-style: italic;
+    font-weight: 100;
+    vertical-align: bottom;
+    padding-right: 4px;
+}
+
+b.by {
+    padding-left: 10px;
+}
+
+div.box {
+    max-width: 45%;
+    min-width: 30%;
+    padding: 15px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+    float: left;
+    margin: 15px;
+    margin-top: 0px;
+}
+
+p.box {
+    max-width: 45%;
+    min-width: 30%;
+    position: relative; top: 20px; left: 20px;
+    padding: 15px;
+    padding-left: 0px;
+    padding-right: 0px;
+    font-style: italic;
+}
+
+p.box b {
+    font-style: normal;
+    font-weight: 900;
+}
+
+.poster ul.top-menu {
+	position: fixed; top: 10px; right: 30px;
+	z-index: 11; margin-top: 10px;
+	background-color: #fff;
+	padding-left: 0px;
+}
+
+.poster ul.top-menu li {
+	list-style-type: none;
+	margin: 0px;
+    float: left;
+    padding-top: 4px;
+    padding-bottom: 2px;
+}
+
+.page ul.low-menu {
+	margin-left: 110px; margin-right: 30px;
+	line-height: 2em; padding: 0px;
+}
+
+.page ul.low-menu li {
+    list-style-type: none;
+	float: left;
+	margin-left: 20px;
+}
+
+.page ul.low-menu a {
+    text-decoration: none;
+    color: #343434;
+    padding: 7px;
+    padding-left: 10px; padding-right: 10px;
+}
+
+.page ul.low-menu a:hover {
+	border-bottom: 2px solid #40B0E2;
+    color: darkgrey;
+}
+
+.poster ul.top-menu a {
+	text-decoration: none;
+	color: #40B0E2;
+    padding: 7px;
+    padding-left: 10px; padding-right: 10px;
+}
+
+.poster ul.top-menu li a {
+    padding: 6px;
+}
+
+.poster ul.top-menu li a.active,
+.poster ul.top-menu li a:hover {
+    background-color: #40B0E2;
+    color: #000;
+    padding-top: 8px;
+    padding-bottom: 7px;
+}
+
+.poster ul.top-menu li a.active {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.poster ul.top-menu li a.active {
 	background-color: #40B0E2;
     color: #000;
 }
@@ -557,6 +752,12 @@ p.footer {
 p.footer a {
 	color: #40B0E2;
 }
+
+
+
+
+
+
 
 /**  old school styles  */
 
@@ -681,9 +882,9 @@ p.footer a {
   color: #fff; text-decoration: underline; cursor: pointer; padding: 4px;
 }
 
-.title, .title a {
+/** .title, .title a {
   font-size: 24px; text-decoration: none; float:right; margin-top: 0.2em;
-}
+} **/
 
 .shadowed {
   text-shadow: 1px 1px 5px #fff;
