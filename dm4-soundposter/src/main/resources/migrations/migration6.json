@@ -1,0 +1,124 @@
+{
+    topic_types: [
+        {
+            "value":         "Stream Unavailable",
+            "uri":           "com.soundposter.stream_unavailable",
+            "data_type_uri": "dm4.core.boolean",
+            "index_mode_uris": ["dm4.core.key"],
+            "view_config_topics": [
+                {
+                    "type_uri": "dm4.webclient.view_config",
+                    "composite": {
+                        "dm4.webclient.add_to_create_menu": false,
+                        "dm4.webclient.is_searchable_unit": false
+                    }
+                }
+            ]
+        },
+            {
+            "value":         "Sound Description",
+            "uri":           "com.soundposter.sound_description",
+            "data_type_uri": "dm4.core.text",
+            "index_mode_uris": ["dm4.core.fulltext"],
+            "view_config_topics": [
+                {
+                    "type_uri": "dm4.webclient.view_config",
+                    "composite": {
+                        "dm4.webclient.add_to_create_menu": false,
+                        "dm4.webclient.is_searchable_unit": false
+                    }
+                }
+            ]
+        },
+        {
+            "value":         "Soundposter Description",
+            "uri":           "com.soundposter.soundposter_description",
+            "data_type_uri": "dm4.core.text",
+            "index_mode_uris": ["dm4.core.fulltext"],
+            "view_config_topics": [
+                {
+                    "type_uri": "dm4.webclient.view_config",
+                    "composite": {
+                        "dm4.webclient.add_to_create_menu": false,
+                        "dm4.webclient.is_searchable_unit": false,
+                        "dm4.webclient.rows": 4
+                    }
+                }
+            ]
+        },
+        {
+            "value":         "Soundposter Hashtag",
+            "uri":           "com.soundposter.soundposter_hashtag",
+            "data_type_uri": "dm4.core.text",
+            "index_mode_uris": ["dm4.core.fulltext"],
+            "view_config_topics": [
+                {
+                    "type_uri": "dm4.webclient.view_config",
+                    "composite": {
+                        "dm4.webclient.add_to_create_menu": false,
+                        "dm4.webclient.is_searchable_unit": false
+                    }
+                }
+            ]
+        },
+        {
+            "value":         "Setlist Label",
+            "uri":           "com.soundposter.setlist_label",
+            "data_type_uri": "dm4.core.text",
+            "index_mode_uris": ["dm4.core.fulltext"],
+            "view_config_topics": [
+                {
+                    "type_uri": "dm4.webclient.view_config",
+                    "composite": {
+                        "dm4.webclient.add_to_create_menu": false,
+                        "dm4.webclient.is_searchable_unit": false
+                    }
+                }
+            ]
+        },
+        {
+            "value":         "Buy Link Label",
+            "uri":           "com.soundposter.buy_link_label",
+            "data_type_uri": "dm4.core.text",
+            "index_mode_uris": ["dm4.core.fulltext"],
+            "view_config_topics": [
+                {
+                    "type_uri": "dm4.webclient.view_config",
+                    "composite": {
+                        "dm4.webclient.add_to_create_menu": false,
+                        "dm4.webclient.is_searchable_unit": false
+                    }
+                }
+            ]
+        },
+        {
+            "value":         "Buy Link Href",
+            "uri":           "com.soundposter.buy_link_href",
+            "data_type_uri": "dm4.core.text",
+            "index_mode_uris": ["dm4.core.fulltext"],
+            "view_config_topics": [
+                {
+                    "type_uri": "dm4.webclient.view_config",
+                    "composite": {
+                        "dm4.webclient.add_to_create_menu": false,
+                        "dm4.webclient.is_searchable_unit": false
+                    }
+                }
+            ]
+        }
+     ], assoc_types: [
+         {
+            "value": "Preview Graphic",
+            "uri": "com.soundposter.preview_graphic_edge",
+            "data_type_uri": "dm4.core.text",
+            "view_config_topics": [
+                {
+                    "type_uri": "dm4.webclient.view_config",
+                    "composite": {
+                        "dm4.webclient.color": "#343434"
+                    }
+                }
+            ]
+        }
+     ]
+ }
