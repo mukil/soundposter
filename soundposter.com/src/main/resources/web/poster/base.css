@@ -617,6 +617,35 @@ body.page {
     padding-bottom: 30px;
 }
 
+#newsletter input.text {
+    display: block;
+    height: 30px;
+    padding-left: 10px;
+    border: 2px solid #40B0E2;
+    background-color: #fff;
+    font-family: "Myriad Pro Regular", "Trebuchet MS", sans-serif;
+    font-size: 1.1em;
+    color: #343434;
+    margin: 15px;
+    width: 300px;
+    margin-left: 0px;
+}
+
+#newsletter input:focus {
+    border-top: 2px solid #343434;
+}
+
+#newsletter input.submit {
+    cursor: pointer;
+    font-family: "Myriad Pro Regular", "Trebuchet MS", sans-serif;
+    font-size: 1.1em;
+    color: #343434;
+    padding: 10px;
+    margin: 15px;
+    height: 44px;
+    margin-left: 0px;
+}
+
 .page.about div.main ul li {
     margin: 5px;
 }
@@ -732,10 +761,9 @@ p.box b {
 
 .browse .poster-preview .graphic {
     width: 297px;
-    height: 440px;
+    height: 420px;
     padding: 0px; margin: 0px;
     padding-top: 15px;
-    position: relative; top: -20px;
     /** background-size: 300, 450; **/
 }
 

@@ -7,6 +7,7 @@ import com.sun.jersey.api.view.Viewable;
 import de.deepamehta.core.RelatedTopic;
 import de.deepamehta.core.ResultSet;
 import de.deepamehta.core.Topic;
+import de.deepamehta.core.model.CompositeValue;
 import de.deepamehta.core.model.SimpleValue;
 import de.deepamehta.core.model.TopicModel;
 import de.deepamehta.core.service.PluginService;
@@ -52,6 +53,9 @@ public class WebsitePlugin extends WebActivatorPlugin {
     private static final String CHILD_TYPE_URI = "dm4.core.part";
     private static final String PARENT_TYPE_URI = "dm4.core.whole";
     private static final String DEFAULT_TYPE_URI = "dm4.core.default";
+
+    private static String PERSON_TYPE_URI = "dm4.contacts.person";
+    private static String MAILBOX_TYPE_URI = "dm4.contacts.email_address";
 
     private static final String VIEW_POSTER_URL_PREFIX = "/posterview";
 
@@ -163,6 +167,13 @@ public class WebsitePlugin extends WebActivatorPlugin {
         return "Error";
     }
 
+    @GET
+    @Path("/robots.txt")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getRobotsTxt(@HeaderParam("Cookie") ClientState clientState) {
+        return "User-agent: *\n\rDisallow: "; // Allow all
+    }
+
     /** fixme: return robots.txt */
 
 	@GET
@@ -200,6 +211,27 @@ public class WebsitePlugin extends WebActivatorPlugin {
         log.info("Requesting soundposter.com about page .. ");
 		context.setVariable("pageId", "about");
         return view("about");
+    }
+
+    @GET
+    @Path("/register")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable registerSimpleNewsAccount(@QueryParam("name") String name, @QueryParam("mailbox") String mailbox) {
+        try {
+            log.info("setting up new newsaccount ");
+			CompositeValue personData =  new CompositeValue()
+					.add("dm4.contacts.email_address", new TopicModel("dm4.contacts.email_address", new SimpleValue(mailbox)))
+                    .put("dm4.contacts.person_name", new TopicModel("dm4.contacts.person_name",
+                        new CompositeValue(new JSONObject().put("dm4.contacts.first_name", name))));
+			TopicModel userModel = new TopicModel(PERSON_TYPE_URI, personData);
+			dms.createTopic(userModel, null);
+            log.info("created new newsletter recipient (person)");
+            context.setVariable("pageId", "thanks");
+			return view("thanks");
+        } catch (Exception e) {
+            log.warning(e.getMessage());
+            throw new WebApplicationException(e.getCause());
+        }
     }
 
 	@GET
