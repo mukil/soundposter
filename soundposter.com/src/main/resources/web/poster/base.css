@@ -605,6 +605,8 @@ body.page {
     font-size: 1.1em;
 }
 
+.page.legal div.main,
+.page.philosophy div.main,
 .page.sign-up div.main,
 .page.about div.main {
     border-top: 1px solid #40B0E2;
@@ -813,13 +815,21 @@ p.box b {
     padding: 5px;
 }
 
+.about .footer.area,
+.page .footer.area,
+.sign-up .footer.area,
+.legal .footer.area,
+.philosophy .footer.area,
 .browse .footer.area {
     float: left;
-    width: 90%;
+}
+
+.browse .footer.area {
+    width: 85%;
 }
 
 .page ul.low-menu {
-	margin-left: 86px; margin-right: 30px;
+	margin-right: 30px;
 	line-height: 2em; padding: 0px;
 }
 
@@ -836,6 +846,7 @@ p.box b {
     padding-left: 10px; padding-right: 10px;
 }
 
+.page ul.low-menu li a.selected,
 .page ul.low-menu a:hover {
 	border-bottom: 2px solid #40B0E2;
     color: darkgrey;

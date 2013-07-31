@@ -34,7 +34,6 @@
         <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
 
-            var poster = /*[[${poster}]]*/ '{}'
             var ADAPT_CONFIG = { path: '/com.soundposter.website/poster/site/', dynamic: true,
                 range: [
                     '0px    to 710px	= mobile-site.css',
@@ -52,55 +51,45 @@
 
     <body class="page" th:attrappend="class=${' ' + pageId}">
 
-        <div class="left-side"></div>
-        <div class="right-side"></div>
-
-        <!-- ul class="top-menu">
-            <li><a class="active" href="#">Welcome</a></li>
-            <li><a href="/sign-up">Sign-up</a></li>
-            <li><a href="/browse">Browse</a></li>
-        </ul-->
-
         <div class="title">
-            <span class="pre-logo">Welcome to&nbsp;</span><span class="logo">soundposter.com</span><br/>
+            <span class="pre-logo">Welcome to&nbsp;</span><span class="logo"><a href="/" title="Back Home">soundposter.com</a></span><br/>
         </div>
 
         <div class="subtitle">
             At the moment you can <a href="/sign-up">/sign</a> your interest to collaborate with us or <a href="/browse">/browse</a> all soundposters. Additionally, you can read <a href="/#say-what">what others say</a> or what <a href="/about-us">/we say about us</a>.
         </div>
 
-        <div class="header area">
-            <div class="featured" th:attr="style='background-image:url(' + ${graphic} + ');'">
-                <div class="headline"><a th:text="${subtitle}" th:href="${link}"></a></div>
-                <div class="author"><a th:text="${author}" th:href="${link}"></a></div>
-                <!-- img src="/com.soundposter.website/images/soundposter_play_button_600.png" class="play"
-                        alt="Image: Play Random Soundposter" title="Image/Button: Play Random Soundposter Now" /-->
-            </div>
-        </div>
-
         <div class="main area">
-            <a name="say-what">&nbsp;</a>
-            <div class="info child-area">
-                <h3>What others say?</h3>
-                <div class="box">
-                    <quote><span class="marks">&#8220;</span>Finally a beatiful player for my records on the web.<span class="marks">&#8221;</span></quote>
-                    <b class="by"><a href="/posterview/moh/joestrommler" title="Soundposter: Joes Trommler">Ben (Joes Trommler)</a></b><br/><br/>
-                    <quote><span class="marks">&#8220;</span>And a very special highlight: Based on our SoundCloud-Compilation we have a fantastic tool allowing you to cruise over the sound and the area of the Torstra&szlig;enfestival in advance.<span class="marks">&#8221;</span></quote>
-                    <b class="by"><a href="https://newthinking.de/2012/08/24/die-karte-der-zeitplandie-musik-torstrasen-festival-2012/" title="Blog entry (German) by newthinking communications GmbH">newthinking</a></b>
-                </div>
-                <div class="box">
-                    <quote><span class="marks">&#8220;</span>This is absolutely the perfect tool for events with music in the program.<span class="marks">&#8221;</span></quote>
-                    <b class="by"><a href="http://www.blogbleistift.de/post/30029987835/soundposter" title="Blog und Bleistift (German)">Anna-Lena</a></b><br/><br/>
-                    <quote><span class="marks">&#8220;</span>Through this piece of technology I came across Oscar &amp; The Wolf.<span class="marks">&#8221;</span></quote>
-                    <b class="by"><a href="http://onrealitysedge.wordpress.com/2012/08/29/oscar-the-wolf-und-das-torstrasenfestival/" title="Blog: On Reality's Edge (German)">Christoph</a></b>
-                </div>
+            <div class="plan-a child-area">
+                <h3>What is it and what can I do with it?</h3>
+                <p>
+                    Soundposter is a new format for audible websites which "brings back the face to digital audio distribution" (<a href="http://www.jrimixes.de">jri</a>).
+                    With this platform you can create audible websites to promote your festival or event like an upcoming gig or you can just orchestrate your favourite set of sounds available on the web to images.<br/><br/>
+                    Have a look at what others did with soundposter in our <a href="/browse">/browse</a>-section.
+                </p>
+            </div>
+            <!--div class="plan-b child-area">
+                <h3>The Way</h3>
+                <p>
+                    In our next step we plan to let you aggregate your favourite sounds in a playlist with the support of major streaming-providers available on the web. This functionality is similatr to what e.g. <a href="http://www.musicplayr.com">musicplayr.com</a> is currently doing for me (nicely).
+                    Having accomplished that feat, we'll step on to actually enable you to depict and visualize your sounds and soundsets for various audiences more easily as it is now. And after that we will be able to work hard on making sharing of your soundposter a lot more compatible with other services on the web.
+                </p>
+            </div-->
+            <div class="plan-c child-area">
+                <h3>Money, Honey?</h3>
+                <p>
+                    We plan to provide soundposter completely free of ads. As a consequence the usage for publishers will not be completely free of charge. But here are the good news again: It's low priced.
+                    We will offer distinct subscription possibilities for all creators of soundposters as well as the option for everyone to publish single soundposters.
+                    <!--Furthermore, soundposter claims to follow the rules of fairness and to communicate openly.
+                    We fully and unconditionally respect the intellectual property of third parties. If you have any kind of questions, stimulations or ideas for enhancements
+                    we are looking forward to reading your input about soundposter at info|at|soundposter.com or via <a href="http://twitter.com/soundposter">Twitter</a>. -->
+                </p>
             </div>
         </div>
 
-        <!-- div class="main area"></div-->
         <div class="footer area">
             <ul class="low-menu">
-                <li><a href="/philosophy">Philosophy</a></li>
+                <li><a href="/philosophy" class="selected">Philosophy</a></li>
                 <li><a href="/legal">Legal / Imprint</a></li>
                 <li><a href="/about-us">About us</a></li>
                 <li><a href="http://blog.soundposter.com" title="Editing Soundposter">Blog</a></li>

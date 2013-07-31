@@ -49,7 +49,7 @@
 
     </head>
 
-    <body class="browse page" th:attrappend="class=${' ' + pageId}">
+    <body class="page" th:attrappend="class=${' ' + pageId}">
 
         <div class="title">
             <span class="pre-logo">Welcome to&nbsp;</span><span class="logo"><a href="/" title="Back Home">soundposter.com</a></span><br/>
@@ -63,13 +63,15 @@
             ...
         </div>
 
-        <ul class="low-menu">
-            <li>Help</li>
-            <li>Legal / Imprint</li>
-            <li>Philosophy</li>
-            <li><a href="/about-us">About us</a></li>
-            <li><a href="http://blog.soundposter.com" title="Editing Soundposter">Our Blog</a></li>
-        </ul>
+        <div class="footer area">
+            <ul class="low-menu">
+                <li><a href="/philosophy">Philosophy</a></li>
+                <li><a href="/legal">Legal / Imprint</a></li>
+                <li><a href="/about-us">About us</a></li>
+                <li><a href="http://blog.soundposter.com" title="Editing Soundposter">Blog</a></li>
+                <!-- li><a href="http://twitter.com/soundposter" title="Follow us on Twitter">Follow us @soundposter</a></li-->
+            </ul>
+        </div>
 
         <!--noscript>
             <p><img src="http://stats.soundposter.com/p/piwik.php?idsite=1" style="border:0" alt="" /></p>

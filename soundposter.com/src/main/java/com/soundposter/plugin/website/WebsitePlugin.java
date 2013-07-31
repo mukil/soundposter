@@ -175,6 +175,25 @@ public class WebsitePlugin extends WebActivatorPlugin {
     }
 
     @GET
+    @Path("/philosophy")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable getPhilosophyPage(@HeaderParam("Cookie") ClientState clientState) {
+        log.info("Requesting soundposter.com sign-up page .. ");
+		context.setVariable("pageId", "philosophy");
+        return view("philosophy");
+    }
+
+    @GET
+    @Path("/legal")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable getLegalPage(@HeaderParam("Cookie") ClientState clientState) {
+        log.info("Requesting soundposter.com legal page .. ");
+		context.setVariable("pageId", "legal");
+        return view("legal");
+    }
+
+
+    @GET
     @Path("/about-us")
     @Produces(MediaType.TEXT_HTML)
     public Viewable getAboutPage(@HeaderParam("Cookie") ClientState clientState) {
@@ -193,7 +212,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
         ResultSet<RelatedTopic> all = getAllPublishedSoundposter(clientState);
         // build up sortable collection of all result-items (warning: in-memory copy of _all_ published soundposter)
         ArrayList<RelatedTopic> in_memory = getResultSetSortedByTitle(all, clientState);
-        int max_count = 3, modulo_half = 1, count = 0, start_count = page_nr * max_count;
+        int max_count = 6, modulo_half = 1, count = 0, start_count = page_nr * max_count;
         // throw error if page is unexpected high or NaN
         for (RelatedTopic item : in_memory) {
             // start of preparing page results
