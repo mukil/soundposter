@@ -77,6 +77,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
         log.info("Requesting front page without pathinfo.. ");
         context.setVariable("pageId", "welcome");
         Topic featured = getRandomFeaturedSoundposter(clientState);
+        if (featured == null) return view("index");
         // prepare page, find the poster graphic
         String graphicPath = getPosterGraphicURL(featured);
         String webalias = featured.getCompositeValue().getString("com.soundposter.web_alias");
@@ -185,9 +186,71 @@ public class WebsitePlugin extends WebActivatorPlugin {
 	@GET
     @Path("/browse/{pageNr}")
 	@Produces(MediaType.TEXT_HTML)
-    public Viewable getBrowsePage(@PathParam("pageNr") int pageNr, @HeaderParam("Cookie") ClientState clientState) {
-        log.info("Requesting page " +pageNr+ " to browse all published soundposter.. ");
+    public Viewable getBrowsePage(@PathParam("pageNr") int page_nr, @HeaderParam("Cookie") ClientState clientState) {
+        log.info("Requesting page " +page_nr+ " to browse all published soundposter.. ");
 		context.setVariable("pageId", "browse");
+        ArrayList<PreviewPoster> results = new ArrayList<PreviewPoster>();
+        ResultSet<RelatedTopic> all = getAllPublishedSoundposter(clientState);
+        // build up sortable collection of all result-items (warning: in-memory copy of _all_ published soundposter)
+        ArrayList<RelatedTopic> in_memory = getResultSetSortedByTitle(all, clientState);
+        int max_count = 3, modulo_half = 1, count = 0, start_count = page_nr * max_count;
+        // throw error if page is unexpected high or NaN
+        for (RelatedTopic item : in_memory) {
+            // start of preparing page results
+            if (count == start_count + max_count) { // reached n-soundposter, beginning at m + items-on-page
+                // returning results since result-set is full
+                context.setVariable("total_count", in_memory.size());
+                context.setVariable("page", page_nr);
+                int overall_pages = (all.getTotalCount() % max_count > modulo_half) ? (all.getTotalCount() / max_count) : all.getTotalCount() / max_count + 1;
+                // int overall_pages = all.getTotalCount() / max_count;
+                //
+                int next_page = (page_nr == overall_pages) ? page_nr : page_nr + 1;
+                int previous_page = (page_nr == 0) ? 0 : (page_nr - 1);
+                boolean not_on_first_page = (page_nr > 0) ? true : false;
+                boolean not_on_last_page = (page_nr == overall_pages) ? false : true;
+                context.setVariable("not_on_first_page", not_on_first_page);
+                context.setVariable("not_on_last_page", not_on_last_page);
+                context.setVariable("previous_page_url", (page_nr > 0) ? "/browse/" + previous_page : "/browse/" + overall_pages);
+                context.setVariable("next_page_url", "/browse/" + next_page);
+                context.setVariable("pages", overall_pages);
+                context.setVariable("from", start_count);
+                context.setVariable("to", start_count + (start_count - results.size()));
+                context.setVariable("set", results);
+                return view("browse");
+            }
+            if (count >= start_count) {
+                // arrived at the interesting parts of result-set
+                String title = item.getModel().getSimpleValue().toString();
+                String username = getProfileAliasForPoster(item);
+                String web_alias = item.getCompositeValue().getString("com.soundposter.web_alias");
+                String url = VIEW_POSTER_URL_PREFIX + "/" + username + "/" + web_alias;
+                String onclick = "javascript:window.location.href=\""+url+"\"";
+                String graphic_url = getPreviewGraphicURL(item);
+                if (graphic_url == null) graphic_url = getPosterGraphicURL(item);
+                String preview_graphic_style = "background: url(" + graphic_url + ") 0px 0px no-repeat;";
+                PreviewPoster poster = new PreviewPoster(title, url, username, preview_graphic_style, onclick);
+                //
+                results.add(poster);
+            }
+            count++;
+            // finished preparing page results
+        }
+        // if there are less posters than max_count in the database, the loop runs out without the page being prepared
+        context.setVariable("total_count", in_memory.size());
+        context.setVariable("page", page_nr);
+        int overall_pages = (all.getTotalCount() % max_count > modulo_half) ? (all.getTotalCount() / max_count) : all.getTotalCount() / max_count + 1;
+        // int overall_pages = all.getTotalCount() / max_count;
+        //
+        int next_page = (page_nr == overall_pages) ? 0 : page_nr + 1;
+        int previous_page = (page_nr == 0) ? 0 : (page_nr - 1);
+        context.setVariable("not_on_first_page", (page_nr > 0) ? true : false);
+        context.setVariable("not_on_last_page", (page_nr == overall_pages) ? false : true);
+        context.setVariable("previous_page_url", (page_nr > 0) ? "/browse/" + previous_page : "/browse");
+        context.setVariable("next_page_url", "/browse/" + next_page);
+        context.setVariable("pages", overall_pages);
+        context.setVariable("from", start_count);
+        context.setVariable("to", start_count + (start_count - results.size()));
+        context.setVariable("set", results);
         return view("browse");
     }
 
@@ -195,36 +258,9 @@ public class WebsitePlugin extends WebActivatorPlugin {
     @Path("/browse")
 	@Produces(MediaType.TEXT_HTML)
     public Viewable getBrowsePage(@HeaderParam("Cookie") ClientState clientState) {
-        log.info("Requesting page nr. 1 to browse all published soundposter.. ");
+        log.info("Requesting page nr. 0 to browse all published soundposter.. ");
 		context.setVariable("pageId", "browse");
-        ArrayList<PreviewPoster> resultset = new ArrayList<PreviewPoster>();
-        ResultSet<RelatedTopic> all = getAllPublishedSoundposter(clientState);
-        int max_count = 8, count = 0;
-        for (RelatedTopic item : all) {
-            if (count == max_count) {
-                context.setVariable("total_count", all.getTotalCount());
-                context.setVariable("page", 1);
-                context.setVariable("pages", all.getTotalCount() / max_count);
-                context.setVariable("offset", 0);
-                context.setVariable("set", resultset);
-                return view("browse");
-            }
-            String title = item.getModel().getSimpleValue().toString();
-            String username = getProfileAliasForPoster(item);
-            String web_alias = item.getCompositeValue().getString("com.soundposter.web_alias");
-            String url = VIEW_POSTER_URL_PREFIX + "/" + username + "/" + web_alias;
-            String preview_graphic_style = "background: url(" + getPosterGraphicURL(item) + ") -30px 0px; no-repeat";
-            PreviewPoster poster = new PreviewPoster(title, url, username, preview_graphic_style);
-            //
-            resultset.add(poster);
-            count++;
-        }
-        context.setVariable("total_count", all.getTotalCount());
-		context.setVariable("page", 1);
-		context.setVariable("pages", all.getTotalCount() / max_count);
-        context.setVariable("offset", 0);
-        context.setVariable("set", resultset);
-        return view("browse");
+        return getBrowsePage(0, clientState);
     }
 
 	@GET
@@ -541,6 +577,15 @@ public class WebsitePlugin extends WebActivatorPlugin {
         return "/filerepo" + graphic.getCompositeValue().getString("dm4.files.path");
     }
 
+    private String getPreviewGraphicURL (Topic poster) {
+        Topic previewGraphic = poster.getRelatedTopic("com.soundposter.preview_graphic_edge",
+                DEFAULT_TYPE_URI, DEFAULT_TYPE_URI, "dm4.files.file", true, false, null);
+        if (previewGraphic != null) {
+            return "/filerepo" + previewGraphic.getCompositeValue().getString("dm4.files.path");
+        }
+        return null;
+    }
+
     private String getProfileAliasForPoster(Topic poster) {
         // ### check if profile is active..
         RelatedTopic author = poster.getRelatedTopic("com.soundposter.author_edge", "dm4.core.default",
@@ -596,6 +641,22 @@ public class WebsitePlugin extends WebActivatorPlugin {
         } else if (service == tmService) {
 			tmService = null;
 		}
+    }
+
+    private ArrayList<RelatedTopic> getResultSetSortedByTitle (ResultSet<RelatedTopic> all, ClientState clientState) {
+        // build up sortable collection of all result-items
+        ArrayList<RelatedTopic> in_memory = new ArrayList<RelatedTopic>();
+        for (RelatedTopic obj : all) {
+            in_memory.add(obj);
+        }
+        // sort all result-items
+        Collections.sort(in_memory, new Comparator<RelatedTopic>() {
+            public int compare(RelatedTopic t1, RelatedTopic t2) {
+                return t1.getSimpleValue().toString().toLowerCase()
+                        .compareTo(t2.getSimpleValue().toString().toLowerCase());
+            }
+        });
+        return in_memory;
     }
 
 }

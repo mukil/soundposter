@@ -1,7 +1,7 @@
 {
     topic_types: [
         {
-            value:         "Label",
+            value:         "Text",
             uri:           "com.soundposter.text",
             data_type_uri: "dm4.core.text",
             index_mode_uris: ["dm4.core.fulltext", "dm4.core.key"],

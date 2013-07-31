@@ -448,8 +448,6 @@ ul.listing div.element .source-info a.unspecified-stream {
 /** Site-wide styles does start here **/
 
 body.page {
-	margin-left: 10px;
-	margin-right: 10px;
 	margin-top: 0px;
 	margin-bottom: 0px;
 	padding-top: 30px;
@@ -536,10 +534,13 @@ body.page {
 	background-image: url("/com.soundposter.website/images/soundposter_button_blue_with_arrow_out_600.png");
 } **/
 
-.page div.header {
+.page div.header.area {
 	background-color: white;
     margin-top: 30px;
     overflow: hidden;
+    /** position: relative;
+    left: 0px; top: 20px;
+    margin: 0px; **/
 }
 
 .page div.header .featured {
@@ -548,6 +549,8 @@ body.page {
 	background-position-y: center;
     height: 700px;
     text-align: center;
+    /* border-top: 1px solid #343434;
+    border-bottom: 1px solid #343434; */
 }
 
 .page div.header .featured img {
@@ -623,10 +626,9 @@ body.page {
 .page div.plan-a,
 .page div.plan-b,
 .page div.plan-c {
-	background-color: #40B0E2;
-	opacity: .8;
-	padding: 30px;
-    display: none;
+	background-color: #fff;
+    color: darkgrey;
+	padding: 10px;
 }
 
 .page div.info {
@@ -706,15 +708,29 @@ p.box b {
 
 .browse .poster-preview {
     float: left;
-    width: 300px;
-    height: 400px;
-    padding: 0px; margin: 0px;
+    width: 297px;
+    height: 420px;
+    padding: 0px;
     position: relative;
+    opacity: 0.9;
+    margin: 15px;
+    margin-right: 30px;
+    margin-left: 0px;
+}
+
+.browse .poster-preview:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.browse .poster-preview:hover a.link {
+    background: #40B0E2;
+    color: #fff;
 }
 
 .browse .poster-preview .graphic {
-    width: 300px;
-    height: 410px;
+    width: 297px;
+    height: 440px;
     padding: 0px; margin: 0px;
     padding-top: 15px;
     position: relative; top: -20px;
@@ -723,14 +739,14 @@ p.box b {
 
 .browse .poster-preview a.link {
     font-weight: 900;
-    max-width: 250px;
     margin-top: 15px;
-    font-size: 1.8em;
+    font-size: 1.5em;
     background-color: #343434;
     color: #fff;
     text-decoration: none;
     padding: 10px;
     display: block;
+    width: 85%;
 }
 
 .browse .poster-preview a.link:hover {
@@ -752,12 +768,54 @@ p.box b {
 
 .browse .main.area {
     min-height: 400px;
-    padding-top: 30px;
+    padding-top: 0px;
 }
 
 .browse .bottom.area {
+    float: left;
     background-color: #fff;
     padding: 5px;
+    margin: 0px;
+}
+
+.browse .main .page-controls {
+    height: 40px;
+    position: relative;
+    top: 0px;
+    background-color: #fff;
+    color: darkgrey;
+    text-align: left;
+    margin-bottom: 30px;
+}
+
+.browse .main .page-controls a {
+    text-decoration: none;
+}
+
+.page-controls a.no-previous-page,
+.page-controls a.previous-page {
+    margin-left: 60px;
+    margin-right: 10px;
+}
+
+.page-controls a.next-page,
+.page-controls a.previous-page {
+    color: #40B0E2;
+    cursor: pointer;
+    padding: 5px;
+}
+
+
+.page-controls a.no-next-page,
+.page-controls a.no-previous-page {
+    color: darkgrey;
+    cursor: text;
+    padding: 5px;
+}
+
+.browse .footer.area {
+    float: left;
+    width: 90%;
 }
 
 .page ul.low-menu {
@@ -889,7 +947,7 @@ p.footer a {
 .postertext {
   background-color: #3d3d3d; color: #fff; /** color: #40B0E2; **/
   padding: 4px; font-weight: bold; /* font-style: italic; */
-  z-index: 100; font-size: 16px; font-family: "OopenMyriad Pro Regular", "Trebuchet MS", sans-serif;
+  z-index: 113; font-size: 16px; font-family: "OopenMyriad Pro Regular", "Trebuchet MS", sans-serif;
 }
 
 .played {

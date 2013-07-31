@@ -144,6 +144,8 @@ var poster = new function () {
     }
 
     this.perform_flash_check_call = function () {
+        // if on android and khtml, let's recommend the following browser aggressively:
+        // https://play.google.com/store/apps/details?id=org.mozilla.firefox_beta
         var flash_object = document.getElementById('dummy_movie')
         try {
             // console.log(flash_object)
@@ -232,6 +234,24 @@ var poster = new function () {
 
     this.share = function () {
 
+        var trackId = 0
+        var text = "", url = "", hashtags = "np, soundposter"
+        if (poster.selected_track == undefined) {
+            // share poster
+            console.log(poster.data)
+            var text = "Listening to " + poster.data.info.value
+        } else {
+            // share track
+            trackId = poster.selected_track.id
+            console.log("we want to share a track in a poster.. " + trackId)
+            url = "http://new.soundposter.com" + poster.path + "/" + trackId
+            text = "Listening to " + poster.selected_track.value + " in " + poster.data.info.value + " on "
+        }
+        var intentAddress = 'https://twitter.com/intent/tweet?url='+url+'&text='+text+'&hashtags='+ hashtags
+        // open blank window with intent address
+        console.log(encodeURI(intentAddress))
+        // URL-Schema:
+        // https://twitter.com/intent/tweet?url=http://www.soundposter.com/..&text=Track 1 - Soundposter X&hashtags=np,soundposter
     }
 
     this.stop_propagation = function (e) {

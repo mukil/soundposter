@@ -60,27 +60,31 @@
         </div>
 
         <div class="main area">
+            <div class="page-controls">
+                Page <span class="page" th:text="${page}" /> of <span class="pages" th:text="${pages}" />
+                <a th:href="${previous_page_url}" th:class="${not_on_first_page} ? 'previous-page' : 'no-previous-page'">Previous</a>
+                <a th:href="${next_page_url}" th:class="${not_on_last_page} ? 'next-page' : 'no-next-page'">Next page</a>
+            </div>
             <div class="poster-preview" th:each="poster : ${set}">
-                <div th:style="${poster.background_css}" class="graphic">
-                    <!-- span class="title" th:text="${poster.title}"></span-->
-                    <span class="username" th:title="'Username ' + ${poster.username}" th:alt="'Username ' + ${poster.username}" th:text="${poster.username}"></span>
+                <div th:style="${poster.background_css}" class="graphic" th:attr="onclick=${poster.onclick}">
+                    <!-- span class="username" th:title="'Username ' + ${poster.username}" th:alt="'Username ' + ${poster.username}" th:text="${poster.username}"></span-->
                     <a class="link" th:title="'Watch Soundposter: ' + ${poster.title}" th:href="${poster.url}" th:text="${poster.title}"></a>
                 </div>
             </div>
+            <div class="bottom area">
+                On page <span class="page" th:text="${page}" /> of <span class="pages" th:text="${pages}" /> in this alphabetically sorted and growing book we are currently looking at query-result number <span class="number" th:text="${from}" /> to <span class="to" th:text="${from} + ${set.size}" /> :)
+            </div>
         </div>
 
-        <div class="bottom area">
-            <span class="number" th:text="'Showing ' + ${set.size}" /> of <span class="numbers" th:text="${total_count}" /> available soundposters.
-            <span class="page" th:text="'Page ' + ${page}" /> of <span class="pages" th:text="${pages} + ' pages'" />
+        <div class="footer area">
+            <ul class="low-menu">
+                <li>Help</li>
+                <li>Legal / Imprint</li>
+                <li>Philosophy</li>
+                <li><a href="/about-us">About us</a></li>
+                <li><a href="http://blog.soundposter.com" title="Editing Soundposter">Our Blog</a></li>
+            </ul>
         </div>
-
-        <ul class="low-menu">
-            <li>Help</li>
-            <li>Legal / Imprint</li>
-            <li>Philosophy</li>
-            <li><a href="/about-us">About us</a></li>
-            <li><a href="http://soundposter.tumblr.com" title="Editing Soundposter">Blog</a></li>
-        </ul>
 
         <!--noscript>
             <p><img src="http://stats.soundposter.com/p/piwik.php?idsite=1" style="border:0" alt="" /></p>

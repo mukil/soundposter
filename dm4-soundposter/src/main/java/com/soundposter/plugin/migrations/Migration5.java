@@ -15,16 +15,17 @@ import org.codehaus.jettison.json.JSONTokener;
 
 
 public class Migration5 extends Migration {
-    
+
     private Logger log = Logger.getLogger(getClass().getName());
 
     // -------------------------------------------------------------------------------------------------- Public Methods
 
     @Override
     public void run() {
-        
+
+        log.info("Skipping Migration5 ");
         // Get JSON-Tracks Result
-        String allTracksUrl = "http://www.soundposter.com:8080/core/topic/by_type/dm4.soundposter.track";
+        /** String allTracksUrl = "http://www.soundposter.com:8080/core/topic/by_type/dm4.soundposter.track";
         String detailTrackUrl = "http://www.soundposter.com:8080/core/topic/";
         String jsonResponse = loadOldTracksData(allTracksUrl, null);
         // Iterate over Resultset
@@ -58,9 +59,9 @@ public class Migration5 extends Migration {
             }
         } catch (Exception et) {
             throw new RuntimeException(et);
-        }
+        }**/
     }
-    
+
     private void createSoundTopic(String soundName, String artistName, String streamingUrl) {
         TopicModel soundModel = new TopicModel("com.soundposter.sound", new CompositeValue()
                 .put("dm4.webbrowser.url", new TopicModel("dm4.webbrowser.url", new SimpleValue(streamingUrl))));
@@ -77,14 +78,14 @@ public class Migration5 extends Migration {
                         new SimpleValue(artistName))), null, null);
             }
             // make sounds editable in the future
-            dms.createAssociation(new AssociationModel("dm4.core.aggregation", 
-                    new TopicRoleModel(newSound.getId(), "dm4.core.whole"), 
+            dms.createAssociation(new AssociationModel("dm4.core.aggregation",
+                    new TopicRoleModel(newSound.getId(), "dm4.core.whole"),
                     new TopicRoleModel("de.workspaces.deepamehta", "dm4.core.part")), null);
         } catch (Exception ce) {
             throw new RuntimeException(ce);
         }
     }
-    
+
     private String loadOldTracksData(String endpoint, String requestParameters) {
         String result = null;
         if (endpoint.startsWith("http://")) {
@@ -122,7 +123,7 @@ public class Migration5 extends Migration {
         }
         return result;
     }
-    
+
     private String loadTrackData(String endpoint) {
         String result = null;
         if (endpoint.startsWith("http://")) {
