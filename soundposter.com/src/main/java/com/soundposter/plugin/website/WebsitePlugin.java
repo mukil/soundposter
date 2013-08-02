@@ -216,13 +216,15 @@ public class WebsitePlugin extends WebActivatorPlugin {
     @GET
     @Path("/register")
     @Produces(MediaType.TEXT_HTML)
-    public Viewable registerSimpleNewsAccount(@QueryParam("name") String name, @QueryParam("mailbox") String mailbox) {
+    public Viewable registerSimpleNewsAccount(@QueryParam("name") String name, @QueryParam("mailbox") String mailbox,
+            @QueryParam("message") String message) {
         try {
             log.info("setting up new newsaccount ");
 			CompositeValue personData =  new CompositeValue()
 					.add("dm4.contacts.email_address", new TopicModel("dm4.contacts.email_address", new SimpleValue(mailbox)))
                     .put("dm4.contacts.person_name", new TopicModel("dm4.contacts.person_name",
-                        new CompositeValue(new JSONObject().put("dm4.contacts.first_name", name))));
+                        new CompositeValue(new JSONObject().put("dm4.contacts.first_name", name))))
+                    .put("dm4.contacts.notes", "<p>" + message + "</p>");
 			TopicModel userModel = new TopicModel(PERSON_TYPE_URI, personData);
 			dms.createTopic(userModel, null);
             log.info("created new newsletter recipient (person)");

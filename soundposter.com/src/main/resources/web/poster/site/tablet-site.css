@@ -48,3 +48,9 @@ div.logo.area {
 .page.about div.main {
     padding-left: 0px;
 }
+
+.page-controls a.no-previous-page,
+.page-controls a.previous-page {
+    margin-left: 30px;
+    margin-right: 5px;
+}

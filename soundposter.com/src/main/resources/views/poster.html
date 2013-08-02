@@ -35,6 +35,11 @@
         End Piwik Tracking Code -->
 
         <script type="text/javascript" src="/com.soundposter.website/script/js/jquery.min.js"></script>
+        <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+            $(document).bind("mobileinit", function() { $.mobile.ajaxEnabled = false })
+        /*]]>*/
+        </script>
         <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
         <script type="text/javascript" src="/com.soundposter.website/script/vendor/jquery.ui/jquery-ui-1.10.3.custom.min.js"></script>
         <script type="text/javascript" src="/com.soundposter.website/script/vendor/raphaeljs/raphael-min.js"></script>
@@ -107,8 +112,8 @@
 
             <ul class="top-menu">
                 <li><a id="postername" class="active" href="javascript:;" th:text="${name}">Name</a></li>
-                <li><a id="sign-up" href="/sign-up">Sign-up</a></li>
-                <li><a id="browse" href="/browse">Browse</a></li>
+                <li><a id="sign-up" href="/sign-up" onclick="javascript:;" title="Sign-up to our newsletter">Sign-up</a></li>
+                <li><a id="browse" href="/browse" onclick="javascript:;" title="Browse all exsting soundposter">Browse</a></li>
             </ul>
 
             <div class="controls">

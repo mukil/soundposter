@@ -617,6 +617,7 @@ body.page {
     padding-bottom: 30px;
 }
 
+#newsletter textarea.message,
 #newsletter input.text {
     display: block;
     height: 30px;
@@ -629,6 +630,11 @@ body.page {
     margin: 15px;
     width: 300px;
     margin-left: 0px;
+}
+
+#newsletter textarea.message {
+    height: 140px;
+    padding-top: 10px;
 }
 
 #newsletter input:focus {
@@ -815,7 +821,7 @@ p.box b {
     background-color: #fff;
     color: darkgrey;
     text-align: left;
-    margin-bottom: 30px;
+    margin-bottom: 0px;
 }
 
 .browse .main .page-controls a {
@@ -824,7 +830,7 @@ p.box b {
 
 .page-controls a.no-previous-page,
 .page-controls a.previous-page {
-    margin-left: 60px;
+    margin-left: 30px;
     margin-right: 10px;
 }
 

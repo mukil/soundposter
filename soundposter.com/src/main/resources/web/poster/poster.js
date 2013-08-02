@@ -50,14 +50,13 @@ var poster = new function () {
         // initialize nodes
         this.initialize_nodes() // loads playlist and rendering_options
 
-        // fixme: initialize svg-interactives earlier, for e.g. image load percentage..
-        this.perform_flash_check_call()
+        // this.perform_flash_check_call()
 
         // initialize poster graphic first, and when loaded, the whole soundposter player
         $container = $('div.postergraphic')
         $image = $('img.graphic')
         $image.attr('src', graphicUrl)
-        $image.load(function(e) {
+        $image.load( function(e) {
             $container.width($image.width())
             $container.height($image.height())
 
@@ -81,6 +80,8 @@ var poster = new function () {
             poster.initialize_setlist_dialog()
 
             poster.path = "/posterview/" + username + "/" + webalias
+
+            // todo: another svg-element earlier, for displying e.g. image load percentage..
             if (trackId != 0) {
                 // dive deep into a soundposter
                 poster.selected_track = poster.get_viz_by_id(trackId)
@@ -93,6 +94,8 @@ var poster = new function () {
                 poster.show_interactives(poster.play_from_start)
                 // poster.show_setlist_dialog()
             }
+
+            //
             return null
         })
 
@@ -137,10 +140,12 @@ var poster = new function () {
                 poster.data.buylink = hyperlink.composite['dm4.webbrowser.url'].value;
                 poster.data.buylabel = hyperlink.composite['dm4.webbrowser.web_resource_description'].value;
                 poster.data.buylabel = poster.data.buylabel.toString() // .replaceAll("<p>", "").replaceAll("</p>", "")
+                $('a.support-link').text("Artist Link")
+                $('a.support-link').attr("href", poster.data.buylink)
+                return null
             }
-            $('a.support-link').text("Artist Link")
-            $('a.support-link').attr("href", poster.data.buylink)
         }
+        $('a.support-link').remove()
     }
 
     this.perform_flash_check_call = function () {
@@ -182,7 +187,7 @@ var poster = new function () {
             var author_info = (sound.composite.hasOwnProperty('com.soundposter.author_info')) ? sound.composite['com.soundposter.author_info'].value  : ""
             var license_info = (sound.composite.hasOwnProperty('com.soundposter.license_info')) ? sound.composite['com.soundposter.license_info'].value  : ""
             var track_position = (sound.composite.hasOwnProperty('com.soundposter.ordinal_number')) ? parseInt(sound.composite['com.soundposter.ordinal_number'].value) : 0
-            var source_info = (sound.composite.hasOwnProperty('com.soundposter.ordinal_number')) ? sound.composite['com.soundposter.source_info'].value : "com.soundposter.unspecified_source"
+            var source_info = (sound.composite.hasOwnProperty('com.soundposter.source_info')) ? sound.composite['com.soundposter.source_info'].value : "com.soundposter.unspecified_source"
             var stream_info = (sound.composite.hasOwnProperty('dm4.webbrowser.url')) ? sound.composite['dm4.webbrowser.url'].value : ""
             var stream_provider_class = "unspecified-stream"
             var stream_provider_placeholder = ""
@@ -238,18 +243,17 @@ var poster = new function () {
         var text = "", url = "", hashtags = "np, soundposter"
         if (poster.selected_track == undefined) {
             // share poster
-            console.log(poster.data)
-            var text = "Listening to " + poster.data.info.value
+            text = poster.data.info.value
+            url = "http://new.soundposter.com" + poster.path
         } else {
             // share track
             trackId = poster.selected_track.id
-            console.log("we want to share a track in a poster.. " + trackId)
             url = "http://new.soundposter.com" + poster.path + "/" + trackId
-            text = "Listening to " + poster.selected_track.value + " in " + poster.data.info.value + " on "
+            text = poster.selected_track.value + " - " + poster.data.info.value + " "
         }
         var intentAddress = 'https://twitter.com/intent/tweet?url='+url+'&text='+text+'&hashtags='+ hashtags
         // open blank window with intent address
-        console.log(encodeURI(intentAddress))
+        window.open(encodeURI(intentAddress), 'Share this sound via Twitter.com', 'width=300,height=420')
         // URL-Schema:
         // https://twitter.com/intent/tweet?url=http://www.soundposter.com/..&text=Track 1 - Soundposter X&hashtags=np,soundposter
     }
@@ -384,12 +388,12 @@ var poster = new function () {
         }
         //
         poster.show_notification((poster.mod.svg == false) ? "svg: Not supported" : "svg: OK")
-        poster.show_notification((poster.mod.inlinesvg == false) ? "inlinesvg: Not supported" : "inlinesvg: OK")
+        // poster.show_notification((poster.mod.inlinesvg == false) ? "inlinesvg: Not supported" : "inlinesvg: OK")
         poster.show_notification((poster.mod.audiodata == false) ? "audiodata: Not supported" : "audiodata: OK")
         poster.show_notification((poster.mod.webaudio == false) ? "webaudio: Not supported" : "webaudio: OK")
-        poster.show_notification((poster.mod.indexeddb == false) ? "indexeddb: Not supported" : "indexeddb: OK")
-        poster.show_notification((poster.mod.boxshado == false) ? "box shadow: Not supported" : "box shadow: OK")
-        poster.show_notification("user-agent: " + navigator.userAgent)
+        // poster.show_notification((poster.mod.indexeddb == false) ? "indexeddb: Not supported" : "indexeddb: OK")
+        // poster.show_notification((poster.mod.boxshado == false) ? "box shadow: Not supported" : "box shadow: OK")
+        // poster.show_notification("user-agent: " + navigator.userAgent)
     }
 
     this.show_notification = function (text) {
@@ -449,6 +453,8 @@ var poster = new function () {
         var graphicRadius = 50
         var graphicX = $image.width() / 2 + (graphicRadius / 2)
         var graphicY = $image.height() / 2 + (graphicRadius / 2)
+        // var graphicX = poster.viewport_width() / 2
+        // var graphicY = poster.viewport_height() / 2
         poster.paper = Raphael("interactives", 6321, 6321) // todo: dont set max raphael-canvas-size
         // poster.paper.image(graphicUrl, 1000, 1000, 2000, 2000)
         // and lets place our interactives not in the center of the postergraphic, but at the spot of the sound
@@ -1042,7 +1048,7 @@ var poster = new function () {
 
     this.handle_back = function (e) {
         if (e.state != null) {
-            poster.show_selected_track_by_id(e.state.id)
+            if (e.state.id != undefined) poster.show_selected_track_by_id(e.state.id)
         }
     }
 

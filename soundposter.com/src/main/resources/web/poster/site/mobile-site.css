@@ -67,6 +67,7 @@ div.logo.area {
 
 .page ul.low-menu li {
  	margin-left: 10px;
+    font-size: 1em;
 }
 
 .page div.info.child-area {
@@ -82,6 +83,25 @@ div.logo.area {
     font-size: 1em;
 }
 
+.browse .main .page-controls {
+    font-size: .9em;
+    height: 20px;
+}
+
+.page div.main.area {
+    font-size: 1em;
+}
+
+.page-controls a.no-previous-page,
+.page-controls a.previous-page {
+    margin-left: 30px;
+    margin-right: 5px;
+}
+
+.page.thanks div.main.area,
+.page.sign-up div.main.area,
+.page.legal div.main.area,
+.page.philosophy div.main.area,
 .page.about div.main.area {
     padding-top: 0px;
     font-size: 1em;
@@ -90,4 +110,10 @@ div.logo.area {
 
 .page.about div.main.area ul {
     padding-left: 15px;
+}
+
+#newsletter textarea.message,
+#newsletter input.text {
+    width: 95%;
+    font-size: 1em;
 }
