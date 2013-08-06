@@ -1,0 +1,36 @@
+
+
+.page.search-results div.main,
+.page.legal div.main,
+.page.philosophy div.main,
+.page.sign-up div.main,
+.page.about div.main {
+    border-top: 1px solid #40B0E2;
+    max-width: 600px;
+    padding-top: 15px;
+    padding-right: 30px;
+    padding-left: 15px;
+    padding-bottom: 30px;
+}
+
+.page.search-results div.main {
+    max-width: 85%;
+}
+
+.page.search-results .main.area .result-view {
+    padding: 15px;
+    padding-left: 0px;
+}
+
+.page.search-results .main.area .result-view {
+    padding: 15px;
+    padding-left: 0px;
+}
+
+.page.search-results .main.area .result-view .track-view {
+    padding-left: 15px;
+}
+
+.page.search-results .main.area .result-view span.streaming-url {
+    margin-left: 10px;
+}

@@ -51,12 +51,14 @@ var poster = new function () {
         this.initialize_nodes() // loads playlist and rendering_options
 
         // this.perform_flash_check_call()
+        this.show_loading_arc()
 
         // initialize poster graphic first, and when loaded, the whole soundposter player
         $container = $('div.postergraphic')
         $image = $('img.graphic')
         $image.attr('src', graphicUrl)
         $image.load( function(e) {
+            //
             $container.width($image.width())
             $container.height($image.height())
 
@@ -74,6 +76,7 @@ var poster = new function () {
             var moveY = poster.centerY - ($image.height() / 2) - poster.offsetY
             //
             poster.move_poster_about(moveX, moveY)
+            // test:
             poster.show_graphics()
 
             // in any case initialize setlist dialog
@@ -87,6 +90,8 @@ var poster = new function () {
                 poster.selected_track = poster.get_viz_by_id(trackId)
                 // maybe we dont wanna start the audio immediately but render nice interactives
                 var pos = poster.show_selected_track_by_id(trackId)
+                    pos.y = pos.y + 112
+                    pos.x = pos.x - 5
                 // hint: differ better between set_selected_track and show_selected_track and play_selected_track
                 poster.show_interactives(poster.play_selected_track, pos)
             } else {
@@ -95,6 +100,8 @@ var poster = new function () {
                 // poster.show_setlist_dialog()
             }
 
+            // fixme: handle hiding of loading-animation better
+            poster.hide_load_arc()
             //
             return null
         })
@@ -332,6 +339,8 @@ var poster = new function () {
                 poster.play_next_track()
             },
             error: function(event) {
+                // keep state current
+                poster.now_playing = false
                 //
                 if (debugControls) {
                     console.log("jPlayer:error playing stream... ")
@@ -342,8 +351,16 @@ var poster = new function () {
                     console.log("ERROR: Sound-Resource is not yet set.")
                 } else if (event.jPlayer.error.type == "e_url") {
                     console.log('ERROR: An error occured during requesting media source url.')
-                    poster.show_modal_notification("We cannot access the media anymore, probably the sound was moved."
-                        + "<br/>The author of this soundposter will be notified.<br/>")
+                    poster.show_modal_notification("We cannot access the media anymore, probably the sound was moved. "
+                        + "And if you're connected to the internet, this sound will be marked for review for the author"
+                        + " of this soundposter.<br/>")
+                    setTimeout(function() {
+                        // if user did not react to error-message, we skip to the next track now
+                        if (!poster.now_playing) {
+                            poster.play_next_track()
+                            poster.show_notification("Skipping to next track")
+                        }
+                    }, 10000)
                 } else if (event.jPlayer.error.type == "e_flash") {
                     console.log('ERROR: An error occured during flash-playback of media file.')
                 } else if (event.jPlayer.error.type == "e_flash_disabled") {
@@ -442,6 +459,51 @@ var poster = new function () {
         $('div.posteritem').fadeIn({duration: 900})
     }
 
+    this.hide_load_arc = function () {
+        $('#loading-area').hide()
+    }
+
+    this.show_loading_arc = function(pos) {
+        // get Orientation
+        var sizeX = poster.viewport_width()
+        var sizeY = poster.viewport_height()
+        var graphicX = sizeX / 2 - 150
+        var graphicY = sizeY / 2 - 150
+
+        $("#loading-area").css("left", graphicX - 5)
+        $("#loading-area").css("top", graphicY + 20)
+        $('#loading-area').show()
+        // create Paper
+        poster.paper = Raphael("loading-area", 300, 300)
+        var R = 70
+        // Custom Attribute
+        poster.paper.customAttributes.arc = function (value, total, R) {
+            var alpha = 360 / total * value,
+                a = (90 - alpha) * Math.PI / 180,
+                x = 150 + R * Math.cos(a),
+                y = 150 - R * Math.sin(a),
+                color = "hsb(".concat(Math.round(R) / 200, ",", value / total, ", .75)"),
+                path
+            if (total == value) {
+                path = [["M", 150, 150 - R], ["A", R, R, 0, 1, 1, 149.99, 150 - R]]
+            } else {
+                path = [["M", 150, 150 - R], ["A", R, R, 0, +(alpha > 180), 1, x, y]]
+            }
+            return {path: path, stroke: color}
+        }
+
+        var sec = poster.paper.path().attr({"stroke": "#ffffff", "stroke-opacity" : 0.8, "stroke-width": 30}).attr({arc: [1, 60, R]})
+            // "stroke-linecap": "round"
+            sec.animate({arc: [60, 60, R]}, 2000)
+
+        //
+        if (pos != undefined) {
+            graphicX = pos.x + 55
+            graphicY = pos.y - 65
+        }
+
+    }
+
     this.show_interactives = function(click_handler, pos) {
         /* var r = Raphael("interactives", 600, 600),
             R = 200,
@@ -451,8 +513,8 @@ var poster = new function () {
             marksAttr = {fill: hash || "#444", stroke: "none"} **/
         // Get orientation
         var graphicRadius = 50
-        var graphicX = $image.width() / 2 + (graphicRadius / 2)
-        var graphicY = $image.height() / 2 + (graphicRadius / 2)
+        var graphicX = $image.width() / 2 + graphicRadius
+        var graphicY = $image.height() / 2 + graphicRadius
         // var graphicX = poster.viewport_width() / 2
         // var graphicY = poster.viewport_height() / 2
         poster.paper = Raphael("interactives", 6321, 6321) // todo: dont set max raphael-canvas-size
@@ -507,6 +569,8 @@ var poster = new function () {
             // circle.animate({"r" : 40}, 200, "easeIn")
             // circle.glow( {color: "#333", width: 20} )
         }
+
+        $('#interactives').fadeIn(200)
 
     }
 
@@ -651,14 +715,17 @@ var poster = new function () {
 
         // start playing and hide start button..
         var nextTrack = undefined
-        if (poster.sounds.length >= 1) {
-            nextTrack = poster.sounds[0] // play first item in our (alredy sorted) sequence of sounds
+        if (poster.sounds.length > 0) {
+            nextTrack = poster.sounds[0] // play first item in our (already sorted) sequence of sounds
         }
         if (nextTrack != undefined) {
             // #### dm4c.show_topic(dm4c.fetch_topic(nextTrack.id), "show", false, true)
             poster.selected_track = poster.get_viz_by_id(nextTrack.id)
             poster.play_selected_track()
-            poster.toggle_interactives()
+            poster.hide_interactives()
+        } else {
+            console.log("could not play_from_start, since poster.sounds are not initialized?")
+            console.log(poster.sounds)
         }
 
     }

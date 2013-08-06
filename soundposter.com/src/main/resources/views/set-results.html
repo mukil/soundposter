@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <title>soundposter.com - create personal, audible websites with images</title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+        <meta name="keywords" th:content="${keywords}"/>
+        <meta name="description" th:content="${description}" />
+        <meta name="title" th:content="${name}" />
+        <meta name="author" th:content="${author}" />
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1"/>
+
+        <!-- Note: We are proudly build on free and open source tools, namely jQuery, Piwik, Modernizr and DeepaMehta 4. -->
+
+        <!-- Piwik>
+        <script type="text/javascript">
+            var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.soundposter.com/p/" : "http://stats.soundposter.com/p/");
+            document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+            </script><script type="text/javascript">
+            try {
+                var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 1);
+                piwikTracker.trackPageView();
+                piwikTracker.enableLinkTracking();
+            } catch( err ) {}
+        </script>
+        End Piwik Tracking Code -->
+
+        <link rel="stylesheet" href="/com.soundposter.website/poster/base.css"/>
+        <link rel="stylesheet" href="/com.soundposter.website/poster/site/site.css"/>
+        <!--script type="text/javascript" src="http://modernizr.com/downloads/modernizr-latest.js"></script-->
+        <script type="text/javascript" src="/com.soundposter.website/script/vendor/modernizr/custom.36000.js"></script>
+        <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+
+            var ADAPT_CONFIG = { path: '/com.soundposter.website/poster/site/', dynamic: true,
+                range: [
+                    '0px    to 710px	= mobile-site.css',
+                    '710px  to 960px	= tablet-site.css',
+                    '960px  to 1480px	= poster-site.css',
+                    '1480px				= panorama-site.css'
+                ]
+            }
+
+        /*]]>*/
+        </script>
+        <script type="text/javascript" src="/com.soundposter.website/script/js/adapt.min.js"></script>
+
+    </head>
+
+    <body class="page" th:attrappend="class=${' ' + pageId}">
+
+        <div class="title">
+            <span class="pre-logo">Welcome to&nbsp;</span><span class="logo"><a href="/" title="Back Home">soundposter.com</a></span><br/>
+        </div>
+
+        <div class="subtitle">
+            At the moment you are searching <span class="search-type" th:text="${search_type}"></span> on <span class="provider" th:text="${provider_name}"></span>
+        </div>
+
+        <div class="main area">
+            <div class="result-view set" th:each="result : ${results}">
+
+                <a class="set-title" th:href="${result.permalink_url}" th:text="${result.title}"></a> by
+                <span class="user" th:text="${result.username}"></span><br/>
+                <p class="description" th:text="${result.description}"></p>
+                <div class="track-view" th:each="track : ${result.tracks}">
+                    <a class="track-title" th:href="${track.permalink_url}" th:text="${track.title}"></a> by <span class="user" th:text="${track.username}"></span><br/>
+                    <span class="streaming-url" th:text="${track.streaming_url}"></span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="footer area">
+            <ul class="low-menu">
+                <li><a href="/philosophy">Philosophy</a></li>
+                <li><a href="/legal">Legal / Imprint</a></li>
+                <li><a href="/about-us">About us</a></li>
+                <li><a href="http://blog.soundposter.com" title="Editing Soundposter">Blog</a></li>
+                <!-- li><a href="http://twitter.com/soundposter" title="Follow us on Twitter">Follow us @soundposter</a></li-->
+            </ul>
+        </div>
+
+        <!--noscript>
+            <p><img src="http://stats.soundposter.com/p/piwik.php?idsite=1" style="border:0" alt="" /></p>
+        </noscript-->
+
+    </body>
+
+</html>

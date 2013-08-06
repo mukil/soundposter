@@ -40,7 +40,13 @@ div.postergraphic img {
 
 div#interactives {
     position: absolute; top: 0px; left: 0px;
-    z-index: 113;
+    z-index: 113; display: none;
+}
+
+div#loading-area {
+    /** top: y; left: x; get set programmatically */
+    position: fixed;
+    z-index: 112;
 }
 
 div.posteritem {

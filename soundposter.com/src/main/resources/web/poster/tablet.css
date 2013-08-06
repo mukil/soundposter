@@ -29,3 +29,24 @@ ul.top-menu {
 div.jp-progress {
     width: 210px;
 }
+
+
+.poster ul.top-menu {
+    top: 20px;
+}
+
+div.controls #jp_container_1 {
+    right: 30px;
+    top: 85px;
+}
+
+#jp_container_1 a.jp-play,
+#jp_container_1 a.jp-pause,
+#jp_container_1 a.jp-next,
+#jp_container_1 a.jp-prev {
+    padding: 8px;
+}
+
+a.tracklist-toogle {
+    padding: 8px;
+}

@@ -1,6 +1,8 @@
 package com.soundposter.plugin.website;
 
 import com.soundposter.plugin.website.model.PreviewPoster;
+import com.soundposter.plugin.website.model.SearchedSet;
+import com.soundposter.plugin.website.model.SearchedTrack;
 import de.deepamehta.core.service.ClientState;
 
 import com.sun.jersey.api.view.Viewable;
@@ -20,8 +22,14 @@ import de.deepamehta.core.service.annotation.ConsumesService;
 import de.deepamehta.plugins.topicmaps.model.Topicmap;
 import de.deepamehta.plugins.topicmaps.service.TopicmapsService;
 import de.deepamehta.plugins.webactivator.WebActivatorPlugin;
+import java.io.BufferedReader;
+import java.io.IOException;
 
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +38,7 @@ import javax.ws.rs.core.MediaType;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.codehaus.jettison.json.JSONTokener;
 
 /**
  *
@@ -48,6 +57,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
     private Logger log = Logger.getLogger(getClass().getName());
     private AccessControlService acService;
     private TopicmapsService tmService;
+    // private SoundposterService service;
     private boolean isInitialized = false;
 
     private static final String CHILD_TYPE_URI = "dm4.core.part";
@@ -58,6 +68,8 @@ public class WebsitePlugin extends WebActivatorPlugin {
     private static String MAILBOX_TYPE_URI = "dm4.contacts.email_address";
 
     private static final String VIEW_POSTER_URL_PREFIX = "/posterview";
+
+    private static final String SOUNDCLOUD_CLIENT_ID = "xgQpdzwTRicVIalDvCMTqQ";
 
     /** Initialize the migrated soundsets ACL-Entries. */
     @Override
@@ -233,6 +245,135 @@ public class WebsitePlugin extends WebActivatorPlugin {
         } catch (Exception e) {
             log.warning(e.getMessage());
             throw new WebApplicationException(e.getCause());
+        }
+    }
+
+    @GET
+    @Path("/soundcloud/get/tracks/{query}")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable getSoundCloudTracksView(@PathParam("query") String query) {
+        JSONArray tracks = getSoundCloudTracksBySearchTerm(query);
+        ArrayList<SearchedTrack> results = new ArrayList<SearchedTrack>();
+        for (int i = 0; i < tracks.length(); i++) {
+            try {
+                //
+                JSONObject item = tracks.getJSONObject(i);
+                SearchedTrack result = createSoundCloudSearchedTrack(item);
+                results.add(result);
+            } catch (JSONException ex) {
+                Logger.getLogger(WebsitePlugin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        context.setVariable("search_type", "tracks");
+        context.setVariable("provider_name", "SoundCloud");
+        context.setVariable("pageId", "search-results");
+        context.setVariable("results", results);
+        return view("track-results");
+    }
+
+    @GET
+    @Path("/soundcloud/tracks/{query}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public JSONArray getSoundCloudTracksBySearchTerm(@PathParam("query") String term) {
+        try {
+            JSONArray results = new JSONArray();
+            String endpoint = "http://api.soundcloud.com/tracks.json?client_id=" + SOUNDCLOUD_CLIENT_ID
+                    + "&q=" + term + "&limit=25";
+            URL url = new URL(endpoint);
+            log.info("Migration1 sending request to: " + url.toURI().toURL().toString());
+            URLConnection conn = url.openConnection();
+            // BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "ISO-8859-1"));
+            BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = rd.readLine()) != null) {
+                sb.append(line);
+            }
+            rd.close();
+            JSONTokener tokener = new JSONTokener(sb.toString());
+            results = new JSONArray(tokener);
+            //
+            return results;
+        } catch (URISyntaxException ex) {
+            log.severe(ex.getMessage());
+            throw new WebApplicationException(ex.getCause());
+        } catch (JSONException ex) {
+            log.severe(ex.getMessage());
+            throw new WebApplicationException(ex.getCause());
+        } catch (IOException ex) {
+            log.severe(ex.getMessage());
+            throw new WebApplicationException(ex.getCause());
+        }
+    }
+
+    @GET
+    @Path("/soundcloud/get/sets/{query}")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable getSoundCloudSetsView(@PathParam("query") String query) {
+        JSONArray sets = getSoundCloudSetsBySearchTerm(query);
+        ArrayList<SearchedSet> results = new ArrayList<SearchedSet>();
+        for (int i = 0; i < sets.length(); i++) {
+            try {
+                //
+                JSONObject item = sets.getJSONObject(i);
+                ArrayList<SearchedTrack> items = new ArrayList<SearchedTrack>();
+                JSONArray tracks = item.getJSONArray("tracks");
+                for (int k = 0; k < tracks.length(); k++) {
+                    try {
+                        JSONObject track = tracks.getJSONObject(k);
+                        items.add(createSoundCloudSearchedTrack(track));
+                    } catch (JSONException ex) {
+                        log.fine("SoundCloud Track is missing from set (?)");
+                    }
+                }
+                SearchedSet result = new SearchedSet(item.getString("title"),
+                        item.getJSONObject("user").getString("username"), item.getString("permalink_url"),
+                        false, item.getString("description"), items);
+                results.add(result);
+            } catch (JSONException ex) {
+                log.severe(ex.getMessage());
+                throw new WebApplicationException(ex.getCause());
+            }
+        }
+        context.setVariable("search_type", "sets");
+        context.setVariable("provider_name", "SoundCloud");
+        context.setVariable("pageId", "search-results");
+        context.setVariable("results", results);
+        return view("set-results");
+    }
+
+    @GET
+    @Path("/soundcloud/sets/{query}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public JSONArray getSoundCloudSetsBySearchTerm(@PathParam("query") String term) {
+        try {
+            JSONArray results = new JSONArray();
+            String endpoint = "http://api.soundcloud.com/playlists.json?client_id=" + SOUNDCLOUD_CLIENT_ID
+                + "&q=" + term + "&limit=7";
+            URL url = new URL(endpoint);
+            log.info("Migration1 sending request to: " + url.toURI().toURL().toString());
+            URLConnection conn = url.openConnection();
+            // BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "ISO-8859-1"));
+            BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = rd.readLine()) != null) {
+                sb.append(line);
+            }
+            rd.close();
+            JSONTokener tokener = new JSONTokener(sb.toString());
+            results = new JSONArray(tokener);
+            //
+            return results;
+        } catch (URISyntaxException ex) {
+            log.severe(ex.getMessage());
+            throw new WebApplicationException(ex.getCause());
+        } catch (JSONException ex) {
+            log.severe(ex.getMessage());
+            throw new WebApplicationException(ex.getCause());
+        } catch (IOException ex) {
+            log.severe(ex.getMessage());
+            throw new WebApplicationException(ex.getCause());
         }
     }
 
@@ -563,6 +704,15 @@ public class WebsitePlugin extends WebActivatorPlugin {
 
 	// ------------------------------------------------------------------------------------------------ Private Methods
 
+
+
+    private SearchedTrack createSoundCloudSearchedTrack(JSONObject item) throws JSONException {
+        // todo: at artwork_url, sound-page permalink_url, user_link
+        return new SearchedTrack(item.getString("title"), item.getString("stream_url"),
+            item.getJSONObject("user").getString("username"), item.getString("permalink_url"),
+            item.getBoolean("streamable"), item.getString("description"));
+    }
+
     private InputStream invokeSoundposterView() {
         try {
             return dms.getPlugin("com.soundposter.webapp").getResourceAsStream("web/poster/index.html");
@@ -679,7 +829,10 @@ public class WebsitePlugin extends WebActivatorPlugin {
             acService = (AccessControlService) service;
         } else if (service instanceof TopicmapsService) {
 			tmService = (TopicmapsService) service;
-		}
+		}/**  else if(service instanceof SoundposterService) {
+            spService = (SoundposterService) service;
+            "com.soundposter.plugin.service.SoundposterService"
+        } **/
     }
 
     @Override
@@ -693,7 +846,9 @@ public class WebsitePlugin extends WebActivatorPlugin {
             acService = null;
         } else if (service == tmService) {
 			tmService = null;
-		}
+		}/**  else if (service == spService) {
+            service = null;
+        } **/
     }
 
     private ArrayList<RelatedTopic> getResultSetSortedByTitle (ResultSet<RelatedTopic> all, ClientState clientState) {

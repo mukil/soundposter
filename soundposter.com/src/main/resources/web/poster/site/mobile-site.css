@@ -117,3 +117,11 @@ div.logo.area {
     width: 95%;
     font-size: 1em;
 }
+
+.page div.header .featured {
+    height: 420px;
+}
+
+.browse .bottom.area {
+    font-size: 1em;
+}
