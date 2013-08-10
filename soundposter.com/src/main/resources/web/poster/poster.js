@@ -267,7 +267,7 @@ var poster = new function () {
 
     this.go_to_source = function () {
         var address = poster.get_source_info(poster.selected_track)
-        if (address != undefined && address !== "") {
+        if (address != undefined && address.indexOf("://") != -1) {
             window.open(address, "Soundposter Redirect to Source", null)
             console.log("Fine.")
         } else {
