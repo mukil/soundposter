@@ -313,6 +313,7 @@ a.tracklist-toogle.active {
     padding-left: 5px;
 }
 
+a.source,
 a.share,
 a.support-link {
     display: inline-block;
@@ -322,6 +323,7 @@ a.support-link {
     padding-top: 7px;
 }
 
+a.source:hover,
 a.share:hover,
 a.support-link:hover {
     color: #fff;

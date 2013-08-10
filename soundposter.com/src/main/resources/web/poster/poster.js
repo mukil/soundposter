@@ -101,7 +101,7 @@ var poster = new function () {
             }
 
             // fixme: handle hiding of loading-animation better
-            poster.hide_load_arc()
+            poster.hide_loading_arc()
             //
             return null
         })
@@ -250,7 +250,7 @@ var poster = new function () {
         var text = "", url = "", hashtags = "np, soundposter"
         if (poster.selected_track == undefined) {
             // share poster
-            text = poster.data.info.value
+            text = poster.data.info.value + " "
             url = "http://new.soundposter.com" + poster.path
         } else {
             // share track
@@ -263,6 +263,16 @@ var poster = new function () {
         window.open(encodeURI(intentAddress), 'Share this sound via Twitter.com', 'width=300,height=420')
         // URL-Schema:
         // https://twitter.com/intent/tweet?url=http://www.soundposter.com/..&text=Track 1 - Soundposter X&hashtags=np,soundposter
+    }
+
+    this.go_to_source = function () {
+        var address = poster.get_source_info(poster.selected_track)
+        if (address != undefined && address !== "") {
+            window.open(address, "Soundposter Redirect to Source", null)
+            console.log("Fine.")
+        } else {
+            console.log("WARNING: Source information not set/avaialble.")
+        }
     }
 
     this.stop_propagation = function (e) {
@@ -459,10 +469,6 @@ var poster = new function () {
         $('div.posteritem').fadeIn({duration: 900})
     }
 
-    this.hide_load_arc = function () {
-        $('#loading-area').hide()
-    }
-
     this.show_loading_arc = function(pos) {
         // get Orientation
         var sizeX = poster.viewport_width()
@@ -482,7 +488,7 @@ var poster = new function () {
                 a = (90 - alpha) * Math.PI / 180,
                 x = 150 + R * Math.cos(a),
                 y = 150 - R * Math.sin(a),
-                color = "hsb(".concat(Math.round(R) / 200, ",", value / total, ", .75)"),
+                color = "hsb(".concat(143, ",", value / total, ", .75)"),
                 path
             if (total == value) {
                 path = [["M", 150, 150 - R], ["A", R, R, 0, 1, 1, 149.99, 150 - R]]
@@ -492,16 +498,20 @@ var poster = new function () {
             return {path: path, stroke: color}
         }
 
-        var sec = poster.paper.path().attr({"stroke": "#ffffff", "stroke-opacity" : 0.8, "stroke-width": 30}).attr({arc: [1, 60, R]})
+        var sec = poster.paper.path()
+            .attr({"stroke": "#ffffff", "stroke-opacity" : 0.8, "stroke-width": 30})
+            .attr({arc: [1, 60, R]})
             // "stroke-linecap": "round"
-            sec.animate({arc: [60, 60, R]}, 2000)
-
-        //
+            sec.animate({arc: [60, 60, R]}, 7000)
         if (pos != undefined) {
             graphicX = pos.x + 55
             graphicY = pos.y - 65
         }
 
+    }
+
+    this.hide_loading_arc = function () {
+        $('#loading-area').remove()
     }
 
     this.show_interactives = function(click_handler, pos) {
@@ -612,8 +622,10 @@ var poster = new function () {
                             if (poster.now_playing) {
                                 poster.pause_selected_track()
                             } else {
-                                // fixme: might occur if selected_track (was set by url) but not the media object (yet)
-                                console.log("not playing... " + e.target.id)
+                                var trackId = e.target.id
+                                // start playing this element
+                                // if not set, set it to element with id: trackId
+                                console.log("not playing... " + trackId)
                                 // continue with current track
                                 $player.jPlayer("play")
                             }
@@ -1012,13 +1024,28 @@ var poster = new function () {
      * Retrieves and returns the URL topic for the given Sound.
      * If there is no such URL topic undefined is returned.
      */
-    this.get_audiofile_url = function (url_topic) {
+    this.get_audiofile_url = function (sound) {
 
         // var audiofile = this.get_topic_by_id(url_topic.id, true)
-        var audiofile = this.load_sound_from_local_setlist(url_topic.id)
+        var audiofile = this.load_sound_from_local_setlist(sound.id)
         if (audiofile.composite["dm4.webbrowser.url"] != undefined) {
             if (debugModel) console.log("fetched url: " + audiofile.composite["dm4.webbrowser.url"].value)
             return audiofile.composite["dm4.webbrowser.url"].value
+        }
+        return undefined
+    }
+
+    /**
+     * Retrieves and returns the URL-Source Information for the given Sound.
+     * If there is no such URL topic undefined is returned.
+     */
+    this.get_source_info = function (sound) {
+
+        var audiofile = this.load_sound_from_local_setlist(sound.id)
+        if (audiofile.composite["com.soundposter.source_info"] != undefined) {
+            if (debugModel) console.log("fetched url: " + audiofile.composite["com.soundposter.source_info"].value)
+            console.log(audiofile.composite)
+            return audiofile.composite["com.soundposter.source_info"].value
         }
         return undefined
     }

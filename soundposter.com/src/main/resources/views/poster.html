@@ -21,7 +21,7 @@
         <link rel="stylesheet" href="/com.soundposter.website/script/vendor/jquery.mobile/jquery.mobile.custom.structure.min.css" />
         <!-- link rel="stylesheet" href="/com.soundposter.website/script/vendor/jquery.mobile/jquery.mobile.custom.theme.min.css" /-->
 
-        <!-- Piwik>
+        <!-- Piwik -->
         <script type="text/javascript">
             var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.soundposter.com/p/" : "http://stats.soundposter.com/p/");
             document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
@@ -32,7 +32,7 @@
                 piwikTracker.enableLinkTracking();
             } catch( err ) {}
         </script>
-        End Piwik Tracking Code -->
+        <!-- End Piwik Tracking Code -->
 
         <script type="text/javascript" src="/com.soundposter.website/script/js/jquery.min.js"></script>
         <script type="text/javascript" th:inline="javascript">
@@ -143,6 +143,7 @@
             </div-->
 
             <div class="lower-menu">
+                <a class="source" href="javascript:poster.go_to_source()">Source</a>
                 <a class="share" href="javascript:poster.share()">Tweet</a>
                 <a class="support-link" href="javascript:;" target="_blank" rel="publisher"></a>
             </div>
@@ -158,9 +159,9 @@
             <!-- end jquerymobile page -->
         </div>
 
-        <!--noscript>
+        <noscript>
             <p><img src="http://stats.soundposter.com/p/piwik.php?idsite=1" style="border:0" alt="" /></p>
-        </noscript-->
+        </noscript>
 
     </body>
 

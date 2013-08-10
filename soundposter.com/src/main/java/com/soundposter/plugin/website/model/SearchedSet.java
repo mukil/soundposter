@@ -12,16 +12,18 @@ import java.util.ArrayList;
  */
 public class SearchedSet {
 
-    public String title = "", streaming_url = "", username = "", permalink_url = "", description = "";
+    public String title = "", streaming_url = "", publisher_url = "", source_url = "", description = "";
     public boolean streamable = false;
+    public int setId = 0;
     public ArrayList<SearchedTrack> tracks = null;
 
-    public SearchedSet(String title, String username, String permalink,
+    public SearchedSet(int id, String title, String publisher_url, String source_url,
             boolean streamable, String description, ArrayList<SearchedTrack> tracks) {
+        this.setId = id;
         this.title = title;
-        this.username = username;
+        this.publisher_url = publisher_url;
         this.streamable = streamable;
-        this.permalink_url = permalink;
+        this.source_url = source_url;
         this.description = description;
         this.tracks = tracks;
     }

@@ -30,8 +30,8 @@
 
         <link rel="stylesheet" href="/com.soundposter.website/poster/base.css"/>
         <link rel="stylesheet" href="/com.soundposter.website/poster/site/site.css"/>
-        <!--script type="text/javascript" src="http://modernizr.com/downloads/modernizr-latest.js"></script-->
-        <script type="text/javascript" src="/com.soundposter.website/script/vendor/modernizr/custom.36000.js"></script>
+        <script type="text/javascript" src="/com.soundposter.website/script/js/jquery.min.js"></script>
+        <script type="text/javascript" src="/com.soundposter.website/site/site.js"></script>
         <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
 
@@ -63,10 +63,9 @@
         <div class="main area">
             <div class="result-view track" th:each="result : ${results}">
 
-                <a class="track-title" th:href="${result.permalink_url}" th:text="${result.title}"></a> by
-                <span class="user" th:text="${result.username}"></span> (<span class="streamable" th:text="${result.streamable}"></span>)<br/>
-                <span class="description" th:text="${result.description}"></span><br/>
-                <span class="streaming-url" th:text="'(' + ${result.streaming_url}"></span>)
+                <a class="track-title" th:id="${result.trackId}" th:href="'javascript:site.add_soundcloud_track('+${result.trackId}+')'" th:text="${result.title}"></a><br/>
+                <span class="description" th:text="${result.description}"></span>
+                (<a class="source" th:href="${result.source_url}">Source</a>)
 
             </div>
         </div>

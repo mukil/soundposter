@@ -67,9 +67,21 @@ public class WebsitePlugin extends WebActivatorPlugin {
     private static String PERSON_TYPE_URI = "dm4.contacts.person";
     private static String MAILBOX_TYPE_URI = "dm4.contacts.email_address";
 
+    private static String SOUND_URI = "com.soundposter.sound";
+    private static String SOUND_STREAM_URI = "dm4.webbrowser.url";
+    private static String SOUND_NAME_URI = "com.soundposter.sound_name";
+    private static String SOUND_ORDINAL_URI = "com.soundposter.ordinal_number"; // fixme: belongs into poster-context
+    private static String SOUND_ARTIST_URI = "com.soundposter.artist_name";
+    private static String SOUND_ALBUM_URI = "com.soundposter.album_name";
+    private static String SOUND_SOURCE_URI = "com.soundposter.source_info";
+    private static String SOUND_PUBLISHER_URI = "com.soundposter.author_info";
+    private static String SOUND_LICENSE_URI = "com.soundposter.license_info";
+    private static String SOUND_DESCRIPTION_URI = "com.soundposter.sound_description";
+
     private static final String VIEW_POSTER_URL_PREFIX = "/posterview";
 
     private static final String SOUNDCLOUD_CLIENT_ID = "xgQpdzwTRicVIalDvCMTqQ";
+    private static final String SOUNDCLOUD_TRACK_ID_PREFIX = "com.soundcloud.track.";
 
     /** Initialize the migrated soundsets ACL-Entries. */
     @Override
@@ -249,16 +261,73 @@ public class WebsitePlugin extends WebActivatorPlugin {
     }
 
     @GET
-    @Path("/soundcloud/get/tracks/{query}")
+    @Path("/soundcloud/add/track/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Topic addSoundCloudTrack(@PathParam("id") int trackId, @HeaderParam("Cookie") ClientState clientState) {
+        // fixme: add/relate track to logged in user
+        checkRequestAuthentication();
+        SearchedTrack track = getSoundCloudTrackById(trackId);
+        // creator and owner should be set correct if its a new track (to us)
+        // todo: in any case relate track to username
+        Topic result =  createSoundCloudTopic(track, clientState);
+        if (result == null) {
+            log.warning("We already have a soundcloud topic with that ID in our DB..");
+            log.warning("Doing Nothjing!");
+            // todo: get it
+            // result = dms.get
+        }
+        return result;
+    }
+
+    @GET
+    @Path("/soundcloud/add/set/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String addSoundCloudSetTracks(@PathParam("id") int trackId, @HeaderParam("Cookie") ClientState clientState) {
+        // fixme: return Topic
+        // fixme: add/relate track to logged in user
+        checkRequestAuthentication();
+        //
+        SearchedSet result = getSoundCloudSetById(trackId);
+        for (int i = 0; i < result.tracks.size(); i++) {
+            // log.info("Could add SoundCloudTrack => " + result.tracks.get(i).toString());
+        }
+        // creator and owner should be set correct if its a new track (to us)
+        // todo: in any case relate track to username
+        /** for (int i = 0; i < tracks.size(); i++) {
+            JSONObject track = tracks.get(i);
+            Topic result =  createSoundCloudTopic(track, clientState);
+            if (result == null) {
+                log.warning("We already have a soundcloud topic with that ID in our DB..");
+                log.warning("Doing Nothjing!");
+                // todo: get it
+                // result = dms.get
+            }
+
+        } **/
+        return "OK, done.";
+    }
+
+    @GET
+    @Path("/soundcloud/view/tracks/{query}")
     @Produces(MediaType.TEXT_HTML)
     public Viewable getSoundCloudTracksView(@PathParam("query") String query) {
-        JSONArray tracks = getSoundCloudTracksBySearchTerm(query);
+        return getSoundCloudTracksView(query, 0);
+    }
+
+    @GET
+    @Path("/soundcloud/view/tracks/{query}/{pageNr}")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable getSoundCloudTracksView(@PathParam("query") String query, @PathParam("pageNr") int pageNr) {
+        //
+        checkRequestAuthentication();
+        //
+        JSONArray tracks = getSoundCloudTracksBySearchTerm(query, pageNr);
         ArrayList<SearchedTrack> results = new ArrayList<SearchedTrack>();
         for (int i = 0; i < tracks.length(); i++) {
             try {
                 //
                 JSONObject item = tracks.getJSONObject(i);
-                SearchedTrack result = createSoundCloudSearchedTrack(item);
+                SearchedTrack result = createSoundCloudSearchedTrack(item, 0);
                 results.add(result);
             } catch (JSONException ex) {
                 Logger.getLogger(WebsitePlugin.class.getName()).log(Level.SEVERE, null, ex);
@@ -274,11 +343,17 @@ public class WebsitePlugin extends WebActivatorPlugin {
     @GET
     @Path("/soundcloud/tracks/{query}")
     @Produces(MediaType.APPLICATION_JSON)
-    public JSONArray getSoundCloudTracksBySearchTerm(@PathParam("query") String term) {
+    public JSONArray getSoundCloudTracksBySearchTerm(@PathParam("query") String term, int pageNr) {
+        //
+        checkRequestAuthentication();
+        //
+        int limit = 25;
+        int offset = 0;
+        if (pageNr != 0) offset = limit * pageNr;
         try {
             JSONArray results = new JSONArray();
             String endpoint = "http://api.soundcloud.com/tracks.json?client_id=" + SOUNDCLOUD_CLIENT_ID
-                    + "&q=" + term + "&limit=25";
+                    + "&q=" + term + "&limit=" + limit + "&offset=" + offset;
             URL url = new URL(endpoint);
             log.info("Migration1 sending request to: " + url.toURI().toURL().toString());
             URLConnection conn = url.openConnection();
@@ -307,10 +382,13 @@ public class WebsitePlugin extends WebActivatorPlugin {
     }
 
     @GET
-    @Path("/soundcloud/get/sets/{query}")
+    @Path("/soundcloud/view/sets/{query}/{pageNr}")
     @Produces(MediaType.TEXT_HTML)
-    public Viewable getSoundCloudSetsView(@PathParam("query") String query) {
-        JSONArray sets = getSoundCloudSetsBySearchTerm(query);
+    public Viewable getSoundCloudSetsView(@PathParam("query") String query, @PathParam("pageNr") int pageNr) {
+        //
+        checkRequestAuthentication();
+        //
+        JSONArray sets = getSoundCloudSetsBySearchTerm(query, pageNr);
         ArrayList<SearchedSet> results = new ArrayList<SearchedSet>();
         for (int i = 0; i < sets.length(); i++) {
             try {
@@ -321,14 +399,12 @@ public class WebsitePlugin extends WebActivatorPlugin {
                 for (int k = 0; k < tracks.length(); k++) {
                     try {
                         JSONObject track = tracks.getJSONObject(k);
-                        items.add(createSoundCloudSearchedTrack(track));
+                        items.add(createSoundCloudSearchedTrack(track, (k+1)));
                     } catch (JSONException ex) {
                         log.fine("SoundCloud Track is missing from set (?)");
                     }
                 }
-                SearchedSet result = new SearchedSet(item.getString("title"),
-                        item.getJSONObject("user").getString("username"), item.getString("permalink_url"),
-                        false, item.getString("description"), items);
+                SearchedSet result = createSoundCloudSearchedSet(item);
                 results.add(result);
             } catch (JSONException ex) {
                 log.severe(ex.getMessage());
@@ -343,13 +419,26 @@ public class WebsitePlugin extends WebActivatorPlugin {
     }
 
     @GET
-    @Path("/soundcloud/sets/{query}")
+    @Path("/soundcloud/view/sets/{query}")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable getSoundCloudSetsView(@PathParam("query") String term) {
+        return getSoundCloudSetsView(term, 0);
+    }
+
+    @GET
+    @Path("/soundcloud/sets/{query}/{pageNr}")
     @Produces(MediaType.APPLICATION_JSON)
-    public JSONArray getSoundCloudSetsBySearchTerm(@PathParam("query") String term) {
+    public JSONArray getSoundCloudSetsBySearchTerm(@PathParam("query") String term, @PathParam("pageNr") int pageNr) {
+        //
+        checkRequestAuthentication();
+        //
+        int limit = 7;
+        int offset = 0;
+        if (pageNr != 0) offset = limit * pageNr;
         try {
             JSONArray results = new JSONArray();
             String endpoint = "http://api.soundcloud.com/playlists.json?client_id=" + SOUNDCLOUD_CLIENT_ID
-                + "&q=" + term + "&limit=7";
+                + "&q=" + term + "&limit=" + limit + "&offset=" + offset;
             URL url = new URL(endpoint);
             log.info("Migration1 sending request to: " + url.toURI().toURL().toString());
             URLConnection conn = url.openConnection();
@@ -705,12 +794,119 @@ public class WebsitePlugin extends WebActivatorPlugin {
 	// ------------------------------------------------------------------------------------------------ Private Methods
 
 
+    private void checkRequestAuthentication() throws WebApplicationException {
+        if (acService.getUsername() == null) {
+            throw new WebApplicationException(new Throwable("You have to be logged in."), 401);
+        }
+    }
 
-    private SearchedTrack createSoundCloudSearchedTrack(JSONObject item) throws JSONException {
+    private Topic createSoundCloudTopic(SearchedTrack object, ClientState clientState) {
+        //
+        String uri = SOUNDCLOUD_TRACK_ID_PREFIX + object.trackId;
+        Topic exists = dms.getTopic("uri", new SimpleValue(uri), true, clientState);
+        if (exists != null) return null;
+        CompositeValue model = new CompositeValue();
+        model.put(SOUND_NAME_URI, object.title);
+        model.put(SOUND_SOURCE_URI, object.source_url);
+        model.put(SOUND_STREAM_URI, object.streaming_url);
+        model.put(SOUND_DESCRIPTION_URI, object.description);
+        model.put(SOUND_ORDINAL_URI, object.ordinal); // 0 if not set
+        // model.add(SOUND_ARTIST_URI, object.artist_name);
+        // model.add(SOUND_ALBUM_URI, object.album_name);
+        model.put(SOUND_LICENSE_URI, object.license_info);
+        model.put(SOUND_PUBLISHER_URI, object.publisher_url);
+        TopicModel soundModel = new TopicModel(uri, SOUND_URI, model);
+        //
+        return dms.createTopic(soundModel, clientState);
+    }
+
+    private SearchedSet getSoundCloudSetById (int setId) {
+        try {
+            String endpoint = "http://api.soundcloud.com/playlists/" +setId+ ".json?client_id=" + SOUNDCLOUD_CLIENT_ID;
+            URL url = new URL(endpoint);
+            log.info("Sending request to: " + url.toURI().toURL().toString());
+            URLConnection conn = url.openConnection();
+            // BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "ISO-8859-1"));
+            BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = rd.readLine()) != null) {
+                sb.append(line);
+            }
+            rd.close();
+            JSONTokener tokener = new JSONTokener(sb.toString());
+            log.info(tokener.toString());
+            JSONObject result = new JSONObject(tokener);
+            //
+            return createSoundCloudSearchedSet(result);
+        } catch (URISyntaxException ex) {
+            log.severe(ex.getMessage());
+            throw new WebApplicationException(ex.getCause());
+        } catch (JSONException ex) {
+            log.severe(ex.getMessage());
+            throw new WebApplicationException(ex.getCause());
+        } catch (IOException ex) {
+            log.severe(ex.getMessage());
+            throw new WebApplicationException(ex.getCause());
+        }
+    }
+
+    private SearchedTrack getSoundCloudTrackById (int trackId) {
+        try {
+            String endpoint = "http://api.soundcloud.com/tracks/" +trackId+ ".json?client_id=" + SOUNDCLOUD_CLIENT_ID;
+            URL url = new URL(endpoint);
+            log.info("Sending request to: " + url.toURI().toURL().toString());
+            URLConnection conn = url.openConnection();
+            // BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "ISO-8859-1"));
+            BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = rd.readLine()) != null) {
+                sb.append(line);
+            }
+            rd.close();
+            JSONTokener tokener = new JSONTokener(sb.toString());
+            log.info(tokener.toString());
+            // results = new JSONArray(tokener);
+            //
+            return createSoundCloudSearchedTrack(new JSONObject(tokener), 0);
+        } catch (URISyntaxException ex) {
+            log.severe(ex.getMessage());
+            throw new WebApplicationException(ex.getCause());
+        } catch (JSONException ex) {
+            log.severe(ex.getMessage());
+            throw new WebApplicationException(ex.getCause());
+        } catch (IOException ex) {
+            log.severe(ex.getMessage());
+            throw new WebApplicationException(ex.getCause());
+        }
+    }
+
+    private SearchedTrack createSoundCloudSearchedTrack(JSONObject item, int ordinal) throws JSONException {
         // todo: at artwork_url, sound-page permalink_url, user_link
+        String description = (item.getString("description") == null) ? "" : item.getString("description");
         return new SearchedTrack(item.getString("title"), item.getString("stream_url"),
-            item.getJSONObject("user").getString("username"), item.getString("permalink_url"),
-            item.getBoolean("streamable"), item.getString("description"));
+            item.getJSONObject("user").getString("permalink_url"), item.getString("permalink_url"),
+            item.getBoolean("streamable"), item.getString("description"), item.getInt("id"), ordinal,
+            item.getString("license"));
+    }
+
+    private SearchedSet createSoundCloudSearchedSet(JSONObject set) throws JSONException {
+            //
+        ArrayList<SearchedTrack> items = new ArrayList<SearchedTrack>();
+        JSONArray tracks = set.getJSONArray("tracks");
+        for (int k = 0; k < tracks.length(); k++) {
+            try {
+                JSONObject track = tracks.getJSONObject(k);
+                items.add(createSoundCloudSearchedTrack(track, (k+1)));
+            } catch (JSONException ex) {
+                log.fine("SoundCloud Track is missing from set (?)");
+            }
+        }
+        SearchedSet result = new SearchedSet(set.getInt("id"), set.getString("title"),
+            set.getJSONObject("user").getString("permalink_url"), set.getString("permalink_url"),
+            false, set.getString("description"), items);
+        return result;
     }
 
     private InputStream invokeSoundposterView() {

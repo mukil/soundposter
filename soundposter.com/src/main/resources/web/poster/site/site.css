@@ -34,3 +34,13 @@
 .page.search-results .main.area .result-view span.streaming-url {
     margin-left: 10px;
 }
+
+.page.search-results .result-view.set a.set-title:hover:before,
+.page.search-results .result-view.set .track-view a.track-title:hover:before,
+.page.search-results .result-view.track a.track-title:hover:before {
+    content: "+";
+}
+.page.search-results .result-view.set a.source,
+.page.search-results .result-view.track a.source {
+    font-size: small;
+}
