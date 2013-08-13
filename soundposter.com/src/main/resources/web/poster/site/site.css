@@ -1,4 +1,42 @@
 
+.header.area .featured {
+    position: relative;
+}
+
+.header .featured .headline a {
+    color: #fff;
+}
+
+.header.area .featured .description {
+    font-size: 1.1em;
+    background-color: #343434;
+    padding: 10px;
+    max-width: 60%;
+    max-height: 300px;
+    text-align: left;
+    position: absolute;
+    bottom: 90px; right: 60px;
+}
+
+.header.area .featured .hashtag {
+    right: 0px; bottom: 60px;
+}
+
+.header.area .featured .author {
+    right: 60px; bottom: 30px;
+}
+.header.area .featured .author,
+.header.area .featured .hashtag {
+    font-size: 1.1em;
+    color: #40B0E2;
+    background-color: #343434;
+    padding: 5px;
+    position: absolute;
+}
+
+.page .subtitle a {
+    padding-top: 2px;
+}
 
 .page.search-results div.main,
 .page.legal div.main,
@@ -43,4 +81,105 @@
 .page.search-results .result-view.set a.source,
 .page.search-results .result-view.track a.source {
     font-size: small;
+    color: #40B0E2;
+}
+
+
+.browse .main .page-controls {
+    height: 30px;
+    position: relative;
+    top: 0px; right: 60px;
+    background-color: #fff;
+    color: darkgrey;
+    text-align: right;
+    margin-bottom: 0px;
+}
+
+.browse .main .page-controls a {
+    text-decoration: none;
+    border: 1px solid transparent;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 1.2em;
+}
+
+.page-controls a.no-previous-page {
+    font-weight: normal;
+}
+
+.page-controls a.previous-page {
+
+}
+
+.page-controls a.next-page,
+.page-controls a.previous-page {
+    font-weight: 700;
+    color: #40B0E2;
+    cursor: pointer;
+    background-color: #ffffff;
+    /** background: linear-gradient(to bottom, #fefefe 0%,#a9a9a9 100%);
+    -moz-linear-gradient(top, #fefefe 0%, #a9a9a9 100%);
+    -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fefefe), color-stop(100%,#a9a9a9));
+    -o-linear-gradient(top, #fefefe 0%,#a9a9a9 100%);
+    -ms-linear-gradient(top, #fefefe 0%,#a9a9a9 100%);
+    progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#a9a9a9',GradientType=0 );**/
+}
+
+
+.page-controls a.no-next-page,
+.page-controls a.no-previous-page {
+    color: darkgrey;
+    cursor: text;
+    padding: 5px;
+    background: -moz-radial-gradient(center, ellipse cover, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%); /* FF3.6+ */
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(255,255,255,0))); /* Chrome,Safari4+ */
+    background: -webkit-radial-gradient(center, ellipse cover, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-radial-gradient(center, ellipse cover, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* Opera 12+ */
+    background: -ms-radial-gradient(center, ellipse cover, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* IE10+ */
+    background: radial-gradient(ellipse at center, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+    /** background: linear-gradient(to bottom, #fefefe 0%,#a9a9a9 100%);
+    -moz-linear-gradient(top, #fefefe 0%, #a9a9a9 100%);
+    -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fefefe), color-stop(100%,#a9a9a9));
+    -o-linear-gradient(top, #fefefe 0%,#a9a9a9 100%);
+    -ms-linear-gradient(top, #fefefe 0%,#a9a9a9 100%);
+    progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#a9a9a9',GradientType=0 ); **/
+}
+
+.page-controls a.next-page:hover,
+.page-controls a.previous-page:hover {
+    /* border: 2px solid #40B0E2; **/
+}
+
+.page .footer.area {
+    width: 85%;
+    background-color: #fff;
+    float: left;
+    margin-top: 15px;
+}
+
+.page ul.low-menu {
+	margin-right: 30px;
+	line-height: 2em; padding: 0px;
+}
+
+.page ul.low-menu li {
+    list-style-type: none;
+	float: left;
+	margin-left: 0px;
+    margin-right: 20px;
+}
+
+.page ul.low-menu a {
+    text-decoration: none;
+    padding: 6px;
+    color: darkgrey;
+    padding-left: 10px; padding-right: 10px;
+}
+
+.page ul.low-menu li a.selected,
+.page ul.low-menu a:hover {
+	border-bottom: 2px solid #ffd463;
+    color: #343434;
 }

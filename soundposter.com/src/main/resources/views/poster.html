@@ -7,9 +7,9 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
-        <meta name="keywords" th:content="${keywords}"/>
+        <meta name="keywords" th:content="${keywords} + ${hashtag}"/>
         <meta name="description" th:content="${description}" />
-        <meta name="title" th:content="${name}" />
+        <meta name="title" th:content="${name} + ' - ' + ${subtitle}" />
         <meta name="author" th:content="${author}" />
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=0.9, user-scalable=no"/>
         <!-- meta name="apple-mobile-web-app-capable" content="yes" /-->
@@ -70,9 +70,15 @@
 
             var username = /*[[${username}]]*/ null
             var webalias = /*[[${webalias}]]*/ null
+            var hashtag = /*[[${hashtag}]]*/ ""
+            var subtitle = /*[[${subtitle}]]*/ ""
+            var description = /*[[${description}]]*/ ""
+            var menu_label = /*[[${setlist_label}]]*/ "Setlist"
+            var buylink_href = /*[[${buylink_href}]]*/ null
+            var buylink_label = /*[[${buylink_label}]]*/ "Artist Link"
 
             var soundposter = /*[[${poster}]]*/ '{}'
-            var graphic = /*[[${graphic}]]*/ '{}'
+            var graphic = /*[[${graphic}]]*/ undefined
             var buylink = /*[[${buylink}]]*/ '{}'
             var setlist = /*[[${setlist}]]*/ '{}'
             var selection = /*[[${track}]]*/ '{}'
@@ -113,7 +119,7 @@
 
             <ul class="top-menu">
                 <li><a id="postername" class="active" href="javascript:;" th:text="${name}">Name</a></li>
-                <li><a id="sign-up" href="/sign-up" onclick="javascript:;" title="Sign-up to our newsletter">Sign-up</a></li>
+                <li><a id="sign-up" href="#embed" onclick="javascript:poster.embed()" title="Embed this soundpster on your website">Embed</a></li>
                 <li><a id="browse" href="/browse" onclick="javascript:;" title="Browse all exsting soundposter">Browse</a></li>
             </ul>
 

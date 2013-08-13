@@ -1,5 +1,7 @@
 package com.soundposter.plugin.website.migrations;
 
+import de.deepamehta.core.Association;
+import de.deepamehta.core.CompositeValue;
 import de.deepamehta.core.Topic;
 import de.deepamehta.core.model.*;
 import de.deepamehta.core.service.Migration;
@@ -20,7 +22,6 @@ public class Migration1 extends Migration {
 
     // -------------------------------------------------------------------------------------------------- Public Methods
 
-    @Override
     public void run() {
 
         // Get JSON-Tracks Result
@@ -64,14 +65,14 @@ public class Migration1 extends Migration {
                             artist = composite.getJSONArray("com.soundposter.artist_name")
                                     .getJSONObject(0).getString("value"); // could be many
                         }
-                        if (composite.has("com.soundposter.source_info")) {
-                            source_info = composite.getJSONObject("com.soundposter.source_info").getString("value");
+                        if (composite.has("com.soundposter.source_page")) {
+                            source_info = composite.getJSONObject("com.soundposter.source_page").getString("value");
                         }
                         if (composite.has("com.soundposter.license_info")) {
                             license_info = composite.getJSONObject("com.soundposter.license_info").getString("value");
                         }
-                        if (composite.has("com.soundposter.author_info")) {
-                            author = composite.getJSONObject("com.soundposter.author_info").getString("value");
+                        if (composite.has("com.soundposter.publisher_info")) {
+                            author = composite.getJSONObject("com.soundposter.publisher_info").getString("value");
                         }
                         if (composite.has("com.soundposter.ordinal_number")) {
                             ordinalNr = composite.getJSONObject("com.soundposter.ordinal_number").getInt("value");
@@ -89,49 +90,71 @@ public class Migration1 extends Migration {
 
     private void createSoundTopic(long ordinalNr, String soundName, String artistName,
             String albumName, String streamingUrl, String authorInfo, String licenseInfo, String sourceInfo) {
-
-        TopicModel soundModel = new TopicModel("com.soundposter.sound", new CompositeValue()
+        // fixme: while re-using album-, artist-names!
+        TopicModel soundModel = new TopicModel("com.soundposter.sound", new CompositeValueModel()
                 .put("dm4.webbrowser.url", new TopicModel("dm4.webbrowser.url", new SimpleValue(streamingUrl))));
-        soundModel.getCompositeValue().put("com.soundposter.ordinal_number", ordinalNr);
+        soundModel.getCompositeValueModel().put("com.soundposter.ordinal_number", ordinalNr);
         try {
             Topic newSound = dms.createTopic(soundModel, null);
             if (!soundName.equals("")) {
-                newSound.setCompositeValue(new CompositeValue()
+                newSound.setCompositeValue(new CompositeValueModel()
                     .put("com.soundposter.sound_name", new TopicModel("com.soundposter.sound_name",
                         new SimpleValue(soundName))), null, null);
             }
             if (!artistName.equals("")) {
-                newSound.setCompositeValue(new CompositeValue()
-                    .add("com.soundposter.artist_name", new TopicModel("com.soundposter.artist_name",
-                        new SimpleValue(artistName))), null, null);
+                Topic artist = getArtistNameTopic(artistName);
+                if (artist != null) {
+                    newSound.setCompositeValue(new CompositeValueModel()
+                        .addRef("com.soundposter.artist_name", artist.getId()), null, null);
+                } else {
+                    //
+                    newSound.setCompositeValue(new CompositeValueModel()
+                        .add("com.soundposter.artist_name", new TopicModel("com.soundposter.artist_name",
+                            new SimpleValue(artistName))), null, null);
+                }
             }
             if (!albumName.equals("")) {
-                newSound.setCompositeValue(new CompositeValue()
-                    .add("com.soundposter.album_name", new TopicModel("com.soundposter.album_name",
-                        new SimpleValue(albumName))), null, null);
+                Topic album = getAlbumNameTopic(albumName);
+                if (album != null) {
+                    newSound.setCompositeValue(new CompositeValueModel()
+                        .addRef("com.soundposter.album_name", album.getId()), null, null);
+                } else {
+                    //
+                    newSound.setCompositeValue(new CompositeValueModel()
+                        .add("com.soundposter.album_name", new TopicModel("com.soundposter.album_name",
+                            new SimpleValue(albumName))), null, null);
+                }
             }
             if (!licenseInfo.equals("")) {
-                newSound.setCompositeValue(new CompositeValue()
+                newSound.setCompositeValue(new CompositeValueModel()
                     .put("com.soundposter.license_info", new TopicModel("com.soundposter.license_info",
                         new SimpleValue(licenseInfo))), null, null);
             }
             if (!authorInfo.equals("")) {
-                newSound.setCompositeValue(new CompositeValue()
-                    .put("com.soundposter.author_info", new TopicModel("com.soundposter.author_info",
+                newSound.setCompositeValue(new CompositeValueModel()
+                    .put("com.soundposter.publisher_info", new TopicModel("com.soundposter.publisher_info",
                         new SimpleValue(licenseInfo))), null, null);
             }
             if (!sourceInfo.equals("")) {
-                newSound.setCompositeValue(new CompositeValue()
-                    .put("com.soundposter.source_info", new TopicModel("com.soundposter.source_info",
+                newSound.setCompositeValue(new CompositeValueModel()
+                    .put("com.soundposter.source_page", new TopicModel("com.soundposter.source_page",
                         new SimpleValue(licenseInfo))), null, null);
             }
             // make sounds editable in the future
             dms.createAssociation(new AssociationModel("dm4.core.aggregation",
-                    new TopicRoleModel(newSound.getId(), "dm4.core.whole"),
-                    new TopicRoleModel("de.workspaces.deepamehta", "dm4.core.part")), null);
+                    new TopicRoleModel(newSound.getId(), "dm4.core.parent"),
+                    new TopicRoleModel("de.workspaces.deepamehta", "dm4.core.child")), null);
         } catch (Exception ce) {
             throw new RuntimeException(ce);
         }
+    }
+
+    private Topic getArtistNameTopic (String name) {
+        return dms.getTopic("com.soundposter.artist_name", new SimpleValue(name), false, null);
+    }
+
+    private Topic getAlbumNameTopic (String name) {
+        return dms.getTopic("com.soundposter.album_name", new SimpleValue(name), false, null);
     }
 
     private String loadOldTracksData(String endpoint, String requestParameters) {

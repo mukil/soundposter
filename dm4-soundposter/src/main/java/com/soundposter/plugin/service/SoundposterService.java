@@ -1,11 +1,7 @@
 package com.soundposter.plugin.service;
 
-import de.deepamehta.core.RelatedTopic;
-import de.deepamehta.core.ResultSet;
-import de.deepamehta.core.Topic;
-import de.deepamehta.core.service.ClientState;
 import de.deepamehta.core.service.PluginService;
-import java.io.InputStream;
+import org.codehaus.jettison.json.JSONArray;
 
 public interface SoundposterService extends PluginService {
 
@@ -28,5 +24,7 @@ public interface SoundposterService extends PluginService {
     // InputStream getRootView(ClientState clientState);
 
     InputStream getSiteIcon(ClientState clientState); **/
+
+    // JSONArray getSoundCloudTracksBySearch(String searchTerm);
 
 }

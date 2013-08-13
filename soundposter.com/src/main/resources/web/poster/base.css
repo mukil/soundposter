@@ -313,6 +313,10 @@ a.tracklist-toogle.active {
     padding-left: 5px;
 }
 
+.lower-menu .source {
+    display: none;
+}
+
 a.source,
 a.share,
 a.support-link {
@@ -570,40 +574,40 @@ body.page {
 
 .page div.header .featured .headline {
     font-size: 2.4em;
-    line-height: 2em;
+    line-height: 1.6em;
     max-width: 600px;
     font-weight: 900;
     margin: 60px; margin-bottom: -8px;
     float: left;
     text-align: left;
+    background-color: #343434;
+    color: #fff;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .page div.header .featured .author {
-    font-size: 1.8em;
-    line-height: 2em;
+    font-size: 1.1em;
     max-width: 375px;
     font-weight: 900;
-    margin: 10px;
-    margin-left: 60px;
+    margin: 0px 0px 30px 0px;
     color: #fff;
     text-align: left;
     font-style: italic;
 }
 
 .page div.header .featured .headline a {
-    background-color: #343434;
-    color: #fff;
     text-decoration: none;
-    padding: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .page div.header .featured .author a {
     color: #fff;
     text-decoration: none;
-    padding: 10px;
 }
 
-.page div.header .featured .author a:hover {
+.page div.header .featured .author:hover {
     background-color: #40B0E2;
     color: #fff;
 }
@@ -822,76 +826,16 @@ p.box b {
     margin: 0px;
 }
 
-.browse .main .page-controls {
-    height: 40px;
-    position: relative;
-    top: 0px;
-    background-color: #fff;
-    color: darkgrey;
-    text-align: left;
-    margin-bottom: 0px;
-}
-
-.browse .main .page-controls a {
-    text-decoration: none;
-}
-
-.page-controls a.no-previous-page,
-.page-controls a.previous-page {
-    margin-left: 30px;
-    margin-right: 10px;
-}
-
-.page-controls a.next-page,
-.page-controls a.previous-page {
-    color: #40B0E2;
-    cursor: pointer;
-    padding: 5px;
-}
-
-
-.page-controls a.no-next-page,
-.page-controls a.no-previous-page {
-    color: darkgrey;
-    cursor: text;
-    padding: 5px;
-}
-
-.about .footer.area,
-.page .footer.area,
-.sign-up .footer.area,
-.legal .footer.area,
-.philosophy .footer.area,
-.browse .footer.area {
-    float: left;
-}
-
-.browse .footer.area {
-    width: 85%;
-}
-
-.page ul.low-menu {
-	margin-right: 30px;
-	line-height: 2em; padding: 0px;
-}
-
-.page ul.low-menu li {
-    list-style-type: none;
-	float: left;
-	margin-left: 20px;
-}
-
-.page ul.low-menu a {
-    text-decoration: none;
-    color: #343434;
-    padding: 7px;
-    padding-left: 10px; padding-right: 10px;
-}
-
-.page ul.low-menu li a.selected,
-.page ul.low-menu a:hover {
-	border-bottom: 2px solid #40B0E2;
-    color: darkgrey;
+body.poster .warning {
+    margin: 30px;
+    padding: 10px;
+    color: #fff;
+    background-color: #40B0E2;
+    opacity: .9;
+    display: inline-block;
+    position: fixed;
+    top: 30px;
+    left: 30px;
 }
 
 .poster ul.top-menu a {
@@ -921,6 +865,18 @@ p.box b {
 .poster ul.top-menu li a.active {
 	background-color: #40B0E2;
     color: #000;
+}
+
+.poster .top-menu .embed-area {
+    margin-top: 5px;
+}
+
+.poster .top-menu .embed-area input {
+    background-color: #fff;
+    color: #a9a9a9;
+    padding: 5px;
+    border: 0px solid transparent;
+    width: 95%;
 }
 
 p.footer {

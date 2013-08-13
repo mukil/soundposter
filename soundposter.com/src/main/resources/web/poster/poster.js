@@ -3,6 +3,7 @@
 var STATUS_INTERNAL = "Internal Server Error"
 var STATUS_NOT_FOUND = "Not Found"
 var STATUS_ACCESS_DENIED = "Unauthorized"
+var HOST_URL = "http://new.soundposter.com"
 
 var poster = new function () {
 
@@ -56,58 +57,67 @@ var poster = new function () {
         // initialize poster graphic first, and when loaded, the whole soundposter player
         $container = $('div.postergraphic')
         $image = $('img.graphic')
-        $image.attr('src', graphicUrl)
-        $image.load( function(e) {
-            //
-            $container.width($image.width())
-            $container.height($image.height())
+        var posterHasGraphic = false
+        //
+        if (graphicUrl) {
+            posterHasGraphic = true
+            $image.attr('src', graphicUrl)
+            $image.load( function(e) {
+                //
+                $container.width($image.width())
+                $container.height($image.height())
 
-            $container.draggable( {cursor: "move", scroll: false,
-                stop: function (event, ui) {
-                    if (debugLayout) console.log("debug.Position => ")
-                    if (debugLayout) console.log(ui.position)
-                    if (debugLayout) console.log("debug.Offset => ")
-                    if (debugLayout) console.log(ui.offset)
-                }, zIndex:  0
+                $container.draggable( {cursor: "move", scroll: false,
+                    stop: function (event, ui) {
+                        if (debugLayout) console.log("debug.Position => ")
+                        if (debugLayout) console.log(ui.position)
+                        if (debugLayout) console.log("debug.Offset => ")
+                        if (debugLayout) console.log(ui.offset)
+                    }, zIndex:  0
+                })
+
+                // focus the center of the graphic in the center of the windows viewport
+                var moveX = poster.centerX - ($image.width() / 2) - poster.offsetX
+                var moveY = poster.centerY - ($image.height() / 2) - poster.offsetY
+                //
+                poster.move_poster_about(moveX, moveY)
+                // test:
+                poster.show_graphics()
+                //
+                setup_base_page()
+                return null
             })
-
-            // focus the center of the graphic in the center of the windows viewport
-            var moveX = poster.centerX - ($image.width() / 2) - poster.offsetX
-            var moveY = poster.centerY - ($image.height() / 2) - poster.offsetY
-            //
-            poster.move_poster_about(moveX, moveY)
-            // test:
-            poster.show_graphics()
-
-            // in any case initialize setlist dialog
-            poster.initialize_setlist_dialog()
-
-            poster.path = "/posterview/" + username + "/" + webalias
-
-            // todo: another svg-element earlier, for displying e.g. image load percentage..
-            if (trackId != 0) {
-                // dive deep into a soundposter
-                poster.selected_track = poster.get_viz_by_id(trackId)
-                // maybe we dont wanna start the audio immediately but render nice interactives
-                var pos = poster.show_selected_track_by_id(trackId)
-                    pos.y = pos.y + 112
-                    pos.x = pos.x - 5
-                // hint: differ better between set_selected_track and show_selected_track and play_selected_track
-                poster.show_interactives(poster.play_selected_track, pos)
-            } else {
-                // start soundposter
-                poster.show_interactives(poster.play_from_start)
-                // poster.show_setlist_dialog()
-            }
-
-            // fixme: handle hiding of loading-animation better
-            poster.hide_loading_arc()
-            //
-            return null
-        })
-
+        } else {
+            setup_base_page()
+            poster.show_notification("This soundposter has no postergraphic set yet.")
+            $('body.poster').append('<span class="warning">This soundposter has no postergraphic set yet.</span>')
+        }
+        //
         if (poster.mod.history) window.addEventListener("popstate", poster.handle_back)
         // $('a#postername').attr('href', poster.path) // fixme: go to start position
+
+            function setup_base_page () {
+                // in any case initialize setlist dialog
+                poster.initialize_setlist_dialog()
+                poster.path = "/" + username + "/" + webalias
+                // todo: another svg-element earlier, for displying e.g. image load percentage..
+                if (trackId != 0) {
+                    // dive deep into a soundposter
+                    poster.selected_track = poster.get_viz_by_id(trackId)
+                    // maybe we dont wanna start the audio immediately but render nice interactives
+                    var pos = poster.show_selected_track_by_id(trackId)
+                        pos.y = pos.y + 112
+                        pos.x = pos.x - 5
+                    // hint: differ better between set_selected_track and show_selected_track and play_selected_track
+                    poster.show_interactives(poster.play_selected_track, pos, posterHasGraphic)
+                } else {
+                    // start soundposter
+                    poster.show_interactives(poster.play_from_start, undefined, posterHasGraphic)
+                    // poster.show_setlist_dialog()
+                }
+                // fixme: handle hiding of loading-animation better
+                poster.hide_loading_arc()
+            }
 
     }
 
@@ -134,6 +144,10 @@ var poster = new function () {
                 } else  if (rendering_options[i].uri === "com.soundposter.display_text_labels") {
                     poster.rendering.labels = true
                     this.show_texts()
+                } else  if (rendering_options[i].uri === "com.soundposter.display_event_listing") {
+                    poster.rendering.event_list = true
+                } else if (rendering_options[i].uri === "com.soundposter.display_sound_times") {
+                    poster.rendering.sound_times = true
                 }
                 if (debugLayout) console.log(rendering_options[i].uri)
             }
@@ -143,6 +157,7 @@ var poster = new function () {
     this.initialize_outlinks = function (hyperlink) {
 
         if (hyperlink.composite != undefined) {
+            // legacy version
             if (hyperlink.composite.hasOwnProperty('dm4.webbrowser.url')) {
                 poster.data.buylink = hyperlink.composite['dm4.webbrowser.url'].value;
                 poster.data.buylabel = hyperlink.composite['dm4.webbrowser.web_resource_description'].value;
@@ -152,6 +167,13 @@ var poster = new function () {
                 return null
             }
         }
+        // overriden by new version
+        if (buylink_href.indexOf("http://") != -1) {
+            $('a.support-link').text(buylink_label)
+            $('a.support-link').attr("href", buylink_href)
+            return null
+        }
+        // in case none of it is set
         $('a.support-link').remove()
     }
 
@@ -169,6 +191,9 @@ var poster = new function () {
     }
 
     this.initialize_setlist_dialog = function () {
+        if (poster.rendering.event_listing) {
+            console.log("listing should use events to group aggregated sounds (alphanumeric sorted within) instead ")
+        }
         // todo: if (tracklist is active), seekbar should be within tracklist-item
         var $listing = $('ul.listing')
             $listing.empty()
@@ -179,6 +204,7 @@ var poster = new function () {
             }) **/
         for (var item in poster.sounds) {
             var sound = poster.sounds[item]
+            // prepare data for each list-item
             var sound_name = (sound.composite.hasOwnProperty('com.soundposter.sound_name')) ? sound.composite['com.soundposter.sound_name'].value  : ""
             var album_name = (sound.composite.hasOwnProperty('com.soundposter.album_name')) ? sound.composite['com.soundposter.album_name'][0].value  : "" // just render 1st album at hand
             var artists_name = (sound.composite.hasOwnProperty('com.soundposter.artist_name')) ? sound.composite['com.soundposter.artist_name'].value  : [""]
@@ -191,13 +217,24 @@ var poster = new function () {
                     idx++
                 }
             }
-            var author_info = (sound.composite.hasOwnProperty('com.soundposter.author_info')) ? sound.composite['com.soundposter.author_info'].value  : ""
+            //
+            var sound_description = (sound.composite.hasOwnProperty('com.soundposter.sound_description')) ? sound.composite['com.soundposter.sound_description'].value  : ""
+            var gig_start_time = (sound.composite.hasOwnProperty('com.soundposter.gig_start_time')) ? sound.composite['com.soundposter.gig_start_time'].value  : ""
+            var publisher_homepage = (sound.composite.hasOwnProperty('com.soundposter.publisher_info')) ? sound.composite['com.soundposter.publisher_info'].value  : ""
+            var publisher_name = (sound.composite.hasOwnProperty('com.soundposter.publisher_name')) ? sound.composite['com.soundposter.publisher_name'].value  : ""
             var license_info = (sound.composite.hasOwnProperty('com.soundposter.license_info')) ? sound.composite['com.soundposter.license_info'].value  : ""
             var track_position = (sound.composite.hasOwnProperty('com.soundposter.ordinal_number')) ? parseInt(sound.composite['com.soundposter.ordinal_number'].value) : 0
-            var source_info = (sound.composite.hasOwnProperty('com.soundposter.source_info')) ? sound.composite['com.soundposter.source_info'].value : "com.soundposter.unspecified_source"
+            if (poster.rendering.sound_times) {
+                // overriding track positio with gig_times value
+                track_position = gig_start_time
+            }
+            var source_page = (sound.composite.hasOwnProperty('com.soundposter.source_page')) ? sound.composite['com.soundposter.source_page'].value : "com.soundposter.unspecified_source"
             var stream_info = (sound.composite.hasOwnProperty('dm4.webbrowser.url')) ? sound.composite['dm4.webbrowser.url'].value : ""
+            var stream_unavailable = (sound.composite.hasOwnProperty('com.soundposter.stream_unavailable')) ? sound.composite['com.soundposter.stream_unavailable'].value  : ""
+            //
             var stream_provider_class = "unspecified-stream"
             var stream_provider_placeholder = ""
+            // fixme: currently calculating the streaming provider based on stream-location-uri
             if (stream_info.indexOf("soundcloud") != -1) {
                 stream_provider_class = "soundcloud-stream"
                 stream_provider_placeholder = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
@@ -206,12 +243,7 @@ var poster = new function () {
                 stream_provider_placeholder = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
                     + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
             }
-            //
-            // todo: console.log("Source-Info => " + source_info)
-            // todo: console.log("License-Info => " + license_info)
-            // todo: console.log("Author-Info => " + author_info)
-            // todo: console.log("Stream-Info => " + stream_info)
-            //
+            // construct ui-elements
             var $playnow = $('<a href="javascript:;" id="play-' + sound.id + '" class="playnow">')
                 $playnow.append('<span id="posi-' + sound.id + '" class="track-position">' + track_position + '</span>')
                 $playnow.append('<span id="name-' + sound.id + '" class="track-name">' + sound_name + '</span>')
@@ -229,12 +261,12 @@ var poster = new function () {
             var $source_btn = $('<span class="source-info">')
                 $entry.append($playnow)
                 $entry.append($source_btn)
-                if (source_info !== "") {
-                    $source_btn.append('<a class="' +stream_provider_class+ '" href="' +source_info+ '"'
-                    + 'title="' +source_info+ '" ' + 'target="_blank">' +stream_provider_placeholder+ '</a>')
+                if (source_page !== "") {
+                    $source_btn.append('<a class="' +stream_provider_class+ '" href="' +source_page+ '"'
+                    + 'title="' +source_page+ '" ' + 'target="_blank">' +stream_provider_placeholder+ '</a>')
                 } else {
                     $source_btn.append('<a class="' +stream_provider_class+ ' unavailable" href="javascript:;"'
-                    + 'title="' +source_info+ '">' +stream_provider_placeholder+ '</a>')
+                    + 'title="' +source_page+ '">' +stream_provider_placeholder+ '</a>')
                 }
             var $listitem = $('<li id="entry-' + sound.id + '">')
                 $listitem.append($entry)
@@ -251,11 +283,11 @@ var poster = new function () {
         if (poster.selected_track == undefined) {
             // share poster
             text = poster.data.info.value + " "
-            url = "http://new.soundposter.com" + poster.path
+            url = HOST_URL + poster.path
         } else {
             // share track
             trackId = poster.selected_track.id
-            url = "http://new.soundposter.com" + poster.path + "/" + trackId
+            url = HOST_URL + poster.path + "/" + trackId
             text = poster.selected_track.value + " - " + poster.data.info.value + " "
         }
         var intentAddress = 'https://twitter.com/intent/tweet?url='+url+'&text='+text+'&hashtags='+ hashtags
@@ -263,6 +295,37 @@ var poster = new function () {
         window.open(encodeURI(intentAddress), 'Share this sound via Twitter.com', 'width=300,height=420')
         // URL-Schema:
         // https://twitter.com/intent/tweet?url=http://www.soundposter.com/..&text=Track 1 - Soundposter X&hashtags=np,soundposter
+    }
+
+    this.embed = function () {
+
+        var $container = $('.top-menu .embed-area')
+            console.log($container)
+
+        if ($container.length > 0) {
+            $('.controls #jp_container_1').css("top", "65px")
+            $('.top-menu #sign-up').removeClass('active')
+            // hide, remove
+            $container.remove()
+        } else {
+            // initiate this
+            $container = $('<div class="embed-area">')
+            var address = HOST_URL + poster.path
+            if (poster.selected_track == undefined) address = address + "/" + poster.selected_track.id
+            render_input_field()
+            $('.top-menu').append($container)
+            $('.controls #jp_container_1').css("top", "95px")
+            $('.top-menu #sign-up').addClass('active')
+        }
+
+        function render_input_field () {
+            var iframe_string = '<iframe src=' +address+ ' frameBorder=0 '
+                + 'width=297 height=440></iframe>'
+                + '<br/>Watch this soundposter in <a href=' +address+ '>full size</a>. '
+            var $input_field = $('<input type="text" name="embed-tag" value="' +iframe_string+ '">')
+                $container.append($input_field)
+        }
+
     }
 
     this.go_to_source = function () {
@@ -314,8 +377,9 @@ var poster = new function () {
                 if (debugControls) console.log("ready... ")
             },
             timeupdate: function(event) {
-                // todo: animate with event.jPlayer.status.currentPercentRelative
-                $('.timer').text($.jPlayer.convertTime(event.jPlayer.status.currentTime))
+                // todo: write play-button and animate with event.jPlayer.status.currentPercentRelative
+                // $('.timer').text($.jPlayer.convertTime(event.jPlayer.status.currentTime))
+                $('.timer').text($.jPlayer.convertTime(event.jPlayer.status.duration))
             },
             play: function(event) {
                 // keep state current
@@ -323,6 +387,7 @@ var poster = new function () {
                 // some gui manipulation
                 $notifications.empty()
                 $('.timer').show()
+                $('.lower-menu .source').show()
             },
             loadstart: function(event) {
                 // console.log("Loadstart, seekPercent = " + event.jPlayer.status.seekPercent)
@@ -351,6 +416,7 @@ var poster = new function () {
             error: function(event) {
                 // keep state current
                 poster.now_playing = false
+                $('.lower-menu .source').hide()
                 //
                 if (debugControls) {
                     console.log("jPlayer:error playing stream... ")
@@ -398,6 +464,8 @@ var poster = new function () {
 
         $('.jp-next').click(poster.play_next_track)
         $('.jp-prev').click(poster.play_prev_track)
+        //
+        if (menu_label !== "") $('a.tracklist-toogle').text(menu_label)
 
     }
 
@@ -514,7 +582,8 @@ var poster = new function () {
         $('#loading-area').remove()
     }
 
-    this.show_interactives = function(click_handler, pos) {
+    /** fixme: still depends in postergraphic being loaded .. **/
+    this.show_interactives = function(click_handler, pos, posterHasGraphic) {
         /* var r = Raphael("interactives", 600, 600),
             R = 200,
             init = true,
@@ -523,14 +592,16 @@ var poster = new function () {
             marksAttr = {fill: hash || "#444", stroke: "none"} **/
         // Get orientation
         var graphicRadius = 50
-        var graphicX = $image.width() / 2 + graphicRadius
-        var graphicY = $image.height() / 2 + graphicRadius
-        // var graphicX = poster.viewport_width() / 2
-        // var graphicY = poster.viewport_height() / 2
+        var graphicX = poster.viewport_width() / 2
+        var graphicY = poster.viewport_height() / 2
+        if (posterHasGraphic) {
+            graphicX = $image.width() / 2 + graphicRadius
+            graphicY = $image.height() / 2 + graphicRadius
+        }
         poster.paper = Raphael("interactives", 6321, 6321) // todo: dont set max raphael-canvas-size
         // poster.paper.image(graphicUrl, 1000, 1000, 2000, 2000)
         // and lets place our interactives not in the center of the postergraphic, but at the spot of the sound
-        if (pos != undefined) {
+        if (!pos) {
             graphicX = pos.x + 55
             graphicY = pos.y - 65
         }
@@ -608,8 +679,14 @@ var poster = new function () {
                 var visualization = song['visualization']
                 var itemX = visualization['dm4.topicmaps.x'].value
                 var itemY = visualization['dm4.topicmaps.y'].value
+                var sound_name = song.value
+                if (poster.rendering.sound_times) {
+                    // pre-pending start_gig_time-value to sound_name
+                    var start_time = poster.get_gig_time(song)
+                    sound_name = start_time + " " + sound_name
+                }
                 var $element = $("<div id=\"" + song.id + "\" class=\"posteritem\" style=\"position: absolute; top:"
-                    + itemY + "px; left: " + itemX + "px;\">" + song.value + "</div>");
+                    + itemY + "px; left: " + itemX + "px;\">" + sound_name + "</div>");
                     $element.click(function(e) {
                         // sound click handler
                         if (poster.selected_track == undefined) {
@@ -1036,16 +1113,31 @@ var poster = new function () {
     }
 
     /**
+     * Retrieves and returns the URL topic for the given Sound.
+     * If there is no such URL topic undefined is returned.
+     */
+    this.get_gig_time = function (sound) {
+
+        // var audiofile = this.get_topic_by_id(url_topic.id, true)
+        var gig_start_time = this.load_sound_from_local_setlist(sound.id)
+        if (gig_start_time.composite["com.soundposter.gig_start_time"] != undefined) {
+            if (debugModel) console.log("fetched gig_time: " + gig_start_time.composite["com.soundposter.gig_start_time"].value)
+            return gig_start_time.composite["com.soundposter.gig_start_time"].value
+        }
+        return undefined
+    }
+
+    /**
      * Retrieves and returns the URL-Source Information for the given Sound.
      * If there is no such URL topic undefined is returned.
      */
     this.get_source_info = function (sound) {
 
         var audiofile = this.load_sound_from_local_setlist(sound.id)
-        if (audiofile.composite["com.soundposter.source_info"] != undefined) {
-            if (debugModel) console.log("fetched url: " + audiofile.composite["com.soundposter.source_info"].value)
+        if (audiofile.composite["com.soundposter.source_page"] != undefined) {
+            if (debugModel) console.log("fetched source_page: " + audiofile.composite["com.soundposter.source_page"].value)
             console.log(audiofile.composite)
-            return audiofile.composite["com.soundposter.source_info"].value
+            return audiofile.composite["com.soundposter.source_page"].value
         }
         return undefined
     }

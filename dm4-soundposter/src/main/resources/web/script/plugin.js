@@ -297,8 +297,8 @@ dm4c.add_plugin("com.soundposter.webapp", function() {
       // 
       var audiofiles = dm4c.restc.get_topic_related_topics(url_topic.id, {
           assoc_type_uri: "dm4.core.composition",
-          my_role_type_uri: "dm4.core.whole",
-          others_role_type_uri: "dm4.core.part",
+          my_role_type_uri: "dm4.core.parent",
+          others_role_type_uri: "dm4.core.child",
           others_topic_type_uri: "dm4.webbrowser.url"
       }).items
       //

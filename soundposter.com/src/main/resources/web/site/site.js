@@ -5,11 +5,11 @@ var site = new function () {
         var added = request("GET", "/soundcloud/add/track/" + trackId)
         console.log(added)
         if (added == null) {
-            var $span = $('<span>Track already known</span>')
+            var $span = $('<span>&nbsp;Track already known</span>')
             $('a#' + trackId).append($span)
             $span.fadeOut(1200)
         } else if (added.hasOwnProperty("type_uri")) {
-            var $span = $('<span>Successfully added track</span>')
+            var $span = $('<span>&nbsp;Successfully added track</span>')
             $('a#' + trackId).append($span)
             $span.fadeOut(1200)
         }
@@ -19,11 +19,11 @@ var site = new function () {
         var added = request("GET", "/soundcloud/add/set/" + setId)
         console.log(added)
         if (added == null) {
-            var $span = $('<span>Set already known</span>')
+            var $span = $('<span>&nbsp;Set already known</span>')
             $('a#' + setId).append($span)
             $span.fadeOut(1200)
-        } else if (added === "OK, done.") {
-            var $span = $('<span>Successfully added set</span>')
+        } else if (added.hasOwnProperty("type_uri")) {
+            var $span = $('s<pan>&nbsp;Successfully added set</span>')
             $('a#' + setId).append($span)
             $span.fadeOut(1200)
         }

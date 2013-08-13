@@ -6,19 +6,16 @@ import com.soundposter.plugin.website.model.SearchedTrack;
 import de.deepamehta.core.service.ClientState;
 
 import com.sun.jersey.api.view.Viewable;
-import de.deepamehta.core.RelatedTopic;
-import de.deepamehta.core.ResultSet;
-import de.deepamehta.core.Topic;
-import de.deepamehta.core.model.CompositeValue;
-import de.deepamehta.core.model.SimpleValue;
-import de.deepamehta.core.model.TopicModel;
+import de.deepamehta.core.*;
+import de.deepamehta.core.model.*;
 import de.deepamehta.core.service.PluginService;
-import de.deepamehta.core.service.accesscontrol.ACLEntry;
-import de.deepamehta.core.service.accesscontrol.AccessControlList;
-import de.deepamehta.core.service.accesscontrol.Operation;
-import de.deepamehta.core.service.accesscontrol.UserRole;
 import de.deepamehta.plugins.accesscontrol.service.AccessControlService;
 import de.deepamehta.core.service.annotation.ConsumesService;
+import de.deepamehta.core.storage.spi.DeepaMehtaTransaction;
+import de.deepamehta.plugins.accesscontrol.model.ACLEntry;
+import de.deepamehta.plugins.accesscontrol.model.AccessControlList;
+import de.deepamehta.plugins.accesscontrol.model.Operation;
+import de.deepamehta.plugins.accesscontrol.model.UserRole;
 import de.deepamehta.plugins.topicmaps.model.Topicmap;
 import de.deepamehta.plugins.topicmaps.service.TopicmapsService;
 import de.deepamehta.plugins.webactivator.WebActivatorPlugin;
@@ -27,6 +24,7 @@ import java.io.IOException;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -35,6 +33,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -50,8 +49,8 @@ import org.codehaus.jettison.json.JSONTokener;
  */
 
 @Path("/")
-@Consumes("application/json")
-@Produces("application/json")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.TEXT_HTML)
 public class WebsitePlugin extends WebActivatorPlugin {
 
     private Logger log = Logger.getLogger(getClass().getName());
@@ -60,12 +59,18 @@ public class WebsitePlugin extends WebActivatorPlugin {
     // private SoundposterService service;
     private boolean isInitialized = false;
 
-    private static final String CHILD_TYPE_URI = "dm4.core.part";
-    private static final String PARENT_TYPE_URI = "dm4.core.whole";
+    private static final String CHILD_TYPE_URI = "dm4.core.child";
+    private static final String PARENT_TYPE_URI = "dm4.core.parent";
     private static final String DEFAULT_TYPE_URI = "dm4.core.default";
 
     private static String PERSON_TYPE_URI = "dm4.contacts.person";
     private static String MAILBOX_TYPE_URI = "dm4.contacts.email_address";
+
+    private static String SETLIST_LABEL_URI = "com.soundposter.setlist_label";
+
+    private static String SET_URI = "com.soundposter.set";
+    private static String SET_NAME_URI = "com.soundposter.set_name";
+    private static String SET_DESCRIPTION_URI = "com.soundposter.set_description";
 
     private static String SOUND_URI = "com.soundposter.sound";
     private static String SOUND_STREAM_URI = "dm4.webbrowser.url";
@@ -73,24 +78,24 @@ public class WebsitePlugin extends WebActivatorPlugin {
     private static String SOUND_ORDINAL_URI = "com.soundposter.ordinal_number"; // fixme: belongs into poster-context
     private static String SOUND_ARTIST_URI = "com.soundposter.artist_name";
     private static String SOUND_ALBUM_URI = "com.soundposter.album_name";
-    private static String SOUND_SOURCE_URI = "com.soundposter.source_info";
-    private static String SOUND_PUBLISHER_URI = "com.soundposter.author_info";
+    private static String SOUND_SOURCE_URI = "com.soundposter.source_page";
+    private static String SOUND_PUBLISHER_INFO_URI = "com.soundposter.publisher_info";
+    private static String SOUND_PUBLISHER_NAME_URI = "com.soundposter.publisher_name";
     private static String SOUND_LICENSE_URI = "com.soundposter.license_info";
     private static String SOUND_DESCRIPTION_URI = "com.soundposter.sound_description";
-
-    private static final String VIEW_POSTER_URL_PREFIX = "/posterview";
+    private static String SOUND_ARTWORK_URI = "com.soundposter.sound_artwork_url";
 
     private static final String SOUNDCLOUD_CLIENT_ID = "xgQpdzwTRicVIalDvCMTqQ";
     private static final String SOUNDCLOUD_TRACK_ID_PREFIX = "com.soundcloud.track.";
+    private static final String SOUNDCLOUD_SET_ID_PREFIX = "com.soundcloud.set.";
 
     /** Initialize the migrated soundsets ACL-Entries. */
     @Override
     public void init() {
         isInitialized = true;
         configureIfReady();
-        setupRenderContext();
+        initTemplateEngine();
     }
-
 
     private void configureIfReady() {
         if (isInitialized) {
@@ -103,20 +108,39 @@ public class WebsitePlugin extends WebActivatorPlugin {
     @Produces(MediaType.TEXT_HTML)
     public Viewable getFrontpage(@HeaderParam("Cookie") ClientState clientState) {
         log.info("Requesting front page without pathinfo.. ");
-        context.setVariable("pageId", "welcome");
+        viewData("pageId", "welcome");
         Topic featured = getRandomFeaturedSoundposter(clientState);
-        if (featured == null) return view("index");
+        if (featured == null) {
+            viewData("subtitle", "Edit your first soundposter so it to shows up here.");
+            viewData("description", "Adding a soundposter goes like this: "
+                    + "Aggregate an \"Account\" with a \"Username\" and \"Activate\" it. "
+                    + "Then relate the \"Account\" to a topicmap as \"Author\". "
+                    + "Set your topicmap to \"Published\" and \"Featured\" and your' nearly done. "
+                    + "Just aggregate a \"File\" as background graphic to the map and make sure to use proper web "
+                    + "aliases on both occasions.");
+            viewData("author", "root");
+            viewData("hashtag", "soundposter");
+            return view("index");
+        }
         // prepare page, find the poster graphic
         String graphicPath = getPosterGraphicURL(featured);
         String webalias = featured.getCompositeValue().getString("com.soundposter.web_alias");
-        String username = getProfileAliasForPoster(featured);
-        String url = VIEW_POSTER_URL_PREFIX + "/" + username + "/" + webalias;
-        log.info("Poster URL => " + url);
-        context.setVariable("poster", featured.getModel().toJSON().toString());
-        context.setVariable("graphic", graphicPath);
-        context.setVariable("subtitle", "Be aware of the baseline.");
-        context.setVariable("author", "by " + username);
-        context.setVariable("link", url);
+        String subtitle = featured.getCompositeValue().getString("com.soundposter.poster_subtitle");
+        String description = featured.getCompositeValue().getString("com.soundposter.poster_description");
+        String hashtag = featured.getCompositeValue().getString("com.soundposter.poster_hashtag");
+        if (hashtag.isEmpty()) hashtag = "soundposter";
+        String license_info = featured.getCompositeValue().getString("com.soundposter.license_info");
+        // fixme: username might be null, if not set up correctly
+        String username = getProfileAliasForPoster(featured); //  can be null
+        String url = "/" + username + "/" + webalias;
+        viewData("poster", featured.getModel().toJSON().toString());
+        viewData("graphic", graphicPath);
+        viewData("subtitle", subtitle);
+        viewData("license", license_info);
+        viewData("description", description);
+        viewData("hashtag", hashtag);
+        viewData("author", username);
+        viewData("link", url);
         return view("index");
     }
 
@@ -205,7 +229,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
     @Produces(MediaType.TEXT_HTML)
     public Viewable getSignupPage(@HeaderParam("Cookie") ClientState clientState) {
         log.info("Requesting soundposter.com sign-up page .. ");
-		context.setVariable("pageId", "sign-up");
+		viewData("pageId", "sign-up");
         return view("sign-up");
     }
 
@@ -214,7 +238,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
     @Produces(MediaType.TEXT_HTML)
     public Viewable getPhilosophyPage(@HeaderParam("Cookie") ClientState clientState) {
         log.info("Requesting soundposter.com sign-up page .. ");
-		context.setVariable("pageId", "philosophy");
+		viewData("pageId", "philosophy");
         return view("philosophy");
     }
 
@@ -223,7 +247,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
     @Produces(MediaType.TEXT_HTML)
     public Viewable getLegalPage(@HeaderParam("Cookie") ClientState clientState) {
         log.info("Requesting soundposter.com legal page .. ");
-		context.setVariable("pageId", "legal");
+		viewData("pageId", "legal");
         return view("legal");
     }
 
@@ -233,7 +257,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
     @Produces(MediaType.TEXT_HTML)
     public Viewable getAboutPage(@HeaderParam("Cookie") ClientState clientState) {
         log.info("Requesting soundposter.com about page .. ");
-		context.setVariable("pageId", "about");
+		viewData("pageId", "about");
         return view("about");
     }
 
@@ -244,15 +268,15 @@ public class WebsitePlugin extends WebActivatorPlugin {
             @QueryParam("message") String message) {
         try {
             log.info("setting up new newsaccount ");
-			CompositeValue personData =  new CompositeValue()
+			CompositeValueModel personData =  new CompositeValueModel()
 					.add("dm4.contacts.email_address", new TopicModel("dm4.contacts.email_address", new SimpleValue(mailbox)))
                     .put("dm4.contacts.person_name", new TopicModel("dm4.contacts.person_name",
-                        new CompositeValue(new JSONObject().put("dm4.contacts.first_name", name))))
+                        new CompositeValueModel(new JSONObject().put("dm4.contacts.first_name", name))))
                     .put("dm4.contacts.notes", "<p>" + message + "</p>");
 			TopicModel userModel = new TopicModel(PERSON_TYPE_URI, personData);
 			dms.createTopic(userModel, null);
             log.info("created new newsletter recipient (person)");
-            context.setVariable("pageId", "thanks");
+            viewData("pageId", "thanks");
 			return view("thanks");
         } catch (Exception e) {
             log.warning(e.getMessage());
@@ -264,47 +288,43 @@ public class WebsitePlugin extends WebActivatorPlugin {
     @Path("/soundcloud/add/track/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Topic addSoundCloudTrack(@PathParam("id") int trackId, @HeaderParam("Cookie") ClientState clientState) {
-        // fixme: add/relate track to logged in user
+        // fixme: relate track via "Author" to logged in user
         checkRequestAuthentication();
         SearchedTrack track = getSoundCloudTrackById(trackId);
         // creator and owner should be set correct if its a new track (to us)
         // todo: in any case relate track to username
-        Topic result =  createSoundCloudTopic(track, clientState);
-        if (result == null) {
-            log.warning("We already have a soundcloud topic with that ID in our DB..");
+        Topic sound = createSoundCloudTrackTopic(track, clientState);
+        if (sound == null) {
+            log.warning("We already have a soundcloud topic with that ID in our DB.");
             log.warning("Doing Nothjing!");
-            // todo: get it
+            // todo: get it, update it
             // result = dms.get
+        } else {
+            // create author-edge for the logged in user:
+            Topic sp_account = getProfileTopic(acService.getUsername(acService.getUsername()));
+            createAuthorRelation(sound, sp_account);
         }
-        return result;
+        return sound;
     }
 
     @GET
     @Path("/soundcloud/add/set/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String addSoundCloudSetTracks(@PathParam("id") int trackId, @HeaderParam("Cookie") ClientState clientState) {
-        // fixme: return Topic
-        // fixme: add/relate track to logged in user
+    public Topic addSoundCloudSet(@PathParam("id") int trackId, @HeaderParam("Cookie") ClientState clientState) {
+        // fixme: relate set via "Author" to logged in user
         checkRequestAuthentication();
         //
         SearchedSet result = getSoundCloudSetById(trackId);
-        for (int i = 0; i < result.tracks.size(); i++) {
-            // log.info("Could add SoundCloudTrack => " + result.tracks.get(i).toString());
+        Topic set = createSoundCloudSetTopic(result, clientState);
+        if(set == null) {
+            log.warning("We already have a soundcloud set-topic with that ID in our DB.");
+            log.warning("Doing Nothjing!");
+            // todo: get it, update it
+        } else {
+            Topic sp_account = getProfileTopic(acService.getUsername(acService.getUsername()));
+            createAuthorRelation(set, sp_account);
         }
-        // creator and owner should be set correct if its a new track (to us)
-        // todo: in any case relate track to username
-        /** for (int i = 0; i < tracks.size(); i++) {
-            JSONObject track = tracks.get(i);
-            Topic result =  createSoundCloudTopic(track, clientState);
-            if (result == null) {
-                log.warning("We already have a soundcloud topic with that ID in our DB..");
-                log.warning("Doing Nothjing!");
-                // todo: get it
-                // result = dms.get
-            }
-
-        } **/
-        return "OK, done.";
+        return set;
     }
 
     @GET
@@ -327,16 +347,16 @@ public class WebsitePlugin extends WebActivatorPlugin {
             try {
                 //
                 JSONObject item = tracks.getJSONObject(i);
-                SearchedTrack result = createSoundCloudSearchedTrack(item, 0);
-                results.add(result);
+                SearchedTrack searchedTrack = createSoundCloudSearchedTrack(item, 0);
+                        if (searchedTrack != null) results.add(searchedTrack);
             } catch (JSONException ex) {
                 Logger.getLogger(WebsitePlugin.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        context.setVariable("search_type", "tracks");
-        context.setVariable("provider_name", "SoundCloud");
-        context.setVariable("pageId", "search-results");
-        context.setVariable("results", results);
+        viewData("search_type", "tracks");
+        viewData("provider_name", "SoundCloud");
+        viewData("pageId", "search-results");
+        viewData("results", results);
         return view("track-results");
     }
 
@@ -399,7 +419,8 @@ public class WebsitePlugin extends WebActivatorPlugin {
                 for (int k = 0; k < tracks.length(); k++) {
                     try {
                         JSONObject track = tracks.getJSONObject(k);
-                        items.add(createSoundCloudSearchedTrack(track, (k+1)));
+                        SearchedTrack searchedTrack = createSoundCloudSearchedTrack(track, (k+1));
+                        if (searchedTrack != null) items.add(searchedTrack);
                     } catch (JSONException ex) {
                         log.fine("SoundCloud Track is missing from set (?)");
                     }
@@ -411,10 +432,10 @@ public class WebsitePlugin extends WebActivatorPlugin {
                 throw new WebApplicationException(ex.getCause());
             }
         }
-        context.setVariable("search_type", "sets");
-        context.setVariable("provider_name", "SoundCloud");
-        context.setVariable("pageId", "search-results");
-        context.setVariable("results", results);
+        viewData("search_type", "sets");
+        viewData("provider_name", "SoundCloud");
+        viewData("pageId", "search-results");
+        viewData("results", results);
         return view("set-results");
     }
 
@@ -471,19 +492,19 @@ public class WebsitePlugin extends WebActivatorPlugin {
 	@Produces(MediaType.TEXT_HTML)
     public Viewable getBrowsePage(@PathParam("pageNr") int page_nr, @HeaderParam("Cookie") ClientState clientState) {
         log.info("Requesting page " +page_nr+ " to browse all published soundposter.. ");
-		context.setVariable("pageId", "browse");
+		viewData("pageId", "browse");
         ArrayList<PreviewPoster> results = new ArrayList<PreviewPoster>();
         ResultSet<RelatedTopic> all = getAllPublishedSoundposter(clientState);
         // build up sortable collection of all result-items (warning: in-memory copy of _all_ published soundposter)
         ArrayList<RelatedTopic> in_memory = getResultSetSortedByTitle(all, clientState);
-        int max_count = 6, modulo_half = 1, count = 0, start_count = page_nr * max_count;
+        int max_count = 2, modulo_half = 1, count = 0, start_count = page_nr * max_count;
         // throw error if page is unexpected high or NaN
         for (RelatedTopic item : in_memory) {
             // start of preparing page results
             if (count == start_count + max_count) { // reached n-soundposter, beginning at m + items-on-page
                 // returning results since result-set is full
-                context.setVariable("total_count", in_memory.size());
-                context.setVariable("page", page_nr);
+                viewData("total_count", in_memory.size());
+                viewData("page", page_nr);
                 int overall_pages = (all.getTotalCount() % max_count > modulo_half) ? (all.getTotalCount() / max_count) : all.getTotalCount() / max_count + 1;
                 // int overall_pages = all.getTotalCount() / max_count;
                 //
@@ -491,22 +512,25 @@ public class WebsitePlugin extends WebActivatorPlugin {
                 int previous_page = (page_nr == 0) ? 0 : (page_nr - 1);
                 boolean not_on_first_page = (page_nr > 0) ? true : false;
                 boolean not_on_last_page = (page_nr == overall_pages) ? false : true;
-                context.setVariable("not_on_first_page", not_on_first_page);
-                context.setVariable("not_on_last_page", not_on_last_page);
-                context.setVariable("previous_page_url", (page_nr > 0) ? "/browse/" + previous_page : "/browse/" + overall_pages);
-                context.setVariable("next_page_url", "/browse/" + next_page);
-                context.setVariable("pages", overall_pages);
-                context.setVariable("from", start_count);
-                context.setVariable("to", start_count + (start_count - results.size()));
-                context.setVariable("set", results);
+                viewData("not_on_first_page", not_on_first_page);
+                viewData("not_on_last_page", not_on_last_page);
+                viewData("previous_page_url", (page_nr > 0) ? "/browse/" + previous_page : "/browse/" + overall_pages);
+                viewData("next_page_url", "/browse/" + next_page);
+                viewData("pages", overall_pages);
+                // viewData("page_array", new ArrayList(overall_pages));
+                viewData("from", start_count);
+                viewData("to", start_count + (start_count - results.size()));
+                viewData("overall", all.getTotalCount());
+                viewData("set", results);
                 return view("browse");
             }
             if (count >= start_count) {
                 // arrived at the interesting parts of result-set
                 String title = item.getModel().getSimpleValue().toString();
+                // fixme: username might be null, if not set up correctly
                 String username = getProfileAliasForPoster(item);
                 String web_alias = item.getCompositeValue().getString("com.soundposter.web_alias");
-                String url = VIEW_POSTER_URL_PREFIX + "/" + username + "/" + web_alias;
+                String url = "/" + username + "/" + web_alias;
                 String onclick = "javascript:window.location.href=\""+url+"\"";
                 String graphic_url = getPreviewGraphicURL(item);
                 if (graphic_url == null) graphic_url = getPosterGraphicURL(item);
@@ -519,21 +543,21 @@ public class WebsitePlugin extends WebActivatorPlugin {
             // finished preparing page results
         }
         // if there are less posters than max_count in the database, the loop runs out without the page being prepared
-        context.setVariable("total_count", in_memory.size());
-        context.setVariable("page", page_nr);
+        viewData("total_count", in_memory.size());
+        viewData("page", page_nr);
         int overall_pages = (all.getTotalCount() % max_count > modulo_half) ? (all.getTotalCount() / max_count) : all.getTotalCount() / max_count + 1;
         // int overall_pages = all.getTotalCount() / max_count;
         //
         int next_page = (page_nr == overall_pages) ? 0 : page_nr + 1;
         int previous_page = (page_nr == 0) ? 0 : (page_nr - 1);
-        context.setVariable("not_on_first_page", (page_nr > 0) ? true : false);
-        context.setVariable("not_on_last_page", (page_nr == overall_pages) ? false : true);
-        context.setVariable("previous_page_url", (page_nr > 0) ? "/browse/" + previous_page : "/browse");
-        context.setVariable("next_page_url", "/browse/" + next_page);
-        context.setVariable("pages", overall_pages);
-        context.setVariable("from", start_count);
-        context.setVariable("to", start_count + (start_count - results.size()));
-        context.setVariable("set", results);
+        viewData("not_on_first_page", (page_nr > 0) ? true : false);
+        viewData("not_on_last_page", (page_nr == overall_pages) ? false : true);
+        viewData("previous_page_url", (page_nr > 0) ? "/browse/" + previous_page : "/browse");
+        viewData("next_page_url", "/browse/" + next_page);
+        viewData("pages", overall_pages);
+        viewData("from", start_count);
+        viewData("to", start_count + (start_count - results.size()));
+        viewData("set", results);
         return view("browse");
     }
 
@@ -542,12 +566,12 @@ public class WebsitePlugin extends WebActivatorPlugin {
 	@Produces(MediaType.TEXT_HTML)
     public Viewable getBrowsePage(@HeaderParam("Cookie") ClientState clientState) {
         log.info("Requesting page nr. 0 to browse all published soundposter.. ");
-		context.setVariable("pageId", "browse");
+		viewData("pageId", "browse");
         return getBrowsePage(0, clientState);
     }
 
 	@GET
-    @Path(VIEW_POSTER_URL_PREFIX + "/{authorAlias}/{posterAlias}")
+    @Path("/{authorAlias}/{posterAlias}")
     @Produces(MediaType.TEXT_HTML)
     public Viewable getPosterView (@PathParam("authorAlias") String author, @PathParam("posterAlias") String poster) {
         log.info("requesting posterview \""+ poster +"\" by author \"" + author + "\"");
@@ -555,18 +579,25 @@ public class WebsitePlugin extends WebActivatorPlugin {
     }
 
     @GET
-    @Path(VIEW_POSTER_URL_PREFIX + "/{authorAlias}/{posterAlias}/{trackId}")
+    @Path("/{authorAlias}/{posterAlias}/{trackId}")
     @Produces(MediaType.TEXT_HTML)
     public Viewable getPosterViewWithTrack (@PathParam("authorAlias") String author, @PathParam("posterAlias") String poster,
             @PathParam("trackId") long trackId) {
         log.info("requesting posterview \""+ poster +"\" by author \"" + author + "\" and track \""+trackId+"\"");
 		try {
 			Topic soundposter = getSoundposter(author, poster, null); // sanity checks already built-in
-			String posterDescription = "", posterName ="", graphicUrl = "", buylink = "{}";
-			posterName = soundposter.getSimpleValue().toString();
-			if (soundposter.getCompositeValue().has("com.soundposter.description")) {
-				posterDescription = soundposter.getCompositeValue().getString("com.soundposter.description");
-			}
+			String description = "", name ="", graphicUrl = "", buylink = "{}", subtitle = "", license = "",
+                    hashtag = "", buylink_label = "", buylink_href = "", setlist_label = "", stylesheet = "";
+			name = soundposter.getSimpleValue().toString();
+            description = soundposter.getCompositeValue().getString("com.soundposter.poster_description");
+            subtitle = soundposter.getCompositeValue().getString("com.soundposter.poster_subtitle");
+            license = soundposter.getCompositeValue().getString("com.soundposter.license_info");
+            buylink_label = soundposter.getCompositeValue().getString("com.soundposter.buy_link_label");
+            buylink_href = soundposter.getCompositeValue().getString("com.soundposter.buy_link_href");
+            hashtag = soundposter.getCompositeValue().getString("com.soundposter.poster_hashtag");
+            setlist_label = soundposter.getCompositeValue().getString(SETLIST_LABEL_URI);
+            /** stylesheet = soundposter.getCompositeValue().getTopic("com.soundposter.custom_style")
+                    .getSimpleValue().toString(); **/
             // fixme: keywords, tracklist-data
 			Topicmap topicmap = tmService.getTopicmap(soundposter.getId(), null);
             JSONArray setlist = null;
@@ -589,16 +620,23 @@ public class WebsitePlugin extends WebActivatorPlugin {
             Topic linkOne = map.getRelatedTopic("com.soundposter.buy_edge",
                     DEFAULT_TYPE_URI, DEFAULT_TYPE_URI, "dm4.webbrowser.web_resource", true, false, null);
             if (linkOne != null) buylink = linkOne.toJSON().toString();
-			context.setVariable("name", posterName);
-			context.setVariable("username", author);
-			context.setVariable("webalias", poster);
-			context.setVariable("description", posterDescription);
-			context.setVariable("poster", topicmap.toJSON().toString());
-			context.setVariable("keywords", "");
-            context.setVariable("graphic", graphicUrl);
-            context.setVariable("buylink", buylink);
-            context.setVariable("setlist", soundlist.toString());
-            context.setVariable("track", trackId);
+			viewData("name", name);
+			viewData("username", author);
+			viewData("webalias", poster);
+            viewData("subtitle", subtitle);
+			viewData("description", description);
+			viewData("license", license);
+			viewData("poster", topicmap.toJSON().toString());
+			viewData("keywords", "");
+			viewData("hashtag", hashtag);
+            viewData("graphic", graphicUrl);
+            viewData("buylink", buylink);
+            viewData("buylink_label", buylink_label);
+            viewData("buylink_href", buylink_href);
+            viewData("setlist_label", setlist_label);
+            viewData("setlist", soundlist.toString());
+            // viewData("stylesheet", stylesheet);
+            viewData("track", trackId);
 		} catch (WebApplicationException ex) {
 			log.info(ex.getMessage());
 			throw new WebApplicationException(ex, ex.getResponse().getStatus());
@@ -607,22 +645,11 @@ public class WebsitePlugin extends WebActivatorPlugin {
     }
 
     @GET
-    @Path("/{profile}/{poster}")
-    @Produces(MediaType.TEXT_HTML)
-    public InputStream getSoundposterView(@PathParam("profile") String profileAlias,
-        @PathParam("poster") String posterAlias, @HeaderParam("Cookie") ClientState clientState) {
-        log.info("Requesting soundposter-view for profile: " + profileAlias + " and posterAlias" + posterAlias);
-        if (profileAlias.equals("website")) return getWebsiteView(posterAlias, clientState);
-        return invokeSoundposterView();
-    }
-
-    @GET
     @Path("/{pathInfo}")
     @Produces(MediaType.TEXT_HTML)
     public InputStream getWebsiteView(@PathParam("pathInfo") String pathInfo,
         @HeaderParam("Cookie") ClientState clientState) {
         // log.info("Requesting website-view for pathInfo: " + pathInfo);
-        if (pathInfo.equals("tsfestival")) return invokeSoundposterTorStreetView();
         if (pathInfo.equals("c3s")) return invokeC3SView();
         if (pathInfo.equals("favicon.ico")) return getSoundposterFavIcon();
         log.info("Requesting front page with pathInfo .. "); // redirect to new frontpage via Response-Object
@@ -630,10 +657,17 @@ public class WebsitePlugin extends WebActivatorPlugin {
     }
 
     @GET
+    @Path("/tsfestival")
+    @Produces(MediaType.TEXT_HTML)
+    public Response getTSF12View() {
+        return Response.seeOther(URI.create("/walther/tsfestival")).build();
+    }
+
+    @GET
     @Path("/poster/{profile}/{poster}")
     public Topic getSoundposter(@PathParam("profile") String profileAlias, @PathParam("poster") String posterAlias,
         @HeaderParam("Cookie") ClientState clientState) throws WebApplicationException {
-        log.info("Requesting soundposter-data for posterAlias" + posterAlias + " and profile " + profileAlias);
+        log.info("Requesting soundposter-data for web alias " + posterAlias + " and profile " + profileAlias);
         Topic soundposter_alias = dms.getTopic("com.soundposter.web_alias",
                 new SimpleValue(posterAlias), true, clientState);
         /** Soundposter Alias sanity check */
@@ -642,7 +676,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
         }
 
         /** check if soundposter is published, otherwise return 401 */
-        Topic soundposter = soundposter_alias.getRelatedTopic("dm4.core.composition", "dm4.core.part", "dm4.core.whole",
+        Topic soundposter = soundposter_alias.getRelatedTopic("dm4.core.composition", "dm4.core.child", "dm4.core.parent",
                 "dm4.topicmaps.topicmap", true, false, null);
         if (soundposter == null) { // internal server error
             log.warning("  soundposter \""+ posterAlias +"\" found but data could not be loaded! "
@@ -660,20 +694,21 @@ public class WebsitePlugin extends WebActivatorPlugin {
 
         /** the following is yet dummy code, trying to retrieve songs independent from the topicmaps module*/
         ResultSet<RelatedTopic> songs = soundposter.getRelatedTopics("dm4.topicmaps.topic_mapcontext",
-                "dm4.topicmaps.topicmap_topic", "dm4.core.whole", "com.soundposter.sound", true, false, 0, null);
+                "dm4.topicmaps.topicmap_topic", "dm4.core.parent", "com.soundposter.sound", true, false, 0, null);
         if (songs != null) log.fine("  "+ songs.getSize() +" songs in soundposter");
 
-        /** Check if the poster was really authored by this profile alias */
-        Topic profile = dms.getTopic("com.soundposter.account_alias",
-                new SimpleValue(profileAlias), true, clientState);
+        /** Check if the poster could really be authored by this profile alias */
+        Topic profile = dms.getTopic("com.soundposter.account_alias", new SimpleValue(profileAlias), true, clientState);
         if (profile == null) { // internal server error
-            log.fine("  profile \""+ profileAlias +"\" not found \r\n");
-            throw new WebApplicationException(new Throwable("Soundposter data could not be loaded"), 404);
+            log.info("  profile \""+ profileAlias +"\" not found \r\n");
+            throw new WebApplicationException(new Throwable("Soundposter data could not be loaded. "
+                    + "Profile not found"), 404);
         }
 
         /** last sanity check, there is a profile poster "author" relationship */
-        if (!hasProfilePosterRelation(profile, soundposter)) {  // not found
-            throw new WebApplicationException(new Throwable("Soundposter data could not be loaded"), 404);
+        if (!hasPosterProfileRelation(profile, soundposter)) {  // not found
+            throw new WebApplicationException(new Throwable("Soundposter data could not be loaded. "
+                    + "Poster has no proper author relation set."), 404);
         }
         return soundposter;
     }
@@ -746,33 +781,6 @@ public class WebsitePlugin extends WebActivatorPlugin {
     }
 
     @GET
-    @Path("/poster/url/{id}")
-    public String getPublishedSoundposterUrl(@PathParam("id") String posterId,
-        @HeaderParam("Cookie") ClientState clientState) {
-        try {
-            String webAddress = "";
-            Topic poster = dms.getTopic(Long.parseLong(posterId), true, clientState);
-            if (poster.getCompositeValue().has("com.soundposter.published")) {
-                if (poster.getCompositeValue().getBoolean("com.soundposter.published")) {
-                    String posterAlias = poster.getCompositeValue().getString("com.soundposter.web_alias");
-                    String profileAlias = getProfileAliasForPoster(poster);
-                    if (profileAlias != null) {
-                        webAddress = "/" + profileAlias + "/" + posterAlias;
-                        log.info("getPublishedSoundposterUrl => " + webAddress);
-                        return "{ \"url\": \"" + webAddress + "\"}";
-                    } else {
-                        log.warning("getPublishedSoundposterUrl => could not find profile for poster " + posterId);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            throw new WebApplicationException(new Throwable("A published soundposter for the given id "
-                    + "could not be found."), 404);
-        }
-        return "{}";
-    }
-
-    @GET
     @Path("/create/signup/{signupInfo}/{name}")
     public String createSignupInformation(@PathParam("signupInfo") String signup, @PathParam("name") String name,
         @HeaderParam("Cookie") ClientState clientState) {
@@ -800,22 +808,45 @@ public class WebsitePlugin extends WebActivatorPlugin {
         }
     }
 
-    private Topic createSoundCloudTopic(SearchedTrack object, ClientState clientState) {
+    private Topic createSoundCloudTrackTopic(SearchedTrack object, ClientState clientState) {
         //
         String uri = SOUNDCLOUD_TRACK_ID_PREFIX + object.trackId;
         Topic exists = dms.getTopic("uri", new SimpleValue(uri), true, clientState);
-        if (exists != null) return null;
-        CompositeValue model = new CompositeValue();
+        if (exists != null) return exists;
+        CompositeValueModel model = new CompositeValueModel();
         model.put(SOUND_NAME_URI, object.title);
         model.put(SOUND_SOURCE_URI, object.source_url);
-        model.put(SOUND_STREAM_URI, object.streaming_url);
+        model.put(SOUND_STREAM_URI, object.streaming_url + "?consumer_key=" + SOUNDCLOUD_CLIENT_ID);
         model.put(SOUND_DESCRIPTION_URI, object.description);
         model.put(SOUND_ORDINAL_URI, object.ordinal); // 0 if not set
         // model.add(SOUND_ARTIST_URI, object.artist_name);
         // model.add(SOUND_ALBUM_URI, object.album_name);
         model.put(SOUND_LICENSE_URI, object.license_info);
-        model.put(SOUND_PUBLISHER_URI, object.publisher_url);
+        model.put(SOUND_PUBLISHER_INFO_URI, object.publisher_url);
+        model.put(SOUND_PUBLISHER_NAME_URI, object.publisher_name);
+        model.put(SOUND_ARTWORK_URI, object.artwork_url);
         TopicModel soundModel = new TopicModel(uri, SOUND_URI, model);
+        //
+        return dms.createTopic(soundModel, clientState);
+    }
+
+    private Topic createSoundCloudSetTopic(SearchedSet object, ClientState clientState) {
+        //
+        String uri = SOUNDCLOUD_SET_ID_PREFIX + object.setId;
+        Topic exists = dms.getTopic("uri", new SimpleValue(uri), true, clientState);
+        if (exists != null) return exists;
+        CompositeValueModel model = new CompositeValueModel();
+        model.put(SET_NAME_URI, object.title);
+        model.put(SET_DESCRIPTION_URI, object.description);
+        model.put(SOUND_SOURCE_URI, object.source_url);
+        model.put(SOUND_PUBLISHER_INFO_URI, object.publisher_url);
+        model.put(SOUND_PUBLISHER_NAME_URI, object.publisher_name);
+        for (int i = 0; i < object.tracks.size(); i++) {
+            SearchedTrack track = object.tracks.get(i);
+            Topic topic = createSoundCloudTrackTopic(track, clientState); // gets or creates a sound-topic
+            model.addRef(SOUND_URI, topic.getId());
+        }
+        TopicModel soundModel = new TopicModel(uri, SET_URI, model);
         //
         return dms.createTopic(soundModel, clientState);
     }
@@ -835,7 +866,6 @@ public class WebsitePlugin extends WebActivatorPlugin {
             }
             rd.close();
             JSONTokener tokener = new JSONTokener(sb.toString());
-            log.info(tokener.toString());
             JSONObject result = new JSONObject(tokener);
             //
             return createSoundCloudSearchedSet(result);
@@ -866,8 +896,6 @@ public class WebsitePlugin extends WebActivatorPlugin {
             }
             rd.close();
             JSONTokener tokener = new JSONTokener(sb.toString());
-            log.info(tokener.toString());
-            // results = new JSONArray(tokener);
             //
             return createSoundCloudSearchedTrack(new JSONObject(tokener), 0);
         } catch (URISyntaxException ex) {
@@ -885,10 +913,12 @@ public class WebsitePlugin extends WebActivatorPlugin {
     private SearchedTrack createSoundCloudSearchedTrack(JSONObject item, int ordinal) throws JSONException {
         // todo: at artwork_url, sound-page permalink_url, user_link
         String description = (item.getString("description") == null) ? "" : item.getString("description");
+        String artwork_url = item.getString("artwork_url");
+        if (!item.has("stream_url")) return null; // sanity check
         return new SearchedTrack(item.getString("title"), item.getString("stream_url"),
-            item.getJSONObject("user").getString("permalink_url"), item.getString("permalink_url"),
-            item.getBoolean("streamable"), item.getString("description"), item.getInt("id"), ordinal,
-            item.getString("license"));
+            item.getJSONObject("user").getString("permalink_url"),item.getJSONObject("user").getString("username"),
+            item.getString("permalink_url"), item.getBoolean("streamable"), description, item.getInt("id"), ordinal,
+            item.getString("license"), artwork_url.replace("-large", "-original"));
     }
 
     private SearchedSet createSoundCloudSearchedSet(JSONObject set) throws JSONException {
@@ -898,23 +928,16 @@ public class WebsitePlugin extends WebActivatorPlugin {
         for (int k = 0; k < tracks.length(); k++) {
             try {
                 JSONObject track = tracks.getJSONObject(k);
-                items.add(createSoundCloudSearchedTrack(track, (k+1)));
+                SearchedTrack searchedTrack = createSoundCloudSearchedTrack(track, (k+1));
+                if (searchedTrack != null) items.add(searchedTrack);
             } catch (JSONException ex) {
                 log.fine("SoundCloud Track is missing from set (?)");
             }
         }
         SearchedSet result = new SearchedSet(set.getInt("id"), set.getString("title"),
-            set.getJSONObject("user").getString("permalink_url"), set.getString("permalink_url"),
-            false, set.getString("description"), items);
+            set.getJSONObject("user").getString("permalink_url"), set.getJSONObject("user").getString("username"),
+            set.getString("permalink_url"), set.getString("description"), items);
         return result;
-    }
-
-    private InputStream invokeSoundposterView() {
-        try {
-            return dms.getPlugin("com.soundposter.webapp").getResourceAsStream("web/poster/index.html");
-        } catch (Exception e) {
-            throw new WebApplicationException(e);
-        }
     }
 
     private InputStream invokeFrontpageView() {
@@ -952,9 +975,9 @@ public class WebsitePlugin extends WebActivatorPlugin {
         }
     }
 
-    private boolean hasProfilePosterRelation(Topic profileAlias, Topic poster) {
+    private boolean hasPosterProfileRelation(Topic profileAlias, Topic poster) {
         // ### check if profile is active..
-        Topic profile = profileAlias.getRelatedTopic("dm4.core.composition", "dm4.core.part", "dm4.core.whole",
+        Topic profile = profileAlias.getRelatedTopic("dm4.core.composition", "dm4.core.child", "dm4.core.parent",
                 "com.soundposter.account", true, false, null);
         ResultSet<RelatedTopic> items = profile.getRelatedTopics("com.soundposter.author_edge", "dm4.core.default",
                 "dm4.core.default", "dm4.topicmaps.topicmap", true, false, 0, null);
@@ -972,8 +995,14 @@ public class WebsitePlugin extends WebActivatorPlugin {
     }
 
     private String getPosterGraphicURL (Topic poster) {
-        TopicModel graphic = poster.getCompositeValue().getTopic("dm4.files.file");
-        return "/filerepo" + graphic.getCompositeValue().getString("dm4.files.path");
+        if (poster.getCompositeValue().has("dm4.files.file")) {
+            Topic graphic = poster.getCompositeValue().getTopic("dm4.files.file");
+            if (graphic.getCompositeValue().has("dm4.files.path")) {
+                String path = graphic.getCompositeValue().getString("dm4.files.path");
+                return "/filerepo" + path;
+            }
+        }
+        return null;
     }
 
     private String getPreviewGraphicURL (Topic poster) {
@@ -986,30 +1015,57 @@ public class WebsitePlugin extends WebActivatorPlugin {
     }
 
     private String getProfileAliasForPoster(Topic poster) {
-        // ### check if profile is active..
+        // todo: check if profile is active..
         RelatedTopic author = poster.getRelatedTopic("com.soundposter.author_edge", "dm4.core.default",
                 "dm4.core.default", "com.soundposter.account", true, false, null);
+        if (author == null) return null;
         if (author.getCompositeValue().has("com.soundposter.account_alias")) {
             return author.getCompositeValue().getString("com.soundposter.account_alias");
         }
         return null;
     }
 
+    private Topic getProfileTopic(Topic username) {
+        RelatedTopic profile = username.getRelatedTopic("dm4.core.aggregation", "dm4.core.child",
+                "dm4.core.parent", "com.soundposter.account", true, false, null);
+        if (profile == null) return null;
+        return profile;
+    }
+
     private void checkACLsOfMigration() {
+        // todo: initiate "admin" soundposter account topic to have old, migrated items authored semantically consistent
         ResultSet<RelatedTopic> sounds = dms.getTopics("com.soundposter.sound", false, 0, null);
         Iterator<RelatedTopic> soundset = sounds.getIterator();
         while (soundset.hasNext()) {
             RelatedTopic sound = soundset.next();
-            if (acService.getCreator(sound.getId()) == null) {
-                log.info("initial ACL update of imported soundtrack " + sound.getSimpleValue().toString());
-                Topic admin = acService.getUsername("admin");
-                String adminName = admin.getSimpleValue().toString();
-                acService.setCreator(sound.getId(), adminName);
-                acService.setOwner(sound.getId(), adminName);
-                acService.createACL(sound.getId(), new AccessControlList( //
-                        new ACLEntry(Operation.WRITE, UserRole.OWNER)));
+            DeepaMehtaTransaction dmx = dms.beginTx();
+            try {
+                if (acService.getCreator(sound) == null) {
+                    log.info("initial ACL update of imported soundtrack " + sound.getSimpleValue().toString());
+                    Topic admin = acService.getUsername("admin");
+                    String adminName = admin.getSimpleValue().toString();
+                    acService.setCreator(sound, adminName);
+                    acService.setOwner(sound, adminName);
+                    acService.setACL(sound, new AccessControlList( //
+                            new ACLEntry(Operation.WRITE, UserRole.OWNER)));
+                    // adding soundposter specific author semantics
+                    createAuthorRelation(sound, admin);
+                }
+                dmx.success();
+           } catch (Exception ex) {
+                dmx.failure();
+                log.info(ex.getMessage());
+                throw new RuntimeException(ex);
+            } finally {
+                dmx.finish();
             }
         }
+    }
+
+    private Association createAuthorRelation(Topic sound, Topic username) {
+        return dms.createAssociation(new AssociationModel("com.soundposter.author_edge",
+                new TopicRoleModel(sound.getId(), "dm4.core.parent"),
+                new TopicRoleModel(username.getId(), "dm4.core.child")), null);
     }
 
     /** --- Implementing PluginService Interfaces to consume AccessControlService --- */

@@ -2,9 +2,3 @@
 .page div.header .featured img {
     padding-top: 240px;
 }
-
-.page-controls a.no-previous-page,
-.page-controls a.previous-page {
-    margin-left: 60px;
-    margin-right: 10px;
-}

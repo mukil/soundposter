@@ -29,8 +29,7 @@
         <!-- End Piwik Tracking Code -->
 
         <link rel="stylesheet" href="/com.soundposter.website/poster/base.css"/>
-        <!--script type="text/javascript" src="http://modernizr.com/downloads/modernizr-latest.js"></script-->
-        <script type="text/javascript" src="/com.soundposter.website/script/vendor/modernizr/custom.36000.js"></script>
+        <link rel="stylesheet" href="/com.soundposter.website/poster/site/site.css"/>
         <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
 
@@ -56,12 +55,11 @@
         </div>
 
         <div class="subtitle">
-            At the moment you can <a href="/sign-up">/sign</a> your interest to collaborate with us or <a href="/browse" class="active">/browse</a> all soundposters. Additionally, you can read <a href="/#say-what">what others say</a> or what <a href="/about-us">/we say about us</a>.
+            Express <a href="/sign-up">your interest</a> to collaborate with us. <a href="/browse" class="active">Browse</a> all soundposters. Additionally, you can read <a href="/#say-what">what others say</a> or what <a href="/about-us">we say about us</a>.
         </div>
 
         <div class="main area">
             <div class="page-controls">
-                Page <span class="page" th:text="${page}" /> of <span class="pages" th:text="${pages}" />
                 <a th:href="${previous_page_url}" th:class="${not_on_first_page} ? 'previous-page' : 'no-previous-page'">Previous</a>
                 <a th:href="${next_page_url}" th:class="${not_on_last_page} ? 'next-page' : 'no-next-page'">Next page</a>
             </div>
@@ -71,8 +69,10 @@
                     <a class="link" th:title="'Watch Soundposter: ' + ${poster.title}" th:href="${poster.url}" th:text="${poster.title}"></a>
                 </div>
             </div>
-            <div class="bottom area">
-                On page <span class="page" th:text="${page}" /> of <span class="pages" th:text="${pages}" /> in this alphabetically sorted and growing book we are currently looking at query-result number <span class="number" th:text="${from}" /> to <span class="to" th:text="${from} + ${set.size}" /> :)
+            <div class="bottom area"><br/><br/>
+                On page <span class="page-nr" th:text="${page + 1}" /> of <span class="pages-nr" th:text="${pages}" />&nbsp;
+                we are looking at soundposter <span class="number" th:text="${from + 1}" /> to <span class="to" th:text="${from} + ${set.size}" /> from overall
+                <span class="overall" th:text="${overall}"></span> soundposters.
             </div>
         </div>
 

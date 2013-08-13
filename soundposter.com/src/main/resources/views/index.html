@@ -29,8 +29,7 @@
         <!-- End Piwik Tracking Code -->
 
         <link rel="stylesheet" href="/com.soundposter.website/poster/base.css"/>
-        <!--script type="text/javascript" src="http://modernizr.com/downloads/modernizr-latest.js"></script-->
-        <script type="text/javascript" src="/com.soundposter.website/script/vendor/modernizr/custom.36000.js"></script>
+        <link rel="stylesheet" href="/com.soundposter.website/poster/site/site.css"/>
         <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
 
@@ -66,12 +65,14 @@
         </div>
 
         <div class="subtitle">
-            At the moment you can <a href="/sign-up">/sign</a> your interest to collaborate with us or <a href="/browse">/browse</a> all soundposters. Additionally, you can read <a href="/#say-what">what others say</a> or what <a href="/about-us">/we say about us</a>.
+            Express <a href="/sign-up">your interest</a> to collaborate with us. <a href="/browse">Browse</a> all soundposters. Additionally, you can read <a href="/#say-what">what others say</a> or what <a href="/about-us">we say about us</a>.
         </div>
 
         <div class="header area">
             <div class="featured" th:attr="style='background-image:url(' + ${graphic} + ');'">
                 <div class="headline"><a th:text="${subtitle}" th:href="${link}"></a></div>
+                <div class="description" th:text="${description}"></div>
+                <!-- div class="hashtag" th:text="'#' + ${hashtag}"></div-->
                 <div class="author"><a th:text="${author}" th:href="${link}"></a></div>
                 <!-- img src="/com.soundposter.website/images/soundposter_play_button_600.png" class="play"
                         alt="Image: Play Random Soundposter" title="Image/Button: Play Random Soundposter Now" /-->
@@ -84,7 +85,7 @@
                 <h3>What others say?</h3>
                 <div class="box">
                     <quote><span class="marks">&#8220;</span>Finally a beatiful player for my records on the web.<span class="marks">&#8221;</span></quote>
-                    <b class="by"><a href="/posterview/moh/joestrommler" title="Soundposter: Joes Trommler">Ben (Joes Trommler)</a></b><br/><br/>
+                    <b class="by"><a href="/moh/joestrommler" title="Soundposter: Joes Trommler">Ben (Joes Trommler)</a></b><br/><br/>
                     <quote><span class="marks">&#8220;</span>And a very special highlight: Based on our SoundCloud-Compilation we have a fantastic tool allowing you to cruise over the sound and the area of the Torstra&szlig;enfestival in advance.<span class="marks">&#8221;</span></quote>
                     <b class="by"><a href="https://newthinking.de/2012/08/24/die-karte-der-zeitplandie-musik-torstrasen-festival-2012/" title="Blog entry (German) by newthinking communications GmbH">newthinking</a></b>
                 </div>
