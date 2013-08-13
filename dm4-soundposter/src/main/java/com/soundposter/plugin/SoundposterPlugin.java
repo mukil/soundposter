@@ -55,10 +55,8 @@ public class SoundposterPlugin extends PluginActivator implements SoundposterSer
     private Logger log = Logger.getLogger(getClass().getName());
     private AccessControlService acService;
 
-    private static final String SOUNDCLOUD_CLIENT_ID = "xgQpdzwTRicVIalDvCMTqQ";
 
-
-
+    
     /** --- Implementing PluginService Interfaces to consume AccessControlService --- */
 
     @Override

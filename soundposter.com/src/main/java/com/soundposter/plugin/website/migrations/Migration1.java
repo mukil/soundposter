@@ -150,11 +150,11 @@ public class Migration1 extends Migration {
     }
 
     private Topic getArtistNameTopic (String name) {
-        return dms.getTopic("com.soundposter.artist_name", new SimpleValue(name), false, null);
+        return dms.getTopic("com.soundposter.artist_name", new SimpleValue(name), false);
     }
 
     private Topic getAlbumNameTopic (String name) {
-        return dms.getTopic("com.soundposter.album_name", new SimpleValue(name), false, null);
+        return dms.getTopic("com.soundposter.album_name", new SimpleValue(name), false);
     }
 
     private String loadOldTracksData(String endpoint, String requestParameters) {

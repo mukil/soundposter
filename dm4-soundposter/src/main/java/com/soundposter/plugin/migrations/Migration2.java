@@ -18,7 +18,7 @@ public class Migration2 extends Migration {
     public void run() {
 
         /** Enrich topicmap type about soundposter properties */
-        TopicType topicmap = dms.getTopicType("dm4.topicmaps.topicmap", null);
+        TopicType topicmap = dms.getTopicType("dm4.topicmaps.topicmap");
         topicmap.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
             "dm4.topicmaps.topicmap", "com.soundposter.web_alias", "dm4.core.one", "dm4.core.one"));
         topicmap.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
@@ -49,7 +49,7 @@ public class Migration2 extends Migration {
         // could be (at one point) get overriden by exploiting the home_edge
 
         /** E-Mail, Username and a lot of other stuff for a user account */
-        TopicType account = dms.getTopicType("com.soundposter.account", null);
+        TopicType account = dms.getTopicType("com.soundposter.account");
         account.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
             "com.soundposter.account", "com.soundposter.account_alias", "dm4.core.one", "dm4.core.one"));
         account.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
@@ -78,20 +78,20 @@ public class Migration2 extends Migration {
             "com.soundposter.account", "com.soundposter.account_expires", "dm4.core.one", "dm4.core.one"));
 
         /** Assign "com.soundposter.marker_time" to AssocType "com.soundposter.marker" */
-        AssociationType markerEdge = dms.getAssociationType("com.soundposter.marker_edge", null);
+        AssociationType markerEdge = dms.getAssociationType("com.soundposter.marker_edge");
         markerEdge.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
             "com.soundposter.marker_edge", "com.soundposter.marker_time", "dm4.core.one", "dm4.core.one"));
 
         /** Hide some dm-topics from create_menu */
-        dms.getTopicType("dm4.contacts.person", null).getViewConfig()
+        dms.getTopicType("dm4.contacts.person").getViewConfig()
             .addSetting("dm4.webclient.view_config", "dm4.webclient.show_in_create_menu", false);
-        dms.getTopicType("dm4.contacts.institution", null).getViewConfig()
+        dms.getTopicType("dm4.contacts.institution").getViewConfig()
             .addSetting("dm4.webclient.view_config", "dm4.webclient.show_in_create_menu", false);
-        dms.getTopicType("dm4.notes.note", null).getViewConfig()
+        dms.getTopicType("dm4.notes.note").getViewConfig()
             .addSetting("dm4.webclient.view_config", "dm4.webclient.show_in_create_menu", false);
 
         /** Enrich "File" (Graphics) about source_info, author_info and  license_info */
-        TopicType file = dms.getTopicType("dm4.files.file", null);
+        TopicType file = dms.getTopicType("dm4.files.file");
         file.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",
             "dm4.files.file", "com.soundposter.source_page", "dm4.core.one", "dm4.core.one"));
         file.addAssocDef(new AssociationDefinitionModel("dm4.core.composition_def",

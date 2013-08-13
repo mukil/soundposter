@@ -19,93 +19,93 @@ public class Migration4 extends Migration {
         // Assign all new topicTypes to the default workspace
 
         // General
-        TopicType sourceInfo = dms.getTopicType("com.soundposter.source_page", null);
+        TopicType sourceInfo = dms.getTopicType("com.soundposter.source_page");
         assignWorkspace(sourceInfo);
-        TopicType authorInfo = dms.getTopicType("com.soundposter.publisher_info", null);
+        TopicType authorInfo = dms.getTopicType("com.soundposter.publisher_info");
         assignWorkspace(authorInfo);
-        TopicType authorName = dms.getTopicType("com.soundposter.publisher_name", null);
+        TopicType authorName = dms.getTopicType("com.soundposter.publisher_name");
         assignWorkspace(authorName);
-        TopicType licenseInfo = dms.getTopicType("com.soundposter.license_info", null);
+        TopicType licenseInfo = dms.getTopicType("com.soundposter.license_info");
         assignWorkspace(licenseInfo);
 
         // Poster
-        TopicType webAlias = dms.getTopicType("com.soundposter.web_alias", null);
+        TopicType webAlias = dms.getTopicType("com.soundposter.web_alias");
         assignWorkspace(webAlias);
-        TopicType featuredFlag = dms.getTopicType("com.soundposter.featured", null);
+        TopicType featuredFlag = dms.getTopicType("com.soundposter.featured");
         assignWorkspace(featuredFlag);
-        TopicType publishedFlag = dms.getTopicType("com.soundposter.published", null);
+        TopicType publishedFlag = dms.getTopicType("com.soundposter.published");
         assignWorkspace(publishedFlag);
-        TopicType poster_subtitle = dms.getTopicType("com.soundposter.poster_subtitle", null);
+        TopicType poster_subtitle = dms.getTopicType("com.soundposter.poster_subtitle");
         assignWorkspace(poster_subtitle);
-        TopicType poster_description = dms.getTopicType("com.soundposter.poster_description", null);
+        TopicType poster_description = dms.getTopicType("com.soundposter.poster_description");
         assignWorkspace(poster_description);
-        TopicType poster_hashtag = dms.getTopicType("com.soundposter.poster_hashtag", null);
+        TopicType poster_hashtag = dms.getTopicType("com.soundposter.poster_hashtag");
         assignWorkspace(poster_hashtag);
-        TopicType buy_link_label = dms.getTopicType("com.soundposter.buy_link_label", null);
+        TopicType buy_link_label = dms.getTopicType("com.soundposter.buy_link_label");
         assignWorkspace(buy_link_label);
-        TopicType buy_link_href = dms.getTopicType("com.soundposter.buy_link_href", null);
+        TopicType buy_link_href = dms.getTopicType("com.soundposter.buy_link_href");
         assignWorkspace(buy_link_href);
-        TopicType setlist_label = dms.getTopicType("com.soundposter.setlist_label", null);
+        TopicType setlist_label = dms.getTopicType("com.soundposter.setlist_label");
         assignWorkspace(setlist_label);
-        TopicType customStyle = dms.getTopicType("com.soundposter.custom_style", null);
+        TopicType customStyle = dms.getTopicType("com.soundposter.custom_style");
         assignWorkspace(customStyle);
-        TopicType customScript = dms.getTopicType("com.soundposter.custom_script", null);
+        TopicType customScript = dms.getTopicType("com.soundposter.custom_script");
         assignWorkspace(customScript);
-        TopicType displayOptions = dms.getTopicType("com.soundposter.display_options", null);
+        TopicType displayOptions = dms.getTopicType("com.soundposter.display_options");
         assignWorkspace(displayOptions);
 
         // Set
-        TopicType set = dms.getTopicType("com.soundposter.set", null);
+        TopicType set = dms.getTopicType("com.soundposter.set");
         assignWorkspace(set);
-        TopicType set_name = dms.getTopicType("com.soundposter.set_name", null);
+        TopicType set_name = dms.getTopicType("com.soundposter.set_name");
         assignWorkspace(set_name);
-        TopicType set_description = dms.getTopicType("com.soundposter.set_description", null);
+        TopicType set_description = dms.getTopicType("com.soundposter.set_description");
         assignWorkspace(set_description);
 
         // Text
-        TopicType text = dms.getTopicType("com.soundposter.text", null);
+        TopicType text = dms.getTopicType("com.soundposter.text");
         assignWorkspace(text);
-        TopicType text_value = dms.getTopicType("com.soundposter.text_value", null);
+        TopicType text_value = dms.getTopicType("com.soundposter.text_value");
         assignWorkspace(text_value);
 
         // Sound
-        TopicType sound = dms.getTopicType("com.soundposter.sound", null);
+        TopicType sound = dms.getTopicType("com.soundposter.sound");
         assignWorkspace(sound);
-        TopicType soundName = dms.getTopicType("com.soundposter.sound_name", null);
+        TopicType soundName = dms.getTopicType("com.soundposter.sound_name");
         assignWorkspace(soundName);
-        TopicType ordinalNumber = dms.getTopicType("com.soundposter.ordinal_number", null);
+        TopicType ordinalNumber = dms.getTopicType("com.soundposter.ordinal_number");
         assignWorkspace(ordinalNumber);
-        TopicType artistName = dms.getTopicType("com.soundposter.artist_name", null);
+        TopicType artistName = dms.getTopicType("com.soundposter.artist_name");
         assignWorkspace(artistName);
-        TopicType albumName = dms.getTopicType("com.soundposter.album_name", null);
+        TopicType albumName = dms.getTopicType("com.soundposter.album_name");
         assignWorkspace(albumName);
-        TopicType gigTime = dms.getTopicType("com.soundposter.gig_start_time", null);
+        TopicType gigTime = dms.getTopicType("com.soundposter.gig_start_time");
         assignWorkspace(gigTime);
-        TopicType stream_unavailable = dms.getTopicType("com.soundposter.stream_unavailable", null);
+        TopicType stream_unavailable = dms.getTopicType("com.soundposter.stream_unavailable");
         assignWorkspace(stream_unavailable);
-        TopicType sound_description = dms.getTopicType("com.soundposter.sound_description", null);
+        TopicType sound_description = dms.getTopicType("com.soundposter.sound_description");
         assignWorkspace(sound_description);
-        TopicType sound_artwork_url = dms.getTopicType("com.soundposter.sound_artwork_url", null);
+        TopicType sound_artwork_url = dms.getTopicType("com.soundposter.sound_artwork_url");
         assignWorkspace(sound_artwork_url);
 
         // Event
-        TopicType event = dms.getTopicType("com.soundposter.event", null);
+        TopicType event = dms.getTopicType("com.soundposter.event");
         assignWorkspace(event);
-        TopicType eventName = dms.getTopicType("com.soundposter.event_name", null);
+        TopicType eventName = dms.getTopicType("com.soundposter.event_name");
         assignWorkspace(eventName);
-        TopicType dateTime = dms.getTopicType("com.soundposter.event_start_date_time", null);
+        TopicType dateTime = dms.getTopicType("com.soundposter.event_start_date_time");
         assignWorkspace(dateTime);
-        TopicType endDateTime = dms.getTopicType("com.soundposter.event_end_date_time", null);
+        TopicType endDateTime = dms.getTopicType("com.soundposter.event_end_date_time");
         assignWorkspace(endDateTime);
-        TopicType locationName = dms.getTopicType("com.soundposter.location_name", null);
+        TopicType locationName = dms.getTopicType("com.soundposter.location_name");
         assignWorkspace(locationName);
 
         // Marker
-        TopicType markerTime = dms.getTopicType("com.soundposter.marker_time", null);
+        TopicType markerTime = dms.getTopicType("com.soundposter.marker_time");
         assignWorkspace(markerTime);
 
         // Remark
-        TopicType remark = dms.getTopicType("com.soundposter.remark", null);
+        TopicType remark = dms.getTopicType("com.soundposter.remark");
         assignWorkspace(remark);
 
         // Accounts should just be editable by user "admin"
@@ -125,23 +125,23 @@ public class Migration4 extends Migration {
         assignWorkspace(profile_age); **/
 
         // Thirdparty IDs
-        TopicType thirdPartyId = dms.getTopicType("com.soundposter.thirdparty_id", null);
+        TopicType thirdPartyId = dms.getTopicType("com.soundposter.thirdparty_id");
         assignWorkspace(thirdPartyId);
 
         // Assign all assocTypes to the default workspace
-        AssociationType homeLink = dms.getAssociationType("com.soundposter.home_edge", null);
+        AssociationType homeLink = dms.getAssociationType("com.soundposter.home_edge");
         assignWorkspace(homeLink);
-        AssociationType moreLink = dms.getAssociationType("com.soundposter.more_edge", null);
+        AssociationType moreLink = dms.getAssociationType("com.soundposter.more_edge");
         assignWorkspace(moreLink);
-        AssociationType buyLink = dms.getAssociationType("com.soundposter.buy_edge", null);
+        AssociationType buyLink = dms.getAssociationType("com.soundposter.buy_edge");
         assignWorkspace(buyLink);
-        AssociationType previewGraphicLink = dms.getAssociationType("com.soundposter.preview_graphic_edge", null);
+        AssociationType previewGraphicLink = dms.getAssociationType("com.soundposter.preview_graphic_edge");
         assignWorkspace(previewGraphicLink);
-        AssociationType graphicLink = dms.getAssociationType("com.soundposter.graphic_edge", null);
+        AssociationType graphicLink = dms.getAssociationType("com.soundposter.graphic_edge");
         assignWorkspace(graphicLink);
-        AssociationType makerLink = dms.getAssociationType("com.soundposter.marker_edge", null);
+        AssociationType makerLink = dms.getAssociationType("com.soundposter.marker_edge");
         assignWorkspace(makerLink);
-        AssociationType authorLink = dms.getAssociationType("com.soundposter.author_edge", null);
+        AssociationType authorLink = dms.getAssociationType("com.soundposter.author_edge");
         assignWorkspace(authorLink);
 
     }
@@ -160,7 +160,7 @@ public class Migration4 extends Migration {
 
     private boolean hasWorkspace(Topic topic) {
         return topic.getRelatedTopics("dm4.core.aggregation", "dm4.core.parent", "dm4.core.child",
-            "dm4.workspaces.workspace", false, false, 0, null).getSize() > 0;
+            "dm4.workspaces.workspace", false, false, 0).getSize() > 0;
     }
 
 }
