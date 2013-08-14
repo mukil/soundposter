@@ -468,7 +468,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
         int next_page = (page_nr == overall_pages) ? page_nr : page_nr + 1;
         int previous_page = (page_nr == 0) ? 0 : (page_nr - 1);
         viewData("previous_page_url", (page_nr > 0) ? "/browse/" + previous_page : "/browse/" + overall_pages);
-        viewData("next_page_url", "/browse/" + next_page);
+        viewData("next_page_url", (on_last_page) ? "/browse": "/browse/" + next_page);
         // general
         viewData("pages", overall_pages);
         viewData("from", offset);
