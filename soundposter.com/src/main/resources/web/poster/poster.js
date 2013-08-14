@@ -375,7 +375,7 @@ var poster = new function () {
             // initiate this
             $container = $('<div class="embed-area">')
             var address = HOST_URL + poster.path
-            if (poster.selected_track == undefined) address = address + "/" + poster.selected_track.id
+            if (poster.selected_track != undefined) address = address + "/" + poster.selected_track.id
             render_input_field()
             $('.top-menu').append($container)
             $('.controls #jp_container_1').css("top", "95px")
