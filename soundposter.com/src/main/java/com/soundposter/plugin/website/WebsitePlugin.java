@@ -302,6 +302,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
         } else {
             // create author-edge for the logged in user:
             Topic sp_account = getProfileTopic(acService.getUsername(acService.getUsername()));
+            if (sp_account == null) throw new RuntimeException("User Account has no soundposter-profile related.");
             createAuthorRelation(sound, sp_account);
         }
         return sound;
@@ -322,6 +323,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
             // todo: get it, update it
         } else {
             Topic sp_account = getProfileTopic(acService.getUsername(acService.getUsername()));
+            if (sp_account == null) throw new RuntimeException("User Account has no soundposter-profile related.");
             createAuthorRelation(set, sp_account);
         }
         return set;
@@ -358,47 +360,6 @@ public class WebsitePlugin extends WebActivatorPlugin {
         viewData("pageId", "search-results");
         viewData("results", results);
         return view("track-results");
-    }
-
-    @GET
-    @Path("/soundcloud/tracks/{query}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public JSONArray getSoundCloudTracksBySearchTerm(@PathParam("query") String term, int pageNr) {
-        //
-        checkRequestAuthentication();
-        //
-        int limit = 25;
-        int offset = 0;
-        if (pageNr != 0) offset = limit * pageNr;
-        try {
-            JSONArray results = new JSONArray();
-            String endpoint = "http://api.soundcloud.com/tracks.json?client_id=" + SOUNDCLOUD_CLIENT_ID
-                    + "&q=" + term + "&limit=" + limit + "&offset=" + offset;
-            URL url = new URL(endpoint);
-            log.info("Migration1 sending request to: " + url.toURI().toURL().toString());
-            URLConnection conn = url.openConnection();
-            // BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "ISO-8859-1"));
-            BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = rd.readLine()) != null) {
-                sb.append(line);
-            }
-            rd.close();
-            JSONTokener tokener = new JSONTokener(sb.toString());
-            results = new JSONArray(tokener);
-            //
-            return results;
-        } catch (URISyntaxException ex) {
-            log.severe(ex.getMessage());
-            throw new WebApplicationException(ex.getCause());
-        } catch (JSONException ex) {
-            log.severe(ex.getMessage());
-            throw new WebApplicationException(ex.getCause());
-        } catch (IOException ex) {
-            log.severe(ex.getMessage());
-            throw new WebApplicationException(ex.getCause());
-        }
     }
 
     @GET
@@ -444,47 +405,6 @@ public class WebsitePlugin extends WebActivatorPlugin {
     @Produces(MediaType.TEXT_HTML)
     public Viewable getSoundCloudSetsView(@PathParam("query") String term) {
         return getSoundCloudSetsView(term, 0);
-    }
-
-    @GET
-    @Path("/soundcloud/sets/{query}/{pageNr}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public JSONArray getSoundCloudSetsBySearchTerm(@PathParam("query") String term, @PathParam("pageNr") int pageNr) {
-        //
-        checkRequestAuthentication();
-        //
-        int limit = 7;
-        int offset = 0;
-        if (pageNr != 0) offset = limit * pageNr;
-        try {
-            JSONArray results = new JSONArray();
-            String endpoint = "http://api.soundcloud.com/playlists.json?client_id=" + SOUNDCLOUD_CLIENT_ID
-                + "&q=" + term + "&limit=" + limit + "&offset=" + offset;
-            URL url = new URL(endpoint);
-            log.info("Migration1 sending request to: " + url.toURI().toURL().toString());
-            URLConnection conn = url.openConnection();
-            // BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "ISO-8859-1"));
-            BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = rd.readLine()) != null) {
-                sb.append(line);
-            }
-            rd.close();
-            JSONTokener tokener = new JSONTokener(sb.toString());
-            results = new JSONArray(tokener);
-            //
-            return results;
-        } catch (URISyntaxException ex) {
-            log.severe(ex.getMessage());
-            throw new WebApplicationException(ex.getCause());
-        } catch (JSONException ex) {
-            log.severe(ex.getMessage());
-            throw new WebApplicationException(ex.getCause());
-        } catch (IOException ex) {
-            log.severe(ex.getMessage());
-            throw new WebApplicationException(ex.getCause());
-        }
     }
 
 	@GET
@@ -644,7 +564,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
         return view("poster");
     }
 
-    /** @GET
+    @GET
     @Path("/{pathInfo}")
     @Produces(MediaType.TEXT_HTML)
     public InputStream getWebsiteView(@PathParam("pathInfo") String pathInfo,
@@ -654,7 +574,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
         if (pathInfo.equals("favicon.ico")) return getSoundposterFavIcon();
         log.info("Requesting front page with pathInfo .. "); // redirect to new frontpage via Response-Object
         return invokeFrontpageView();
-    } */
+    }
 
     @GET
     @Path("/tsfestival")
@@ -808,6 +728,71 @@ public class WebsitePlugin extends WebActivatorPlugin {
         }
     }
 
+    private boolean hasPosterProfileRelation(Topic profileAlias, Topic poster) {
+        // ### check if profile is active..
+        Topic profile = profileAlias.getRelatedTopic("dm4.core.composition", "dm4.core.child", "dm4.core.parent",
+                "com.soundposter.account", true, false);
+        ResultSet<RelatedTopic> items = profile.getRelatedTopics("com.soundposter.author_edge", "dm4.core.default",
+                "dm4.core.default", "dm4.topicmaps.topicmap", true, false, 0);
+        if (items.getSize() > 0) {
+            Iterator<RelatedTopic> soundposter = items.getIterator();
+            while(soundposter.hasNext()) {
+                RelatedTopic element = soundposter.next();
+                if (element.getId() == poster.getId()) {
+                    return true;
+                } else {
+                }
+            }
+        }
+        return false;
+    }
+
+    private String getPosterGraphicURL (Topic poster) {
+        if (poster.getCompositeValue().has("dm4.files.file")) {
+            Topic graphic = poster.getCompositeValue().getTopic("dm4.files.file");
+            if (graphic.getCompositeValue().has("dm4.files.path")) {
+                String path = graphic.getCompositeValue().getString("dm4.files.path");
+                return "/filerepo" + path;
+            }
+        }
+        return null;
+    }
+
+    private String getPreviewGraphicURL (Topic poster) {
+        Topic previewGraphic = poster.getRelatedTopic("com.soundposter.preview_graphic_edge",
+                DEFAULT_TYPE_URI, DEFAULT_TYPE_URI, "dm4.files.file", true, false);
+        if (previewGraphic != null) {
+            return "/filerepo" + previewGraphic.getCompositeValue().getString("dm4.files.path");
+        }
+        return null;
+    }
+
+    private String getProfileAliasForPoster(Topic poster) {
+        // todo: check if profile is active..
+        RelatedTopic author = poster.getRelatedTopic("com.soundposter.author_edge", "dm4.core.default",
+                "dm4.core.default", "com.soundposter.account", true, false);
+        if (author == null) return null;
+        if (author.getCompositeValue().has("com.soundposter.account_alias")) {
+            return author.getCompositeValue().getString("com.soundposter.account_alias");
+        }
+        return null;
+    }
+
+    private Topic getProfileTopic(Topic username) {
+        RelatedTopic profile = username.getRelatedTopic("dm4.core.aggregation", "dm4.core.child",
+                "dm4.core.parent", "com.soundposter.account", true, false);
+        if (profile == null) return null;
+        return profile;
+    }
+
+    private Association createAuthorRelation(Topic sound, Topic username) {
+        return dms.createAssociation(new AssociationModel("com.soundposter.author_edge",
+                new TopicRoleModel(sound.getId(), "dm4.core.parent"),
+                new TopicRoleModel(username.getId(), "dm4.core.child")), null);
+    }
+
+    /** All this could and should move to the common audiolib project (aal-plugin). */
+
     private Topic createSoundCloudTrackTopic(SearchedTrack object, ClientState clientState) {
         //
         String uri = SOUNDCLOUD_TRACK_ID_PREFIX + object.trackId;
@@ -910,6 +895,76 @@ public class WebsitePlugin extends WebActivatorPlugin {
         }
     }
 
+    private JSONArray getSoundCloudTracksBySearchTerm(String term, int pageNr) {
+        int limit = 25;
+        int offset = 0;
+        if (pageNr != 0) offset = limit * pageNr;
+        try {
+            JSONArray results = new JSONArray();
+            String endpoint = "http://api.soundcloud.com/tracks.json?client_id=" + SOUNDCLOUD_CLIENT_ID
+                    + "&q=" + term + "&limit=" + limit + "&offset=" + offset;
+            URL url = new URL(endpoint);
+            log.info("Migration1 sending request to: " + url.toURI().toURL().toString());
+            URLConnection conn = url.openConnection();
+            // BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "ISO-8859-1"));
+            BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = rd.readLine()) != null) {
+                sb.append(line);
+            }
+            rd.close();
+            JSONTokener tokener = new JSONTokener(sb.toString());
+            results = new JSONArray(tokener);
+            //
+            return results;
+        } catch (URISyntaxException ex) {
+            log.severe(ex.getMessage());
+            throw new WebApplicationException(ex.getCause());
+        } catch (JSONException ex) {
+            log.severe(ex.getMessage());
+            throw new WebApplicationException(ex.getCause());
+        } catch (IOException ex) {
+            log.severe(ex.getMessage());
+            throw new WebApplicationException(ex.getCause());
+        }
+    }
+
+    private JSONArray getSoundCloudSetsBySearchTerm(String term, int pageNr) {
+        int limit = 7;
+        int offset = 0;
+        if (pageNr != 0) offset = limit * pageNr;
+        try {
+            JSONArray results = new JSONArray();
+            String endpoint = "http://api.soundcloud.com/playlists.json?client_id=" + SOUNDCLOUD_CLIENT_ID
+                + "&q=" + term + "&limit=" + limit + "&offset=" + offset;
+            URL url = new URL(endpoint);
+            log.info("Migration1 sending request to: " + url.toURI().toURL().toString());
+            URLConnection conn = url.openConnection();
+            // BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "ISO-8859-1"));
+            BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = rd.readLine()) != null) {
+                sb.append(line);
+            }
+            rd.close();
+            JSONTokener tokener = new JSONTokener(sb.toString());
+            results = new JSONArray(tokener);
+            //
+            return results;
+        } catch (URISyntaxException ex) {
+            log.severe(ex.getMessage());
+            throw new WebApplicationException(ex.getCause());
+        } catch (JSONException ex) {
+            log.severe(ex.getMessage());
+            throw new WebApplicationException(ex.getCause());
+        } catch (IOException ex) {
+            log.severe(ex.getMessage());
+            throw new WebApplicationException(ex.getCause());
+        }
+    }
+
     private SearchedTrack createSoundCloudSearchedTrack(JSONObject item, int ordinal) throws JSONException {
         // todo: at artwork_url, sound-page permalink_url, user_link
         String description = (item.getString("description") == null) ? "" : item.getString("description");
@@ -940,6 +995,8 @@ public class WebsitePlugin extends WebActivatorPlugin {
         return result;
     }
 
+    /** Legacy routes to an old soundposter.com */
+
     private InputStream invokeFrontpageView() {
         try {
             return dms.getPlugin("com.soundposter.webapp").getResourceAsStream("web/website/index.html");
@@ -948,16 +1005,6 @@ public class WebsitePlugin extends WebActivatorPlugin {
         }
     }
 
-    // this hardcoded view-link exists just because of backwards compatibility reasons and some romanticism
-    private InputStream invokeSoundposterTorStreetView() {
-        try {
-            return dms.getPlugin("com.soundposter.webapp").getResourceAsStream("web/tsfestival/index_new.html");
-        } catch (Exception e) {
-            throw new WebApplicationException(e);
-        }
-    }
-
-    // this hardcoded view-link exists just because of backwards compatibility reasons and some romanticism
     private InputStream invokeC3SView() {
         try {
             return dms.getPlugin("com.soundposter.webapp").getResourceAsStream("web/c3s/index.html");
@@ -966,7 +1013,6 @@ public class WebsitePlugin extends WebActivatorPlugin {
         }
     }
 
-    // this hardcoded view-link exists just because of backwards compatibility reasons and some romanticism
     private InputStream getSoundposterFavIcon() {
         try {
             return dms.getPlugin("com.soundposter.webapp").getResourceAsStream("web/images/favicon.ico");
@@ -975,62 +1021,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
         }
     }
 
-    private boolean hasPosterProfileRelation(Topic profileAlias, Topic poster) {
-        // ### check if profile is active..
-        Topic profile = profileAlias.getRelatedTopic("dm4.core.composition", "dm4.core.child", "dm4.core.parent",
-                "com.soundposter.account", true, false);
-        ResultSet<RelatedTopic> items = profile.getRelatedTopics("com.soundposter.author_edge", "dm4.core.default",
-                "dm4.core.default", "dm4.topicmaps.topicmap", true, false, 0);
-        if (items.getSize() > 0) {
-            Iterator<RelatedTopic> soundposter = items.getIterator();
-            while(soundposter.hasNext()) {
-                RelatedTopic element = soundposter.next();
-                if (element.getId() == poster.getId()) {
-                    return true;
-                } else {
-                }
-            }
-        }
-        return false;
-    }
-
-    private String getPosterGraphicURL (Topic poster) {
-        if (poster.getCompositeValue().has("dm4.files.file")) {
-            Topic graphic = poster.getCompositeValue().getTopic("dm4.files.file");
-            if (graphic.getCompositeValue().has("dm4.files.path")) {
-                String path = graphic.getCompositeValue().getString("dm4.files.path");
-                return "/filerepo" + path;
-            }
-        }
-        return null;
-    }
-
-    private String getPreviewGraphicURL (Topic poster) {
-        Topic previewGraphic = poster.getRelatedTopic("com.soundposter.preview_graphic_edge",
-                DEFAULT_TYPE_URI, DEFAULT_TYPE_URI, "dm4.files.file", true, false);
-        if (previewGraphic != null) {
-            return "/filerepo" + previewGraphic.getCompositeValue().getString("dm4.files.path");
-        }
-        return null;
-    }
-
-    private String getProfileAliasForPoster(Topic poster) {
-        // todo: check if profile is active..
-        RelatedTopic author = poster.getRelatedTopic("com.soundposter.author_edge", "dm4.core.default",
-                "dm4.core.default", "com.soundposter.account", true, false);
-        if (author == null) return null;
-        if (author.getCompositeValue().has("com.soundposter.account_alias")) {
-            return author.getCompositeValue().getString("com.soundposter.account_alias");
-        }
-        return null;
-    }
-
-    private Topic getProfileTopic(Topic username) {
-        RelatedTopic profile = username.getRelatedTopic("dm4.core.aggregation", "dm4.core.child",
-                "dm4.core.parent", "com.soundposter.account", true, false);
-        if (profile == null) return null;
-        return profile;
-    }
+    /** Code running once, after plugin initialization. */
 
     private void checkACLsOfMigration() {
         // todo: initiate "admin" soundposter account topic to have old, migrated items authored semantically consistent
@@ -1062,11 +1053,6 @@ public class WebsitePlugin extends WebActivatorPlugin {
         }
     }
 
-    private Association createAuthorRelation(Topic sound, Topic username) {
-        return dms.createAssociation(new AssociationModel("com.soundposter.author_edge",
-                new TopicRoleModel(sound.getId(), "dm4.core.parent"),
-                new TopicRoleModel(username.getId(), "dm4.core.child")), null);
-    }
 
     /** --- Implementing PluginService Interfaces to consume AccessControlService --- */
 

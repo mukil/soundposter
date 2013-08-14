@@ -55,8 +55,11 @@ public class SoundposterPlugin extends PluginActivator implements SoundposterSer
     private Logger log = Logger.getLogger(getClass().getName());
     private AccessControlService acService;
 
+    /** Implementing a soundposter search would trigger the following getTopic-Calls() to fulltext_key indexed types:
+     *  Sound name, Sound Description, Set Name, Set Description, Poster Subtitle, Poster Description, Publisher Name,
+     *  Album Name, Artist Name, futurewise: Tags, too and at last probably: com.soundposter.account_name
+     **/
 
-    
     /** --- Implementing PluginService Interfaces to consume AccessControlService --- */
 
     @Override

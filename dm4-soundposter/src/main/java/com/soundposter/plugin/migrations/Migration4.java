@@ -16,6 +16,9 @@ public class Migration4 extends Migration {
 
     @Override
     public void run() {
+
+        /** We do not intend to use DM for collaborative editing, therefore commented this Migration
+         *  @see also in plugin.properties
         // Assign all new topicTypes to the default workspace
 
         // General
@@ -124,7 +127,7 @@ public class Migration4 extends Migration {
         TopicType profile_age = dms.getTopicType("com.soundposter.account_profile_age", null);
         assignWorkspace(profile_age); **/
 
-        // Thirdparty IDs
+        /** // Thirdparty IDs
         TopicType thirdPartyId = dms.getTopicType("com.soundposter.thirdparty_id");
         assignWorkspace(thirdPartyId);
 
@@ -142,7 +145,7 @@ public class Migration4 extends Migration {
         AssociationType makerLink = dms.getAssociationType("com.soundposter.marker_edge");
         assignWorkspace(makerLink);
         AssociationType authorLink = dms.getAssociationType("com.soundposter.author_edge");
-        assignWorkspace(authorLink);
+        assignWorkspace(authorLink); **/
 
     }
 

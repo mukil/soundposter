@@ -115,7 +115,7 @@
 .page-controls a.next-page,
 .page-controls a.previous-page {
     font-weight: 700;
-    color: #40B0E2;
+    color: #ffb900;
     cursor: pointer;
     background-color: #ffffff;
     /** background: linear-gradient(to bottom, #fefefe 0%,#a9a9a9 100%);
@@ -157,6 +157,11 @@
     background-color: #fff;
     float: left;
     margin-top: 15px;
+}
+
+.page .punchline {
+    color: #ffb900;
+    font-weight: 700;
 }
 
 .page ul.low-menu {

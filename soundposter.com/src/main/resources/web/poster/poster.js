@@ -12,6 +12,7 @@ var poster = new function () {
     this.data = undefined
     this.playlist = undefined
     this.sounds = undefined
+    this.events = undefined
     this.texts = undefined
     this.current = undefined // obsolete?
     this.selected_track = undefined
@@ -60,9 +61,9 @@ var poster = new function () {
         var posterHasGraphic = false
         //
         if (graphicUrl) {
-            posterHasGraphic = true
             $image.attr('src', graphicUrl)
             $image.load( function(e) {
+                posterHasGraphic = true
                 //
                 $container.width($image.width())
                 $container.height($image.height())
@@ -98,7 +99,11 @@ var poster = new function () {
 
             function setup_base_page () {
                 // in any case initialize setlist dialog
-                poster.initialize_setlist_dialog()
+                if (poster.rendering.event_list) {
+                    poster.initialize_setlist_event_dialog()
+                } else {
+                    poster.initialize_setlist_sound_dialog()
+                }
                 poster.path = "/" + username + "/" + webalias
                 // todo: another svg-element earlier, for displying e.g. image load percentage..
                 if (trackId != 0) {
@@ -190,10 +195,7 @@ var poster = new function () {
         }
     }
 
-    this.initialize_setlist_dialog = function () {
-        if (poster.rendering.event_listing) {
-            console.log("listing should use events to group aggregated sounds (alphanumeric sorted within) instead ")
-        }
+    this.initialize_setlist_sound_dialog = function () {
         // todo: if (tracklist is active), seekbar should be within tracklist-item
         var $listing = $('ul.listing')
             $listing.empty()
@@ -253,10 +255,10 @@ var poster = new function () {
                     poster.set_sound_visuals_by_id(parseInt(e.target.id.substr(5)))
                     poster.play_selected_track()
                 })
-            var $share = $('<a href="javascript:;" id="share-' + sound.id + '" class="share">Share</a>')
+            /** var $share = $('<a href="javascript:;" id="share-' + sound.id + '" class="share">Share</a>')
                 $share.click(function(e) {
                     poster.share(parseInt(e.target.id.substr(5)))
-                })
+                })**/
             var $entry = $('<div class="element">')
             var $source_btn = $('<span class="source-info">')
                 $entry.append($playnow)
@@ -274,6 +276,68 @@ var poster = new function () {
             $listing.append($listitem)
         }
         // list-divider: $listing.append('<li data-role="list-divider" data-divider-theme="a">Spot X</a>')
+    }
+
+    this.initialize_setlist_event_dialog = function () {
+        // todo: if (tracklist is active), seekbar should be within tracklist-item
+        var $listing = $('ul.listing')
+            $listing.empty()
+            /** http://www.quirksmode.org/js/events_order.html
+             *  $listing.listview({headerTheme: "a",
+             *  swipe: function (e) { poster.stop_propagation(e) },
+             *  mousemove: function (e) { poster.stop_propagation(e) }
+            }) **/
+        for (var item in poster.events) {
+            var event = poster.get_topic_by_id(poster.events[item].id, true)
+            // append event
+            $listing.append('<li data-role="list-divider" data-divider-theme="a">' +event.value+ '</a>')
+            if (event.composite.hasOwnProperty('com.soundposter.sound')) {
+                for (var key in event.composite['com.soundposter.sound']) {
+                    var sound = event.composite['com.soundposter.sound'][key]
+                    var sound_name = (sound.composite.hasOwnProperty('com.soundposter.sound_name')) ? sound.composite['com.soundposter.sound_name'].value  : ""
+                    var gig_start_time = poster.get_gig_time(sound)
+                    var track_position = (gig_start_time != undefined) ? gig_start_time : ""
+                    var source_page = (sound.composite.hasOwnProperty('com.soundposter.source_page')) ? sound.composite['com.soundposter.source_page'].value : "com.soundposter.unspecified_source"
+                    var stream_info = (sound.composite.hasOwnProperty('dm4.webbrowser.url')) ? sound.composite['dm4.webbrowser.url'].value : ""
+                    var stream_provider_class = "unspecified-stream"
+                    var stream_provider_placeholder = ""
+                    // fixme: currently calculating the streaming provider based on stream-location-uri
+                    if (stream_info.indexOf("soundcloud") != -1) {
+                        stream_provider_class = "soundcloud-stream"
+                        stream_provider_placeholder = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                    } else if (stream_info.indexOf("poppler") != -1) {
+                        stream_provider_class = "bandcamp-stream"
+                        stream_provider_placeholder = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+                            + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+                    }
+                    // construct ui-elements
+                    var $playnow = $('<a href="javascript:;" id="play-' + sound.id + '" class="playnow">')
+                        $playnow.append('<span id="posi-' + sound.id + '" class="track-position">' + track_position + '</span>')
+                        $playnow.append('<span id="name-' + sound.id + '" class="track-name">' + sound_name + '</span>')
+                        // $playnow.append('<span id="arts-' + sound.id + '" class="artist-name">' + artist_name + '</span>')
+                        // $playnow.append('<span id="albu-' + sound.id + '" class="album-name">' + album_name + '</span>')
+                        $playnow.click(function(e) {
+                            poster.set_sound_visuals_by_id(parseInt(e.target.id.substr(5)))
+                            poster.play_selected_track()
+                        })
+                    var $entry = $('<div class="element">')
+                    var $source_btn = $('<span class="source-info">')
+                        $entry.append($playnow)
+                        $entry.append($source_btn)
+                        if (source_page !== "") {
+                            $source_btn.append('<a class="' +stream_provider_class+ '" href="' +source_page+ '"'
+                            + 'title="' +source_page+ '" ' + 'target="_blank">' +stream_provider_placeholder+ '</a>')
+                        } else {
+                            $source_btn.append('<a class="' +stream_provider_class+ ' unavailable" href="javascript:;"'
+                            + 'title="' +source_page+ '">' +stream_provider_placeholder+ '</a>')
+                        }
+                    var $listitem = $('<li id="entry-' + sound.id + '">')
+                        $listitem.append($entry)
+                    //
+                    $listing.append($listitem)
+                }
+            }
+        }
     }
 
     this.share = function () {
@@ -601,7 +665,7 @@ var poster = new function () {
         poster.paper = Raphael("interactives", 6321, 6321) // todo: dont set max raphael-canvas-size
         // poster.paper.image(graphicUrl, 1000, 1000, 2000, 2000)
         // and lets place our interactives not in the center of the postergraphic, but at the spot of the sound
-        if (!pos) {
+        if (pos != undefined) {
             graphicX = pos.x + 55
             graphicY = pos.y - 65
         }
@@ -691,7 +755,7 @@ var poster = new function () {
                         // sound click handler
                         if (poster.selected_track == undefined) {
                             //
-                            console.log("Compelte Start (Visualize and then play): Settg sound id to => " + e.target.id)
+                            if (debugControls) console.log("Compelte Start: Settg sound id to => " + e.target.id)
                             poster.set_sound_visuals_by_id(e.target.id)
                             poster.play_selected_track()
                         } else if (poster.selected_track.id == e.target.id) {
@@ -702,12 +766,11 @@ var poster = new function () {
                                 var trackId = e.target.id
                                 // start playing this element
                                 // if not set, set it to element with id: trackId
-                                console.log("not playing... " + trackId)
                                 // continue with current track
                                 $player.jPlayer("play")
                             }
                         } else {
-                            console.log("Kickstart (Visualized): Settg sound id to => " + e.target.id)
+                            if (debugControls) console.log("Kickstart (Visualized): Settg sound id to => " +e.target.id)
                             poster.set_sound_visuals_by_id(e.target.id)
                             poster.play_selected_track()
                         }
@@ -813,8 +876,9 @@ var poster = new function () {
             poster.play_selected_track()
             poster.hide_interactives()
         } else {
-            console.log("could not play_from_start, since poster.sounds are not initialized?")
-            console.log(poster.sounds)
+            poster.show_notification("Sorry, we could not start playing, press any key...")
+            // console.log("could not play_from_start, since poster.sounds are not initialized?")
+            // console.log(poster.sounds)
         }
 
     }
@@ -952,25 +1016,28 @@ var poster = new function () {
         poster.playlist = new Array()
         poster.sounds = new Array()
         poster.texts = new Array()
+        poster.events = new Array()
         //
         if (topicmap != undefined) {
             // iterate through topics
             for (var topic in topicmap.topics) { // (function(topic) {
                 // access the topic's properties:
                 if (topicmap.topics[topic].type_uri == "com.soundposter.sound") {
-                    var topic = topicmap.topics[topic];
-                    if (topic['visualization']['dm4.topicmaps.visibility'].value) {
+                    var item = topicmap.topics[topic]
+                    if (item['visualization']['dm4.topicmaps.visibility'].value) {
                         // playlist [topic.id, topic['visualization']]
-                        poster.playlist.push(topic); // the visual setlist
+                        poster.playlist.push(item) // the visual setlist
                         // load full composite of each sound-item
                         // fixme: fetch from our new setlist instead
                         // var sound = poster.get_topic_by_id(topic.id, true)
-                        var sound = poster.load_sound_from_local_setlist(topic.id)
+                        var sound = poster.load_sound_from_local_setlist(item.id)
                         if (sound == null) throw new Error("Error while populating setlist.")
-                        poster.sounds.push(sound); // the sound-stream meta data setli
+                        poster.sounds.push(sound) // the sound-stream meta data setli
                     }
                 } else if (topicmap.topics[topic].type_uri == "com.soundposter.text") {
-                    poster.texts.push(topicmap.topics[topic]);
+                    poster.texts.push(topicmap.topics[topic])
+                } else if (topicmap.topics[topic].type_uri == "com.soundposter.event") {
+                    poster.events.push(topicmap.topics[topic])
                 }
             }
             poster.playlist.sort(this.topic_sort); // alphabetical ascending
@@ -1021,58 +1088,24 @@ var poster = new function () {
         return 0 //default return value (no sorting)
     }
 
-    this.initializeByPath = function() {
+    this.check_this = function(profile, webalias) {
 
-        // handling deep links
-        var url = window.location.href.substr()
-        var path = url.split("/")
-
-        var profileAlias = path[path.length - 2]
-        var posterAlias = path[path.length - 1]
         var loaded = undefined
-
         try {
-            loaded = request("GET", "/poster/" + profileAlias + "/" + posterAlias)
+            loaded = request("GET", "/poster/" + profile + "/" + webalias)
         } catch (err) {
             loaded = undefined
             if (err.code == STATUS_ACCESS_DENIED) {
                 // console.log("Soundposter not published, access denied.")
-                poster.renderFullMessage("The delicate soundposter you requested was not yet published world wide "
+                poster.render_full_message("The delicate soundposter you requested was not yet published world wide "
                     + "by its creator.")
             } else if (err.code == STATUS_NOT_FOUND) {
                 // console.log("Soundposter for profile not found.")
-                poster.renderFullMessage("It looks like something is wrong with the letters in the "
+                poster.render_full_message("It looks like something is wrong with the letters in the "
                     + "address bar of your browser. We don't know of any soundposter und this web-address.")
             } else if (err.code == STATUS_INTERNAL) {
                 // console.log("Internal Server Error.")
-                poster.renderFullMessage("Oops, upside your head, we say Ooops inside *our* head!<br/>"
-                    + "Something went wrong, we' just send ourselves a report of how we broke things up and will"
-                    + "fix this stage as soon as possible.<br/>")
-            }
-        }
-
-        return loaded
-    }
-
-    this.initializeThis = function(profile, posterAlias) {
-
-        var loaded = undefined
-
-        try {
-            loaded = request("GET", "/poster/" + profile + "/" + posterAlias)
-        }catch (err) {
-            loaded = undefined
-            if (err.code == STATUS_ACCESS_DENIED) {
-                // console.log("Soundposter not published, access denied.")
-                poster.renderFullMessage("The delicate soundposter you requested was not yet published world wide "
-                    + "by its creator.")
-            } else if (err.code == STATUS_NOT_FOUND) {
-                // console.log("Soundposter for profile not found.")
-                poster.renderFullMessage("It looks like something is wrong with the letters in the "
-                    + "address bar of your browser. We don't know of any soundposter und this web-address.")
-            } else if (err.code == STATUS_INTERNAL) {
-                // console.log("Internal Server Error.")
-                poster.renderFullMessage("Oops, upside your head, we say Ooops inside *our* head!<br/>"
+                poster.render_full_message("Oops, upside your head, we say Ooops inside *our* head!<br/>"
                     + "Something went wrong, we' just send ourselves a report of how we broke things up and will"
                     + "fix this stage as soon as possible.<br/>")
             }
@@ -1085,7 +1118,7 @@ var poster = new function () {
         window.location.href = host
     } **/
 
-    this.renderFullMessage = function (message) {
+    this.render_full_message = function (message) {
         $(".map-start").remove()
         // render these messages also in mobile style, where there's no sp-bar
         $("#sp-bar").html("<div class=\"error-message\"><br/>"+ message +"<br/><br/>"
