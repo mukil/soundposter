@@ -89,6 +89,8 @@ public class WebsitePlugin extends WebActivatorPlugin {
     private static final String SOUNDCLOUD_TRACK_ID_PREFIX = "com.soundcloud.track.";
     private static final String SOUNDCLOUD_SET_ID_PREFIX = "com.soundcloud.set.";
 
+    private static final String PATH_TO_STYLES = "/filerepo/stylesheets/";
+
     /** Initialize the migrated soundsets ACL-Entries. */
     @Override
     public void init() {
@@ -222,7 +224,19 @@ public class WebsitePlugin extends WebActivatorPlugin {
         return "User-agent: *\n\rDisallow: "; // Allow all
     }
 
-    /** fixme: return robots.txt */
+    @GET
+    @Path("/tsfestival")
+    @Produces(MediaType.TEXT_HTML)
+    public Response getTSF12View() {
+        return Response.seeOther(URI.create("/walther/tsfestival")).build();
+    }
+
+    @GET
+    @Path("/c3s")
+    @Produces(MediaType.TEXT_HTML)
+    public InputStream getCCCSView() {
+        return invokeC3SView();
+    }
 
 	@GET
     @Path("/sign-up")
@@ -417,34 +431,13 @@ public class WebsitePlugin extends WebActivatorPlugin {
         ResultSet<RelatedTopic> all = getAllPublishedSoundposter();
         // build up sortable collection of all result-items (warning: in-memory copy of _all_ published soundposter)
         ArrayList<RelatedTopic> in_memory = getResultSetSortedByTitle(all, clientState);
-        int max_count = 6, modulo_half = 1, count = 0, start_count = page_nr * max_count;
+        int max_count = 6;
+        int offset = page_nr * max_count;
         // throw error if page is unexpected high or NaN
+        int count = 0;
         for (RelatedTopic item : in_memory) {
             // start of preparing page results
-            if (count == start_count + max_count) { // reached n-soundposter, beginning at m + items-on-page
-                // returning results since result-set is full
-                viewData("total_count", in_memory.size());
-                viewData("page", page_nr);
-                int overall_pages = (all.getTotalCount() % max_count > modulo_half) ? (all.getTotalCount() / max_count) : all.getTotalCount() / max_count + 1;
-                // int overall_pages = all.getTotalCount() / max_count;
-                //
-                int next_page = (page_nr == overall_pages) ? page_nr : page_nr + 1;
-                int previous_page = (page_nr == 0) ? 0 : (page_nr - 1);
-                boolean not_on_first_page = (page_nr > 0) ? true : false;
-                boolean not_on_last_page = (page_nr == overall_pages) ? false : true;
-                viewData("not_on_first_page", not_on_first_page);
-                viewData("not_on_last_page", not_on_last_page);
-                viewData("previous_page_url", (page_nr > 0) ? "/browse/" + previous_page : "/browse/" + overall_pages);
-                viewData("next_page_url", "/browse/" + next_page);
-                viewData("pages", overall_pages);
-                // viewData("page_array", new ArrayList(overall_pages));
-                viewData("from", start_count);
-                viewData("to", start_count + (start_count - results.size()));
-                viewData("overall", all.getTotalCount());
-                viewData("set", results);
-                return view("browse");
-            }
-            if (count >= start_count) {
+            if (count >= offset) {
                 // arrived at the interesting parts of result-set
                 String title = item.getModel().getSimpleValue().toString();
                 // fixme: username might be null, if not set up correctly
@@ -458,25 +451,29 @@ public class WebsitePlugin extends WebActivatorPlugin {
                 PreviewPoster poster = new PreviewPoster(title, url, username, preview_graphic_style, onclick);
                 //
                 results.add(poster);
+                if (results.size() == max_count) break;
             }
             count++;
             // finished preparing page results
         }
-        // if there are less posters than max_count in the database, the loop runs out without the page being prepared
+        boolean on_first_page = (page_nr == 0) ? true : false;
+        boolean on_last_page = (offset >= (all.getTotalCount() - max_count)) ? true : false;
+        viewData("on_first_page", on_first_page);
+        viewData("on_last_page", on_last_page);
+        // returning results since result-set is full
         viewData("total_count", in_memory.size());
         viewData("page", page_nr);
-        int overall_pages = (all.getTotalCount() % max_count > modulo_half) ? (all.getTotalCount() / max_count) : all.getTotalCount() / max_count + 1;
-        // int overall_pages = all.getTotalCount() / max_count;
+        int overall_pages = (all.getTotalCount() % max_count == 0) ? all.getTotalCount()/max_count : (all.getTotalCount() / max_count) + 1;
         //
-        int next_page = (page_nr == overall_pages) ? 0 : page_nr + 1;
+        int next_page = (page_nr == overall_pages) ? page_nr : page_nr + 1;
         int previous_page = (page_nr == 0) ? 0 : (page_nr - 1);
-        viewData("not_on_first_page", (page_nr > 0) ? true : false);
-        viewData("not_on_last_page", (page_nr == overall_pages) ? false : true);
-        viewData("previous_page_url", (page_nr > 0) ? "/browse/" + previous_page : "/browse");
+        viewData("previous_page_url", (page_nr > 0) ? "/browse/" + previous_page : "/browse/" + overall_pages);
         viewData("next_page_url", "/browse/" + next_page);
+        // general
         viewData("pages", overall_pages);
-        viewData("from", start_count);
-        viewData("to", start_count + (start_count - results.size()));
+        viewData("from", offset);
+        viewData("to", offset + (offset - results.size()));
+        viewData("overall", all.getTotalCount());
         viewData("set", results);
         return view("browse");
     }
@@ -516,8 +513,10 @@ public class WebsitePlugin extends WebActivatorPlugin {
             buylink_href = soundposter.getCompositeValue().getString("com.soundposter.buy_link_href");
             hashtag = soundposter.getCompositeValue().getString("com.soundposter.poster_hashtag");
             setlist_label = soundposter.getCompositeValue().getString(SETLIST_LABEL_URI);
-            /** stylesheet = soundposter.getCompositeValue().getTopic("com.soundposter.custom_style")
-                    .getSimpleValue().toString(); **/
+            Topic css = soundposter.getCompositeValue().getTopic("com.soundposter.custom_style");
+            if (css != null && !css.getSimpleValue().toString().equals("")) {
+                stylesheet = PATH_TO_STYLES + css.getSimpleValue().toString();
+            }
             // fixme: keywords, tracklist-data
 			Topicmap topicmap = tmService.getTopicmap(soundposter.getId());
             JSONArray setlist = null;
@@ -555,32 +554,13 @@ public class WebsitePlugin extends WebActivatorPlugin {
             viewData("buylink_href", buylink_href);
             viewData("setlist_label", setlist_label);
             viewData("setlist", soundlist.toString());
-            // viewData("stylesheet", stylesheet);
+            viewData("stylesheet", stylesheet);
             viewData("track", trackId);
 		} catch (WebApplicationException ex) {
 			log.info(ex.getMessage());
 			throw new WebApplicationException(ex, ex.getResponse().getStatus());
 		}
         return view("poster");
-    }
-
-    @GET
-    @Path("/{pathInfo}")
-    @Produces(MediaType.TEXT_HTML)
-    public InputStream getWebsiteView(@PathParam("pathInfo") String pathInfo,
-        @HeaderParam("Cookie") ClientState clientState) {
-        // log.info("Requesting website-view for pathInfo: " + pathInfo);
-        if (pathInfo.equals("c3s")) return invokeC3SView();
-        if (pathInfo.equals("favicon.ico")) return getSoundposterFavIcon();
-        log.info("Requesting front page with pathInfo .. "); // redirect to new frontpage via Response-Object
-        return invokeFrontpageView();
-    }
-
-    @GET
-    @Path("/tsfestival")
-    @Produces(MediaType.TEXT_HTML)
-    public Response getTSF12View() {
-        return Response.seeOther(URI.create("/walther/tsfestival")).build();
     }
 
     @GET
@@ -996,14 +976,6 @@ public class WebsitePlugin extends WebActivatorPlugin {
     }
 
     /** Legacy routes to an old soundposter.com */
-
-    private InputStream invokeFrontpageView() {
-        try {
-            return dms.getPlugin("com.soundposter.webapp").getResourceAsStream("web/website/index.html");
-        } catch (Exception e) {
-            throw new WebApplicationException(e);
-        }
-    }
 
     private InputStream invokeC3SView() {
         try {

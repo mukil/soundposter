@@ -51,7 +51,7 @@
     <body class="page" th:attrappend="class=${' ' + pageId}">
 
         <div class="title">
-            <span class="punchline pre-logo">Picturize your playlists with </span><span class="logo"><a href="/" title="Back Home">soundposter.com</a></span><br/>
+            <span class="punchline pre-logo">Illustrate your playlists with </span><span class="logo"><a href="/" title="Back Home">soundposter.com</a></span><br/>
         </div>
 
         <div class="subtitle">
@@ -60,8 +60,8 @@
 
         <div class="main area">
             <div class="page-controls">
-                <a th:href="${previous_page_url}" th:class="${not_on_first_page} ? 'previous-page' : 'no-previous-page'">Previous</a>
-                <a th:href="${next_page_url}" th:class="${not_on_last_page} ? 'next-page' : 'no-next-page'">Next page</a>
+                <a th:href="${previous_page_url}" th:class="${!on_first_page} ? 'previous-page' : 'no-previous-page'">Previous</a>
+                <a th:href="${next_page_url}" th:class="${!on_last_page} ? 'next-page' : 'no-next-page'">Next page</a>
             </div>
             <div class="poster-preview" th:each="poster : ${set}">
                 <div th:style="${poster.background_css}" class="graphic" th:attr="onclick=${poster.onclick}">

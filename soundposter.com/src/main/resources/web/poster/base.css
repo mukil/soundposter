@@ -49,13 +49,6 @@ div#loading-area {
     z-index: 112;
 }
 
-div.posteritem {
-    display: none;
-    position: absolute; top: 0px; left: 0px;
-    cursor: pointer;
-    z-index: 114;
-}
-
 div.notifications {
     position: fixed;
     top: 15px; left: 5px;
@@ -333,11 +326,6 @@ a.support-link:hover {
     color: #fff;
 }
 
-div.posteritem.playing {
-    background: #40B0E2;
-    color: #fff;
-}
-
 /** Setlist Styling */
 
 /** ul.listing li div.element a {
@@ -361,6 +349,10 @@ ul.listing li.ui-li-divider {
     padding: 0px;
     padding-top: 10px;
     color: #40B0E2;
+}
+
+ul.listing li.ui-li-divider.ui-first-child {
+    padding-top: 0px;
 }
 
 ul.listing .ui-li-static.ui-li {
@@ -456,291 +448,40 @@ ul.listing div.element .source-info a.unspecified-stream {
     color: #fff;
 }
 
-
-
-
-
-
-
-
-
-
-/** Site-wide styles does start here **/
-
-body.page {
-	margin-top: 0px;
-	margin-bottom: 0px;
-	padding-top: 30px;
-	padding-bottom: 70px;
-    /** background: linen; **/
-    color: darkgray;
+.posterevent {
+    background-color: #3d3d3d; color: #fff;
+    padding: 6px; font-weight: bold;
+    z-index: 115; font-size: 14px; font-family: "Myriad Pro Regular", "Trebuchet MS", sans-serif;
 }
 
-.page .title {
-    font-size: 2.5em;
-    font-weight: 700;
-    line-height: 1.5em;
-    margin: 30px 90px;
-    margin-bottom: 20px;
-}
-
-.page .subtitle {
-    font-size: 1.5em;
-    margin: 30px 90px;
-    font-weight: 700;
-    line-height: 1.5em;
-    margin-top: 0px;
-}
-
-/** .page .title .subtitle {
-    font-size: 1.4em;
-} **/
-
-.page a {
-    color: rgb(64, 176, 226);
-}
-
-/** .page .title a.expanded {
-    background: #40B0E2;
-} **/
-
-.page .title .pre-logo {
-}
-
-.page .title .logo {
-    color: #343434;
-}
-
-.page .title a {
-    text-decoration: none;
-    color: #343434;
-}
-
-.page .subtitle a.active {
-    background-color: #40B0E2;
-    color: #fff;
-    padding-left: 5px;
-    padding-right: 5px;
-}
-
-.page .subtitle a {
-    float: none;
-    text-decoration: none;
-}
-
-.page div.left-side {
-    position: fixed; top: 0px; left: 0px;
-    background-color: white;
-    /** background: url('/com.soundposter.website/images/site/_background_left_side.png') repeat-y;
-    border-right: 1px solid #3a3a3a; **/
-    height: 100%; width: 57px;
-}
-
-.page div.right-side {
-    position: fixed; top: 0px; right: 0px;
-    background-color: white;
-    /* background: url('/com.soundposter.website/images/site/_background_right_side.png') repeat-y;
-    border-left: 1px solid #3a3a3a; **/
-    height: 100%; width: 58px;
-}
-
-.page div.area {
-    margin: 30px 90px;
-	padding: 0px;
-	background-color: #e8e8e8;
-}
-
-/** div.logo.area:hover {
-	background-image: url("/com.soundposter.website/images/soundposter_button_blue_with_arrow_out_600.png");
-} **/
-
-.page div.header.area {
-	background-color: white;
-    margin-top: 30px;
-    overflow: hidden;
-    /** position: relative;
-    left: 0px; top: 20px;
-    margin: 0px; **/
-}
-
-.page div.header .featured {
-	background-repeat: no-repeat;
-	background-position-x: center;
-	background-position-y: center;
-    height: 700px;
-    text-align: center;
-    /* border-top: 1px solid #343434;
-    border-bottom: 1px solid #343434; */
-}
-
-.page div.header .featured img {
-	background-color: transparent;
-	border: 0px solid transparent;
-	cursor: pointer; float: right; padding-right: 100px;
-    max-height: 400px; padding-top: 200px;
-}
-
-.page div.header .featured .headline {
-    font-size: 2.4em;
-    line-height: 1.6em;
-    max-width: 600px;
-    font-weight: 900;
-    margin: 60px; margin-bottom: -8px;
-    float: left;
-    text-align: left;
-    background-color: #343434;
-    color: #fff;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-.page div.header .featured .author {
-    font-size: 1.1em;
-    max-width: 375px;
-    font-weight: 900;
-    margin: 0px 0px 30px 0px;
-    color: #fff;
-    text-align: left;
-    font-style: italic;
-}
-
-.page div.header .featured .headline a {
-    text-decoration: none;
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
-
-.page div.header .featured .author a {
-    color: #fff;
-    text-decoration: none;
-}
-
-.page div.header .featured .author:hover {
-    background-color: #40B0E2;
-    color: #fff;
-}
-
-.page div.main.area {
-    background: #fff;
-    font-size: 1.1em;
-}
-
-.page.legal div.main,
-.page.philosophy div.main,
-.page.sign-up div.main,
-.page.about div.main {
-    border-top: 1px solid #40B0E2;
-    max-width: 600px;
-    padding-top: 15px;
-    padding-right: 30px;
-    padding-left: 15px;
-    padding-bottom: 30px;
-}
-
-#newsletter textarea.message,
-#newsletter input.text {
-    display: block;
-    height: 30px;
-    padding-left: 10px;
-    border: 2px solid #40B0E2;
-    background-color: #fff;
-    font-family: "Myriad Pro Regular", "Trebuchet MS", sans-serif;
-    font-size: 1.1em;
-    color: #343434;
-    margin: 15px;
-    width: 300px;
-    margin-left: 0px;
-}
-
-#newsletter textarea.message {
-    height: 140px;
-    padding-top: 10px;
-}
-
-#newsletter input:focus {
-    border-top: 2px solid #343434;
-}
-
-#newsletter input.submit {
+.posteritem {
+    background-color: #efefef;
+    color: #3D3D3D; padding: 6px; font-weight: bold;
+    z-index: 114; font-size: 14px; font-family: "Myriad Pro Regular", "Trebuchet MS", sans-serif;
     cursor: pointer;
-    font-family: "Myriad Pro Regular", "Trebuchet MS", sans-serif;
-    font-size: 1.1em;
-    color: #343434;
+}
+
+.posteritem.playing {
+    background: #40B0E2;
+    color: #fff;
+}
+
+.postertext {
+    background-color: #3d3d3d; color: #fff;
+    padding: 4px; font-weight: bold;
+    z-index: 113; font-size: 16px; font-family: "Myriad Pro Regular", "Trebuchet MS", sans-serif;
+}
+
+body.poster .warning {
+    margin: 30px;
     padding: 10px;
-    margin: 15px;
-    height: 44px;
-    margin-left: 0px;
-}
-
-.page.about div.main ul li {
-    margin: 5px;
-}
-
-.page div.main h3 {
-    color: #40B0E2;
-}
-
-.page div.plan-a,
-.page div.plan-b,
-.page div.plan-c {
-	background-color: #fff;
-    color: darkgrey;
-	padding: 10px;
-}
-
-.page div.info {
-	padding: 30px;
-    padding-bottom: 10px;
-	background-color: #e8e8e8;
-    position: relative;
-    min-height: 370px;
-}
-
-quote {
-    display: block;
-    margin: 10px;
-    line-height: 1.5em;
-    font-size: 1.1em;
-    font-style: italic;
-}
-
-quote span.marks {
-    font-size: 2em;
-    font-style: italic;
-    font-weight: 100;
-    vertical-align: bottom;
-    padding-right: 4px;
-}
-
-b.by {
-    padding-left: 10px;
-}
-
-div.box {
-    max-width: 45%;
-    min-width: 30%;
-    padding: 15px;
-    padding-left: 0px;
-    padding-right: 0px;
-    padding-top: 0px;
-    float: left;
-    margin: 15px;
-    margin-top: 0px;
-}
-
-p.box {
-    max-width: 45%;
-    min-width: 30%;
-    position: relative; top: 20px; left: 20px;
-    padding: 15px;
-    padding-left: 0px;
-    padding-right: 0px;
-    font-style: italic;
-}
-
-p.box b {
-    font-style: normal;
-    font-weight: 900;
+    color: #fff;
+    background-color: #40B0E2;
+    opacity: .9;
+    display: inline-block;
+    position: fixed;
+    top: 30px;
+    left: 30px;
 }
 
 .poster ul.top-menu {
@@ -756,94 +497,6 @@ p.box b {
     float: left;
     padding-top: 4px;
     padding-bottom: 4px;
-}
-
-
-.browse .space-maker .space {
-    height: 400px;
-}
-
-.browse .poster-preview {
-    float: left;
-    width: 297px;
-    height: 420px;
-    padding: 0px;
-    position: relative;
-    opacity: 0.9;
-    margin: 15px;
-    margin-right: 30px;
-    margin-left: 0px;
-}
-
-.browse .poster-preview:hover {
-    opacity: 1;
-    cursor: pointer;
-}
-
-.browse .poster-preview:hover a.link {
-    background: #40B0E2;
-    color: #fff;
-}
-
-.browse .poster-preview .graphic {
-    width: 297px;
-    height: 420px;
-    padding: 0px; margin: 0px;
-    padding-top: 15px;
-    /** background-size: 300, 450; **/
-}
-
-.browse .poster-preview a.link {
-    font-weight: 900;
-    margin-top: 15px;
-    font-size: 1.5em;
-    background-color: #343434;
-    color: #fff;
-    text-decoration: none;
-    padding: 10px;
-    display: block;
-    width: 85%;
-}
-
-.browse .poster-preview a.link:hover {
-    background: #40B0E2;
-    color: #fff;
-}
-
-.browse .poster-preview .username {
-    font-size: 1.5em;
-    max-width: 250px;
-    font-weight: 900;
-    margin: 15px;
-    margin-left: 0px;
-    background-color: #343434;
-    color: #fff;
-    text-decoration: none;
-    padding: 10px;
-}
-
-.browse .main.area {
-    min-height: 400px;
-    padding-top: 0px;
-}
-
-.browse .bottom.area {
-    float: left;
-    background-color: #fff;
-    padding: 5px;
-    margin: 0px;
-}
-
-body.poster .warning {
-    margin: 30px;
-    padding: 10px;
-    color: #fff;
-    background-color: #40B0E2;
-    opacity: .9;
-    display: inline-block;
-    position: fixed;
-    top: 30px;
-    left: 30px;
 }
 
 .poster ul.top-menu a {
@@ -943,28 +596,6 @@ p.footer a {
   font-family: "Myriad Pro Regular", "Trebuchet MS", sans-serif;
   width: 100%; height: 100%; margin: 0px; padding: 0px;
   position: relative; left: 0px; top: 0px;
-}
-
-.postergraphic {
-  /** position: absolute; left: -600px; top: -600px; **/
-  position: absolute; top: 0px; left: 0px;
-  z-index: 0;
-}
-
-.postercontainer {
-  position: relative; top: 0px; left: 0px;
-}
-
-.posteritem {
-  background-color: #efefef;
-  color: #3D3D3D; padding: 6px; font-weight: bold; /* font-style: italic; */
-  z-index: 100; font-size: 14px; font-family: "Myriad Pro Regular", "Trebuchet MS", sans-serif;
-}
-
-.postertext {
-  background-color: #3d3d3d; color: #fff; /** color: #40B0E2; **/
-  padding: 4px; font-weight: bold; /* font-style: italic; */
-  z-index: 113; font-size: 16px; font-family: "OopenMyriad Pro Regular", "Trebuchet MS", sans-serif;
 }
 
 .played {

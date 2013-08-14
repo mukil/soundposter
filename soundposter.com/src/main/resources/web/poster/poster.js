@@ -146,6 +146,7 @@ var poster = new function () {
                     this.show_sounds()
                 } else if (rendering_options[i].uri === "com.soundposter.display_event_labels") {
                     poster.rendering.events = true
+                    this.show_events()
                 } else  if (rendering_options[i].uri === "com.soundposter.display_text_labels") {
                     poster.rendering.labels = true
                     this.show_texts()
@@ -199,11 +200,6 @@ var poster = new function () {
         // todo: if (tracklist is active), seekbar should be within tracklist-item
         var $listing = $('ul.listing')
             $listing.empty()
-            /** http://www.quirksmode.org/js/events_order.html
-             *  $listing.listview({headerTheme: "a",
-             *  swipe: function (e) { poster.stop_propagation(e) },
-             *  mousemove: function (e) { poster.stop_propagation(e) }
-            }) **/
         for (var item in poster.sounds) {
             var sound = poster.sounds[item]
             // prepare data for each list-item
@@ -282,20 +278,18 @@ var poster = new function () {
         // todo: if (tracklist is active), seekbar should be within tracklist-item
         var $listing = $('ul.listing')
             $listing.empty()
-            /** http://www.quirksmode.org/js/events_order.html
-             *  $listing.listview({headerTheme: "a",
-             *  swipe: function (e) { poster.stop_propagation(e) },
-             *  mousemove: function (e) { poster.stop_propagation(e) }
-            }) **/
         for (var item in poster.events) {
             var event = poster.get_topic_by_id(poster.events[item].id, true)
-            // append event
+                // sort sounds by gig time
+                event.composite['com.soundposter.sound'].sort(poster.gig_sort)
+            // append event-header
             $listing.append('<li data-role="list-divider" data-divider-theme="a">' +event.value+ '</a>')
+            // construct sound-items
             if (event.composite.hasOwnProperty('com.soundposter.sound')) {
                 for (var key in event.composite['com.soundposter.sound']) {
                     var sound = event.composite['com.soundposter.sound'][key]
                     var sound_name = (sound.composite.hasOwnProperty('com.soundposter.sound_name')) ? sound.composite['com.soundposter.sound_name'].value  : ""
-                    var gig_start_time = poster.get_gig_time(sound)
+                    var gig_start_time = (sound.composite.hasOwnProperty('com.soundposter.gig_start_time')) ? sound.composite['com.soundposter.gig_start_time'].value  : ""
                     var track_position = (gig_start_time != undefined) ? gig_start_time : ""
                     var source_page = (sound.composite.hasOwnProperty('com.soundposter.source_page')) ? sound.composite['com.soundposter.source_page'].value : "com.soundposter.unspecified_source"
                     var stream_info = (sound.composite.hasOwnProperty('dm4.webbrowser.url')) ? sound.composite['dm4.webbrowser.url'].value : ""
@@ -720,9 +714,9 @@ var poster = new function () {
     }
 
     this.show_texts = function() {
-        if (this.texts != undefined) {
+        if (poster.texts != undefined) {
             //
-            for (var item in this.texts) {
+            for (var item in poster.texts) {
                 var text = this.texts[item]
                 var visualization = text['visualization']
                 var itemX = visualization['dm4.topicmaps.x'].value - 25
@@ -734,10 +728,25 @@ var poster = new function () {
         }
     }
 
-    this.show_sounds = function() {
-        if (this.playlist != undefined) {
+    this.show_events = function() {
+        if (poster.events != undefined) {
             //
-            if (debugModel) console.log(this.playlist)
+            for (var item in poster.events) {
+                var text = poster.events[item]
+                var visualization = text['visualization']
+                var itemX = visualization['dm4.topicmaps.x'].value - 25
+                var itemY = visualization['dm4.topicmaps.y'].value - 25
+                var element = "<div class=\"posterevent\" style=\"position: absolute; top:" + itemY + "px; left: " + itemX
+                + "px;\">" + text.value + "</div>";
+                $(".postergraphic").append(element)
+            }
+        }
+    }
+
+    this.show_sounds = function() {
+        if (poster.playlist != undefined) {
+            //
+            if (debugModel) console.log(poster.playlist)
             for (var item in this.playlist) {
                 var song = this.playlist[item]
                 var visualization = song['visualization']
@@ -1040,8 +1049,9 @@ var poster = new function () {
                     poster.events.push(topicmap.topics[topic])
                 }
             }
-            poster.playlist.sort(this.topic_sort); // alphabetical ascending
-            poster.sounds.sort(this.track_sort); // ordinal number sorting ascending
+            poster.events.sort(this.topic_sort) // alphabetical ascending
+            poster.playlist.sort(this.topic_sort) // alphabetical ascending
+            poster.sounds.sort(this.track_sort) // ordinal number sorting ascending
             if(debugModel) console.log(poster.sounds)
             if(debugModel) console.log(poster.playlist)
         }
@@ -1053,6 +1063,17 @@ var poster = new function () {
             if (sound.id === topicId) return sound
         }
         return null
+    }
+
+    // compare "a" and "b" in some fashion, and return -1, 0, or 1
+    this.gig_sort = function (a, b) {
+        var gigA = (a.composite.hasOwnProperty('com.soundposter.gig_start_time')) ? a.composite['com.soundposter.gig_start_time'].value  : 0
+        var gigB = (b.composite.hasOwnProperty('com.soundposter.gig_start_time')) ? b.composite['com.soundposter.gig_start_time'].value  : 0
+        if (gigA < gigB) // sort string ascending
+          return -1
+        if (gigA > gigB)
+          return 1
+        return 0 //default return value (no sorting) **/
     }
 
     // compare "a" and "b" in some fashion, and return -1, 0, or 1
