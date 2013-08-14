@@ -23,7 +23,7 @@ a.tracklist-toogle.active {
 }
 
 ul.listing {
-    max-height: 50%;
+    max-height: 40%;
 }
 
 ul.listing .ui-li-static.ui-li {

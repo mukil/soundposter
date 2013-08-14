@@ -93,7 +93,7 @@ ul.listing {
     margin: 0px; padding: 10px;
     background-color: #333;
     border-top: 1px solid #fff;
-    width: 100%; max-height: 75%;
+    width: 100%; max-height: 40%;
     z-index: 201;
     color: #fff;
 }
@@ -360,6 +360,7 @@ ul.listing li.ui-li-divider {
     font-size: 1.1em;
     padding: 0px;
     padding-top: 10px;
+    color: #40B0E2;
 }
 
 ul.listing .ui-li-static.ui-li {

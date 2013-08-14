@@ -417,7 +417,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
         ResultSet<RelatedTopic> all = getAllPublishedSoundposter();
         // build up sortable collection of all result-items (warning: in-memory copy of _all_ published soundposter)
         ArrayList<RelatedTopic> in_memory = getResultSetSortedByTitle(all, clientState);
-        int max_count = 2, modulo_half = 1, count = 0, start_count = page_nr * max_count;
+        int max_count = 6, modulo_half = 1, count = 0, start_count = page_nr * max_count;
         // throw error if page is unexpected high or NaN
         for (RelatedTopic item : in_memory) {
             // start of preparing page results
