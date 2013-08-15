@@ -20,7 +20,7 @@ body.page {
     font-size: 1.1em;
     background-color: #343434;
     padding: 10px;
-    max-width: 60%;
+    max-width: 40%;
     max-height: 300px;
     text-align: left;
     position: absolute;
@@ -34,6 +34,7 @@ body.page {
 .header.area .featured .author {
     right: 60px; bottom: 30px;
 }
+
 .header.area .featured .author,
 .header.area .featured .hashtag {
     font-size: 1.1em;
@@ -136,8 +137,7 @@ body.page {
 
 .page div.header .featured {
 	background-repeat: no-repeat;
-	background-position-x: center;
-	background-position-y: center;
+	background-position: -300px -880px;
     height: 700px;
     text-align: center;
     /* border-top: 1px solid #343434;

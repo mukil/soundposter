@@ -48,3 +48,22 @@ div.logo.area {
 .page.about div.main {
     padding-left: 0px;
 }
+
+.header.area .featured .description {
+    font-size: 14px;
+    padding: 5px;
+    max-width: 60%;
+    bottom: 40px; right: 10px;
+    z-index: 100;
+}
+
+.header.area .featured .author {
+    bottom: 10px; right: 10px;
+    padding: 0px;
+    z-index: 99;
+}
+
+.page div.header .featured .author a {
+    font-size: 14px;
+    padding: 5px;
+}
