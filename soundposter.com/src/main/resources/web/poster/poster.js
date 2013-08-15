@@ -115,10 +115,10 @@ var poster = new function () {
                     poster.selected_track = poster.get_viz_by_id(trackId)
                     // maybe we dont wanna start the audio immediately but render nice interactives
                     var pos = poster.show_selected_track_by_id(trackId)
-                        pos.y = pos.y + 112
+                        pos.y = pos.y + 200
                         pos.x = pos.x - 5
                     // hint: differ better between set_selected_track and show_selected_track and play_selected_track
-                    // poster.show_interactives(poster.play_selected_track, pos, posterHasGraphic)
+                    poster.show_interactives(poster.play_selected_track, pos, posterHasGraphic)
                 } else {
                     // start soundposter
                     poster.show_interactives(poster.play_from_start, undefined, posterHasGraphic)
@@ -784,7 +784,6 @@ var poster = new function () {
                         } else {
                             if (debugControls) console.log("Kickstart (Visualized): Settg sound id to => " +e.target.id)
                             poster.set_sound_visuals_by_id(e.target.id)
-                            alert("Development Note: Kickstart Player => " + poster.selected_track.id)
                             poster.play_selected_track()
                         }
                     })
@@ -889,7 +888,7 @@ var poster = new function () {
             poster.play_selected_track()
             poster.hide_interactives()
         } else {
-            poster.show_notification("Sorry, we could not start playing, press any key...")
+            poster.show_notification("Sorry, we could not start playing, press any other key...")
             // console.log("could not play_from_start, since poster.sounds are not initialized?")
             // console.log(poster.sounds)
         }
@@ -921,8 +920,8 @@ var poster = new function () {
                 console.log("WARNING: Your browser has no history support, so you cannot deep link into tracks.")
             }
             // some analytics rubbish
-            // piwikTracker.trackGoal(1, sound_name);
-            // some gui rubbish after each play
+            piwikTracker.trackGoal(1, poster.selected_track.value);
+            // some gui rubbish after kickstart via the big button play
             poster.hide_interactives()
             // some more
             poster.add_style_to_currently_played_items(poster.selected_track.id)
