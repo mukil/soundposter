@@ -12,10 +12,6 @@ a.jp-next, a.jp-prev {
     color: #fff;
 }
 
-a.tracklist-toogle.active {
-    background: #40b0e2;
-}
-
 ul.listing .ui-li-static.ui-li {
     margin-right: 15px;
 }
