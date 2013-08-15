@@ -787,8 +787,8 @@ var poster = new function () {
                             poster.set_sound_visuals_by_id(e.target.id)
                             if (!poster.player_is_ready) {
                                 poster.play_selected_track()
-                                poster.play_selected_track()
                             }
+                            poster.play_selected_track()
                         }
                     })
                 $("div.postergraphic").append($element)
