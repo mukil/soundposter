@@ -53,7 +53,6 @@ var poster = new function () {
         this.initialize_nodes() // loads playlist and rendering_options
 
         // this.perform_flash_check_call()
-        this.show_loading_arc()
 
         // initialize poster graphic first, and when loaded, the whole soundposter player
         $container = $('div.postergraphic')
@@ -63,6 +62,8 @@ var poster = new function () {
         if (graphicUrl) {
             $image.attr('src', graphicUrl)
             $image.load( function(e) {
+                //
+                poster.show_loading_arc()
                 posterHasGraphic = true
                 //
                 $container.width($image.width())
@@ -86,6 +87,9 @@ var poster = new function () {
                 poster.show_graphics()
                 //
                 setup_base_page()
+                // fixme: handle hiding of loading-animation better
+                poster.hide_loading_arc()
+                //
                 return null
             })
         } else {
@@ -114,14 +118,13 @@ var poster = new function () {
                         pos.y = pos.y + 112
                         pos.x = pos.x - 5
                     // hint: differ better between set_selected_track and show_selected_track and play_selected_track
-                    poster.show_interactives(poster.play_selected_track, pos, posterHasGraphic)
+                    // poster.show_interactives(poster.play_selected_track, pos, posterHasGraphic)
                 } else {
                     // start soundposter
                     poster.show_interactives(poster.play_from_start, undefined, posterHasGraphic)
                     // poster.show_setlist_dialog()
                 }
-                // fixme: handle hiding of loading-animation better
-                poster.hide_loading_arc()
+
             }
 
     }
@@ -781,6 +784,7 @@ var poster = new function () {
                         } else {
                             if (debugControls) console.log("Kickstart (Visualized): Settg sound id to => " +e.target.id)
                             poster.set_sound_visuals_by_id(e.target.id)
+                            alert("Development Note: Kickstart Player => " + poster.selected_track.id)
                             poster.play_selected_track()
                         }
                     })
@@ -841,7 +845,7 @@ var poster = new function () {
             {
                 left: -(toX - poster.centerX), top: -(toY - poster.centerY)
             }, {
-                duration: 240, specialEasing: {width: 'linear', height: 'easeOutBounce'}
+                duration: 600, specialEasing: {width: 'linear', height: 'easeOutBounce'}
             }
         )
         if (poster.debugLayout) console.log("sp.offsetX:" + poster.offsetX + " offsetY: " + poster.offsetY)
