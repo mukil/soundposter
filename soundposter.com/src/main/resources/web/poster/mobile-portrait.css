@@ -23,7 +23,7 @@ a.tracklist-toogle.active {
 }
 
 ul.listing {
-    max-height: 65%;
+    max-height: 45%;
 }
 
 ul.listing div.element .source-info {

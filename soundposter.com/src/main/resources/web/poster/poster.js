@@ -115,8 +115,8 @@ var poster = new function () {
                     poster.selected_track = poster.get_viz_by_id(trackId)
                     // maybe we dont wanna start the audio immediately but render nice interactives
                     var pos = poster.show_selected_track_by_id(trackId)
-                        pos.y = pos.y + 200
-                        pos.x = pos.x - 5
+                        pos.y = pos.y - 175
+                        pos.x = pos.x
                     // hint: differ better between set_selected_track and show_selected_track and play_selected_track
                     poster.show_interactives(poster.play_selected_track, pos, posterHasGraphic)
                 } else {
@@ -436,6 +436,7 @@ var poster = new function () {
         $player = $("#soundsystem").jPlayer({
             ready: function () {
                 if (debugControls) console.log("ready... ")
+                alert("jPlayer is ready now...")
             },
             timeupdate: function(event) {
                 // todo: write play-button and animate with event.jPlayer.status.currentPercentRelative
