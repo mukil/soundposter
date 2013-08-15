@@ -788,9 +788,14 @@ var poster = new function () {
                             if (debugControls) console.log("Kickstart (Visualized): Settg sound id to => " +e.target.id)
                             poster.set_sound_visuals_by_id(e.target.id)
                             if (!poster.player_is_ready) {
+                                // occurs where flash browser was blocked first, is now active => jPlayer not yet ready
+                                poster.play_selected_track()
+                                setTimeout(function (e) {
+                                    poster.play_selected_track()
+                                }, 500)
+                            } else {
                                 poster.play_selected_track()
                             }
-                            poster.play_selected_track()
                         }
                     })
                 $("div.postergraphic").append($element)
