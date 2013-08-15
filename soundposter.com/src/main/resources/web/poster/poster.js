@@ -115,7 +115,7 @@ var poster = new function () {
                     poster.selected_track = poster.get_viz_by_id(trackId)
                     // maybe we dont wanna start the audio immediately but render nice interactives
                     var pos = poster.show_selected_track_by_id(trackId)
-                        pos.y = pos.y - 175
+                        pos.y = pos.y - 65
                         pos.x = pos.x
                     // hint: differ better between set_selected_track and show_selected_track and play_selected_track
                     poster.show_interactives(poster.play_selected_track, pos, posterHasGraphic)
@@ -436,7 +436,7 @@ var poster = new function () {
         $player = $("#soundsystem").jPlayer({
             ready: function () {
                 if (debugControls) console.log("ready... ")
-                alert("jPlayer is ready now...")
+                poster.player_is_ready = true
             },
             timeupdate: function(event) {
                 // todo: write play-button and animate with event.jPlayer.status.currentPercentRelative
@@ -785,7 +785,10 @@ var poster = new function () {
                         } else {
                             if (debugControls) console.log("Kickstart (Visualized): Settg sound id to => " +e.target.id)
                             poster.set_sound_visuals_by_id(e.target.id)
-                            poster.play_selected_track()
+                            if (!poster.player_is_ready) {
+                                poster.play_selected_track()
+                                poster.play_selected_track()
+                            }
                         }
                     })
                 $("div.postergraphic").append($element)
