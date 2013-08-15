@@ -349,6 +349,7 @@ ul.listing li.ui-li-divider {
     padding: 0px;
     padding-top: 10px;
     color: #40B0E2;
+    padding-right: 10px;
 }
 
 ul.listing li.ui-li-divider.ui-first-child {
