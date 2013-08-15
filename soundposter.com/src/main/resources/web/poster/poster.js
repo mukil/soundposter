@@ -117,7 +117,7 @@ var poster = new function () {
                     poster.selected_track = poster.get_viz_by_id(trackId)
                     // maybe we dont wanna start the audio immediately but render nice interactives
                     var pos = poster.show_selected_track_by_id(trackId)
-                        pos.y = pos.y - 65
+                        pos.y = pos.y - 60
                         pos.x = pos.x
                     // hint: differ better between set_selected_track and show_selected_track and play_selected_track
                     poster.show_interactives(poster.play_selected_track, pos, posterHasGraphic)
