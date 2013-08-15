@@ -20,6 +20,7 @@ var poster = new function () {
     this.now_playing = false
     this.rendering = {'sounds': false, 'labels': false, 'events' :false}
     this.path = undefined
+    this.player_is_ready = false
 
     var $container = undefined
     var $image = undefined
@@ -653,7 +654,7 @@ var poster = new function () {
             hash = document.location.hash,
             marksAttr = {fill: hash || "#444", stroke: "none"} **/
         // Get orientation
-        var graphicRadius = 50
+        var graphicRadius = 40
         var graphicX = poster.viewport_width() / 2
         var graphicY = poster.viewport_height() / 2
         if (posterHasGraphic) {
@@ -696,12 +697,12 @@ var poster = new function () {
         arrow.click(click_handler)
 
         function ease_in() {
-            circle.animate({"r" : 55}, 25, "easeIn")
+            circle.animate({"r" : 45}, 25, "easeIn")
             circle.animate({"stroke-opacity" : .9}, 75, "easeIn")
             circle.animate({"stroke-width" : 8}, 100, "easeIn")
             arrow.transform("s1.1")
             circle.animate({"font-size" : 13}, 2000, "linear", function() { // dummy animation for timed fade-out
-                circle.animate({"r" : 50}, 100, "easeOut")
+                circle.animate({"r" : 40}, 100, "easeOut")
                 circle.animate({"stroke-opacity" : .7}, 100, "easeOut")
                 circle.animate({"stroke-width" : 6}, 100, "easeOut")
                 arrow.transform("");
@@ -777,6 +778,7 @@ var poster = new function () {
                                 poster.pause_selected_track()
                             } else {
                                 var trackId = e.target.id
+                                console.log("DEBUG: continuing with playing current sound... ")
                                 // start playing this element
                                 // if not set, set it to element with id: trackId
                                 // continue with current track
