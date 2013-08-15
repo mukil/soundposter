@@ -21,6 +21,7 @@ var poster = new function () {
     this.rendering = {'sounds': false, 'labels': false, 'events' :false}
     this.path = undefined
     this.player_is_ready = false
+    this.url_set = undefined
 
     var $container = undefined
     var $image = undefined
@@ -473,12 +474,14 @@ var poster = new function () {
             ended: function(event) {
                 // keep state current
                 poster.now_playing = false
+                poster.url_set = undefined
                 // keep on playing
                 poster.play_next_track()
             },
             error: function(event) {
                 // keep state current
                 poster.now_playing = false
+                poster.url_set = undefined
                 $('.lower-menu .source').hide()
                 //
                 if (debugControls) {
@@ -487,7 +490,7 @@ var poster = new function () {
                 }
                 //
                 if (event.jPlayer.error.type == "e_url_not_set") {
-                    console.log("ERROR: Sound-Resource is not yet set.")
+                    console.log("ERROR: Sound-Resource is not yet set => " + poster.url_set)
                 } else if (event.jPlayer.error.type == "e_url") {
                     console.log('ERROR: An error occured during requesting media source url.')
                     poster.show_modal_notification("We cannot access the media anymore, probably the sound was moved. "
@@ -778,11 +781,17 @@ var poster = new function () {
                                 poster.pause_selected_track()
                             } else {
                                 var trackId = e.target.id
-                                console.log("DEBUG: continuing with playing current sound... ")
-                                // start playing this element
-                                // if not set, set it to element with id: trackId
-                                // continue with current track
-                                $player.jPlayer("play")
+                                console.log(poster.url_set)
+                                if (poster.url_set == undefined) {
+                                    // start playing this element
+                                    // if not set, set it to element with id: trackId
+                                    poster.set_sound_visuals_by_id(trackId)
+                                    poster.play_selected_track()
+                                } else {
+                                    if (debugControls) console.log("DEBUG: continuing with playing current sound... ")
+                                    // continue with current track
+                                    $player.jPlayer("play")
+                                }
                             }
                         } else {
                             if (debugControls) console.log("Kickstart (Visualized): Settg sound id to => " +e.target.id)
@@ -912,6 +921,7 @@ var poster = new function () {
             poster.show_track_selection() // render title (if wanted)
             poster.show_buttons() // render controls
             //
+            poster.url_set = address
             $player.jPlayer("setMedia", {mp3: address})
             $player.jPlayer("play")
             // just push track played into browser history
@@ -936,7 +946,7 @@ var poster = new function () {
                 setTimeout(function (e) {
                     $player.jPlayer("setMedia", {mp3: address})
                     $player.jPlayer("play")
-                }, 2000)
+                }, 1500)
             }
         } // fixme: what to do if server is down?
     }
