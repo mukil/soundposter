@@ -787,15 +787,7 @@ var poster = new function () {
                         } else {
                             if (debugControls) console.log("Kickstart (Visualized): Settg sound id to => " +e.target.id)
                             poster.set_sound_visuals_by_id(e.target.id)
-                            if (!poster.player_is_ready) {
-                                // occurs where flash browser was blocked first, is now active => jPlayer not yet ready
-                                poster.play_selected_track()
-                                setTimeout(function (e) {
-                                    poster.play_selected_track()
-                                }, 500)
-                            } else {
-                                poster.play_selected_track()
-                            }
+                            poster.play_selected_track()
                         }
                     })
                 $("div.postergraphic").append($element)
@@ -939,6 +931,13 @@ var poster = new function () {
             // $('.map-info').html("♪ " + this.selected_track.value)
             // $('.map-info').fadeIn(500).delay(2700).fadeOut(500)
             // $('.map-info').hide()
+            if (!poster.player_is_ready) {
+                // occurs where flash browser was blocked first, is now active => jPlayer not yet ready
+                setTimeout(function (e) {
+                    $player.jPlayer("setMedia", {mp3: address})
+                    $player.jPlayer("play")
+                }, 2000)
+            }
         } // fixme: what to do if server is down?
     }
 
