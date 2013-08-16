@@ -3,7 +3,7 @@
 var STATUS_INTERNAL = "Internal Server Error"
 var STATUS_NOT_FOUND = "Not Found"
 var STATUS_ACCESS_DENIED = "Unauthorized"
-var HOST_URL = "http://new.soundposter.com"
+var HOST_URL = "http://www.soundposter.com"
 
 var poster = new function () {
 
@@ -55,6 +55,8 @@ var poster = new function () {
         // initialize nodes
         this.initialize_nodes() // loads playlist and rendering_options
 
+        setup_base_page()
+
         // this.perform_flash_check_call()
 
         // initialize poster graphic first, and when loaded, the whole soundposter player
@@ -88,15 +90,15 @@ var poster = new function () {
                 poster.move_poster_about(moveX, moveY)
                 // test:
                 poster.show_graphics()
+                setup_interactives()
                 //
-                setup_base_page()
                 // fixme: handle hiding of loading-animation better
                 poster.hide_loading_arc()
                 //
                 return null
             })
         } else {
-            setup_base_page()
+            setup_interactives()
             poster.show_notification("This soundposter has no postergraphic set yet.")
             $('body.poster').append('<span class="warning">This soundposter has no postergraphic set yet.</span>')
         }
@@ -111,6 +113,9 @@ var poster = new function () {
                 } else {
                     poster.initialize_setlist_sound_dialog()
                 }
+            }
+
+            function setup_interactives () {
                 // todo: another svg-element earlier, for displying e.g. image load percentage..
                 if (trackId != 0) {
                     // dive deep into a soundposter
@@ -126,7 +131,6 @@ var poster = new function () {
                     poster.show_interactives(poster.play_from_start, undefined, posterHasGraphic)
                     // poster.show_setlist_dialog()
                 }
-
             }
 
     }
