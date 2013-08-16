@@ -121,7 +121,7 @@ var poster = new function () {
                     // dive deep into a soundposter
                     poster.selected_track = poster.get_viz_by_id(trackId)
                     // maybe we dont wanna start the audio immediately but render nice interactives
-                    var pos = poster.show_selected_track_by_id(trackId)
+                    var pos = poster.show_selected_track()
                         pos.y = pos.y - 55
                         pos.x = pos.x
                     // hint: differ better between set_selected_track and show_selected_track and play_selected_track
@@ -877,10 +877,21 @@ var poster = new function () {
         poster.offsetY = poster.offsetY + aboutY
     }
 
-    this.show_selected_track_by_id = function (id) {
+    this.show_track_by_id = function (id) {
         var track = poster.get_viz_by_id(id)
         // animate soundposter
         var visualization = track['visualization']
+        var songX = visualization['dm4.topicmaps.x'].value// + 600
+        var songY = visualization['dm4.topicmaps.y'].value// + 600
+        if (debugLayout) console.log("should move to position => X/Y" + songX + ":" + songY)
+        poster.move_poster(songX, songY)
+        return {x: songX, y: songY}
+    }
+
+    this.show_selected_track = function () {
+        // var track = poster.get_viz_by_id(poster.selected_track.id)
+        // animate soundposter
+        var visualization = poster.selected_track['visualization']
         var songX = visualization['dm4.topicmaps.x'].value// + 600
         var songY = visualization['dm4.topicmaps.y'].value// + 600
         if (debugLayout) console.log("should move to position => X/Y" + songX + ":" + songY)
@@ -917,7 +928,7 @@ var poster = new function () {
         var track_id = poster.selected_track.id
         var track_name = poster.selected_track.value
         // animate soundposter
-        poster.show_selected_track_by_id(track_id)
+        poster.show_selected_track()
 
         // get metadada and play stream
         var address = poster.get_audiofile_url(poster.selected_track)
@@ -1041,7 +1052,7 @@ var poster = new function () {
             var item = this.sounds[track]
             if (item.id == soundId) {
                 // note: sp.selected_track must be the playlist-item (with a visualization-property)
-                this.selected_track = this.get_viz_by_id(item.id)
+                poster.selected_track = this.get_viz_by_id(item.id)
                 // animate picture..
                 // fixme: update song title: document.title = sp.tape.value + " - soundposter/"
             }
@@ -1317,7 +1328,7 @@ var poster = new function () {
 
     this.handle_back = function (e) {
         if (e.state != null) {
-            if (e.state.id != undefined) poster.show_selected_track_by_id(e.state.id)
+            if (e.state.id != undefined) poster.show_track_by_id(e.state.id)
         }
     }
 
