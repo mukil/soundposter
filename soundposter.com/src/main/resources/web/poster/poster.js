@@ -55,8 +55,6 @@ var poster = new function () {
         // initialize nodes
         this.initialize_nodes() // loads playlist and rendering_options
 
-        setup_base_page()
-
         // this.perform_flash_check_call()
 
         // initialize poster graphic first, and when loaded, the whole soundposter player
@@ -91,6 +89,7 @@ var poster = new function () {
                 // test:
                 poster.show_graphics()
                 setup_interactives()
+                setup_base_page()
                 //
                 // fixme: handle hiding of loading-animation better
                 poster.hide_loading_arc()
@@ -99,6 +98,7 @@ var poster = new function () {
             })
         } else {
             setup_interactives()
+            setup_base_page()
             poster.show_notification("This soundposter has no postergraphic set yet.")
             $('body.poster').append('<span class="warning">This soundposter has no postergraphic set yet.</span>')
         }
