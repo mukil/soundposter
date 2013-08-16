@@ -37,12 +37,13 @@ var poster = new function () {
     this.centerX = 0
     this.centerY = 0
 
-    this.initialize = function(meta, graphicUrl, hyperlink, setlist, trackId) {
+    this.initialize = function(meta, graphicUrl, hyperlink, setlist, trackId, username, webalias) {
 
         // fixme: if one of these is not set, we may get a syntax error during initialization?
 
         poster.data = meta
         poster.data.setlist = setlist
+        poster.path = "/" + username + "/" + webalias
         //
         this.perform_browser_check()
         // jplayer (flash-fallback) integration
@@ -110,7 +111,6 @@ var poster = new function () {
                 } else {
                     poster.initialize_setlist_sound_dialog()
                 }
-                poster.path = "/" + username + "/" + webalias
                 // todo: another svg-element earlier, for displying e.g. image load percentage..
                 if (trackId != 0) {
                     // dive deep into a soundposter
@@ -452,6 +452,7 @@ var poster = new function () {
                 $notifications.empty()
                 $('.timer').show()
                 $('.lower-menu .source').show()
+                $('.lower-menu .share').show()
             },
             loadstart: function(event) {
                 // console.log("Loadstart, seekPercent = " + event.jPlayer.status.seekPercent)
@@ -909,9 +910,10 @@ var poster = new function () {
 
     // This is the main "play" method which every other method uses, after having set poster.selected_track
     this.play_selected_track = function() {
-
+        var track_id = poster.selected_track.id
+        var track_name = poster.selected_track.value
         // animate soundposter
-        poster.show_selected_track_by_id(poster.selected_track.id)
+        poster.show_selected_track_by_id(track_id)
 
         // get metadada and play stream
         var address = poster.get_audiofile_url(poster.selected_track)
@@ -926,14 +928,14 @@ var poster = new function () {
             $player.jPlayer("play")
             // just push track played into browser history
             if (poster.mod.history) {
-                var state = {"id" : poster.selected_track.id}
-                var title = poster.selected_track.value + " - " + poster.data.value+ " - soundposter.com/" + webalias
-                history.pushState( state, title, poster.path + "/" + poster.selected_track.id)
+                var state = {"id" : track_id}
+                var title = track_name + " - " + poster.data.value
+                history.pushState(state, title, poster.path + "/" + track_id)
             } else {
                 console.log("WARNING: Your browser has no history support, so you cannot deep link into tracks.")
             }
             // some analytics rubbish
-            piwikTracker.trackGoal(1, poster.selected_track.value);
+            piwikTracker.trackGoal(1, track_name);
             // some gui rubbish after kickstart via the big button play
             poster.hide_interactives()
             // some more

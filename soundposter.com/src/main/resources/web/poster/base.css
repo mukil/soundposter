@@ -46,7 +46,7 @@ div#interactives {
 div#loading-area {
     /** top: y; left: x; get set programmatically */
     position: fixed;
-    z-index: 112;
+    z-index: 0;
 }
 
 div.notifications {
@@ -306,6 +306,7 @@ a.tracklist-toogle.active {
     padding-left: 5px;
 }
 
+.lower-menu .share,
 .lower-menu .source {
     display: none;
 }

@@ -41,10 +41,10 @@
             $(document).bind("mobileinit", function() { $.mobile.ajaxEnabled = false })
         /*]]>*/
         </script>
-        <script type="text/javascript" src="/com.soundposter.website/script/vendor/jquery.mobile/jquery.mobile-1.3.2.min.js"></script>
         <script type="text/javascript" src="/com.soundposter.website/script/vendor/jquery.ui/jquery-ui-1.10.3.custom.min.js"></script>
+        <script type="text/javascript" src="/com.soundposter.website/script/vendor/jquery.mobile/jquery.mobile-1.3.2.min.js"></script>
         <script type="text/javascript" src="/com.soundposter.website/script/vendor/raphaeljs/raphael-min.js"></script>
-        <script type="text/javascript" src="/com.soundposter.website/script/vendor/raphaeljs/g.raphael-min.js"></script>
+        <!-- script type="text/javascript" src="/com.soundposter.website/script/vendor/raphaeljs/g.raphael-min.js"></script-->
         <!-- script type="text/javascript" src="/com.soundposter.website/script/js/jquery.transform.js"></script>
         <script type="text/javascript" src="/com.soundposter.website/script/js/jquery.grab.js"></script-->
         <script type="text/javascript" src="/com.soundposter.website/script/js/jquery.jplayer.min.js"></script>
@@ -86,7 +86,7 @@
 
             $(document).ready(function() {
                 // fixme: poster-view seem to not initalize correctly if posters have no buylink set
-                poster.initialize(JSON.parse(soundposter), graphic, JSON.parse(buylink), JSON.parse(setlist), selection)
+                poster.initialize(JSON.parse(soundposter), graphic, JSON.parse(buylink), JSON.parse(setlist), selection, username, webalias)
             })
 
             $(window).resize(poster.handle_resize)
@@ -105,10 +105,10 @@
 
             <div id="soundsystem" class="control player"></div>
             <audio src="" id="channel" class="control">HTML5 audio not supported</audio>
+            <div id="loading-area"></div>
 
             <div class="postergraphic">
                 <div id="interactives"></div>
-                <div id="loading-area"></div>
                 <img src="" class="graphic"/>
                 <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="100" height="210"
                         id="dummy_movie" align="middle">
@@ -159,7 +159,10 @@
             <div data-role="content" id="tracklist">
                 <ul class="listing" data-role="listview" data-theme="a">
                     <li>
-                        <div class="element">Track One: This is how we do it.</div>
+                        <div class="element">
+                            Track One. If you're an android user, consider installing
+                            <a href="https://play.google.com/store/apps/details?id=org.mozilla.firefox_beta">firefox</a>.
+                        </div>
                     </li>
                 </ul>
             </div>
