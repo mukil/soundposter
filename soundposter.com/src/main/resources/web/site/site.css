@@ -1,4 +1,8 @@
 
+body {
+  font-family: "Myriad Pro Regular","Trebuchet MS", sans-serif;
+}
+
 body.page {
 	margin-top: 0px;
 	margin-bottom: 0px;

@@ -13,7 +13,29 @@
         <meta name="author" th:content="${author}" />
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1"/>
 
-        <!-- Note: We are proudly build on free and open source tools, namely jQuery, Piwik, Modernizr and DeepaMehta 4. -->
+        <!--
+            Note: We are proudly build on free and open source tools, namely jQuery, jQuery Mobile, jQuery UI,
+            jQuery Player, jQuery Touch Punch, Adapt.js, Radphael, Modernizr and DeepaMehta 4.
+        -->
+
+        <link rel="stylesheet" href="/com.soundposter.website/site/site.css"/>
+
+        <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+
+            var poster = /*[[${poster}]]*/ '{}'
+            var ADAPT_CONFIG = { path: '/com.soundposter.website/site/', dynamic: true,
+                range: [
+                    '0px    to 710px	= mobile-site.css',
+                    '710px  to 960px	= tablet-site.css',
+                    '960px  to 1480px	= poster-site.css',
+                    '1480px				= panorama-site.css'
+                ]
+            }
+
+        /*]]>*/
+        </script>
+        <script type="text/javascript" src="/com.soundposter.website/script/vendor/adapt/adapt.min.js"></script>
 
         <!-- Piwik-->
         <script type="text/javascript">
@@ -27,25 +49,6 @@
             } catch( err ) {}
         </script>
         <!-- End Piwik Tracking Code -->
-
-        <link rel="stylesheet" href="/com.soundposter.website/poster/base.css"/>
-        <link rel="stylesheet" href="/com.soundposter.website/poster/site/site.css"/>
-        <script type="text/javascript" th:inline="javascript">
-        /*<![CDATA[*/
-
-            var poster = /*[[${poster}]]*/ '{}'
-            var ADAPT_CONFIG = { path: '/com.soundposter.website/poster/site/', dynamic: true,
-                range: [
-                    '0px    to 710px	= mobile-site.css',
-                    '710px  to 960px	= tablet-site.css',
-                    '960px  to 1480px	= poster-site.css',
-                    '1480px				= panorama-site.css'
-                ]
-            }
-
-        /*]]>*/
-        </script>
-        <script type="text/javascript" src="/com.soundposter.website/script/js/adapt.min.js"></script>
 
     </head>
 

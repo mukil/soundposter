@@ -54,6 +54,8 @@ var poster = new function () {
         this.initialize_outlinks(hyperlink)
         // initialize nodes
         this.initialize_nodes() // loads playlist and rendering_options
+        //
+        setup_base_page()
 
         // this.perform_flash_check_call()
 
@@ -89,7 +91,6 @@ var poster = new function () {
                 // test:
                 poster.show_graphics()
                 setup_interactives()
-                setup_base_page()
                 //
                 // fixme: handle hiding of loading-animation better
                 poster.hide_loading_arc()
@@ -98,7 +99,6 @@ var poster = new function () {
             })
         } else {
             setup_interactives()
-            setup_base_page()
             poster.show_notification("This soundposter has no postergraphic set yet.")
             $('body.poster').append('<span class="warning">This soundposter has no postergraphic set yet.</span>')
         }
@@ -527,7 +527,7 @@ var poster = new function () {
                 $('.timer').hide()
             // backup, unselection of highlighted track
             },
-            swfPath: "/com.soundposter.website/script/js",
+            swfPath: "/com.soundposter.website/script/vendor/jquery.player/",
             supplied: "mp3",
             solution: "html, flash",
             errorAlerts: false
@@ -565,6 +565,7 @@ var poster = new function () {
     this.show_notification = function (text) {
         // todo: if notification area is already visible, do not animate it
         var $message = $('<div>').text(text)
+            $message.css('display', 'inline-block')
             $message.fadeIn('fast').delay(3500).fadeOut('slow')
         $notifications.append($message)
         /** .show('fast', function() {

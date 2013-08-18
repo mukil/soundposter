@@ -14,7 +14,7 @@
         <groupId>de.deepamehta</groupId>
         <artifactId>deepamehta-parent</artifactId>
         <version>5</version>
-        <relativePath>../../deepamehta/deepamehta-parent/pom.xml</relativePath>
+        <relativePath>../../../Destop/src-deepamehta/deepamehta/deepamehta-parent/pom.xml</relativePath>
     </parent>
 
     <dependencies>                                   <!-- Most DeepaMehta plugin projects           -->
