@@ -610,6 +610,9 @@ var poster = new function () {
     }
 
     this.show_loading_arc = function(pos) {
+
+        if (poster.mod.svg == false) return null
+
         // get Orientation
         var sizeX = poster.viewport_width()
         var sizeY = poster.viewport_height()
@@ -656,12 +659,7 @@ var poster = new function () {
 
     /** fixme: still depends in postergraphic being loaded .. **/
     this.show_interactives = function(click_handler, pos, posterHasGraphic) {
-        /* var r = Raphael("interactives", 600, 600),
-            R = 200,
-            init = true,
-            param = {stroke: "#fff", "stroke-width": 30},
-            hash = document.location.hash,
-            marksAttr = {fill: hash || "#444", stroke: "none"} **/
+        if (poster.mod.svg == false) return null
         // Get orientation
         var graphicRadius = 40
         var graphicX = poster.viewport_width() / 2
@@ -670,6 +668,7 @@ var poster = new function () {
             graphicX = $image.width() / 2 + graphicRadius
             graphicY = $image.height() / 2 + graphicRadius
         }
+        // Create new paper (fixme: see around 625)
         poster.paper = Raphael("interactives", 6321, 6321) // todo: dont set max raphael-canvas-size
         // poster.paper.image(graphicUrl, 1000, 1000, 2000, 2000)
         // and lets place our interactives not in the center of the postergraphic, but at the spot of the sound
@@ -951,7 +950,7 @@ var poster = new function () {
                 console.log("WARNING: Your browser has no history support, so you cannot deep link into tracks.")
             }
             // some analytics rubbish
-            piwikTracker.trackGoal(1, track_name);
+            if (piwikTracker != undefined) piwikTracker.trackGoal(1, track_name);
             // some gui rubbish after kickstart via the big button play
             poster.hide_interactives()
             // some more

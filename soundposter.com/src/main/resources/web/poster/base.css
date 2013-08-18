@@ -19,8 +19,8 @@ body.poster div.jquery-mobile-container.ui-page-active {
 
 object {
     position: fixed;
-    left: 10px; top: 50px;
-    width: 100px; height: 150px;
+    left: 10px; top: 70px;
+    width: 200px; height: 60px;
     z-index: 121;
     opacity: 0;
 }
@@ -62,7 +62,7 @@ div.notifications div {
     opacity: .9;
     display: inline-block;
     margin-left: 10px; margin-right: 10px;
-    padding: 5px; margin-top: 10px;
+    padding: 5px;
 }
 
 div.notifications div.text {
