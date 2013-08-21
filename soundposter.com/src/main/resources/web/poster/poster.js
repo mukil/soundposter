@@ -22,6 +22,7 @@ var poster = new function () {
     this.path = undefined
     this.player_is_ready = false
     this.url_set = undefined
+    this.hashtag = ""
 
     var $container = undefined
     var $image = undefined
@@ -37,19 +38,20 @@ var poster = new function () {
     this.centerX = 0
     this.centerY = 0
 
-    this.initialize = function(meta, graphicUrl, hyperlink, setlist, trackId, username, webalias) {
+    this.initialize = function(meta, graphicUrl, hyperlink, setlist, trackId, username, webalias, poster_hashtag) {
 
         // fixme: if one of these is not set, we may get a syntax error during initialization?
 
         poster.data = meta
         poster.data.setlist = setlist
         poster.path = "/" + username + "/" + webalias
+        poster.hashtag = poster_hashtag
         //
         this.perform_browser_check()
         // jplayer (flash-fallback) integration
         this.initialize_player()
         // hide play-controls for now
-        this.hide_buttons()
+        this.hide_buttons() // (is now set to default in css, i guess, to be removed.)
         // parse and render support-links
         this.initialize_outlinks(hyperlink)
         // initialize nodes
@@ -346,7 +348,8 @@ var poster = new function () {
     this.share = function () {
 
         var trackId = 0
-        var text = "", url = "", hashtags = "np, soundposter"
+        var text = "", url = "", hashtags = "soundposter"
+        if (poster.hashtag != "") hashtags += ", " + poster.hashtag
         if (poster.selected_track == undefined) {
             // share poster
             text = poster.data.info.value + " "
@@ -357,6 +360,7 @@ var poster = new function () {
             url = HOST_URL + poster.path + "/" + trackId
             text = poster.selected_track.value + " - " + poster.data.info.value + " "
         }
+        text = encodeURI(text)
         var intentAddress = 'https://twitter.com/intent/tweet?url='+url+'&text='+text+'&hashtags='+ hashtags
         // open blank window with intent address
         window.open(encodeURI(intentAddress), 'Share this sound via Twitter.com', 'width=300,height=420')
@@ -420,6 +424,7 @@ var poster = new function () {
             $tracklist_button.removeClass('active')
         } else {
             $tracklist_button.addClass('active')
+            if (piwikTracker != undefined) piwikTracker.trackGoal(3)
         }
         // list-view
         $('ul.listing').slideToggle('fast')
@@ -493,6 +498,7 @@ var poster = new function () {
                     console.log("jPlayer:error playing stream... ")
                     console.log(event)
                 }
+                if (piwikTracker != undefined) piwikTracker.trackGoal(2)
                 //
                 if (event.jPlayer.error.type == "e_url_not_set") {
                     console.log("ERROR: Sound-Resource is not yet set => " + poster.url_set)
@@ -950,7 +956,11 @@ var poster = new function () {
                 console.log("WARNING: Your browser has no history support, so you cannot deep link into tracks.")
             }
             // some analytics rubbish
-            if (piwikTracker != undefined) piwikTracker.trackGoal(1, track_name);
+            if (piwikTracker != undefined) {
+                piwikTracker.setCustomVariable(1, "Played", track_name, "page")
+                piwikTracker.trackPageView()
+                piwikTracker.trackGoal(1)
+            }
             // some gui rubbish after kickstart via the big button play
             poster.hide_interactives()
             // some more

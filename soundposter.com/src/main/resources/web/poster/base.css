@@ -19,9 +19,9 @@ body.poster div.jquery-mobile-container.ui-page-active {
 
 object {
     position: fixed;
-    left: 10px; top: 70px;
-    width: 200px; height: 60px;
-    z-index: 121;
+    left: 10px; top: 90px;
+    width: 180px; height: 90px;
+    z-index: 0;
     opacity: 0;
 }
 
