@@ -265,6 +265,15 @@ public class WebsitePlugin extends WebActivatorPlugin {
         return view("legal");
     }
 
+    @GET
+    @Path("/imprint")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable getImprint(@HeaderParam("Cookie") ClientState clientState) {
+        log.info("Requesting soundposter.com imprint page .. ");
+		viewData("pageId", "imprint");
+        return view("imprint");
+    }
+
 
     @GET
     @Path("/about-us")
@@ -503,10 +512,11 @@ public class WebsitePlugin extends WebActivatorPlugin {
         log.info("requesting posterview \""+ poster +"\" by author \"" + author + "\" and track \""+trackId+"\"");
 		try {
 			Topic soundposter = getSoundposter(author, poster); // sanity checks already built-in
-			String description = "", name ="", graphicUrl = "", buylink = "{}", subtitle = "", license = "",
-                    hashtag = "", buylink_label = "", buylink_href = "", setlist_label = "", stylesheet = "";
+			String poster_description = "", name ="", graphicUrl = "", buylink = "{}", subtitle = "", license = "",
+                    hashtag = "", buylink_label = "", buylink_href = "", setlist_label = "", stylesheet = "",
+                    previewGraphicUrl = "";
 			name = soundposter.getSimpleValue().toString();
-            description = soundposter.getCompositeValue().getString("com.soundposter.poster_description");
+            poster_description = soundposter.getCompositeValue().getString("com.soundposter.poster_description");
             subtitle = soundposter.getCompositeValue().getString("com.soundposter.poster_subtitle");
             license = soundposter.getCompositeValue().getString("com.soundposter.license_info");
             buylink_label = soundposter.getCompositeValue().getString("com.soundposter.buy_link_label");
@@ -516,6 +526,42 @@ public class WebsitePlugin extends WebActivatorPlugin {
             Topic css = soundposter.getCompositeValue().getTopic("com.soundposter.custom_style");
             if (css != null && !css.getSimpleValue().toString().equals("")) {
                 stylesheet = PATH_TO_STYLES + css.getSimpleValue().toString();
+            }
+            String pageTitle = "", mediaTitle = "";
+            String sound_name = "", artist_name = "", album_name = "", sound_text = "";
+            if (trackId != 0) {
+                Topic track = dms.getTopic(trackId, true);
+                if (track.getCompositeValue().has(SOUND_NAME_URI)) {
+                    sound_name = track.getCompositeValue().getString(SOUND_NAME_URI);
+                }
+                /** if (track.getCompositeValue().has(SOUND_ARTIST_URI)) {
+                    List<TopicModel> artists = track.getModel().getCompositeValueModel().getTopics(SOUND_ARTIST_URI);
+                    artist_name = artists.get(0).getSimpleValue().toString(); // fixme: list all associated artists here
+                } **/
+                if (track.getCompositeValue().has(SOUND_ALBUM_URI)) {
+                    List<TopicModel> albums = track.getModel().getCompositeValueModel().getTopics(SOUND_ALBUM_URI);
+                    album_name = albums.get(0).getSimpleValue().toString();
+                }
+                if (track.getCompositeValue().has(SOUND_DESCRIPTION_URI)) {
+                    sound_text = track.getCompositeValue().getString(SOUND_DESCRIPTION_URI);
+                }
+                // Construct poster page title for a specific sound
+                if (!artist_name.equals("")) {
+                    pageTitle += artist_name + " ";
+                    mediaTitle += artist_name + " ";
+                }
+                pageTitle += sound_name;
+                mediaTitle = sound_name;
+                if (!album_name.equals("")) {
+                    pageTitle += " - " + album_name;
+                    mediaTitle += " - " + album_name;
+                }
+                pageTitle += " on soundposter.com/" +author+ "/" +poster;
+                // set Sound Description text over Poster description text
+                poster_description = sound_text;
+            } else {
+                // Construct poster page title
+                pageTitle = name + " - soundposter.com/" + author + "/" + poster;
             }
             // fixme: keywords, tracklist-data
 			Topicmap topicmap = tmService.getTopicmap(soundposter.getId());
@@ -534,21 +580,31 @@ public class WebsitePlugin extends WebActivatorPlugin {
             }
             // prepare page, find the poster graphic
             graphicUrl = getPosterGraphicURL(soundposter);
+            //
+            previewGraphicUrl = getPreviewGraphicURL(soundposter);
+            if (previewGraphicUrl == null) previewGraphicUrl = "";
             // get partner website link
             Topic map = dms.getTopic(soundposter.getId(), true);
             Topic linkOne = map.getRelatedTopic("com.soundposter.buy_edge",
                     DEFAULT_TYPE_URI, DEFAULT_TYPE_URI, "dm4.webbrowser.web_resource", true, false);
             if (linkOne != null) buylink = linkOne.toJSON().toString();
+            // Prepare page data
+            String url = "http://soundposter.com/" +author+ "/" +poster;
+            if (trackId != 0) url += "/" +trackId;
+            viewData("url", url);
+			viewData("pageTitle", pageTitle);
+			viewData("mediaTitle", mediaTitle);
 			viewData("name", name);
 			viewData("username", author);
 			viewData("webalias", poster);
             viewData("subtitle", subtitle);
-			viewData("description", description);
+			viewData("description", poster_description);
 			viewData("license", license);
 			viewData("poster", topicmap.toJSON().toString());
 			viewData("keywords", "");
 			viewData("hashtag", hashtag);
             viewData("graphic", graphicUrl);
+            viewData("preview_graphic", previewGraphicUrl);
             viewData("buylink", buylink);
             viewData("buylink_label", buylink_label);
             viewData("buylink_href", buylink_href);

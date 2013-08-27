@@ -10,6 +10,13 @@ div.logo.area {
 	cursor: pointer;
 }
 
+.page.imprint div.main img {
+    float: none;
+    width: 95%;
+    display: block;
+    margin-bottom: 10px;
+}
+
 .page div.header .featured img {
     padding-top: 20px;
 }
@@ -61,6 +68,7 @@ div.logo.area {
     font-size: 1.5em;
 }
 
+.page.imprint div.main,
 .page.about div.main {
     padding-left: 0px;
 }

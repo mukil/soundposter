@@ -360,7 +360,7 @@ var poster = new function () {
             url = HOST_URL + poster.path + "/" + trackId
             text = poster.selected_track.value + " - " + poster.data.info.value + " "
         }
-        text = encodeURI(text)
+        // fixme: a "&" breaks this web-intent.. text = encodeURI(text)
         var intentAddress = 'https://twitter.com/intent/tweet?url='+url+'&text='+text+'&hashtags='+ hashtags
         // open blank window with intent address
         window.open(encodeURI(intentAddress), 'Share this sound via Twitter.com', 'width=300,height=420')

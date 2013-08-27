@@ -3,14 +3,20 @@
 
     <head>
 
-        <title th:text="${name} + ' - soundposter.com/' + ${username} + '/' + ${webalias}">Soundposter: Hello, What!?</title>
+        <title th:text="${pageTitle}">Soundposter: Hello, What!?</title>
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
-        <meta name="keywords" th:content="${keywords} + ${hashtag}"/>
+        <meta name="keywords" th:content="${keywords} + ${hashtag} + ' soundposter'"/>
         <meta name="description" th:content="${description}" />
-        <meta name="title" th:content="${name} + ' - ' + ${subtitle}" />
-        <meta name="author" th:content="${author}" />
+        <meta name="title" th:content="${pageTitle}" />
+        <meta name="author" th:content="${username}" />
+        <meta property="og:type" content="website"/>
+        <meta property="og:title" th:content="${mediaTitle}"/>
+        <meta property="og:image" th:content="'http://soundposter.com' + ${preview_graphic}"/>
+        <meta property="og:url" th:content="${url}"/>
+        <meta property="og:site_name" th:content="${name} +' - soundposter.com/'+ ${username}+'/'+${webalias}"/>
+        <meta property="og:description" th:content="${description}"/>
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=0.9, user-scalable=no"/>
         <!-- meta name="apple-mobile-web-app-capable" content="yes" /-->
 
