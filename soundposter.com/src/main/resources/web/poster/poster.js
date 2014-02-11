@@ -3,7 +3,7 @@
 var STATUS_INTERNAL = "Internal Server Error"
 var STATUS_NOT_FOUND = "Not Found"
 var STATUS_ACCESS_DENIED = "Unauthorized"
-var HOST_URL = "http://www.soundposter.com"
+var HOST_URL = "http://new.soundposter.com"
 
 var poster = new function () {
 

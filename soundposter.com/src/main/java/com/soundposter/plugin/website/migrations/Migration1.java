@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 import org.codehaus.jettison.json.JSONArray;
@@ -152,7 +153,7 @@ public class Migration1 extends Migration {
 
     private Topic getArtistNameTopic (String name) {
         // for index-mode fulltext_key, we dropped index_mode key which forces us to search via a phrase
-        Set<Topic> artists = dms.searchTopics("\""+name+"\"", "com.soundposter.artist_name");
+        List<Topic> artists = dms.searchTopics("\""+name+"\"", "com.soundposter.artist_name");
         for (Topic artist : artists) {
             if (artist.getSimpleValue().toString().equals(name)) return artist;
         }
@@ -161,7 +162,7 @@ public class Migration1 extends Migration {
 
     private Topic getAlbumNameTopic (String name) {
         // for index-mode fulltext_key, we dropped index_mode key which forces us to search via a phrase
-        Set<Topic> albums = dms.searchTopics("\""+name+"\"", "com.soundposter.album_name");
+        List<Topic> albums = dms.searchTopics("\""+name+"\"", "com.soundposter.album_name");
         for (Topic album : albums) {
             if (album.getSimpleValue().toString().equals(name)) return album;
         }
