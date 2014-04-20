@@ -92,19 +92,9 @@ public class WebsitePlugin extends WebActivatorPlugin {
 
     private static final String PATH_TO_STYLES = "/filerepo/stylesheets/";
 
-    /** Initialize the migrated soundsets ACL-Entries. */
-    @Override
-    public void init() {
-        isInitialized = true;
-        configureIfReady();
-        initTemplateEngine();
-    }
 
-    private void configureIfReady() {
-        if (isInitialized) {
-            checkACLsOfMigration();
-        }
-    }
+
+    /** Soundposter.com Website Methods */
 
 	@GET
     @Path("/")
@@ -285,6 +275,24 @@ public class WebsitePlugin extends WebActivatorPlugin {
         return view("about");
     }
 
+    /** Legacy routes to an old soundposter.com */
+
+    private InputStream invokeC3SView() {
+        try {
+            return dms.getPlugin("com.soundposter.webapp").getResourceAsStream("web/c3s/index.html");
+        } catch (Exception e) {
+            throw new WebApplicationException(e);
+        }
+    }
+
+    private InputStream getSoundposterFavIcon() {
+        try {
+            return dms.getPlugin("com.soundposter.webapp").getResourceAsStream("web/images/favicon.ico");
+        } catch (Exception e) {
+            throw new WebApplicationException(e);
+        }
+    }
+
     @GET
     @Path("/register")
     @Produces(MediaType.TEXT_HTML)
@@ -306,129 +314,6 @@ public class WebsitePlugin extends WebActivatorPlugin {
             log.warning(e.getMessage());
             throw new WebApplicationException(e.getCause());
         }
-    }
-
-    @GET
-    @Path("/soundcloud/add/track/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Topic addSoundCloudTrack(@PathParam("id") int trackId, @HeaderParam("Cookie") ClientState clientState) {
-        // fixme: relate track via "Author" to logged in user
-        checkRequestAuthentication();
-        SearchedTrack track = getSoundCloudTrackById(trackId);
-        // creator and owner should be set correct if its a new track (to us)
-        // todo: in any case relate track to username
-        Topic sound = createSoundCloudTrackTopic(track, clientState);
-        if (sound == null) {
-            log.warning("We already have a soundcloud topic with that ID in our DB.");
-            log.warning("Doing Nothjing!");
-            // todo: get it, update it
-            // result = dms.get
-        } else {
-            // create author-edge for the logged in user:
-            Topic sp_account = getProfileTopic(acService.getUsername(acService.getUsername()));
-            if (sp_account == null) throw new RuntimeException("User Account has no soundposter-profile related.");
-            createAuthorRelation(sound, sp_account);
-        }
-        return sound;
-    }
-
-    @GET
-    @Path("/soundcloud/add/set/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Topic addSoundCloudSet(@PathParam("id") int trackId, @HeaderParam("Cookie") ClientState clientState) {
-        // fixme: relate set via "Author" to logged in user
-        checkRequestAuthentication();
-        //
-        SearchedSet result = getSoundCloudSetById(trackId);
-        Topic set = createSoundCloudSetTopic(result, clientState);
-        if(set == null) {
-            log.warning("We already have a soundcloud set-topic with that ID in our DB.");
-            log.warning("Doing Nothjing!");
-            // todo: get it, update it
-        } else {
-            Topic sp_account = getProfileTopic(acService.getUsername(acService.getUsername()));
-            if (sp_account == null) throw new RuntimeException("User Account has no soundposter-profile related.");
-            createAuthorRelation(set, sp_account);
-        }
-        return set;
-    }
-
-    @GET
-    @Path("/soundcloud/view/tracks/{query}")
-    @Produces(MediaType.TEXT_HTML)
-    public Viewable getSoundCloudTracksView(@PathParam("query") String query) {
-        return getSoundCloudTracksView(query, 0);
-    }
-
-    @GET
-    @Path("/soundcloud/view/tracks/{query}/{pageNr}")
-    @Produces(MediaType.TEXT_HTML)
-    public Viewable getSoundCloudTracksView(@PathParam("query") String query, @PathParam("pageNr") int pageNr) {
-        //
-        checkRequestAuthentication();
-        //
-        JSONArray tracks = getSoundCloudTracksBySearchTerm(query, pageNr);
-        ArrayList<SearchedTrack> results = new ArrayList<SearchedTrack>();
-        for (int i = 0; i < tracks.length(); i++) {
-            try {
-                //
-                JSONObject item = tracks.getJSONObject(i);
-                SearchedTrack searchedTrack = createSoundCloudSearchedTrack(item, 0);
-                        if (searchedTrack != null) results.add(searchedTrack);
-            } catch (JSONException ex) {
-                Logger.getLogger(WebsitePlugin.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        viewData("search_type", "tracks");
-        viewData("provider_name", "SoundCloud");
-        viewData("pageId", "search-results");
-        viewData("results", results);
-        return view("track-results");
-    }
-
-    @GET
-    @Path("/soundcloud/view/sets/{query}/{pageNr}")
-    @Produces(MediaType.TEXT_HTML)
-    public Viewable getSoundCloudSetsView(@PathParam("query") String query, @PathParam("pageNr") int pageNr) {
-        //
-        checkRequestAuthentication();
-        //
-        JSONArray sets = getSoundCloudSetsBySearchTerm(query, pageNr);
-        ArrayList<SearchedSet> results = new ArrayList<SearchedSet>();
-        for (int i = 0; i < sets.length(); i++) {
-            try {
-                //
-                JSONObject item = sets.getJSONObject(i);
-                ArrayList<SearchedTrack> items = new ArrayList<SearchedTrack>();
-                JSONArray tracks = item.getJSONArray("tracks");
-                for (int k = 0; k < tracks.length(); k++) {
-                    try {
-                        JSONObject track = tracks.getJSONObject(k);
-                        SearchedTrack searchedTrack = createSoundCloudSearchedTrack(track, (k+1));
-                        if (searchedTrack != null) items.add(searchedTrack);
-                    } catch (JSONException ex) {
-                        log.fine("SoundCloud Track is missing from set (?)");
-                    }
-                }
-                SearchedSet result = createSoundCloudSearchedSet(item);
-                results.add(result);
-            } catch (JSONException ex) {
-                log.severe(ex.getMessage());
-                throw new WebApplicationException(ex.getCause());
-            }
-        }
-        viewData("search_type", "sets");
-        viewData("provider_name", "SoundCloud");
-        viewData("pageId", "search-results");
-        viewData("results", results);
-        return view("set-results");
-    }
-
-    @GET
-    @Path("/soundcloud/view/sets/{query}")
-    @Produces(MediaType.TEXT_HTML)
-    public Viewable getSoundCloudSetsView(@PathParam("query") String term) {
-        return getSoundCloudSetsView(term, 0);
     }
 
 	@GET
@@ -755,10 +640,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
         return "{}";
     }
 
-
-
-	// ------------------------------------------------------------------------------------------------ Private Methods
-
+    /** Soundposter Website internals */
 
     private void checkRequestAuthentication() throws WebApplicationException {
         if (acService.getUsername() == null) {
@@ -829,7 +711,132 @@ public class WebsitePlugin extends WebActivatorPlugin {
                 new TopicRoleModel(username.getId(), "dm4.core.child")), null);
     }
 
-    /** All this could and should move to the common audiolib project (aal-plugin). */
+
+
+    /** SoundCloud Service Handlers (Soundposter Website) */
+
+    @GET
+    @Path("/soundcloud/add/track/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Topic addSoundCloudTrack(@PathParam("id") int trackId, @HeaderParam("Cookie") ClientState clientState) {
+        // fixme: relate track via "Author" to logged in user
+        checkRequestAuthentication();
+        SearchedTrack track = getSoundCloudTrackById(trackId);
+        // creator and owner should be set correct if its a new track (to us)
+        // todo: in any case relate track to username
+        Topic sound = createSoundCloudTrackTopic(track, clientState);
+        if (sound == null) {
+            log.warning("We already have a soundcloud topic with that ID in our DB.");
+            log.warning("Doing Nothjing!");
+            // todo: get it, update it
+            // result = dms.get
+        } else {
+            // create author-edge for the logged in user:
+            Topic sp_account = getProfileTopic(acService.getUsername(acService.getUsername()));
+            if (sp_account == null) throw new RuntimeException("User Account has no soundposter-profile related.");
+            createAuthorRelation(sound, sp_account);
+        }
+        return sound;
+    }
+
+    @GET
+    @Path("/soundcloud/add/set/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Topic addSoundCloudSet(@PathParam("id") int trackId, @HeaderParam("Cookie") ClientState clientState) {
+        // fixme: relate set via "Author" to logged in user
+        checkRequestAuthentication();
+        //
+        SearchedSet result = getSoundCloudSetById(trackId);
+        Topic set = createSoundCloudSetTopic(result, clientState);
+        if(set == null) {
+            log.warning("We already have a soundcloud set-topic with that ID in our DB.");
+            log.warning("Doing Nothjing!");
+            // todo: get it, update it
+        } else {
+            Topic sp_account = getProfileTopic(acService.getUsername(acService.getUsername()));
+            if (sp_account == null) throw new RuntimeException("User Account has no soundposter-profile related.");
+            createAuthorRelation(set, sp_account);
+        }
+        return set;
+    }
+
+    @GET
+    @Path("/soundcloud/view/tracks/{query}")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable getSoundCloudTracksView(@PathParam("query") String query) {
+        return getSoundCloudTracksView(query, 0);
+    }
+
+    @GET
+    @Path("/soundcloud/view/tracks/{query}/{pageNr}")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable getSoundCloudTracksView(@PathParam("query") String query, @PathParam("pageNr") int pageNr) {
+        //
+        checkRequestAuthentication();
+        //
+        JSONArray tracks = getSoundCloudTracksBySearchTerm(query, pageNr);
+        ArrayList<SearchedTrack> results = new ArrayList<SearchedTrack>();
+        for (int i = 0; i < tracks.length(); i++) {
+            try {
+                //
+                JSONObject item = tracks.getJSONObject(i);
+                SearchedTrack searchedTrack = createSoundCloudSearchedTrack(item, 0);
+                        if (searchedTrack != null) results.add(searchedTrack);
+            } catch (JSONException ex) {
+                Logger.getLogger(WebsitePlugin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        viewData("search_type", "tracks");
+        viewData("provider_name", "SoundCloud");
+        viewData("pageId", "search-results");
+        viewData("results", results);
+        return view("track-results");
+    }
+
+    @GET
+    @Path("/soundcloud/view/sets/{query}/{pageNr}")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable getSoundCloudSetsView(@PathParam("query") String query, @PathParam("pageNr") int pageNr) {
+        //
+        checkRequestAuthentication();
+        //
+        JSONArray sets = getSoundCloudSetsBySearchTerm(query, pageNr);
+        ArrayList<SearchedSet> results = new ArrayList<SearchedSet>();
+        for (int i = 0; i < sets.length(); i++) {
+            try {
+                //
+                JSONObject item = sets.getJSONObject(i);
+                ArrayList<SearchedTrack> items = new ArrayList<SearchedTrack>();
+                JSONArray tracks = item.getJSONArray("tracks");
+                for (int k = 0; k < tracks.length(); k++) {
+                    try {
+                        JSONObject track = tracks.getJSONObject(k);
+                        SearchedTrack searchedTrack = createSoundCloudSearchedTrack(track, (k+1));
+                        if (searchedTrack != null) items.add(searchedTrack);
+                    } catch (JSONException ex) {
+                        log.fine("SoundCloud Track is missing from set (?)");
+                    }
+                }
+                SearchedSet result = createSoundCloudSearchedSet(item);
+                results.add(result);
+            } catch (JSONException ex) {
+                log.severe(ex.getMessage());
+                throw new WebApplicationException(ex.getCause());
+            }
+        }
+        viewData("search_type", "sets");
+        viewData("provider_name", "SoundCloud");
+        viewData("pageId", "search-results");
+        viewData("results", results);
+        return view("set-results");
+    }
+
+    @GET
+    @Path("/soundcloud/view/sets/{query}")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable getSoundCloudSetsView(@PathParam("query") String term) {
+        return getSoundCloudSetsView(term, 0);
+    }
 
     private Topic createSoundCloudTrackTopic(SearchedTrack object, ClientState clientState) {
         //
@@ -873,6 +880,43 @@ public class WebsitePlugin extends WebActivatorPlugin {
         //
         return dms.createTopic(soundModel, clientState);
     }
+
+    private SearchedTrack createSoundCloudSearchedTrack(JSONObject item, int ordinal) throws JSONException {
+        // todo: at artwork_url, sound-page permalink_url, user_link
+        String description = (item.getString("description") == null) ? "" : item.getString("description");
+        String artwork_url = item.getString("artwork_url");
+        if (!item.has("stream_url")) return null; // sanity check
+        return new SearchedTrack(item.getString("title"), item.getString("stream_url"),
+            item.getJSONObject("user").getString("permalink_url"),item.getJSONObject("user").getString("username"),
+            item.getString("permalink_url"), item.getBoolean("streamable"), description, item.getInt("id"), ordinal,
+            item.getString("license"), artwork_url.replace("-large", "-original"));
+    }
+
+    private SearchedSet createSoundCloudSearchedSet(JSONObject set) throws JSONException {
+            //
+        ArrayList<SearchedTrack> items = new ArrayList<SearchedTrack>();
+        JSONArray tracks = set.getJSONArray("tracks");
+        for (int k = 0; k < tracks.length(); k++) {
+            try {
+                JSONObject track = tracks.getJSONObject(k);
+                SearchedTrack searchedTrack = createSoundCloudSearchedTrack(track, (k+1));
+                if (searchedTrack != null) items.add(searchedTrack);
+            } catch (JSONException ex) {
+                log.fine("SoundCloud Track is missing from set (?)");
+            }
+        }
+        SearchedSet result = new SearchedSet(set.getInt("id"), set.getString("title"),
+            set.getJSONObject("user").getString("permalink_url"), set.getJSONObject("user").getString("username"),
+            set.getString("permalink_url"), set.getString("description"), items);
+        return result;
+    }
+
+
+
+    /**
+     * SoundCloud Service Getters.
+     * All this could and should move to the common audiolib project (aal-plugin).
+     */
 
     private SearchedSet getSoundCloudSetById (int setId) {
         try {
@@ -1003,85 +1047,22 @@ public class WebsitePlugin extends WebActivatorPlugin {
         }
     }
 
-    private SearchedTrack createSoundCloudSearchedTrack(JSONObject item, int ordinal) throws JSONException {
-        // todo: at artwork_url, sound-page permalink_url, user_link
-        String description = (item.getString("description") == null) ? "" : item.getString("description");
-        String artwork_url = item.getString("artwork_url");
-        if (!item.has("stream_url")) return null; // sanity check
-        return new SearchedTrack(item.getString("title"), item.getString("stream_url"),
-            item.getJSONObject("user").getString("permalink_url"),item.getJSONObject("user").getString("username"),
-            item.getString("permalink_url"), item.getBoolean("streamable"), description, item.getInt("id"), ordinal,
-            item.getString("license"), artwork_url.replace("-large", "-original"));
-    }
-
-    private SearchedSet createSoundCloudSearchedSet(JSONObject set) throws JSONException {
-            //
-        ArrayList<SearchedTrack> items = new ArrayList<SearchedTrack>();
-        JSONArray tracks = set.getJSONArray("tracks");
-        for (int k = 0; k < tracks.length(); k++) {
-            try {
-                JSONObject track = tracks.getJSONObject(k);
-                SearchedTrack searchedTrack = createSoundCloudSearchedTrack(track, (k+1));
-                if (searchedTrack != null) items.add(searchedTrack);
-            } catch (JSONException ex) {
-                log.fine("SoundCloud Track is missing from set (?)");
+    private ArrayList<RelatedTopic> getResultSetSortedByTitle (ResultList<RelatedTopic> all, ClientState clientState) {
+        // build up sortable collection of all result-items
+        ArrayList<RelatedTopic> in_memory = new ArrayList<RelatedTopic>();
+        for (RelatedTopic obj : all) {
+            in_memory.add(obj);
+        }
+        // sort all result-items
+        Collections.sort(in_memory, new Comparator<RelatedTopic>() {
+            public int compare(RelatedTopic t1, RelatedTopic t2) {
+                return t1.getSimpleValue().toString().toLowerCase()
+                        .compareTo(t2.getSimpleValue().toString().toLowerCase());
             }
-        }
-        SearchedSet result = new SearchedSet(set.getInt("id"), set.getString("title"),
-            set.getJSONObject("user").getString("permalink_url"), set.getJSONObject("user").getString("username"),
-            set.getString("permalink_url"), set.getString("description"), items);
-        return result;
+        });
+        return in_memory;
     }
 
-    /** Legacy routes to an old soundposter.com */
-
-    private InputStream invokeC3SView() {
-        try {
-            return dms.getPlugin("com.soundposter.webapp").getResourceAsStream("web/c3s/index.html");
-        } catch (Exception e) {
-            throw new WebApplicationException(e);
-        }
-    }
-
-    private InputStream getSoundposterFavIcon() {
-        try {
-            return dms.getPlugin("com.soundposter.webapp").getResourceAsStream("web/images/favicon.ico");
-        } catch (Exception e) {
-            throw new WebApplicationException(e);
-        }
-    }
-
-    /** Code running once, after plugin initialization. */
-
-    private void checkACLsOfMigration() {
-        // todo: initiate "admin" soundposter account topic to have old, migrated items authored semantically consistent
-        ResultList<RelatedTopic> sounds = dms.getTopics("com.soundposter.sound", false, 0);
-        Iterator<RelatedTopic> soundset = sounds.iterator();
-        while (soundset.hasNext()) {
-            RelatedTopic sound = soundset.next();
-            DeepaMehtaTransaction dmx = dms.beginTx();
-            try {
-                if (acService.getCreator(sound) == null) {
-                    log.info("initial ACL update of imported soundtrack " + sound.getSimpleValue().toString());
-                    Topic admin = acService.getUsername("admin");
-                    String adminName = admin.getSimpleValue().toString();
-                    acService.setCreator(sound, adminName);
-                    acService.setOwner(sound, adminName);
-                    acService.setACL(sound, new AccessControlList( //
-                            new ACLEntry(Operation.WRITE, UserRole.OWNER)));
-                    // adding soundposter specific author semantics
-                    createAuthorRelation(sound, admin);
-                }
-                dmx.success();
-           } catch (Exception ex) {
-                dmx.failure();
-                log.info(ex.getMessage());
-                throw new RuntimeException(ex);
-            } finally {
-                dmx.finish();
-            }
-        }
-    }
 
 
     /** --- Implementing PluginService Interfaces to consume AccessControlService --- */
@@ -1119,20 +1100,51 @@ public class WebsitePlugin extends WebActivatorPlugin {
         } **/
     }
 
-    private ArrayList<RelatedTopic> getResultSetSortedByTitle (ResultList<RelatedTopic> all, ClientState clientState) {
-        // build up sortable collection of all result-items
-        ArrayList<RelatedTopic> in_memory = new ArrayList<RelatedTopic>();
-        for (RelatedTopic obj : all) {
-            in_memory.add(obj);
+    /** Initialize the migrated soundsets ACL-Entries. */
+
+    @Override
+    public void init() {
+        isInitialized = true;
+        configureIfReady();
+        initTemplateEngine();
+    }
+
+    private void configureIfReady() {
+        if (isInitialized) {
+            checkACLsOfMigration();
         }
-        // sort all result-items
-        Collections.sort(in_memory, new Comparator<RelatedTopic>() {
-            public int compare(RelatedTopic t1, RelatedTopic t2) {
-                return t1.getSimpleValue().toString().toLowerCase()
-                        .compareTo(t2.getSimpleValue().toString().toLowerCase());
+    }
+
+    /** Code running once, after plugin initialization. */
+
+    private void checkACLsOfMigration() {
+        // todo: initiate "admin" soundposter account topic to have old, migrated items authored semantically consistent
+        ResultList<RelatedTopic> sounds = dms.getTopics("com.soundposter.sound", false, 0);
+        Iterator<RelatedTopic> soundset = sounds.iterator();
+        while (soundset.hasNext()) {
+            RelatedTopic sound = soundset.next();
+            DeepaMehtaTransaction dmx = dms.beginTx();
+            try {
+                if (acService.getCreator(sound) == null) {
+                    log.info("initial ACL update of imported soundtrack " + sound.getSimpleValue().toString());
+                    Topic admin = acService.getUsername("admin");
+                    String adminName = admin.getSimpleValue().toString();
+                    acService.setCreator(sound, adminName);
+                    acService.setOwner(sound, adminName);
+                    acService.setACL(sound, new AccessControlList( //
+                            new ACLEntry(Operation.WRITE, UserRole.OWNER)));
+                    // adding soundposter specific author semantics
+                    createAuthorRelation(sound, admin);
+                }
+                dmx.success();
+           } catch (Exception ex) {
+                dmx.failure();
+                log.info(ex.getMessage());
+                throw new RuntimeException(ex);
+            } finally {
+                dmx.finish();
             }
-        });
-        return in_memory;
+        }
     }
 
 }
