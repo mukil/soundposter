@@ -10,22 +10,30 @@ import java.util.ArrayList;
  *
  * @author malt
  */
-public class SearchedSet {
+public class SearchedBandcampAlbum {
 
-    public String title = "", streaming_url = "", publisher_url = "", publisher_name = "",
-            source_url = "", description = "";
-    public int setId = 0;
-    public ArrayList<SearchedTrack> tracks = null;
+    public String name = "", url = "", small_art_url = "", large_art_url = "";
 
-    public SearchedSet(int id, String title, String publisher_url, String publisher_name, String source_url,
-            String description, ArrayList<SearchedTrack> tracks) {
-        this.setId = id;
-        this.title = title;
-        this.publisher_url = publisher_url;
-        this.publisher_name = publisher_name;
-        this.source_url = source_url;
-        this.description = description;
-        this.tracks = tracks;
+    public String album_id = "";
+    public String track_id = "";
+    public String band_id = "";
+
+    public int release_date = -1;
+
+    public SearchedBandcampAlbum(long album, long track, long band_id, String title, String url,
+            String artwork_url_small, String artwork_url_large) {
+        if (album >= 0) {
+            this.album_id = "" + album;
+        }
+        if (track >= 0) {
+            this.track_id = "" + track;
+        }
+        this.band_id = "" + band_id;
+        this.small_art_url = artwork_url_small;
+        this.large_art_url = artwork_url_large;
+        // this.release_date = release_date;
+        this.name = title;
+        this.url = url;
     }
 
 }
