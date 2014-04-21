@@ -47,15 +47,15 @@
         </div>
 
         <div class="subtitle">
-            At the moment you are searching <span class="search-type" th:text="${search_type}"></span> on <span class="provider" th:text="${provider_name}"></span>
+            At the moment you are browsing <span th:text="${artist_name}"></span> <span class="search-type" th:text="${search_type}"></span> on <span class="provider" th:text="${provider_name}"></span>
         </div>
 
         <div class="main area">
-            <div class="result-view track" th:each="result : ${results}">
 
-                <a class="track-title" th:id="${result.trackId}" th:href="'javascript:site.add_soundcloud_track('+${result.trackId}+')'" th:text="${result.title}"></a><br/>
-                <span class="description" th:text="${result.description}"></span>
-                (<a class="source" th:href="${result.source_url}">Source</a>)
+            <div class="result-view album" th:each="result : ${results}">
+
+                <img th:src="${result.small_art_url}" border="0"/><br/>
+                <a class="album-id" th:id="${result.album_id}" th:href="'/bandcamp/view/album/'+${artist_name}+'/'+${result.name}+'/'+${result.album_id}" th:text="${result.name}"></a>
 
             </div>
         </div>

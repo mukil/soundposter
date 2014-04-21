@@ -1,8 +1,7 @@
 package com.soundposter.plugin.website;
 
-import com.soundposter.plugin.website.model.PreviewPoster;
-import com.soundposter.plugin.website.model.SearchedSet;
-import com.soundposter.plugin.website.model.SearchedTrack;
+import com.soundposter.plugin.service.SoundposterService;
+import com.soundposter.plugin.website.model.*;
 import de.deepamehta.core.service.ClientState;
 
 import com.sun.jersey.api.view.Viewable;
@@ -43,10 +42,10 @@ import org.codehaus.jettison.json.JSONTokener;
 /**
  *
  * Soundposter Website running on <http://www.soundposter.com>
- * @version 1.0-SNAPSHOT
- * @author Copyright 2013, Malte Reißig <malte@mikromedia.de>
+ * @version 1.1-SNAPSHOT
+ * @author Copyright 2013-2014, Malte Reißig <malte@mikromedia.de>
  *
- * Last modified: Jul 17, 2013
+ * Last modified: Apr 21, 2014
  */
 
 @Path("/")
@@ -55,9 +54,11 @@ import org.codehaus.jettison.json.JSONTokener;
 public class WebsitePlugin extends WebActivatorPlugin {
 
     private Logger log = Logger.getLogger(getClass().getName());
+
     private AccessControlService acService;
     private TopicmapsService tmService;
-    // private SoundposterService service;
+    private SoundposterService spService;
+
     private boolean isInitialized = false;
 
     private static final String CHILD_TYPE_URI = "dm4.core.child";
@@ -768,6 +769,129 @@ public class WebsitePlugin extends WebActivatorPlugin {
     }
 
     @GET
+    @Path("/bandcamp/view/bands/{name}")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable getBandcampBandsView(@PathParam("name") String query) {
+        //
+        checkRequestAuthentication();
+        //
+        JSONArray bands = spService.findBandcampBands(query);
+        ArrayList<SearchedBandcampBand> results = new ArrayList<SearchedBandcampBand>();
+        for (int i = 0; i < bands.length(); i++) {
+            try {
+                //
+                JSONObject item = bands.getJSONObject(i);
+                log.info("Found Band on Bandcamp: " + item.getString("name") + " (" + item.getLong("band_id") + ")");
+                String offsite_url = (!item.has("offsite_url")) ? "" : item.getString("offsite_url");
+                SearchedBandcampBand searchedBand = new SearchedBandcampBand(item.getLong("band_id"),
+                        item.getString("name"), item.getString("url"), item.getString("subdomain"), offsite_url);
+                if (searchedBand != null) results.add(searchedBand);
+            } catch (JSONException ex) {
+                log.severe("Could not parse this band-result.. " + ex.getMessage());
+            }
+        }
+        viewData("search_type", "bands");
+        viewData("provider_name", "Bandcamp");
+        viewData("pageId", "search-results");
+        viewData("results", results);
+        return view("band-results");
+    }
+
+    @GET
+    @Path("/bandcamp/view/discography/{bandName}/{bandId}")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable getBandcampDiscographyView(@PathParam("bandName") String bandName, @PathParam("bandId") String bandId) {
+        //
+        checkRequestAuthentication();
+        //
+        JSONArray albums = spService.findBandcampAlbums(bandId);
+        ArrayList<SearchedBandcampAlbum> results = new ArrayList<SearchedBandcampAlbum>();
+        for (int i = 0; i < albums.length(); i++) {
+            try {
+                //
+                JSONObject item = albums.getJSONObject(i);
+                log.info("Found Album on Bandcamp: " + item.getString("title") + " by artist " + item.getString("artist"));
+                long album_id = -1, track_id = -1;
+                String artistName = "";
+                if (item.has("album_id")) album_id = item.getLong("album_id");
+                if (item.has("track_id")) track_id = item.getLong("track_id");
+                if (item.has("arist")) artistName = item.getString("artist");
+                String small_url = "", large_url = "";
+                if (item.has("small_art_url")) small_url = item.getString("small_art_url");
+                if (item.has("large_art_url")) item.getString("large_art_url");
+                SearchedBandcampAlbum searchAlbum = new SearchedBandcampAlbum(album_id, track_id,
+                        item.getLong("band_id"), item.getString("title"), item.getString("url"),
+                        small_url, large_url, artistName);
+                if (searchAlbum != null) results.add(searchAlbum);
+            } catch (JSONException ex) {
+                log.severe("Could not parse this album-result .. " + ex.getMessage());
+            }
+        }
+        viewData("artist_name", bandName);
+        //
+        viewData("search_type", "albums");
+        viewData("provider_name", "Bandcamp");
+        viewData("pageId", "search-results");
+        viewData("results", results);
+        return view("album-results");
+    }
+
+    @GET
+    @Path("/bandcamp/view/album/{artistName}/{albumName}/{albumId}")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable getBandcampAlbumView(@PathParam("artistName") String artistName,
+            @PathParam("albumName") String albumName, @PathParam("albumId") String albumId) {
+        //
+        checkRequestAuthentication();
+        //
+        JSONObject album = spService.getBandcampAlbum(albumId);
+        ArrayList<SearchedBandcampTrack> results = new ArrayList<SearchedBandcampTrack>();
+        try {
+            JSONArray tracks = album.getJSONArray("tracks");
+            for (int i = 0; i < tracks.length(); i++) {
+                //
+                JSONObject item = tracks.getJSONObject(i);
+                log.info("Found track on Bandcamp: " + item.getString("title") + " .. " );
+                long album_id = -1, track_id = -1, band_id = -1;
+                int number = -1;
+                // int release_date = -1;
+                if (item.has("album_id")) album_id = item.getLong("album_id");
+                if (item.has("track_id")) track_id = item.getLong("track_id");
+                if (item.has("band_id")) band_id = item.getLong("band_id");
+                if (item.has("number")) number = item.getInt("number");
+                //
+                String about = "", credits = "", artist_name = "";
+                if (item.has("about")) about = item.getString("about");
+                if (item.has("credits")) credits = item.getString("credits");
+                if (item.has("artist")) artist_name = item.getString("artist");
+                //
+                String small_url = "", large_url = "";
+                if (item.has("small_art_url")) small_url = item.getString("small_art_url");
+                if (item.has("large_art_url")) item.getString("large_art_url");
+                // if (item.has("release_date") release_date = item.getInt("release_date");
+                SearchedBandcampTrack searchAlbum = new SearchedBandcampTrack(track_id, number, item.getString("title"),
+                        item.getString("streaming_url"), small_url, large_url, artist_name, about, credits);
+                if (searchAlbum != null) {
+                    results.add(searchAlbum);
+                    log.info("  Streaming-url is \"" + searchAlbum.streaming_url + "\" "
+                            + "(Track: "+searchAlbum.number+")");
+                }
+            }
+        } catch (JSONException ex) {
+            log.severe("Could not parse this album-result .. " + ex.getMessage());
+        }
+        viewData("artist_name", artistName);
+        viewData("album_name", albumName);
+        //
+        viewData("search_type", "album");
+        viewData("provider_name", "Bandcamp");
+        viewData("pageId", "search-results");
+        viewData("results", results);
+        return view("bandcamp-album");
+    }
+
+
+    @GET
     @Path("/soundcloud/view/tracks/{query}/{pageNr}")
     @Produces(MediaType.TEXT_HTML)
     public Viewable getSoundCloudTracksView(@PathParam("query") String query, @PathParam("pageNr") int pageNr) {
@@ -922,7 +1046,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
         try {
             String endpoint = "http://api.soundcloud.com/playlists/" +setId+ ".json?client_id=" + SOUNDCLOUD_CLIENT_ID;
             URL url = new URL(endpoint);
-            log.info("Sending request to: " + url.toURI().toURL().toString());
+            log.info("SoundCloud request: " + url.toURI().toURL().toString());
             URLConnection conn = url.openConnection();
             // BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "ISO-8859-1"));
             BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
@@ -952,7 +1076,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
         try {
             String endpoint = "http://api.soundcloud.com/tracks/" +trackId+ ".json?client_id=" + SOUNDCLOUD_CLIENT_ID;
             URL url = new URL(endpoint);
-            log.info("Sending request to: " + url.toURI().toURL().toString());
+            log.info("SoundCloud request: " + url.toURI().toURL().toString());
             URLConnection conn = url.openConnection();
             // BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "ISO-8859-1"));
             BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
@@ -986,7 +1110,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
             String endpoint = "http://api.soundcloud.com/tracks.json?client_id=" + SOUNDCLOUD_CLIENT_ID
                     + "&q=" + term + "&limit=" + limit + "&offset=" + offset;
             URL url = new URL(endpoint);
-            log.info("Migration1 sending request to: " + url.toURI().toURL().toString());
+            log.info("SoundCloud request: " + url.toURI().toURL().toString());
             URLConnection conn = url.openConnection();
             // BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "ISO-8859-1"));
             BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
@@ -1021,7 +1145,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
             String endpoint = "http://api.soundcloud.com/playlists.json?client_id=" + SOUNDCLOUD_CLIENT_ID
                 + "&q=" + term + "&limit=" + limit + "&offset=" + offset;
             URL url = new URL(endpoint);
-            log.info("Migration1 sending request to: " + url.toURI().toURL().toString());
+            log.info("SoundCloud request: " + url.toURI().toURL().toString());
             URLConnection conn = url.openConnection();
             // BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "ISO-8859-1"));
             BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
@@ -1069,35 +1193,35 @@ public class WebsitePlugin extends WebActivatorPlugin {
 
     @Override
     @ConsumesService({
+        "com.soundposter.plugin.service.SoundposterService",
         "de.deepamehta.plugins.topicmaps.service.TopicmapsService",
         "de.deepamehta.plugins.accesscontrol.service.AccessControlService"
     })
-// @ConsumesService("de.deepamehta.plugins.accesscontrol.service.TopicmapsService")
     public void serviceArrived(PluginService service) {
         if (service instanceof AccessControlService) {
             acService = (AccessControlService) service;
         } else if (service instanceof TopicmapsService) {
 			tmService = (TopicmapsService) service;
-		}/**  else if(service instanceof SoundposterService) {
+		} else if(service instanceof SoundposterService) {
             spService = (SoundposterService) service;
-            "com.soundposter.plugin.service.SoundposterService"
-        } **/
+            log.info("Soundposter Web Application Service did arrive ...");
+        }
     }
 
     @Override
     @ConsumesService({
+        "com.soundposter.plugin.service.SoundposterService",
         "de.deepamehta.plugins.topicmaps.service.TopicmapsService",
         "de.deepamehta.plugins.accesscontrol.service.AccessControlService"
     })
-	// @ConsumesService("de.deepamehta.plugins.accesscontrol.service.TopicmapsService")
     public void serviceGone(PluginService service) {
         if (service == acService) {
             acService = null;
         } else if (service == tmService) {
 			tmService = null;
-		}/**  else if (service == spService) {
+		} else if (service == spService) {
             service = null;
-        } **/
+        }
     }
 
     /** Initialize the migrated soundsets ACL-Entries. */

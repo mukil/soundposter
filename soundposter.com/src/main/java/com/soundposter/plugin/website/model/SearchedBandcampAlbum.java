@@ -17,11 +17,12 @@ public class SearchedBandcampAlbum {
     public String album_id = "";
     public String track_id = "";
     public String band_id = "";
+    public String artist_name = "";
 
     public int release_date = -1;
 
     public SearchedBandcampAlbum(long album, long track, long band_id, String title, String url,
-            String artwork_url_small, String artwork_url_large) {
+            String artwork_url_small, String artwork_url_large, String artist) {
         if (album >= 0) {
             this.album_id = "" + album;
         }
@@ -34,6 +35,7 @@ public class SearchedBandcampAlbum {
         // this.release_date = release_date;
         this.name = title;
         this.url = url;
+        this.artist_name = artist;
     }
 
 }

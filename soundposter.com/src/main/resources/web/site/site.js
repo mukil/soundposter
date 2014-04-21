@@ -29,6 +29,20 @@ var site = new function () {
         }
     }
 
+    this.show_band_discography = function (bandId) {
+        var added = request("GET", "/bandcamp/view/discography/" + bandId)
+        console.log(added)
+        /** if (added == null) {
+            var $span = $('<span>&nbsp;Track already known</span>')
+            $('a#' + trackId).append($span)
+            $span.fadeOut(1200)
+        } else if (added.hasOwnProperty("type_uri")) {
+            var $span = $('<span>&nbsp;Successfully added track</span>')
+            $('a#' + trackId).append($span)
+            $span.fadeOut(1200)
+        } **/
+    }
+
     /**
      * Sends an AJAX request.
      *

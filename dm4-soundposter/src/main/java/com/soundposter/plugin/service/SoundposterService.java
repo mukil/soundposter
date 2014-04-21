@@ -2,6 +2,7 @@ package com.soundposter.plugin.service;
 
 import de.deepamehta.core.service.PluginService;
 import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONObject;
 
 public interface SoundposterService extends PluginService {
 
@@ -26,5 +27,11 @@ public interface SoundposterService extends PluginService {
     InputStream getSiteIcon(ClientState clientState); **/
 
     // JSONArray getSoundCloudTracksBySearch(String searchTerm);
+
+    JSONArray findBandcampBands(String artistName);
+
+    JSONArray findBandcampAlbums(String bandId);
+
+    JSONObject getBandcampAlbum(String albumId);
 
 }

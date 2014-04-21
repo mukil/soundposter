@@ -47,17 +47,18 @@
         </div>
 
         <div class="subtitle">
-            At the moment you are searching <span class="search-type" th:text="${search_type}"></span> on <span class="provider" th:text="${provider_name}"></span>
+            At the moment you are browsing the <span th:text="${artist_name} + ' ' + ${album_name} "></span> <span class="search-type" th:text="${search_type}"></span> from <span class="provider" th:text="${provider_name}"></span>
         </div>
 
         <div class="main area">
-            <div class="result-view track" th:each="result : ${results}">
 
-                <a class="track-title" th:id="${result.trackId}" th:href="'javascript:site.add_soundcloud_track('+${result.trackId}+')'" th:text="${result.title}"></a><br/>
-                <span class="description" th:text="${result.description}"></span>
-                (<a class="source" th:href="${result.source_url}">Source</a>)
+                <div class="result-view tracks" th:each="result : ${results}">
 
-            </div>
+                    <a class="track-id" th:id="${result.track_id}" th:href="'javascript:console.log('+${result.track_id}+');'" th:text="${result.title}"></a><br/>
+                    Stream: <span th:text="${result.streaming_url}"></span>
+
+                </div>
+
         </div>
 
         <div class="footer area">

@@ -440,6 +440,8 @@ p.box b {
 .page.search-results .result-view.track a.track-title:hover:before {
     content: "+";
 }
+.page.search-results .result-view.band a.source,
+.page.search-results .result-view.album a.source,
 .page.search-results .result-view.set a.source,
 .page.search-results .result-view.track a.source {
     font-size: small;

@@ -51,11 +51,10 @@
         </div>
 
         <div class="main area">
-            <div class="result-view track" th:each="result : ${results}">
+            <div class="result-view band" th:each="result : ${results}">
 
-                <a class="track-title" th:id="${result.trackId}" th:href="'javascript:site.add_soundcloud_track('+${result.trackId}+')'" th:text="${result.title}"></a><br/>
-                <span class="description" th:text="${result.description}"></span>
-                (<a class="source" th:href="${result.source_url}">Source</a>)
+                <a class="band-id" th:id="${result.band_id}" th:href="'/bandcamp/view/discography/'+${result.name}+'/'+${result.band_id}" th:text="${'Browse ' + result.name}"></a><br/>
+                <a class="source" th:href="${result.url}" th:text="${result.url}">Bandcamp URL</a>
 
             </div>
         </div>
