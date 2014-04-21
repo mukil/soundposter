@@ -737,7 +737,7 @@ var poster = new function () {
             //
             for (var item in poster.texts) {
                 var text = this.texts[item]
-                var visualization = text['visualization']
+                var visualization = text['view_props']
                 var itemX = visualization['dm4.topicmaps.x'].value - 25
                 var itemY = visualization['dm4.topicmaps.y'].value - 25
                 var element = "<div class=\"postertext\" style=\"position: absolute; top:" + itemY + "px; left: " + itemX
@@ -752,7 +752,7 @@ var poster = new function () {
             //
             for (var item in poster.events) {
                 var text = poster.events[item]
-                var visualization = text['visualization']
+                var visualization = text['view_props']
                 var itemX = visualization['dm4.topicmaps.x'].value - 25
                 var itemY = visualization['dm4.topicmaps.y'].value - 25
                 var element = "<div class=\"posterevent\" style=\"position: absolute; top:" + itemY + "px; left: " + itemX
@@ -768,7 +768,7 @@ var poster = new function () {
             if (debugModel) console.log(poster.playlist)
             for (var item in this.playlist) {
                 var song = this.playlist[item]
-                var visualization = song['visualization']
+                var visualization = song['view_props']
                 var itemX = visualization['dm4.topicmaps.x'].value
                 var itemY = visualization['dm4.topicmaps.y'].value
                 var sound_name = song.value
@@ -886,7 +886,7 @@ var poster = new function () {
     this.show_track_by_id = function (id) {
         var track = poster.get_viz_by_id(id)
         // animate soundposter
-        var visualization = track['visualization']
+        var visualization = track['view_props']
         var songX = visualization['dm4.topicmaps.x'].value// + 600
         var songY = visualization['dm4.topicmaps.y'].value// + 600
         if (debugLayout) console.log("should move to position => X/Y" + songX + ":" + songY)
@@ -897,7 +897,7 @@ var poster = new function () {
     this.show_selected_track = function () {
         // var track = poster.get_viz_by_id(poster.selected_track.id)
         // animate soundposter
-        var visualization = poster.selected_track['visualization']
+        var visualization = poster.selected_track['view_props']
         var songX = visualization['dm4.topicmaps.x'].value// + 600
         var songY = visualization['dm4.topicmaps.y'].value// + 600
         if (debugLayout) console.log("should move to position => X/Y" + songX + ":" + songY)
@@ -1083,7 +1083,7 @@ var poster = new function () {
                 // access the topic's properties:
                 if (topicmap.topics[topic].type_uri == "com.soundposter.sound") {
                     var item = topicmap.topics[topic]
-                    if (item['visualization']['dm4.topicmaps.visibility'].value) {
+                    if (item['view_props']['dm4.topicmaps.visibility'].value) {
                         // playlist [topic.id, topic['visualization']]
                         poster.playlist.push(item) // the visual setlist
                         // load full composite of each sound-item
