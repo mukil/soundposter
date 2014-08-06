@@ -1,4 +1,33 @@
 
+#hello .logo {
+    margin-top: 10px;
+}
+
+#hello .logo img {
+    width: 256px;
+    height: 256px;
+}
+
+.page.welcome .main {
+    width: 50%;
+    font-size: .6em;
+    margin-top: 180px;
+}
+
+.page.welcome .main .title {
+    font-size: 2.8em;
+}
+
+#hello {
+    font-size: .75em;
+    min-width: 340px;
+}
+
+.page .title {
+    font-size: 2.2em;
+    padding-right: 10px;
+}
+
 div.logo.area {
 	background-image: url("/com.soundposter.website/images/soundposter_button_blue_with_arrow_out_600.png");
 	height: 400px; width: 400px;
@@ -19,7 +48,6 @@ div.logo.area {
     max-width: 95%;
 }
 
-.page div.title,
 .page div.area {
     margin: 30px 45px;
 }
@@ -27,11 +55,6 @@ div.logo.area {
 .page div.left-side,
 .page div.right-side {
     width: 25px;
-}
-
-.page .title {
-    margin-left: 45px;
-    margin-right: 45px;
 }
 
 .page .subtitle{

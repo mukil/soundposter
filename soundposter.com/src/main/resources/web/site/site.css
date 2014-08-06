@@ -1,15 +1,21 @@
 
 body {
-  font-family: "Myriad Pro Regular","Trebuchet MS", sans-serif;
+    font-family: 'Pontano Sans', "Myriad Pro Regular", "Trebuchet MS", sans-serif;
+    /** font-family: "Advent Pro", "Myriad Pro Regular", "Trebuchet MS", sans-serif; */
+    background-image: url("/com.soundposter.website/images/website_pattern.jpg");
+    letter-spacing: 2px;
 }
 
 body.page {
-	margin-top: 0px;
-	margin-bottom: 0px;
 	padding-top: 30px;
 	padding-bottom: 70px;
     /** background: linen; **/
     color: darkgray;
+    margin: 60px;
+}
+
+body.page.welcome {
+    margin: 15px;
 }
 
 .header.area .featured {
@@ -42,7 +48,7 @@ body.page {
 .header.area .featured .author,
 .header.area .featured .hashtag {
     font-size: 1.1em;
-    color: #40B0E2;
+    color: #71bbe2;
     background-color: #343434;
     padding: 5px;
     position: absolute;
@@ -56,14 +62,13 @@ body.page {
     font-size: 2.5em;
     font-weight: 700;
     line-height: 1.5em;
-    margin: 30px 90px;
+    margin: 110px 90px;
     margin-bottom: 20px;
 }
 
 .page .subtitle {
     font-size: 1.5em;
     margin: 30px 90px;
-    font-weight: 700;
     line-height: 1.5em;
     margin-top: 0px;
 }
@@ -73,27 +78,33 @@ body.page {
 } **/
 
 .page a {
-    color: rgb(64, 176, 226);
+    color: #71bbe2;
 }
 
 /** .page .title a.expanded {
-    background: #40B0E2;
+    background: #71bbe2;
 } **/
 
-.page .title .pre-logo {
+.page .title {
+    color: #ffb900;
+    font-weight: 700;
+    /** display: inline-block; **/
+    text-align: right;
+    margin: 0px;
+    vertical-align: top;
 }
 
 .page .title .logo {
-    color: #343434;
+    color: #555;
 }
 
 .page .title a {
     text-decoration: none;
-    color: #343434;
+    color: #000;
 }
 
 .page .subtitle a.active {
-    background-color: #40B0E2;
+    background-color: #71bbe2;
     color: #fff;
     padding-left: 5px;
     padding-right: 5px;
@@ -123,7 +134,7 @@ body.page {
 .page div.area {
     margin: 30px 90px;
 	padding: 0px;
-	background-color: #e8e8e8;
+	/** background-color: #e8e8e8; **/
 }
 
 /** div.logo.area:hover {
@@ -191,21 +202,362 @@ body.page {
 }
 
 .page div.header .featured .author:hover {
-    background-color: #40B0E2;
+    background-color: #71bbe2;
     color: #fff;
 }
 
 .page div.main.area {
-    background: #fff;
+    color: #555;
     font-size: 1.1em;
+    margin-top: 110px;
 }
 
+.page.legal .title,
+.page.help .title,
+.page.about .title,
+.page.philosophy .title {
+    text-align: left;
+    padding-left: 10px;
+}
+
+/** new Frontpgae speciifcs */
+
+.higher-brand-type {
+    color: #000;
+    text-decoration: none;
+    font-weight: 900;
+}
+
+#hello {
+    position: fixed; right: 0px; top: 0px;
+    padding-right: 40px;
+    padding-top: 40px;
+    text-align: center;
+    width: 40%;
+    min-width: 600px;
+    height: 100%;
+    background-image: url("/com.soundposter.website/images/website_pattern.jpg");
+    /* -webkit-box-shadow: -3px 0px 4px 0px #a9a9a9;
+	   -moz-box-shadow: -3px 0px 4px 0px #a9a9a9;
+	        box-shadow: -3px 0px 4px 0px #a9a9a9;
+    overflow-y: scroll; **/
+}
+
+.page.welcome .main {
+    margin-top: 210px;
+    width: 60%;
+    text-align: center;
+}
+
+#hello #play-button {
+    cursor: pointer;
+}
+
+/** Specifics in frontpage title **/
+
+.page.welcome .title {
+    max-width: 620px;
+    display: inline-block;
+}
+
+.page.welcome .title span.link {
+    color: #000;
+}
+
+.page.welcome .title a.bummer {
+    background-color: #fff;
+    color: #000;
+    padding: 7px;
+}
+
+.page.welcome .title a.bummer:hover {
+    background-color: #ffb900;
+    color: #fff;
+}
+
+.page.help .main.standard-features .show-item a,
+.page.welcome .standard-features .show-item a {
+    position: relative;
+    background-color: #fff;
+    text-decoration: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 15px;
+    line-height: 2.4em;
+    display: block;
+}
+
+.page.welcome .main .cases.standard-features {
+    margin-top: 60px;
+}
+
+.page.help .main.standard-features .show-item a:hover,
+.page.welcome .standard-features .show-item a:hover {
+    background-color: #ffb900;
+    color: #000;
+}
+
+
+/** #hello .title {
+    display: inline-block;
+    text-align: right;
+    margin: 0px;
+    vertical-align: top;
+}
+
+#hello .subtitle {
+    display: inline-block;
+    text-align: left;
+    margin: 0px;
+    vertical-align: top;
+} **/
+
+#hello .logo {
+    display: inline-block;
+    padding-left: 40px;
+}
+
+#hello ul.low-menu li a {
+    background-color: #fff;
+    color: #333;
+    border-bottom: 1px solid #fff;
+}
+
+#hello ul.low-menu li a:hover {
+    background-color: #aa0000;
+    color: #fff;
+}
+
+#new-header {
+    position: relative;
+    left: 0px;
+    text-align: center;
+    width: 90%;
+    z-index: 1003;
+    margin-left: 5%;
+    margin-right: 5%;
+    height: 310px;
+    padding-top: 10px;
+}
+
+#new-header div.image {
+    width: 200px; height: 200px;
+    background-image: url('/com.soundposter.website/images/neuer_entwurf_big_size_180.png');
+    background-repeat: no-repeat;
+    background-position: 10px 20px;
+    display: inline-block;
+}
+
+#new-header div.image:hover {
+    background-image: url('/com.soundposter.website/images/neuer_entwurf_big_size_180_bl.png');
+    cursor: pointer;
+}
+
+h2.page-title {
+    background-color: #fff;
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 15px;
+}
+
+#hello .frontpage-track {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+    font-size: 1.2em;
+    line-height: 2em;
+    text-align: center;
+}
+
+#hello .sound-label {
+    font-weight: 700;
+    position: relative; top: 5px;
+}
+
+.page #hello div.highlight {
+    margin-top: 40px;
+    font-size: 2em;
+    line-height: 2.2em;
+    text-align: center;
+    height: 190px;
+    font-weight: 700;
+}
+
+.page #hello div.highlight a {
+    background-color: #fff;
+    color: #000;
+    padding: 10px;
+    padding-top: 5px; padding-bottom: 5px;
+    text-decoration: none;
+}
+
+.page #hello div.highlight a:hover {
+    background-color: #ffb900;
+    color: #fff;
+}
+
+.page #hello .highlight a {
+    text-decoration: none;
+}
+
+/** Thank you page */
+
+.page.thanks .title,
+.page.thanks .logo {
+    text-align: center;
+    max-width: 720px;
+}
+
+/** Pricing Page Specifics **/
+
+.pricing #hello .title {
+    width: 30%;
+    display: inline-block;
+    text-align: right;
+    margin-top: 0px;
+}
+
+.pricing #hello .logo img {
+    height: 225px;
+}
+
+.pricing #hello .logo {
+    width: 300px;
+}
+
+.page.pricing .title {
+    text-align: center;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.page.pricing .plans {
+    font-size: 1.5em;
+    display: inline-block;
+    margin-top: 60px;
+    width: 100%;
+    text-align: center;
+}
+
+.page.pricing .plans .offer {
+    width: 340px;
+    display: inline-block;
+    text-align: left;
+    margin-left: 30px;
+    margin-right: 30px;
+    padding: 10px;
+    vertical-align: top;
+}
+
+.page.pricing .plans .offer.unavailable {
+    opacity: .6;
+}
+
+.page.pricing .plans .details {
+    margin-top: 60px;
+    width: 600px;
+    display: inline-block;
+    text-align: left;
+}
+
+/** Philosophy page specifics .. */
+
+.page.imprint .main,
+.page.help .main,
+.page.legal .main,
+.page.sign-up .main,
+.page.about .main,
+.page.philosophy .main {
+    background-color: #fff;
+    padding: 20px;
+}
+
+.page.help .backdrop,
+.page.legal .backdrop,
+.page.philosophy .backdrop {
+    z-index: -1;
+    margin: 0px;
+    padding: 0px;
+    width: 700px;
+    height: 1704px;
+    position: absolute; top: 300px; right: 0px;
+    background-image: url('/com.soundposter.website/images/SP_Logo_ohne_dreieck_fitzel_71bbe2_right_sided_700.jpg');
+    background-repeat: no-repeat;
+    background-position:  0px 0px;
+}
+
+.page.about .backdrop {
+    z-index: -1;
+    margin: 0px;
+    padding: 0px;
+    width: 700px;
+    height: 1704px;
+    position: absolute; top: 300px; right: 0px;
+    background-image: url('/com.soundposter.website/images/SP_Logo_ohne_dreieck_fitzel_ffb900_right_sided.jpg');
+    background-repeat: no-repeat;
+    background-position:  0px 0px;
+}
+
+/** Touch us page specifics */
+
+.page.imprint .title,
+.page.imprint .main,
+.page.sign-up .main,
+.page.sign-up .title {
+    right: 60px;
+    position: absolute;
+}
+
+.page.imprint .title,
+.page.sign-up .title {
+    padding-right: 10px;
+}
+
+.page.legal .title,
+.page.about .title,
+.page.philosophy .title {
+    margin: 0px;
+    margin-bottom: 40px;
+}
+
+.page.sign-up .title {
+    margin: 0px;
+    padding-left: 260px;
+}
+
+.page.imprint .main,
+.page.sign-up .main {
+    top: 250px;
+    margin-left: 60px;
+}
+
+.page.imprint .backdrop,
+.page.sign-up .backdrop {
+    z-index: -1;
+    margin: 0px;
+    padding: 0px;
+    width: 700px;
+    height: 1704px;
+    position: absolute; top: 0px; left: 0px;
+    background-image: url('/com.soundposter.website/images/SP_Logo_fitzel_mit_dreieck_000000_left_sided.jpg');
+    background-repeat: no-repeat;
+    background-position:  0px 0px;
+}
+
+/** Generics? */
+
+.page.help h2 {
+    padding-left: 10px;
+}
+
+.page.help div.main,
+.page.search-results div.main,
 .page.imprint div.main,
 .page.legal div.main,
 .page.philosophy div.main,
 .page.sign-up div.main,
 .page.about div.main {
-    border-top: 1px solid #40B0E2;
     max-width: 600px;
     padding-top: 15px;
     padding-right: 30px;
@@ -218,7 +570,7 @@ body.page {
     display: block;
     height: 30px;
     padding-left: 10px;
-    border: 2px solid #40B0E2;
+    border: 2px solid #71bbe2;
     background-color: #fff;
     font-family: "Myriad Pro Regular", "Trebuchet MS", sans-serif;
     font-size: 1.1em;
@@ -258,7 +610,7 @@ body.page {
 }
 
 .page div.main h3 {
-    color: #40B0E2;
+    color: #71bbe2;
 }
 
 .page div.plan-a,
@@ -329,15 +681,16 @@ p.box b {
 }
 
 .browse .poster-preview {
-    float: left;
-    width: 297px;
+    /* float: left; **/
+    width: 540px;
     height: 420px;
     padding: 0px;
     position: relative;
-    opacity: 0.9;
     margin: 15px;
     margin-right: 30px;
     margin-left: 0px;
+    display: inline-block;
+    margin-bottom: 120px;
 }
 
 .browse .poster-preview:hover {
@@ -346,7 +699,7 @@ p.box b {
 }
 
 .browse .poster-preview:hover a.link {
-    background: #40B0E2;
+    background: #71bbe2;
     color: #fff;
 }
 
@@ -371,7 +724,7 @@ p.box b {
 }
 
 .browse .poster-preview a.link:hover {
-    background: #40B0E2;
+    background: #71bbe2;
     color: #fff;
 }
 
@@ -387,6 +740,34 @@ p.box b {
     padding: 10px;
 }
 
+.browse .poster-info {
+    position: absolute;
+    left: 297px; top: 0px;
+    background-color: #fff;
+    padding: 15px;
+}
+
+.browse .poster-info h4 {
+    margin-top: 0px;
+}
+
+.browse .sort-menu {
+    position: absolute;
+    left: 500px;
+    top: 300px;
+    font-size: 1.2em;
+}
+
+.browse .filter-menu {
+    position: relative;
+    font-size: 1.2em;
+    display: inline;
+}
+
+.browse .filter-menu a {
+    margin-left: 10px;
+}
+
 .browse .main.area {
     min-height: 400px;
     padding-top: 0px;
@@ -397,20 +778,6 @@ p.box b {
     background-color: #fff;
     padding: 5px;
     margin: 0px;
-}
-
-.page.imprint div.main,
-.page.search-results div.main,
-.page.legal div.main,
-.page.philosophy div.main,
-.page.sign-up div.main,
-.page.about div.main {
-    border-top: 1px solid #40B0E2;
-    max-width: 600px;
-    padding-top: 15px;
-    padding-right: 30px;
-    padding-left: 15px;
-    padding-bottom: 30px;
 }
 
 .page.search-results div.main {
@@ -445,7 +812,7 @@ p.box b {
 .page.search-results .result-view.set a.source,
 .page.search-results .result-view.track a.source {
     font-size: small;
-    color: #40B0E2;
+    color: #71bbe2;
 }
 
 
@@ -459,83 +826,184 @@ p.box b {
     margin-bottom: 0px;
 }
 
-.browse .main .page-controls a {
+.browse .sort-menu a,
+.page.browse #new-header a,
+.browse .filter-menu a {
     text-decoration: none;
-    border: 1px solid transparent;
     padding: 5px;
     padding-left: 10px;
     padding-right: 10px;
     font-size: 1.2em;
 }
 
-.page-controls a.no-previous-page {
-    font-weight: normal;
+.page.browse #new-header a {
+    position: relative;
+    top: -80px;
 }
 
-.page-controls a.previous-page {
-
-}
-
-.page-controls a.next-page,
-.page-controls a.previous-page {
-    font-weight: 700;
-    color: #ffb900;
+.browse .sort-menu a,
+.browse .filter-menu a,
+a.next-page,
+a.previous-page {
+    color: #333;
     cursor: pointer;
     background-color: #ffffff;
-    /** background: linear-gradient(to bottom, #fefefe 0%,#a9a9a9 100%);
-    -moz-linear-gradient(top, #fefefe 0%, #a9a9a9 100%);
-    -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fefefe), color-stop(100%,#a9a9a9));
-    -o-linear-gradient(top, #fefefe 0%,#a9a9a9 100%);
-    -ms-linear-gradient(top, #fefefe 0%,#a9a9a9 100%);
-    progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#a9a9a9',GradientType=0 );**/
 }
 
+.browse .filter-menu .selected {
+    color: #333;
+    background-color: transparent;
+    cursor: auto;
+}
 
-.page-controls a.no-next-page,
-.page-controls a.no-previous-page {
+.browse .sort-menu a,
+.browse .filter-menu a:hover,
+a.next-page:hover,
+a.previous-page:hover {
+    background-color: #ffb900;
+    color: #fff;
+}
+
+a.no-next-page,
+a.no-previous-page {
     color: darkgrey;
     cursor: text;
     padding: 5px;
-    background: -moz-radial-gradient(center, ellipse cover, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%); /* FF3.6+ */
-    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(255,255,255,0))); /* Chrome,Safari4+ */
-    background: -webkit-radial-gradient(center, ellipse cover, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-radial-gradient(center, ellipse cover, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* Opera 12+ */
-    background: -ms-radial-gradient(center, ellipse cover, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* IE10+ */
-    background: radial-gradient(ellipse at center, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-    /** background: linear-gradient(to bottom, #fefefe 0%,#a9a9a9 100%);
-    -moz-linear-gradient(top, #fefefe 0%, #a9a9a9 100%);
-    -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fefefe), color-stop(100%,#a9a9a9));
-    -o-linear-gradient(top, #fefefe 0%,#a9a9a9 100%);
-    -ms-linear-gradient(top, #fefefe 0%,#a9a9a9 100%);
-    progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#a9a9a9',GradientType=0 ); **/
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
-.page-controls a.next-page:hover,
-.page-controls a.previous-page:hover {
-    /* border: 2px solid #40B0E2; **/
+.page .new-main {
+    position: relative;
+    top: 0px;
+    margin: 30px 0px 160px;
 }
 
-.page .footer.area {
-    width: 85%;
+.page #hello .subtitle span.example {
+    line-height: 2em;
+}
+
+.page #hello span.example a {
+    padding: 5px;
+    color: #333;
     background-color: #fff;
-    float: left;
-    margin-top: 15px;
 }
 
-.page .punchline {
-    color: #ffb900;
-    font-weight: 700;
+.page #hello span.example {
+    display: inline;
 }
+
+.page #hello span.example a:hover {
+    background-color: #ffb900;
+    cursor: pointer;
+    color: #fff;
+}
+
+.page.welcome .main .standard-features {
+    font-size: 1.5em;
+    text-align: left;
+    max-width: 600px;
+    display: inline-block;
+    margin-top: 200px;
+    background-color: #fff;
+    padding: 30px;
+}
+
+.page .standard-features a {
+    text-decoration: none;
+}
+
+.page.help .main.standard-features {
+    margin-top: 20px;
+}
+
+/** Footer Animations **/
+
+/** @-webkit-keyframes footerheight
+{
+    0%   { height: 40px; }
+    100% { height: 200px; }
+}
+
+@keyframes footerheight
+{
+    0%   { height: 40px; }
+    100% { height: 200px; }
+}
+
+.page .footer:hover {
+    -webkit-animation: footerheight 5s linear 1s infinite alternate;
+    animation: footerheight 5s linear 1s infinite alternate;
+} **/
+
+
+/** New Footer **/
+
+.page .footer {
+    width: 100%;
+    background-color: #333;
+    margin: 0px;
+    color: #a9a9a9;
+    height: 35px;
+    position: fixed;
+    left: 0px; bottom: 0px;
+    -webkit-transition: 00ms linear height 1.3s;
+    -moz-transition: 200ms linear height 1.3s;
+    -o-transition: 300ms linear height 1.3s;
+    -ms-transition: 300ms linear height 1.3s;
+    transition: 300ms linear height 1.3s;
+    background-image: url("/com.soundposter.website/images/website_pattern_dg.jpg");
+}
+
+.page .footer:hover {
+    height: 160px;
+}
+
+.new-footer {
+    padding: 30px;
+    text-align: center;
+}
+
+a.lower-brand-type {
+    float: right;
+    font-size: 2.4em;
+    color: #333;
+    text-decoration: none;
+    font-weight: 900;
+}
+
+/** picked colors...
+someblue: #71bbe2;
+other yellow: e9ba00;
+other highblue: afcee0;
+signalo red: ed2700;
+smooth violet: #5e599b;
+straight blue: 3370b0;
+high orange: ff6432; **/
 
 .page ul.low-menu {
+    vertical-align: top;
 	margin-right: 30px;
-	line-height: 2em; padding: 0px;
+	line-height: 2em;
+    padding: 0px; padding-top: 3px;
+    position: relative;
+    left: 90px;
+    display: inline-block;
+    margin-top: 0px;
+    -webkit-transition: 200ms linear margin-top 1.3s;
+    -moz-transition: 200ms linear margin-top 1.3s;
+    -o-transition: 200ms linear margin-top 1.3s;
+    -ms-transition: 200ms linear margin-top 1.3s;
+    transition: 200ms linear margin-top 1.3s;
+
+}
+
+.page .footer:hover ul.low-menu {
+    margin-top: 10px;
 }
 
 .page ul.low-menu li {
     list-style-type: none;
-	float: left;
 	margin-left: 0px;
     margin-right: 20px;
 }
@@ -545,10 +1013,17 @@ p.box b {
     padding: 6px;
     color: darkgrey;
     padding-left: 10px; padding-right: 10px;
+    padding-top: 8px;
 }
 
-.page ul.low-menu li a.selected,
+.page ul.low-menu a:hover,
+.page ul.low-menu li a.selected {
+    color: #333;
+    background-color: #fff;
+}
+
+/* .page ul.low-menu li a.selected,
 .page ul.low-menu a:hover {
 	border-bottom: 2px solid #ffd463;
     color: #343434;
-}
+} **/

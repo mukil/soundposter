@@ -1,43 +1,39 @@
 
-div.logo.area {
-	background-image: url("/com.soundposter.website/images/soundposter_button_blue_with_arrow_out_600.png");
-	height: 240px; width: 240px;
-	background-size: 240px;
-	background-repeat: no-repeat;
-	background-position-x: center;
-	background-position-y: center;
-	margin-left: auto; margin-right: auto;
-	cursor: pointer;
+#hello {
+    position: relative;
+    width: 100%;
+    top: 0px; left: 0px;
+    -webkit-box-shadow: 0px 0px 0px 0px transparent;
+	   -moz-box-shadow: 0px 0px 0px 0px transparent;
+	        box-shadow: 0px 0px 0px 0px transparent;
+    padding-left: 0px;
+    padding-top: 0px;
+    margin: 0px;
+    padding-right: 0px;
+    min-width: 240px;
 }
 
-.page.imprint div.main img {
-    float: none;
-    width: 95%;
-    display: block;
-    margin-bottom: 10px;
+.page.welcome .main {
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
 }
 
-.page div.header .featured img {
-    padding-top: 20px;
+.page.welcome .main .title {
+    max-width: 320px;
+    margin-bottom: 20px;
 }
 
-.page div.header.area {
-    margin-top: 0px;
+.page.welcome .main .standard-features {
+    margin-top: 40px;
 }
 
-.page div.title
-.page div.subtitle,
-.page div.area {
-    margin: 15px 15px;
+.page #hello div.highlight {
+    height: 140px;
 }
 
 .page div.subtitle {
     font-weight: 500;
-}
-
-.page div.left-side,
-.page div.right-side {
-    width: 15px;
 }
 
 .page div.box {

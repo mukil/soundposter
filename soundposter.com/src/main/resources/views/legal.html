@@ -14,6 +14,7 @@
         -->
 
         <link rel="stylesheet" href="/com.soundposter.website/site/site.css"/>
+        <link href="http://fonts.googleapis.com/css?family=Pontano+Sans" rel="stylesheet" type="text/css" />
 
         <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
@@ -49,20 +50,16 @@
     <body class="page" th:attrappend="class=${' ' + pageId}">
 
         <div class="title">
-            <span class="punchline pre-logo">Illustrate your playlists with </span><span class="logo"><a href="/" title="Back Home">soundposter.com</a></span><br/>
+            <span class="punchline pre-logo">Legal notice on </span><span class="logo"><a href="/" title="Back Home">soundposter.com</a></span><br/>
         </div>
 
-        <div class="subtitle">
-            Express <a href="/sign-up">your interest</a> to collaborate with us. <a href="/browse">Browse</a> all soundposters. Additionally, you can read <a href="/#say-what">what others say</a> or what <a href="/about-us">/we say about us</a>.
-        </div>
-
-        <div class="main area">
+        <div class="main">
             <h3>Legal</h3>
             <p>
                 The soundposter platform references sounds uploaded on other streaming services, like soundcloud.com, bandcamp.com and the like. Soundposter.com takes no responsibility for any potential copyright infringements at the sound sources (i.e. the streamed playlists that soundposter.com links to graphics).
             </p>
             <p>
-                At this early stage of soundposter.com, there is no DIY interface yet. Please get in touch with us if you would like to use soundposter.com, and we will help you do it.
+                At this early stage of soundposter.com, please just get in touch with us if you would like to use soundposter.com as your platform, and we will help you do it.
             </p>
             <h4>Notice</h4>
             <p>
@@ -79,15 +76,26 @@
             </p>
         </div>
 
-        <div class="footer area">
+        <div class="backdrop"></div>
+
+        <div class="footer">
+            <ul class="low-menu">
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/browse">Explore</a></li>
+            </ul>
             <ul class="low-menu">
                 <li><a href="/philosophy">Philosophy</a></li>
                 <li><a href="/legal" class="selected">Legal</a></li>
+            </ul>
+            <ul class="low-menu">
                 <li><a href="/imprint">Imprint</a></li>
                 <li><a href="/about-us">About us</a></li>
                 <li><a href="http://blog.soundposter.com" title="Editing Soundposter">Blog</a></li>
-                <!-- li><a href="http://twitter.com/soundposter" title="Follow us on Twitter">Follow us @soundposter</a></li-->
             </ul>
+            <ul class="low-menu">
+                <li><a href="/help">Help</a></li>
+            </ul>
+            <div id="soundsystem" class="control player"></div>
         </div>
 
         <noscript>

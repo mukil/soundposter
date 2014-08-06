@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <title>Illustrate your playlists on soundposter.com</title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="keywords" content="creating, making, visual playlist, playlists, sound, music, web communication,
+              tool, audible websites, publishing, platform, digital music distribution"/>
+        <meta name="title" content="Illustrate your playlists on soundposter.com" />
+        <meta name="description" content="Soundposter is a platform for illustrating and publishing audible websites." />
+        <meta name="author" content="Malte Reissig, http://www.mikromedia.de" />
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1"/>
+
+        <!--
+            Note: We are proudly build on free and open source tools, namely jQuery, jQuery Mobile, jQuery UI,
+            jQuery Player, jQuery Touch Punch, Adapt.js, Radphael, Modernizr and DeepaMehta 4.
+        -->
+
+        <link href="/com.soundposter.website/site/site.css" rel="stylesheet" />
+        <link href="http://fonts.googleapis.com/css?family=Pontano+Sans" rel="stylesheet" type="text/css" />
+
+        <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+
+            var poster = /*[[${poster}]]*/ '{}'
+            var ADAPT_CONFIG = { path: '/com.soundposter.website/site/', dynamic: true,
+                range: [
+                    '0px    to 710px	= mobile-site.css',
+                    '710px  to 960px	= tablet-site.css',
+                    '960px  to 1480px	= poster-site.css',
+                    '1480px				= panorama-site.css'
+                ]
+            }
+
+        /*]]>*/
+        </script>
+        <script type="text/javascript" src="/com.soundposter.website/script/vendor/adapt/adapt.min.js"></script>
+
+        <!-- Piwik
+        <script type="text/javascript">
+            var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.soundposter.com/p/" : "http://stats.soundposter.com/p/");
+            document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+            </script><script type="text/javascript">
+            try {
+                var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 1);
+                piwikTracker.trackPageView();
+                piwikTracker.enableLinkTracking();
+            } catch( err ) {}
+        </script>
+        End Piwik Tracking Code -->
+
+    </head>
+
+    <body class="page" th:attrappend="class=${' ' + pageId}">
+
+        <div class="pricing-header">
+            <div class="title">
+                <br/>
+                <span class="punchline pre-logo">Plans and Pricing</span>
+                on <a href="/" title="Go back to front page">soundposter.com</a>
+            </div>
+
+            <!--div class="logo">
+                <img src="/com.soundposter.website/images/logos/neuer_entwurf_big_size_600.png" height="450" title="This is soundposter.com" />
+            </div-->
+        </div>
+
+        <div class="plans">
+
+            <p>&nbsp;</p>
+
+            <div class="offer">
+                <b>Standard</b><br/><br/>
+                One soundposter for free with all standard features, including hosting and basic support for one year.
+                <p>&nbsp;</p>
+                <b>Free, like in "0$ per Year".</b>
+            </div>
+
+            <div class="offer unavailable">
+                <b>Publisher</b><br/><br/>
+                Up to five soundposters with extended customization possibilities, hosting and direct support.
+                <p>&nbsp;</p>
+                <b>Officially unavailable</b>
+            </div>
+
+            <div class="offer unavailable">
+                <b>Professional</b><br/><br/>
+                Unlimited number of soundposters with extended customization possibilities, hosting and direct support.
+                <p>&nbsp;</p>
+                <b>Officially unavailable</b>
+            </div>
+
+            <p>&nbsp;</p>
+            <img src="/com.soundposter.website/images/fitzel-rot-1200.png" title="This is a fitzel on soundposter.com"/>
+
+            <div class="details">
+                <h3>Standard features</h3>
+                <p>
+                    You find information about the standard features of each soundposter in
+                    this paragraph <a href="/help#short-overview">on our Help</a> page.
+                </p>
+
+                <h3>Terms of service</h3>
+                As we find it important that many people can easily understand the contents of our "terms of service", we herewith try to make all the important details explicit. One definition per line.
+                <br/><br/>Please feel free to ask us directly if, after reading all the details, you're still unsure about what we have on offer and what we don't have on offer.<br/><br/>
+
+                <br/>
+                <i>hosting</i>; free of charge web service for your soundposter on soundposter.com up to many thousand visitors per day
+                <br/><br/>
+                <i>one year rule</i>; when a new soundposter was made public we guarantee that it will be there for at least 365 days (98% of the time).
+                <br/><br/>
+                <i>basic support</i>; honest, effective and goal-oriented support for you 24/7 via e-mail and a response at latest within one working week.
+                <br/><br/>
+                <i>sound</i>; a reference to a browser compatible audiostream served by some other web service but explicitly not from soundposter.com
+                <br/><br/>
+                <i>poster graphic</i>; a still graphic or image-file as the backdrop illustration for your sounds
+            </div>
+
+        </div>
+
+
+        <!-- div class="main area"></div-->
+
+        <div class="footer">
+            <ul class="low-menu">
+                <li><a href="/contact">Touch us</a></li>
+                <li><a href="/browse">Explore</a></li>
+            </ul>
+            <ul class="low-menu">
+                <li><a href="/philosophy">Philosophy</a></li>
+                <li><a href="/legal">Legal</a></li>
+                <li><a href="/imprint">Imprint</a></li>
+                <li><a href="/">Help</a></li>
+            </ul>
+            <ul class="low-menu">
+                <li><a href="/about-us">About us</a></li>
+                <li><a href="http://blog.soundposter.com" title="Editing Soundposter">Blog</a></li>
+            </ul>
+            <ul class="low-menu">
+                <li><a href="http://twitter.com/soundposter" title="Get status updates">Twitter*</a></li>
+            </ul>
+        </div>
+
+        <!-- noscript>
+            <p><img src="http://stats.soundposter.com/p/piwik.php?idsite=1" style="border:0" alt="" /></p>
+        </noscript -->
+
+    </body>
+
+</html>

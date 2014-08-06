@@ -14,6 +14,7 @@
         -->
 
         <link rel="stylesheet" href="/com.soundposter.website/site/site.css"/>
+        <link href="http://fonts.googleapis.com/css?family=Pontano+Sans" rel="stylesheet" type="text/css" />
 
         <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
@@ -49,21 +50,16 @@
     <body class="page" th:attrappend="class=${' ' + pageId}">
 
         <div class="title">
-           <span class="punchline pre-logo">Illustrate your playlists with </span><span class="logo"><a href="/" title="Back Home">soundposter.com</a></span><br/>
+           <span class="punchline pre-logo">Illustrating sounds on the web with </span><span class="logo"><a href="/" title="Back Home">soundposter.com</a></span><br/>
         </div>
 
-        <div class="subtitle">
-            Express <a href="/sign-up">your interest</a> to collaborate with us. <a href="/browse">Browse</a> all soundposters. Additionally, you can read <a href="/#say-what">what others say</a> or what <a href="/about-us">we say about us</a>.
-        </div>
-
-        <div class="main area">
+        <div class="main">
             <h3>What is this and what can I do with it?</h3>
             <p>
-                With soundposter.com we can depict any playlist on the web across many devices.
-                Soundposter provides us an interaction format for audible websites.
+                Soundposter names our interaction design for audible websites.
             </p>
             <p>
-                And why this platform? Yes. With this platform I want to give the creation process of published music graphics into the hands of artists <i>and</i> listeners.
+                And why this platform? Yes. With this platform we want to give the creation process of published music graphics into the hands of artists <i>and</i> listeners.
                 Topical audio-landscapes wait to be drawn and this is digital space. Soundposters can easily exceed the boundaries of our displays. If you haven't seen it, go <a href="/browse">check it out</a>.
             </p>
             <p>
@@ -85,19 +81,30 @@
                 If you wish to publish your festival guide <i>audible</i>, <i>filterable</i> and <i>accessible</i> to all people on the world wide web endorsing smartphones, and provide the soundposter embeddable for other websites (like <a href="http://torstrassenfestival.de">TSF</a> did), do not hesitate to <a href="/sign-up">leave us a message</a> and we'll get right back to you.
             </p>
             <p>
-                Furthermore, soundposter claims to follow the rules of fairness and to communicate openly. So, if you have any kind of questions, stimulations or ideas for enhancements we are looking forward to reading your input or concerns about our work at info|at|soundposter.com or via <a href="http://twitter.com/soundposter">Twitter</a>.
+                Furthermore, soundposter claims to follow the rules of fairness and to communicate openly. So, if you have any kind of questions, stimulations or ideas for enhancements we are looking forward to reading your input or concerns about our work at malte|at|soundposter.com or via <a href="http://twitter.com/soundposter">Twitter</a>.
             </p>
         </div>
 
-        <div class="footer area">
+        <div class="backdrop"></div>
+
+        <div class="footer">
+            <ul class="low-menu">
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/browse">Explore</a></li>
+            </ul>
             <ul class="low-menu">
                 <li><a href="/philosophy" class="selected">Philosophy</a></li>
                 <li><a href="/legal">Legal</a></li>
+            </ul>
+            <ul class="low-menu">
                 <li><a href="/imprint">Imprint</a></li>
                 <li><a href="/about-us">About us</a></li>
                 <li><a href="http://blog.soundposter.com" title="Editing Soundposter">Blog</a></li>
-                <!-- li><a href="http://twitter.com/soundposter" title="Follow us on Twitter">Follow us @soundposter</a></li-->
             </ul>
+            <ul class="low-menu">
+                <li><a href="/help">Help</a></li>
+            </ul>
+            <div id="soundsystem" class="control player"></div>
         </div>
 
         <noscript>

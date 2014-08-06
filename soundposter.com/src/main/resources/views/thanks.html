@@ -14,6 +14,7 @@
         -->
 
         <link rel="stylesheet" href="/com.soundposter.website/site/site.css"/>
+        <link href="http://fonts.googleapis.com/css?family=Pontano+Sans" rel="stylesheet" type="text/css" />
 
         <!-- Piwik -->
         <script type="text/javascript">
@@ -50,29 +51,37 @@
     <body class="page" th:attrappend="class=${' ' + pageId}">
 
         <div class="title">
-            <span class="punchline pre-logo">Illustrate your playlists with </span><span class="logo"><a href="/" title="Back Home">soundposter.com</a></span><br/>
+            <br/>
+            <span class="punchline pre-logo">Thank you four sending us a message on</span>
+            <a href="/" title="Go back to front page">soundposter.com</a>
         </div>
 
-        <div class="subtitle">
-            Express <a href="/sign-up" class="active">your interest</a> to collaborate with us. <a href="/browse">Browse</a> all soundposters. Additionally, you can read <a href="/#say-what">what others say</a> or what <a href="/about-us">we say about us</a>.
+        <br/><br/>
+
+        <div class="logo">
+            <a href="/" title="Go back to our frontpage">
+                <img src="/com.soundposter.website/images/logos/neuer_entwurf_big_size_600.png" height="450" title="This is soundposter.com" />
+            </a>
         </div>
 
-        <div class="main area">
-            <h3>Thanks!</h3>
-            And, if you like, stay around and <a href="/browse">browse</a> some soundposters.
-            <br/><br/>
-            Cheers!
-        </div>
-
-        <div class="footer area">
+        <div class="footer">
+            <ul class="low-menu">
+                <li><a href="/contact" class="selected">Contact</a></li>
+                <li><a href="/browse">Explore</a></li>
+            </ul>
             <ul class="low-menu">
                 <li><a href="/philosophy">Philosophy</a></li>
                 <li><a href="/legal">Legal</a></li>
+            </ul>
+            <ul class="low-menu">
                 <li><a href="/imprint">Imprint</a></li>
                 <li><a href="/about-us">About us</a></li>
                 <li><a href="http://blog.soundposter.com" title="Editing Soundposter">Blog</a></li>
-                <!-- li><a href="http://twitter.com/soundposter" title="Follow us on Twitter">Follow us @soundposter</a></li-->
             </ul>
+            <ul class="low-menu">
+                <li><a href="/help">Help</a></li>
+            </ul>
+            <div id="soundsystem" class="control player"></div>
         </div>
 
         <noscript>

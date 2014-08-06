@@ -146,6 +146,7 @@ var poster = new function () {
         // var soundposter_tags = this.data.info.composite["com.soundposter.tag"]
         // var soundposter_license = this.data.info.composite["com.soundposter.license_info"]
         // var soundoster_description = this.data.info.composite["dm4.topicmaps.description"]
+        if (debugModel) console.log(this.data)
         var rendering_options = this.data.info.composite["com.soundposter.display_options"]
         // var last_modified = this.data.info.composite["com.soundposter.last_modified"]
 
@@ -164,7 +165,7 @@ var poster = new function () {
                 } else  if (rendering_options[i].uri === "com.soundposter.display_event_listing") {
                     poster.rendering.event_list = true
                 } else if (rendering_options[i].uri === "com.soundposter.display_sound_times") {
-                    poster.rendering.sound_times = true
+                    poster.rendering.sound_times = true // maybe show_sounds was already called, keep sequence in eye
                 }
                 if (debugLayout) console.log(rendering_options[i].uri)
             }
@@ -556,13 +557,13 @@ var poster = new function () {
         for (var key in poster.mod.audio) {
             var value = poster.mod.audio[key]
             if (value === "") value = "Not supported"
-            poster.show_notification(key + ': ' + value)
+            // poster.show_notification(key + ': ' + value)
         }
         //
-        poster.show_notification((poster.mod.svg == false) ? "svg: Not supported" : "svg: OK")
+        // poster.show_notification((poster.mod.svg == false) ? "svg: Not supported" : "svg: OK")
         // poster.show_notification((poster.mod.inlinesvg == false) ? "inlinesvg: Not supported" : "inlinesvg: OK")
-        poster.show_notification((poster.mod.audiodata == false) ? "audiodata: Not supported" : "audiodata: OK")
-        poster.show_notification((poster.mod.webaudio == false) ? "webaudio: Not supported" : "webaudio: OK")
+        // poster.show_notification((poster.mod.audiodata == false) ? "audiodata: Not supported" : "audiodata: OK")
+        // poster.show_notification((poster.mod.webaudio == false) ? "webaudio: Not supported" : "webaudio: OK")
         // poster.show_notification((poster.mod.indexeddb == false) ? "indexeddb: Not supported" : "indexeddb: OK")
         // poster.show_notification((poster.mod.boxshado == false) ? "box shadow: Not supported" : "box shadow: OK")
         // poster.show_notification("user-agent: " + navigator.userAgent)
@@ -728,7 +729,21 @@ var poster = new function () {
             // circle.glow( {color: "#333", width: 20} )
         }
 
-        $('#interactives').fadeIn(200)
+        // setup new play-button
+        $interactives = $('#interactives').html('<img class="play-button"'
+            + 'src="/com.soundposter.website/images/neuer_entwurf_big_size_280.png" '
+            + ' style="position: absolute; left: ' + (graphicX - 140) + 'px; top:' + (graphicY - 100) + 'px;" />')
+
+        // register mouse over events
+        $('#interactives img.play-button').hover(function () {
+            $('#interactives img.play-button').attr('src', '/com.soundposter.website/images/logos/neuer_entwurf_big_size_280_gr.png')
+        }, function () {
+            $('#interactives img.play-button').attr('src', '/com.soundposter.website/images/logos/neuer_entwurf_big_size_280.png')
+        })
+        // register click handler
+        $('#interactives img.play-button').click(click_handler)
+
+        $interactives.fadeIn(200)
 
     }
 
@@ -772,10 +787,11 @@ var poster = new function () {
                 var itemX = visualization['dm4.topicmaps.x'].value
                 var itemY = visualization['dm4.topicmaps.y'].value
                 var sound_name = song.value
-                if (poster.rendering.sound_times) {
+                if (poster.rendering.sound_times) { // maybe not yet initialized @see calls of show_sounds
                     // pre-pending start_gig_time-value to sound_name
                     var start_time = poster.get_gig_time(song)
                     sound_name = start_time + " " + sound_name
+                    if (debugModel) console.log(' gig start time:' + start_time + ', sound name: ' + sound_name)
                 }
                 var $element = $("<div id=\"" + song.id + "\" class=\"posteritem\" style=\"position: absolute; top:"
                     + itemY + "px; left: " + itemX + "px;\">" + sound_name + "</div>");

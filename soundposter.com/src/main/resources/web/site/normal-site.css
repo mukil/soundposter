@@ -28,12 +28,12 @@ div.left-side {
 
 .page .main,
 #hello {
-    font-size: .9em;
+    font-size: .75em;
     min-width: 420px;
 }
 
 .page.welcome .main {
-    max-width: 620px;
+    max-width: 520px;
     margin-left: 20px;
 }
 

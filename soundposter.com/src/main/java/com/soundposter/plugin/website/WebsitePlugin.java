@@ -16,6 +16,7 @@ import de.deepamehta.plugins.accesscontrol.model.ACLEntry;
 import de.deepamehta.plugins.accesscontrol.model.AccessControlList;
 import de.deepamehta.plugins.accesscontrol.model.Operation;
 import de.deepamehta.plugins.accesscontrol.model.UserRole;
+import de.deepamehta.plugins.topicmaps.model.TopicViewmodel;
 import de.deepamehta.plugins.topicmaps.model.TopicmapViewmodel;
 import de.deepamehta.plugins.topicmaps.service.TopicmapsService;
 import de.deepamehta.plugins.webactivator.WebActivatorPlugin;
@@ -127,15 +128,95 @@ public class WebsitePlugin extends WebActivatorPlugin {
         // fixme: username might be null, if not set up correctly
         String username = getProfileAliasForPoster(featured); //  can be null
         String url = "/" + username + "/" + webalias;
-        viewData("poster", featured.getModel().toJSON().toString());
+        // viewData("poster", featured.getModel().toJSON().toString());
         viewData("graphic", graphicPath);
+        viewData("title", featured.getCompositeValue().getString("dm4.topicmaps.name"));
         viewData("subtitle", subtitle);
         viewData("license", license_info);
         viewData("description", description);
         viewData("hashtag", hashtag);
         viewData("author", username);
         viewData("link", url);
+        // fetch some sound
+        Topic frontpage_sound = getRandomSound();
+        // fetch related soundposter and the related users webalias
+        while (!isValidFrontpageSound(frontpage_sound)) {
+            frontpage_sound = getRandomSound();
+        }
+        viewData("sound_id", frontpage_sound.getId());
+        viewData("sound_name", frontpage_sound.getCompositeValue().getString(SOUND_NAME_URI)); // catch missing name
+        String resourceUrl = frontpage_sound.getCompositeValue().getString(SOUND_STREAM_URI);
+        // quick code provider-brand into the sounds view-data
+        String provider = "Unknown";
+        if (resourceUrl.indexOf("popplers") != -1) provider = "Bandcamp";
+        if (resourceUrl.indexOf("soundcloud") != -1) provider = "SoundCloud";
+        viewData("sound_provider", provider);
+        // ### viewData("sound_artist", frontpage_sound.getCompositeValue().getString(SOUND_ARTIST_URI)); // are many
         return view("index");
+    }
+
+    private boolean isValidFrontpageSound (Topic sound) {
+
+        // 1) check sound topic (for source, resource url, ordinal number and soundposter)
+        int soundNr = -1;
+        if (sound.getCompositeValue().has(SOUND_ORDINAL_URI)) {
+            try {
+                soundNr = sound.getCompositeValue().getInt(SOUND_ORDINAL_URI);
+            } catch (ClassCastException ce) {
+                soundNr = (int) sound.getCompositeValue().getLong(SOUND_ORDINAL_URI);
+            }
+        }
+        if (soundNr == -1) return false; // ### maybe we dont want to do that?
+        // ..
+        viewData("sound_nr", soundNr);
+        String resourceUrl = "";
+        if (sound.getCompositeValue().has(SOUND_STREAM_URI)) {
+            resourceUrl = sound.getCompositeValue().getString(SOUND_STREAM_URI);
+        }
+        if (resourceUrl.isEmpty()) return false;
+        viewData("sound_url", resourceUrl);
+        // ..
+        String sourceUrl = "";
+        if (sound.getCompositeValue().has(SOUND_SOURCE_URI)) {
+            sourceUrl = sound.getCompositeValue().getString(SOUND_SOURCE_URI);
+        }
+        if (sourceUrl.isEmpty()) return false;
+        viewData("sound_source_url", sourceUrl);
+        // 2) check sounds related soundposter (as our publishing container for single sounds) if valid, too.
+        ResultList<RelatedTopic> soundposters = getSoundposterBySound(sound);
+        if (soundposters.getSize() > 0) {
+            Topic soundposterTopic = soundposters.getItems().get(0);
+            //
+            // Validates if related soundposter is (a) published, (b) has a web-alias and (c) a related user profile.
+            String posterWebAlias = "", profileWebAlias = "";
+            if (soundposterTopic.getCompositeValue().has("com.soundposter.published")) {
+                if (!soundposterTopic.getCompositeValue().getBoolean("com.soundposter.published")) {
+                    return false; // related soundposter is not published
+                }
+            } else {
+                return false; // related soundposter is not published
+            }
+
+            profileWebAlias = getProfileAliasForPoster(soundposterTopic);
+            if (profileWebAlias == null) {
+                // no user profile related to related soundposter
+                return false;
+            }
+            if (soundposterTopic.getCompositeValue().has("com.soundposter.web_alias")) {
+                posterWebAlias = soundposterTopic.getCompositeValue().getString("com.soundposter.web_alias");
+            } else {
+                // no web alias related to related soundposter
+                return false;
+            }
+            // after check passes, prepare our template
+            viewData("poster_name", soundposterTopic.getSimpleValue()); // catch missing name
+            viewData("poster_alias", posterWebAlias);
+            viewData("profile_alias", profileWebAlias);
+            log.info("Identified soundposter \"" + soundposterTopic.getSimpleValue() + "\", Web-Alias: "
+                    + posterWebAlias + " by user \"" + profileWebAlias + "\"");
+            return true;
+        }
+        return false;
     }
 
 	@GET
@@ -231,7 +312,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
     }
 
 	@GET
-    @Path("/sign-up")
+    @Path("/contact")
     @Produces(MediaType.TEXT_HTML)
     public Viewable getSignupPage(@HeaderParam("Cookie") ClientState clientState) {
         log.info("Requesting soundposter.com sign-up page .. ");
@@ -258,6 +339,15 @@ public class WebsitePlugin extends WebActivatorPlugin {
     }
 
     @GET
+    @Path("/help")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable getHelpPage(@HeaderParam("Cookie") ClientState clientState) {
+        log.info("Requesting soundposter.com help page .. ");
+		viewData("pageId", "help");
+        return view("help");
+    }
+
+    @GET
     @Path("/imprint")
     @Produces(MediaType.TEXT_HTML)
     public Viewable getImprint(@HeaderParam("Cookie") ClientState clientState) {
@@ -274,6 +364,15 @@ public class WebsitePlugin extends WebActivatorPlugin {
         log.info("Requesting soundposter.com about page .. ");
 		viewData("pageId", "about");
         return view("about");
+    }
+
+    @GET
+    @Path("/pricing")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable getPricingPage(@HeaderParam("Cookie") ClientState clientState) {
+        log.info("Requesting soundposter.com plans and pricing page .. ");
+		viewData("pageId", "pricing");
+        return view("pricing");
     }
 
     /** Legacy routes to an old soundposter.com */
@@ -321,13 +420,13 @@ public class WebsitePlugin extends WebActivatorPlugin {
     @Path("/browse/{pageNr}")
 	@Produces(MediaType.TEXT_HTML)
     public Viewable getBrowsePage(@PathParam("pageNr") int page_nr, @HeaderParam("Cookie") ClientState clientState) {
-        log.info("Requesting page " +page_nr+ " to browse all published soundposter.. ");
+        log.info("Requesting page " +page_nr+ " to browse all published soundposter.. ### Sort for the very latest");
 		viewData("pageId", "browse");
         ArrayList<PreviewPoster> results = new ArrayList<PreviewPoster>();
         ResultList<RelatedTopic> all = getAllPublishedSoundposter();
         // build up sortable collection of all result-items (warning: in-memory copy of _all_ published soundposter)
         ArrayList<RelatedTopic> in_memory = getResultSetSortedByTitle(all, clientState);
-        int max_count = 12;
+        int max_count = 6;
         int offset = page_nr * max_count;
         // throw error if page is unexpected high or NaN
         int count = 0;
@@ -342,9 +441,21 @@ public class WebsitePlugin extends WebActivatorPlugin {
                 String url = "/" + username + "/" + web_alias;
                 String onclick = "javascript:window.location.href=\""+url+"\"";
                 String graphic_url = getPreviewGraphicURL(item);
+                //
+                String poster_description = item.getCompositeValue().getString("com.soundposter.poster_description");
+                String poster_subtitle = item.getCompositeValue().getString("com.soundposter.poster_subtitle");
+                Object timevalue = item.getProperty("dm4.time.modified");
+                long last_modified = Long.parseLong(timevalue.toString());
+                log.info("Timevalue = > " + last_modified);
+                /** if (timevalue != null) {
+                    last_modified = new Date(timevalue.toString());
+                } **/
+                // List<Topic> tags = item.getCompositeValue().getTopics("dm4.tags.tag");
+                //
                 if (graphic_url == null) graphic_url = getPosterGraphicURL(item);
                 String preview_graphic_style = "background: url(" + graphic_url + ") 0px 0px no-repeat;";
-                PreviewPoster poster = new PreviewPoster(title, url, username, preview_graphic_style, onclick);
+                PreviewPoster poster = new PreviewPoster(title, url, username, preview_graphic_style, onclick,
+                        poster_description, poster_subtitle, last_modified);
                 //
                 results.add(poster);
                 if (results.size() == max_count) break;
@@ -622,6 +733,23 @@ public class WebsitePlugin extends WebActivatorPlugin {
             if (soundposter.iterator().hasNext()) randomOne = soundposter.iterator().next();
         }
         return randomOne;
+    }
+
+    @GET
+    @Path("/sound/random")
+    public Topic getRandomSound() {
+        ResultList<RelatedTopic> tracks = dms.getTopics(SOUND_URI, false, 0);
+        Random rand = new Random();
+        Object[] results = tracks.getItems().toArray();
+        Topic random_sound = (Topic) results[rand.nextInt(tracks.getSize()-1)];
+        return dms.getTopic(random_sound.getId(), true);
+    }
+
+    @GET
+    @Path("/sound/identify/poster")
+    public ResultList<RelatedTopic> getSoundposterBySound(Topic soundTopic) {
+        return soundTopic.getRelatedTopics("dm4.topicmaps.topic_mapcontext", "dm4.topicmaps.topicmap_topic",
+                "dm4.core.default", "dm4.topicmaps.topicmap", true, false, 1);
     }
 
     @GET
