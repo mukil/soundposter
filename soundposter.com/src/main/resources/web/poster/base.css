@@ -38,9 +38,14 @@ div.postergraphic img {
     z-index: 111;
 }
 
+div.postergraphic #interactives img {
+    display: inline-block;
+    z-index: 301;
+}
+
 div#interactives {
     position: absolute; top: 0px; left: 0px;
-    z-index: 113; display: none;
+    z-index: 303; display: none; /** take care of z-index when using raphael to paint a play-button**/
 }
 
 div#loading-area {
