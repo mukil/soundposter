@@ -9,13 +9,11 @@
 }
 
 .page.welcome .main {
-    width: 50%;
-    font-size: .6em;
-    margin-top: 180px;
+    font-size: .7em;
 }
 
-.page.welcome .main .title {
-    font-size: 2.8em;
+.page.welcome .subtitle {
+    line-height: 2.2em;
 }
 
 #hello {
@@ -55,11 +53,6 @@ div.logo.area {
 .page div.left-side,
 .page div.right-side {
     width: 25px;
-}
-
-.page .subtitle{
-    margin-left: 45px;
-    margin-right: 45px;
 }
 
 .page div.header .featured .author,

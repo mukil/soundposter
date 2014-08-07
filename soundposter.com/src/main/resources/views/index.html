@@ -55,7 +55,7 @@
         </script>
         <script type="text/javascript" src="/com.soundposter.website/script/vendor/adapt/adapt.min.js"></script>
 
-        <!-- Piwik
+        <!-- Piwik -->
         <script type="text/javascript">
             var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.soundposter.com/p/" : "http://stats.soundposter.com/p/");
             document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
@@ -66,7 +66,7 @@
                 piwikTracker.enableLinkTracking();
             } catch( err ) {}
         </script>
-        End Piwik Tracking Code -->
+        <!-- End Piwik Tracking Code -->
 
     </head>
 
@@ -74,22 +74,12 @@
 
         <div id="hello">
 
-            <!--div class="title">
-                <span class="punchline pre-logo">Illustrating sounds on the web with </span>
-                <span class="higher-brand-type">soundposter.com</span><br/><br/>
-                <span class="link">like <a class="bummer" href="/torstrassenfestival/2014">TSF '14</a></span>
-            </div-->
-
             <div class="logo panel">
 
                 <div class="frontpage-track">
                     Track <a th:href="'/' + ${profile_alias} + '/' + ${poster_alias} + '/' + ${sound_id}" class="" th:text="${sound_nr}"></a> in soundposter <a th:href="'/' + ${profile_alias} + '/' + ${poster_alias}" th:text="${poster_name}"></a><br/>
                     <span class="sound-label" th:text="${sound_name}"></span>
                 </div>
-                <!--a class="link" th:href="${link}">
-                    <img src="/com.soundposter.website/images/logos/SP_Logo_mit_dreieck_ffffff.png" height="450" id="play-button"
-                         title="This is soundposter.com" th:title="'Listen to soundposter: ' + ${subtitle} + ' by ' + ${author}" />
-                </a-->
                 <img src="/com.soundposter.website/images/logos/SP_Logo_mit_dreieck_ffffff.png" height="450" id="play-button"
                          title="This is soundposter.com" th:title="'Listen to soundposter: ' + ${subtitle} + ' by ' + ${author}" />
                 <!-- div class="highlight"><a href="/browse">Browse</a> all soundposters</div-->
@@ -97,59 +87,27 @@
 
             </div>
 
-            <!--div class="subtitle">
-
-                <br/><br/>Have a look at what we did, for example this great
-                <span class="example"><a href="javascript:site.show_example(1);">on-site festival guide</a> and this awesome</span>
-                <span class="example"><a href="javascript:site.show_example(2);">audible gigposter</a> for XYZ, as well as this</span>
-                <span class="example"><a href="javascript:site.show_example(3);">fancy online record</a>. In the end it are all</span>
-                <span class="example"><a href="javascript:site.show_example(4);">illustrated sets of our favourite sounds</a> on the web.</span>
-
-            </div-->
-
         </div>
 
         <div class="main">
 
+
+            <div class="subtitle">
+
+                When working with soundposters you can do a
+                <span class="example"><a href="/torstrassenfestival/2013" title="Your ultimate guide to Torstrassenfestival '13">festival web-app</a></span> to invite and guide your visitors, an
+                <span class="example"><a href="/moh/chefarzt" title="Moh's recorded ca_radio sessions">audible gigposter</a> for your next live-show, release an</span>
+                <span class="example"><a href="/a2n/unconvention_factory_berlin" title="a2n_unconvention : factory berlin record">awesome online record</a> where you can surprise and connect to your audience,</span> or just do it like we do and start creating illustrated sets of
+                <span class="example"><a href="/malt/suffdaddytape" title="Suff Daddy Mixtape">your favourite recordings</a>.</span>
+
+            </div>
+
             <div class="title">
                 <span class="punchline pre-logo">Illustrating sounds on the web with </span>
                 <span class="higher-brand-type">soundposter.com</span><br/><br/>
-                <span class="link">like <a class="bummer" href="/torstrassenfestival/2013">TSF '13</a></span>
+                <span class="link">like <a class="bummer" href="/torstrassenfestival/2013" title="Berlin's Torstraßenfestival Crew">TSF '13</a></span>
             </div>
 
-            <!--div class="standard-features">
-
-                <p>
-                    For us as <b>soundposter editors</b> we currently have realized the following <b>features</b> to aggregate sounds of various sources:
-                </p>
-
-                <ul>
-                    <li>Synchronization of SoundCloud Sets<br/>(based on our SoundCloud API Connection)</li>
-                    <li>Bandcamp Album and Track Search<br/>(based on our Bandcamp Search API Support)</li>
-                    <li>Integration of any progressive web-audio stream on soundposters</li>
-                </ul>
-
-                <p>&nbsp;</p>
-                <p>
-                    To do your next audible website with us write a mail to <a href="mailto:support@soundposter.com">support@soundposter.com</a> or request the free <a href="/sign-up">standard account</a> here.
-                </p>
-
-                A new-media guide through the cultures in music.
-                A new-media guide through culture in music history.
-
-                Imagine being able to express connections between sounds freely, this is what the associative audiolibrary is all about.<br/>
-                <br/>
-                Imagine an audio lib made up of associations, allowing you to navigate back and forth along other peoples relations between sounds, through a vast network of sounds.<br/><br/>
-                Surely we used to think in categories when classifying certain sounds. And in fact, the most meaningful way for people to write about new music is, to put it in perspective to what we know, what we've already heard. New music genres are made up to find the most probable certain place in music history, but using a category for a certain feeling expressed in sound, would that be useful for some orientation in music space? Let's turn that space upsite down, lets put folder structured audio libraries away. Let's start thinking about music in situations of music listening, one sound at a time in relation to many others, so why not start to express our understandings about music in relations between certain songs?
-                <br/>
-                The Asocial Associative Audiolibrary allows basically everyone(TM) to express and share on relations beween sounds and thus build a massive network of arbitrary meanings, using these two words in their very best sense, between songs and music.
-                <br/>
-                Imagine, when having a track in mind, you could actually navigate what rita played this the last time *before* she played the song you just wanting to play?
-                now want to turn on. What do you do? Get on her join?
-
-                World culture of sound decomposedd and expressedin associations.>
-
-            </div-->
         </div>
 
         <div class="footer">
@@ -172,9 +130,9 @@
             <div id="soundsystem" class="control player"></div>
         </div>
 
-        <!-- noscript>
+        <noscript>
             <p><img src="http://stats.soundposter.com/p/piwik.php?idsite=1" style="border:0" alt="" /></p>
-        </noscript -->
+        </noscript>
 
     </body>
 

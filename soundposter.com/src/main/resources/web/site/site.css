@@ -243,8 +243,43 @@ body.page.welcome {
     overflow-y: scroll; **/
 }
 
+div.side-panel {
+    position: fixed; right: 0px; top: 0px;
+    padding-top: 10%;
+    padding-bottom: 10%;
+    text-align: center;
+    width: 33%;
+    height: 80%;
+    z-index: 1003;
+    background-image: url("/com.soundposter.website/images/website_pattern.jpg");
+    -webkit-box-shadow: -3px 0px 4px 0px #a9a9a9;
+	   -moz-box-shadow: -3px 0px 4px 0px #a9a9a9;
+	        box-shadow: -3px 0px 4px 0px #a9a9a9;
+    min-width: 340px;
+}
+
+.page.browse .new-main {
+    width: 67%;
+    position: relative;
+    top: 0px;
+    margin: 0px;
+}
+
+div.side-panel div.image {
+    width: 200px; height: 200px;
+    background-image: url('/com.soundposter.website/images/logos/SP_Logo_ohne_dreieck_ffffff.png');
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    display: inline-block;
+    background-size: contain;
+}
+
+div.side-panel div.image:hover {
+    background-image: url('/com.soundposter.website/images/logos/SP_Logo_ohne_dreieck_555555.png');
+    cursor: pointer;
+}
+
 .page.welcome .main {
-    margin-top: 210px;
     width: 60%;
     text-align: center;
 }
@@ -256,8 +291,8 @@ body.page.welcome {
 /** Specifics in frontpage title **/
 
 .page.welcome .title {
-    max-width: 620px;
     display: inline-block;
+    margin: 10px 60px;
 }
 
 .page.welcome .title span.link {
@@ -297,21 +332,6 @@ body.page.welcome {
     color: #000;
 }
 
-
-/** #hello .title {
-    display: inline-block;
-    text-align: right;
-    margin: 0px;
-    vertical-align: top;
-}
-
-#hello .subtitle {
-    display: inline-block;
-    text-align: left;
-    margin: 0px;
-    vertical-align: top;
-} **/
-
 #hello .logo {
     display: inline-block;
     padding-left: 40px;
@@ -338,19 +358,6 @@ body.page.welcome {
     margin-right: 5%;
     height: 310px;
     padding-top: 10px;
-}
-
-#new-header div.image {
-    width: 200px; height: 200px;
-    background-image: url('/com.soundposter.website/images/neuer_entwurf_big_size_180.png');
-    background-repeat: no-repeat;
-    background-position: 10px 20px;
-    display: inline-block;
-}
-
-#new-header div.image:hover {
-    background-image: url('/com.soundposter.website/images/neuer_entwurf_big_size_180_bl.png');
-    cursor: pointer;
 }
 
 h2.page-title {
@@ -485,6 +492,18 @@ h2.page-title {
     background-image: url('/com.soundposter.website/images/SP_Logo_ohne_dreieck_fitzel_71bbe2_right_sided_700.jpg');
     background-repeat: no-repeat;
     background-position:  0px 0px;
+}
+
+.page.browse .side-panel .container {
+    z-index: -1;
+    margin: 0px;
+    padding: 0px;
+    height: 1704px;
+    position: absolute; top: 0px; right: 0px;
+    background-image: url('/com.soundposter.website/images/SP_Logo_ohne_dreieck_fitzel_ffb900_right_sided.jpg');
+    background-repeat: no-repeat;
+    background-position:  100px 0px;
+    overflow: hidden;
 }
 
 .page.about .backdrop {
@@ -682,7 +701,7 @@ p.box b {
 
 .browse .poster-preview {
     /* float: left; **/
-    width: 540px;
+    width: 700px;
     height: 420px;
     padding: 0px;
     position: relative;
@@ -827,18 +846,13 @@ p.box b {
 }
 
 .browse .sort-menu a,
-.page.browse #new-header a,
+.page.browse .side-panel a,
 .browse .filter-menu a {
     text-decoration: none;
     padding: 5px;
     padding-left: 10px;
     padding-right: 10px;
     font-size: 1.2em;
-}
-
-.page.browse #new-header a {
-    position: relative;
-    top: -80px;
 }
 
 .browse .sort-menu a,
@@ -873,27 +887,27 @@ a.no-previous-page {
     padding-right: 10px;
 }
 
-.page .new-main {
-    position: relative;
-    top: 0px;
-    margin: 30px 0px 160px;
+.page.welcome .subtitle {
+    text-align: center;
+    margin-right: 60px;
+    margin-top: 60px;
 }
 
-.page #hello .subtitle span.example {
+.page.welcome .subtitle span.example {
     line-height: 2em;
 }
 
-.page #hello span.example a {
+.page.welcome .subtitle span.example a {
     padding: 5px;
     color: #333;
     background-color: #fff;
 }
 
-.page #hello span.example {
+.page.welcome .subtitle span.example {
     display: inline;
 }
 
-.page #hello span.example a:hover {
+.page.welcome .subtitle span.example a:hover {
     background-color: #ffb900;
     cursor: pointer;
     color: #fff;
@@ -947,16 +961,26 @@ a.no-previous-page {
     height: 35px;
     position: fixed;
     left: 0px; bottom: 0px;
-    -webkit-transition: 00ms linear height 1.3s;
-    -moz-transition: 200ms linear height 1.3s;
-    -o-transition: 300ms linear height 1.3s;
-    -ms-transition: 300ms linear height 1.3s;
-    transition: 300ms linear height 1.3s;
+    text-align: center;
+    -webkit-transition: 300ms linear height 1.5s;
+    -moz-transition: 300ms linear height 1.5s;
+    -o-transition: 300ms linear height 1.5s;
+    -ms-transition: 300ms linear height 1.5s;
+    transition: 300ms linear height 1.5s;
     background-image: url("/com.soundposter.website/images/website_pattern_dg.jpg");
 }
 
+.page.browse .footer {
+    text-align: left;
+}
+
+.page.browse .footer ul.low-menu {
+    position: relative;
+    left: 90px;
+}
+
 .page .footer:hover {
-    height: 160px;
+    height: 140px;
 }
 
 .new-footer {
@@ -983,24 +1007,20 @@ high orange: ff6432; **/
 
 .page ul.low-menu {
     vertical-align: top;
-	margin-right: 30px;
+	/** margin-right: 30px; **/
 	line-height: 2em;
     padding: 0px; padding-top: 3px;
-    position: relative;
-    left: 90px;
+    /** position: relative;
+    left: 90px; **/
+    text-align: left;
     display: inline-block;
     margin-top: 0px;
-    -webkit-transition: 200ms linear margin-top 1.3s;
-    -moz-transition: 200ms linear margin-top 1.3s;
-    -o-transition: 200ms linear margin-top 1.3s;
-    -ms-transition: 200ms linear margin-top 1.3s;
-    transition: 200ms linear margin-top 1.3s;
 
 }
 
-.page .footer:hover ul.low-menu {
+/** .page .footer:hover ul.low-menu {
     margin-top: 10px;
-}
+} **/
 
 .page ul.low-menu li {
     list-style-type: none;

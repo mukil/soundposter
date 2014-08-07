@@ -731,14 +731,14 @@ var poster = new function () {
 
         // setup new play-button
         $interactives = $('#interactives').html('<img class="play-button"'
-            + 'src="/com.soundposter.website/images/neuer_entwurf_big_size_280.png" '
+            + 'src="/com.soundposter.website/images/logos/SP_Logo_mit_dreieck_ffffff_280.png" '
             + ' style="position: absolute; left: ' + (graphicX - 140) + 'px; top:' + (graphicY - 100) + 'px;" />')
 
         // register mouse over events
         $('#interactives img.play-button').hover(function () {
-            $('#interactives img.play-button').attr('src', '/com.soundposter.website/images/logos/neuer_entwurf_big_size_280_gr.png')
+            $('#interactives img.play-button').attr('src', '/com.soundposter.website/images/logos/SP_Logo_mit_dreieck_555555_280.png')
         }, function () {
-            $('#interactives img.play-button').attr('src', '/com.soundposter.website/images/logos/neuer_entwurf_big_size_280.png')
+            $('#interactives img.play-button').attr('src', '/com.soundposter.website/images/logos/SP_Logo_mit_dreieck_ffffff_280.png')
         })
         // register click handler
         $('#interactives img.play-button').click(click_handler)
