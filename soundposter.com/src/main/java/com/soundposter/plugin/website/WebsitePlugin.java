@@ -163,7 +163,12 @@ public class WebsitePlugin extends WebActivatorPlugin {
             try {
                 soundNr = sound.getCompositeValue().getInt(SOUND_ORDINAL_URI);
             } catch (ClassCastException ce) {
-                soundNr = (int) sound.getCompositeValue().getLong(SOUND_ORDINAL_URI);
+                try {
+                    soundNr = (int) sound.getCompositeValue().getLong(SOUND_ORDINAL_URI);
+                } catch (ClassCastException ces) {
+                    String value = sound.getCompositeValue().getString(SOUND_ORDINAL_URI);
+                    soundNr = Integer.parseInt(value);
+                }
             }
         }
         if (soundNr == -1) return false; // ### maybe we dont want to do that?
