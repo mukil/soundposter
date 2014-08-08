@@ -26,6 +26,11 @@ div.left-side {
     padding-left: 20px;
 }
 
+#hello .logo {
+    margin-top: 130px;
+    padding-left: 40px;
+}
+
 .page .main,
 #hello {
     font-size: .75em;

@@ -1,4 +1,9 @@
 
+body.page.welcome,
+body.page {
+    margin: 0px;
+}
+
 #hello {
     position: relative;
     width: 100%;
@@ -11,6 +16,14 @@
     margin: 0px;
     padding-right: 0px;
     min-width: 240px;
+}
+
+#hello .frontpage-track {
+    padding: 10px;
+}
+
+#hello .logo {
+    padding: 10px;
 }
 
 .page.welcome .main {
@@ -35,6 +48,18 @@
 .page div.subtitle {
     line-height: 2.2em;
     text-align: right;
+    margin-right: 0px;
+}
+
+.page .footer {
+    padding-top: 10px;
+    position: relative;
+    top: 80px;
+    height: 360px;
+}
+
+.page .footer ul {
+    display: block;
 }
 
 .page div.box {
@@ -48,6 +73,7 @@
     margin-right: 15px;
     margin-top: 0px;
     margin-bottom: 10px;
+    padding: 10px;
 }
 
 .page .subtitle {
@@ -65,9 +91,32 @@
     font-size: 1.5em;
 }
 
+.page.thanks div.main,
+.page.imprint div.main,
+.page.help div.main,
+.page.legal div.main,
+.page.sign-up div.main,
+.page.philosophy div.main,
 .page.imprint div.main,
 .page.about div.main {
-    padding-left: 0px;
+    padding-left: 10px;
+    margin: 20px;
+}
+
+.page.thanks .title,
+.page.imprint .title,
+.page.help .title,
+.page.legal .title,
+.page.sign-up .title,
+.page.philosophy .title,
+.page.imprint .title,
+.page.about .title {
+    padding-left: 10px;
+    margin: 20px;
+}
+
+.page.browse .side-panel {
+    height: 90%;
 }
 
 .page ul.low-menu li {

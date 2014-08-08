@@ -334,7 +334,6 @@ div.side-panel div.image:hover {
 
 #hello .logo {
     display: inline-block;
-    padding-left: 40px;
 }
 
 #hello ul.low-menu li a {
@@ -888,7 +887,7 @@ a.no-previous-page {
 }
 
 .page.welcome .subtitle {
-    text-align: center;
+    text-align: right;
     margin-right: 60px;
     margin-top: 60px;
 }
@@ -1010,8 +1009,8 @@ high orange: ff6432; **/
 	/** margin-right: 30px; **/
 	line-height: 2em;
     padding: 0px; padding-top: 3px;
-    /** position: relative;
-    left: 90px; **/
+    position: relative;
+    top: -1px;
     text-align: left;
     display: inline-block;
     margin-top: 0px;

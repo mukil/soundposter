@@ -20,6 +20,11 @@ div.left-side {
     max-width: 42%;
 }
 
+#hello .logo {
+    margin-top: 110px;
+    padding-left: 40px;
+}
+
 #hello .logo img {
     width: 340px;
     height: 340px;

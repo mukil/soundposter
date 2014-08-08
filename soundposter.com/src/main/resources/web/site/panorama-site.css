@@ -5,7 +5,8 @@
 
 #hello .logo {
     padding-right: 60px;
-    padding-top: 40px;
+    margin-top: 110px;
+    padding-left: 40px;
 }
 
 /** .page .main .standard-features {
