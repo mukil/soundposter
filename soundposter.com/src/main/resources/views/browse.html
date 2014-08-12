@@ -100,7 +100,7 @@
                 <div class="poster-info">
                     <h4 th:text="${poster.subtitle}"></h4>
                     <span th:text="${poster.description}"></span><br/><br/>
-                    <span th:text="'Last modified ' + ${poster.last_modified}"></span> by
+                    <span class="last-modified" th:text="'Last modified ' + ${poster.last_modified}"></span> by
                     <!-- a class="user" th:href="'/' + ${poster.username}" th:text="${poster.username}"></a-->
                     <b th:text="${poster.username}"></b>
                 </div>

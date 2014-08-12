@@ -282,6 +282,7 @@ div.side-panel div.image:hover {
 .page.welcome .main {
     width: 60%;
     text-align: center;
+    padding-top: 10%;
 }
 
 #hello #play-button {

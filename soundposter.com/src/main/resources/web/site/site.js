@@ -123,7 +123,7 @@ var site = new function () {
                 if (!now_playing) {
                     if (!playback_set) {
                         if (url_set) {
-                            $player.jPlayer("setMedia", {mp3: url_set })
+                            $player.jPlayer("setMedia", {mp3: url_set})
                             $player.jPlayer("play")
                             playback_set = true
                         }
@@ -144,6 +144,18 @@ var site = new function () {
             }, function () {
                 $home.attr('src', '/com.soundposter.website/images/logos/SP_Logo_ohne_dreieck_ffffff.png')
             })
+
+        var $dates = $('.poster-info .last-modified')
+        //
+        var $elements = $dates
+        for (var $date_element in $elements) {
+            var date_element = $elements[$date_element]
+            var date_value = date_element.innerHTML
+            if (typeof date_value !== "undefined") {
+                var unix_timestamp = parseFloat(date_value.substr(14))
+                date_element.innerHTML = 'Last modified ' + new Date(unix_timestamp)
+            }
+        }
     }
 
     this.add_soundcloud_track = function (trackId) {
