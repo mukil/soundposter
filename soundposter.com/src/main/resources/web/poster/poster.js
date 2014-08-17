@@ -621,7 +621,7 @@ var poster = new function () {
         if (poster.mod.svg == false) return null
 
         // get Orientation
-        var sizeX = poster.viewport_width()
+        /* var sizeX = poster.viewport_width()
         var sizeY = poster.viewport_height()
         var graphicX = sizeX / 2 - 150
         var graphicY = sizeY / 2 - 150
@@ -656,7 +656,7 @@ var poster = new function () {
         if (pos != undefined) {
             graphicX = pos.x + 55
             graphicY = pos.y - 65
-        }
+        } */
 
     }
 
@@ -675,6 +675,7 @@ var poster = new function () {
             graphicX = $image.width() / 2 + graphicRadius
             graphicY = $image.height() / 2 + graphicRadius
         }
+        /**
         // Create new paper (fixme: see around 625)
         poster.paper = Raphael("interactives", 6321, 6321) // todo: dont set max raphael-canvas-size
         // poster.paper.image(graphicUrl, 1000, 1000, 2000, 2000)
@@ -703,9 +704,9 @@ var poster = new function () {
 
         // var info = poster.paper.tag(graphicX, graphicY, 'Click to play', 45)
 
-        /** circle.mousedown(function(e) {
+        circle.mousedown(function(e) {
             console.log("click, calling animation")
-        }) **/
+        })
 
         circle.hover(ease_in, ease_out)
         circle.click(click_handler)
@@ -727,7 +728,7 @@ var poster = new function () {
         function ease_out() {
             // circle.animate({"r" : 40}, 200, "easeIn")
             // circle.glow( {color: "#333", width: 20} )
-        }
+        } **/
 
         // setup new play-button
         $interactives = $('#interactives').html('<img class="play-button"'

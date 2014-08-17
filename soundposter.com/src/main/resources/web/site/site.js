@@ -104,18 +104,18 @@ var site = new function () {
             $play.hover(function () {
                 // $play.attr('src', '/com.soundposter.website/images/logos/SP_Logo_mit_dreieck_40b0e2.png')
                 if (now_playing) {
-                    $play.attr('src', '/com.soundposter.website/images/logos/SP_Logo_pause_71bbe2.png')
+                    $play.attr('src', '/com.soundposter.website/images/logos/SP_Logo_backgrounded_71bbe2_pause_512.jpg')
                 } else {
-                    $play.attr('src', '/com.soundposter.website/images/logos/SP_Logo_mit_dreieck_71bbe2.png')
+                    $play.attr('src', '/com.soundposter.website/images/logos/SP_Logo_backgrounded_71bbe2_play_512.jpg')
                 }
             }, function () {
                 if (now_playing) {
-                    $play.attr('src', '/com.soundposter.website/images/logos/SP_Logo_pause_71bbe2.png')
+                    $play.attr('src', '/com.soundposter.website/images/logos/SP_Logo_backgrounded_71bbe2_pause_512.jpg')
                 } else {
                     if (playback_set) {
-                        $play.attr('src', '/com.soundposter.website/images/logos/SP_Logo_mit_dreieck_71bbe2.png')
+                        $play.attr('src', '/com.soundposter.website/images/logos/SP_Logo_backgrounded_71bbe2_play_512.jpg')
                     } else {
-                        $play.attr('src', '/com.soundposter.website/images/logos/SP_Logo_mit_dreieck_ffffff.png')
+                        $play.attr('src', '/com.soundposter.website/images/logos/SP_Logo_backgrounded_ffffff_play_512.jpg')
                     }
                 } // if (i could do good code :==))
             })
@@ -140,9 +140,9 @@ var site = new function () {
         //
         var $home = $('.side-panel img.home')
             $home.hover(function () {
-                $home.attr('src', '/com.soundposter.website/images/logos/SP_Logo_ohne_dreieck_555555.png')
+                $home.attr('src', '/com.soundposter.website/images/logos/SP_Logo_ohne_dreieck_555555_blank_grounded.jpg')
             }, function () {
-                $home.attr('src', '/com.soundposter.website/images/logos/SP_Logo_ohne_dreieck_ffffff.png')
+                $home.attr('src', '/com.soundposter.website/images/logos/SP_Logo_ohne_dreieck_ffffff_blank_grounded.jpg')
             })
 
         var $dates = $('.poster-info .last-modified')
@@ -162,9 +162,9 @@ var site = new function () {
         //
         var $home = $('.title img.home')
             $home.hover(function () {
-                $home.attr('src', '/com.soundposter.website/images/logos/SP_Logo_ohne_dreieck_555555.png')
+                $home.attr('src', '/com.soundposter.website/images/logos/SP_Logo_ohne_dreieck_555555_blank_grounded.jpg')
             }, function () {
-                $home.attr('src', '/com.soundposter.website/images/logos/SP_Logo_ohne_dreieck_ffffff.png')
+                $home.attr('src', '/com.soundposter.website/images/logos/SP_Logo_ohne_dreieck_ffffff_blank_grounded.jpg')
             })
     }
 
