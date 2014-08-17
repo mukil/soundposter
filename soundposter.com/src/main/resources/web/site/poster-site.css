@@ -1,43 +1,26 @@
 
-div.left-side,
-div.right-side {
-    width: 48px;
-}
-
-div.left-side {
-    background-position-x: -10px;
-}
-
-.page div.header .featured img {
-    padding-top: 40px;
-}
-
-.page div.info {
-    min-height: 475px;
-}
-
-.page div.info .box {
-    max-width: 42%;
-}
-
 #hello .logo {
-    margin-top: 110px;
+    margin-top: 90px;
     padding-left: 40px;
 }
 
+#hello .frontpage-track {
+    margin-top: 50px;
+}
+
 #hello .logo img {
-    width: 340px;
-    height: 340px;
+    width: 400px;
+    height: 400px;
     padding-left: 20px;
 }
 
 .page .main,
 #hello {
-    font-size: .9em;
     min-width: 420px;
 }
 
 .page.welcome .main {
-    margin-left: 20px;
+    margin: auto;
+    width: 70%;
 }
 

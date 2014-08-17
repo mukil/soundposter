@@ -1,15 +1,21 @@
 
 #hello .logo {
-    margin-top: 180px;
+    margin-top: 20px;
+}
+
+#hello .frontpage-track {
+    margin-top: 30px;
+    font-size: 1.5em;
 }
 
 #hello .logo img {
-    width: 256px;
-    height: 256px;
+    width: 360px;
+    height: 360px;
 }
 
 .page.welcome .main {
-    font-size: .7em;
+    font-size: 1em;
+    width: 85%;
 }
 
 .page.welcome .subtitle {
@@ -21,65 +27,47 @@
     min-width: 340px;
 }
 
-.page .title {
-    font-size: 2.2em;
+.page.legal .title,
+.page.sign-up .title,
+.page.help .title,
+.page.about .title,
+.page.philosophy .title {
+    padding-right: 10px;
+    text-align: left;
+    padding-left: 10px;
+    margin: 0px;
+}
+
+.page.imprint .title {
+    text-align: right;
+    margin: 0px;
     padding-right: 10px;
 }
 
-div.logo.area {
-	background-image: url("/com.soundposter.website/images/soundposter_button_blue_with_arrow_out_600.png");
-	height: 400px; width: 400px;
-	background-size: 400px;
-	background-repeat: no-repeat;
-	background-position-x: center;
-	background-position-y: center;
-	margin-left: auto; margin-right: auto;
-	cursor: pointer;
+body.page.browse {
+    margin: 30px;
+
+}
+.page.browse .footer ul.low-menu {
+    position: relative;
+    left: 30px;
 }
 
-.page div.header .featured img {
-    padding-top: 40px;
+body.page.browse .new-main {
+    width: 55%;
 }
 
-.page div.box {
-    float: none;
-    max-width: 95%;
+body.page.browse .poster-preview {
+    width: 100%;
+    margin-right: 60px;
+    height: 100%;
 }
 
-.page div.area {
-    margin: 30px 45px;
+body.page.browse .poster-info {
+    position: relative;
+    top: -15px; left: 0px;
 }
 
-.page div.left-side,
-.page div.right-side {
-    width: 25px;
-}
-
-.page div.header .featured .author,
-.page div.header .featured .headline {
-    margin-left: 30px;
-    margin-bottom: 10px;
-}
-
-.page.about div.main {
-    padding-left: 0px;
-}
-
-.header.area .featured .description {
-    font-size: 14px;
-    padding: 5px;
-    max-width: 60%;
-    bottom: 40px; right: 10px;
-    z-index: 100;
-}
-
-.header.area .featured .author {
-    bottom: 10px; right: 10px;
-    padding: 0px;
-    z-index: 99;
-}
-
-.page div.header .featured .author a {
-    font-size: 14px;
-    padding: 5px;
+.page.pricing img.fitzel {
+    width: 600px;
 }

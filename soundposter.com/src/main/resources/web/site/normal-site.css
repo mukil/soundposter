@@ -1,43 +1,43 @@
 
-div.left-side,
-div.right-side {
-    width: 48px;
+
+body.page.browse {
+    margin: 30px;
+
+}
+.page.browse .footer ul.low-menu {
+    position: relative;
+    left: 30px;
 }
 
-div.left-side {
-    background-position-x: -10px;
-}
-
-.page div.header .featured img {
-    padding-top: 40px;
-}
-
-.page div.info {
-    min-height: 475px;
-}
-
-.page div.info .box {
-    max-width: 42%;
+body.page.browse .poster-preview {
+    width: 640px;
 }
 
 #hello .logo img {
-    width: 340px;
-    height: 340px;
+    width: 400px;
+    height: 400px;
     padding-left: 20px;
 }
 
 #hello .logo {
-    margin-top: 130px;
-    padding-left: 40px;
+    margin-top: 90px;
+}
+
+#hello .frontpage-track {
+    margin-top: 30px;
 }
 
 .page .main,
 #hello {
-    font-size: .75em;
     min-width: 420px;
 }
 
 .page.welcome .main {
-    margin-left: 20px;
+    width: 80%;
+    margin: auto;
+}
+
+.page.pricing img.fitzel {
+    width: 900px;
 }
 

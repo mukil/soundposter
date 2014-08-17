@@ -76,6 +76,11 @@
 
             <div class="logo panel">
 
+                <div class="title">
+                    <span class="punchline pre-logo">Illustrating sounds on the web with </span>
+                    <span class="higher-brand-type">soundposter.com</span>
+                </div>
+
                 <div class="frontpage-track">
                     Track <a th:href="'/' + ${profile_alias} + '/' + ${poster_alias} + '/' + ${sound_id}" class="" th:text="${sound_nr}"></a> in soundposter <a th:href="'/' + ${profile_alias} + '/' + ${poster_alias}" th:text="${poster_name}"></a><br/>
                     <span class="sound-label" th:text="${sound_name}"></span>
@@ -95,38 +100,38 @@
             <div class="subtitle">
 
                 When working with soundposters you can do a
-                <span class="example"><a href="/torstrassenfestival/2013" title="Your ultimate guide to Torstrassenfestival '13">festival web-app</a></span> to invite and guide your visitors, an
+                <span class="example"><a href="/torstrassenfestival/2014" title="Your guide to Torstrassen festival '14">festival web-app</a></span> to invite and guide your visitors, an
                 <span class="example"><a href="/moh/chefarzt" title="Moh's recorded ca_radio sessions">audible gigposter</a> for your next live-show, release an</span>
                 <span class="example"><a href="/a2n/unconvention_factory_berlin" title="a2n_unconvention : factory berlin record">awesome online record</a> where you can surprise and connect to your audience,</span> or just do it like we do and start creating illustrated sets of
                 <span class="example"><a href="/malt/suffdaddytape" title="Suff Daddy Mixtape">your favourite recordings</a>.</span>
+                <!-- br/><br/>
+                <span class="link">like <a class="bummer" href="/torstrassenfestival/2014" title="Berlin's Torstrassen festival Crew">TSF '14</a></span-->
 
-            </div>
-
-            <div class="title">
-                <span class="punchline pre-logo">Illustrating sounds on the web with </span>
-                <span class="higher-brand-type">soundposter.com</span><br/><br/>
-                <span class="link">like <a class="bummer" href="/torstrassenfestival/2013" title="Berlin's Torstraßenfestival Crew">TSF '13</a></span>
             </div>
 
         </div>
 
         <div class="footer">
             <ul class="low-menu">
-                <li><a href="/contact">Contact</a></li>
+                <li><a href="/help">Help</a></li>
+            </ul>
+            <ul class="low-menu">
                 <li><a href="/browse">Explore</a></li>
             </ul>
             <ul class="low-menu">
-                <li><a href="/philosophy">Philosophy</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+            <ul class="low-menu">
                 <li><a href="/legal">Legal</a></li>
+            </ul>
+            <ul class="low-menu">
+                <li><a href="/pricing">Plans</a></li>
             </ul>
             <ul class="low-menu">
                 <li><a href="/imprint">Imprint</a></li>
                 <li><a href="/about-us">About us</a></li>
-                <li><a href="http://blog.soundposter.com" title="Editing Soundposter">Blog</a></li>
-            </ul>
-            <ul class="low-menu">
-                <li><a href="/help">Help</a></li>
-                <li><a href="/pricing">Plans</a></li>
+                <li><a href="/philosophy">Philosophy</a></li>
+                <li><a href="http://blog.soundposter.com" title="Official Soundposter Blog">Blog</a></li>
             </ul>
             <div id="soundsystem" class="control player"></div>
         </div>

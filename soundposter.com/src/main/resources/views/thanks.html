@@ -29,6 +29,9 @@
         </script>
         <!-- End Piwik Tracking Code -->
 
+        <script type="text/javascript" src="/com.soundposter.website/site/site.js"></script>
+        <script type="text/javascript" src="/com.soundposter.website/script/vendor/jquery/jquery-1.9.1.min.js"></script>
+
         <link rel="stylesheet" href="/com.soundposter.website/poster/site/site.css"/>
         <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
@@ -42,6 +45,11 @@
                 ]
             }
 
+            $(document).ready(function(){
+                site.interactive_page_title()
+            })
+
+
         /*]]>*/
         </script>
         <script type="text/javascript" src="/com.soundposter.website/script/vendor/adapt/adapt.min.js"></script>
@@ -51,36 +59,36 @@
     <body class="page" th:attrappend="class=${' ' + pageId}">
 
         <div class="title">
-            <br/>
+            <a href="/" title="Frontpage on soundposter.com">
+                <img class="home" src="/com.soundposter.website/images/logos/SP_Logo_ohne_dreieck_ffffff.png" border="0"
+                        width="256px" height="256px" />
+            </a>
+            <br/><br/>
             <span class="punchline pre-logo">Thank you four sending us a message on</span>
             <a href="/" title="Go back to front page">soundposter.com</a>
         </div>
 
-        <br/><br/>
-
-        <div class="logo">
-            <a href="/" title="Go back to our frontpage">
-                <img src="/com.soundposter.website/images/logos/neuer_entwurf_big_size_600.png" height="450" title="This is soundposter.com" />
-            </a>
-        </div>
-
         <div class="footer">
             <ul class="low-menu">
-                <li><a href="/contact" class="selected">Contact</a></li>
+                <li><a href="/help">Help</a></li>
+            </ul>
+            <ul class="low-menu">
                 <li><a href="/browse">Explore</a></li>
             </ul>
             <ul class="low-menu">
-                <li><a href="/philosophy">Philosophy</a></li>
+                <li><a href="/contact" class="selected">Contact</a></li>
+            </ul>
+            <ul class="low-menu">
                 <li><a href="/legal">Legal</a></li>
+            </ul>
+            <ul class="low-menu">
+                <li><a href="/pricing">Plans</a></li>
             </ul>
             <ul class="low-menu">
                 <li><a href="/imprint">Imprint</a></li>
                 <li><a href="/about-us">About us</a></li>
-                <li><a href="http://blog.soundposter.com" title="Editing Soundposter">Blog</a></li>
-            </ul>
-            <ul class="low-menu">
-                <li><a href="/help">Help</a></li>
-                <li><a href="/pricing">Plans</a></li>
+                <li><a href="/philosophy">Philosophy</a></li>
+                <li><a href="http://blog.soundposter.com" title="Official Soundposter Blog">Blog</a></li>
             </ul>
             <div id="soundsystem" class="control player"></div>
         </div>

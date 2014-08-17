@@ -158,6 +158,16 @@ var site = new function () {
         }
     }
 
+    this.interactive_page_title = function () {
+        //
+        var $home = $('.title img.home')
+            $home.hover(function () {
+                $home.attr('src', '/com.soundposter.website/images/logos/SP_Logo_ohne_dreieck_555555.png')
+            }, function () {
+                $home.attr('src', '/com.soundposter.website/images/logos/SP_Logo_ohne_dreieck_ffffff.png')
+            })
+    }
+
     this.add_soundcloud_track = function (trackId) {
         var added = request("GET", "/soundcloud/add/track/" + trackId)
         console.log(added)
