@@ -1,7 +1,16 @@
 
+@font-face {
+  font-family: 'Pontano Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Pontano Sans'),
+       url('Pontano_Sans/PontanoSans-Regular.woff') format('woff'),
+       url('Pontano_Sans/PontanoSans-Regular.ttf') format('truetype');
+}
+
 body {
-    font-family: 'Pontano Sans', "Myriad Pro Regular", "Trebuchet MS", sans-serif;
-    /** font-family: "Advent Pro", "Myriad Pro Regular", "Trebuchet MS", sans-serif; */
+    font-family: 'Pontano Sans', 'Myriad Pro Regular', 'Trebuchet MS', 'sans-serif';
+    /** 'Advent Pro' */
     background-image: url("/com.soundposter.website/images/website_pattern.jpg");
     letter-spacing: 2px;
 }
@@ -266,7 +275,6 @@ h2.page-title {
     font-size: 2em;
     line-height: 2.2em;
     text-align: center;
-    height: 190px;
     font-weight: 700;
 }
 

@@ -7,7 +7,7 @@
     <name>soundposter.com</name>
     <groupId>com.soundposter</groupId>
     <artifactId>soundposter-website</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
     <packaging>bundle</packaging>
 
     <parent>

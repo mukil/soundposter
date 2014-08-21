@@ -62,12 +62,17 @@ public class WebsitePlugin extends WebActivatorPlugin {
 
     private boolean isInitialized = false;
 
+    // --- DeepaMehta 4 URIs ---
+
     private static final String CHILD_TYPE_URI = "dm4.core.child";
     private static final String PARENT_TYPE_URI = "dm4.core.parent";
     private static final String DEFAULT_TYPE_URI = "dm4.core.default";
+    private static final String DM4_TIME_MODIFIED = "dm4.time.modified";
 
     private static String PERSON_TYPE_URI = "dm4.contacts.person";
     private static String MAILBOX_TYPE_URI = "dm4.contacts.email_address";
+
+    // --- Soundposter 1 URIs
 
     private static String SETLIST_LABEL_URI = "com.soundposter.setlist_label";
 
@@ -167,6 +172,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
                     soundNr = (int) sound.getCompositeValue().getLong(SOUND_ORDINAL_URI);
                 } catch (ClassCastException ces) {
                     String value = sound.getCompositeValue().getString(SOUND_ORDINAL_URI);
+                    if (value.isEmpty()) return false;
                     soundNr = Integer.parseInt(value);
                 }
             }
@@ -316,6 +322,12 @@ public class WebsitePlugin extends WebActivatorPlugin {
         return invokeC3SView();
     }
 
+    @GET
+    @Path("/favicon.ico")
+    public InputStream getFavicon() {
+        return getSoundposterFavIcon();
+    }
+
 	@GET
     @Path("/contact")
     @Produces(MediaType.TEXT_HTML)
@@ -392,7 +404,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
 
     private InputStream getSoundposterFavIcon() {
         try {
-            return dms.getPlugin("com.soundposter.webapp").getResourceAsStream("web/images/favicon.ico");
+            return dms.getPlugin("com.soundposter.webapp").getResourceAsStream("web/images/mini_SP_Logo_mit_dreieck_ffffff.png");
         } catch (Exception e) {
             throw new WebApplicationException(e);
         }
@@ -430,7 +442,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
         ArrayList<PreviewPoster> results = new ArrayList<PreviewPoster>();
         ResultList<RelatedTopic> all = getAllPublishedSoundposter();
         // build up sortable collection of all result-items (warning: in-memory copy of _all_ published soundposter)
-        ArrayList<RelatedTopic> in_memory = getResultSetSortedByTitle(all, clientState);
+        ArrayList<RelatedTopic> in_memory = getResultSetSortedByModificationDate(all, clientState);
         int max_count = 6;
         int offset = page_nr * max_count;
         // throw error if page is unexpected high or NaN
@@ -449,12 +461,8 @@ public class WebsitePlugin extends WebActivatorPlugin {
                 //
                 String poster_description = item.getCompositeValue().getString("com.soundposter.poster_description");
                 String poster_subtitle = item.getCompositeValue().getString("com.soundposter.poster_subtitle");
-                Object timevalue = item.getProperty("dm4.time.modified");
+                Object timevalue = item.getProperty(DM4_TIME_MODIFIED);
                 long last_modified = Long.parseLong(timevalue.toString());
-                log.info("Timevalue = > " + last_modified);
-                /** if (timevalue != null) {
-                    last_modified = new Date(timevalue.toString());
-                } **/
                 // List<Topic> tags = item.getCompositeValue().getTopics("dm4.tags.tag");
                 //
                 if (graphic_url == null) graphic_url = getPosterGraphicURL(item);
@@ -1315,6 +1323,26 @@ public class WebsitePlugin extends WebActivatorPlugin {
             public int compare(RelatedTopic t1, RelatedTopic t2) {
                 return t1.getSimpleValue().toString().toLowerCase()
                         .compareTo(t2.getSimpleValue().toString().toLowerCase());
+            }
+        });
+        return in_memory;
+    }
+
+
+    private ArrayList<RelatedTopic> getResultSetSortedByModificationDate (ResultList<RelatedTopic> all, ClientState clientState) {
+        // build up sortable collection of all result-items
+        ArrayList<RelatedTopic> in_memory = new ArrayList<RelatedTopic>();
+        for (RelatedTopic obj : all) {
+            in_memory.add(obj);
+        }
+        // sort all result-items
+        Collections.sort(in_memory, new Comparator<RelatedTopic>() {
+            public int compare(RelatedTopic t1, RelatedTopic t2) {
+                long first_date = Long.parseLong(t1.getProperty(DM4_TIME_MODIFIED).toString());
+                long second_date = Long.parseLong(t2.getProperty(DM4_TIME_MODIFIED).toString());
+                if (first_date > second_date) return -1;
+                if (second_date > first_date) return 1;
+                return 0;
             }
         });
         return in_memory;
