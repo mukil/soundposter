@@ -16,7 +16,7 @@ var site = new function () {
             timeupdate: function(event) {
                 // todo: write play-button and animate with event.jPlayer.status.currentPercentRelative
                 // $('.timer').text($.jPlayer.convertTime(event.jPlayer.status.currentTime))
-                $('.timer').text($.jPlayer.convertTime(event.jPlayer.status.duration))
+                // $('.timer').text($.jPlayer.convertTime(event.jPlayer.status.duration))
             },
             play: function(event) {
                 // keep state current
@@ -49,24 +49,26 @@ var site = new function () {
             error: function(event) {
                 // keep state current
                 now_playing = false
+                // gui update
+                $('#play-button').attr('src', '/com.soundposter.website/images/logos/SP_Logo_mit_dreieck_ffffff.png')
                 url_set = undefined
                 console.log("jPlayer:error playing stream... ")
                 // if (piwikTracker != undefined) piwikTracker.trackGoal(2)
                 //
                 if (event.jPlayer.error.type == "e_url_not_set") {
-                    console.log("ERROR: Sound-Resource is not yet set => " + poster.url_set)
+                    console.log("ERROR: Sound-Resource is not yet set => " + url_set)
                 } else if (event.jPlayer.error.type == "e_url") {
                     console.log('ERROR: An error occured during requesting media source url.')
                     /** poster.show_modal_notification("We cannot access the media anymore, probably the sound was moved. "
                         + "And if you're connected to the internet, this sound will be marked for review for the author"
-                        + " of this soundposter.<br/>") **/
+                        + " of this soundposter.<br/>")
                     setTimeout(function() {
                         // if user did not react to error-message, we skip to the next track now
                         if (!now_playing) {
                             // poster.play_next_track()
                             // poster.show_notification("Skipping to next track")
                         }
-                    }, 10000)
+                    }, 10000) **/
                 } else if (event.jPlayer.error.type == "e_flash") {
                     console.log('ERROR: An error occured during flash-playback of media file.')
                 } else if (event.jPlayer.error.type == "e_flash_disabled") {

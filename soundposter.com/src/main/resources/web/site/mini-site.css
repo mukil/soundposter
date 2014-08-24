@@ -58,8 +58,8 @@ body.page.browse .new-main {
 }
 
 .page #hello div.highlight {
-    height: 140px;
-    margin-bottom: 60px;
+    margin-top: 100px;
+    margin-bottom: 0px;
 }
 
 #hello .logo {
@@ -73,7 +73,7 @@ body.page.browse .new-main {
 
 #hello .frontpage-track {
     position: relative;
-    top: 320px;
+    top: 300px;
     font-size: 1em;
     padding-left: 30px;
     padding-right: 30px;

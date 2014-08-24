@@ -673,18 +673,18 @@ var poster = new function () {
         var graphicY = poster.viewport_height() / 2
         if (posterHasGraphic) {
             graphicX = $image.width() / 2 + graphicRadius
-            graphicY = $image.height() / 2 + graphicRadius
+            graphicY = $image.height() / 2 // + graphicRadius
         }
-        /**
-        // Create new paper (fixme: see around 625)
-        poster.paper = Raphael("interactives", 6321, 6321) // todo: dont set max raphael-canvas-size
-        // poster.paper.image(graphicUrl, 1000, 1000, 2000, 2000)
         // and lets place our interactives not in the center of the postergraphic, but at the spot of the sound
         if (pos != undefined) {
             graphicX = pos.x + 55
             graphicY = pos.y - 65
         }
-        // Creates circle
+
+        // Create new paper (fixme: see around 625)
+        // poster.paper = Raphael("interactives", 6321, 6321) // todo: dont set max raphael-canvas-size
+        // poster.paper.image(graphicUrl, 1000, 1000, 2000, 2000)
+        /** // Creates circle
         var circle = poster.paper.circle(graphicX, graphicY, graphicRadius)
             // circle.attr("fill", "0-#333-#a9a9a9:5-#333") // ‹angle›-‹colour›[-‹colour›[:‹offset›]]*-‹colour›
             circle.attr("fill", "r[0.7,1]#2d2d2d-#131313") // r[(‹fx›, ‹fy›)]‹colour›[-‹colour›[:‹offset›]]*-‹colour›
