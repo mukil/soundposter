@@ -124,7 +124,7 @@ var poster = new function () {
                     poster.selected_track = poster.get_viz_by_id(trackId)
                     // maybe we dont wanna start the audio immediately but render nice interactives
                     var pos = poster.show_selected_track()
-                        pos.y = pos.y - 55
+                        pos.y = pos.y
                         pos.x = pos.x
                     // hint: differ better between set_selected_track and show_selected_track and play_selected_track
                     poster.show_interactives(poster.play_selected_track, pos, posterHasGraphic)
@@ -668,7 +668,7 @@ var poster = new function () {
     this.show_interactives = function(click_handler, pos, posterHasGraphic) {
         if (poster.mod.svg == false) return null
         // Get orientation
-        var graphicRadius = 40
+        var graphicRadius = 60
         var graphicX = poster.viewport_width() / 2
         var graphicY = poster.viewport_height() / 2
         if (posterHasGraphic) {
