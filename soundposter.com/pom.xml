@@ -12,9 +12,8 @@
 
     <parent>
         <groupId>de.deepamehta</groupId>
-        <artifactId>deepamehta-parent</artifactId>
-        <version>5</version>
-        <relativePath>../../../Destop/src-deepamehta/deepamehta/deepamehta-parent/pom.xml</relativePath>
+        <artifactId>deepamehta-plugin-parent</artifactId>
+        <version>4.4</version>
     </parent>
 
     <dependencies>                                   <!-- Most DeepaMehta plugin projects           -->
@@ -22,25 +21,25 @@
         <dependency>                                 <!-- depend on the DeepaMehta core module.     -->
             <groupId>de.deepamehta</groupId>         <!-- Copy this declaration as is.              -->
             <artifactId>deepamehta-core</artifactId> <!-- Just update the version number, if a      -->
-            <version>4.2-SNAPSHOT</version>		 <!-- newer version of DeepaMehta is available. -->
+            <version>4.4</version>		 <!-- newer version of DeepaMehta is available. -->
         </dependency>                                <!-- If your plugin has no Java code at all,   -->
 
         <dependency>                                 <!-- depend on the DeepaMehta core module.     -->
             <groupId>de.deepamehta</groupId>         <!-- Copy this declaration as is.              -->
             <artifactId>deepamehta-topicmaps</artifactId> <!-- Just update the version number, if a -->
-            <version>4.2-SNAPSHOT</version>		 <!-- newer version of DeepaMehta is available. -->
+            <version>4.4</version>		 <!-- newer version of DeepaMehta is available. -->
         </dependency>
 
         <dependency>                                 <!-- depend on the DeepaMehta core module.     -->
             <groupId>de.deepamehta</groupId>         <!-- Copy this declaration as is.              -->
             <artifactId>deepamehta-accesscontrol</artifactId> <!-- Just update the version number,  -->
-            <version>4.2-SNAPSHOT</version>		 <!-- newer version of DeepaMehta is available. -->
+            <version>4.4</version>		 <!-- newer version of DeepaMehta is available. -->
         </dependency>
 
         <dependency>
             <groupId>de.deepamehta</groupId>
-            <artifactId>deepamehta-webactivator</artifactId>
-            <version>0.4.1</version>
+            <artifactId>dm44-webactivator</artifactId>
+            <version>0.4.4</version>
         </dependency>
 
         <dependency>
@@ -58,6 +57,9 @@
                 <artifactId>maven-bundle-plugin</artifactId>
                 <configuration>
                     <instructions>
+                        <Bundle-SymbolicName>
+                            com.soundposter.website
+                        </Bundle-SymbolicName>
                         <Bundle-Activator>   <!-- fully qualified name of your plugin "main" class. -->
                             com.soundposter.plugin.website.WebsitePlugin
                         </Bundle-Activator>

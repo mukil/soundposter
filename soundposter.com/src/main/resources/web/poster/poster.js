@@ -143,12 +143,12 @@ var poster = new function () {
         this.load_lists(this.data) // fixme: do server side
 
         // var soundposter_name = this.data.info.value
-        // var soundposter_tags = this.data.info.composite["com.soundposter.tag"]
-        // var soundposter_license = this.data.info.composite["com.soundposter.license_info"]
-        // var soundoster_description = this.data.info.composite["dm4.topicmaps.description"]
+        // var soundposter_tags = this.data.info.childs["com.soundposter.tag"]
+        // var soundposter_license = this.data.info.childs["com.soundposter.license_info"]
+        // var soundoster_description = this.data.info.childs["dm4.topicmaps.description"]
         if (debugModel) console.log(this.data)
-        var rendering_options = this.data.info.composite["com.soundposter.display_options"]
-        // var last_modified = this.data.info.composite["com.soundposter.last_modified"]
+        var rendering_options = this.data.info.childs["com.soundposter.display_options"]
+        // var last_modified = this.data.info.childs["com.soundposter.last_modified"]
 
         for (var i=0; i <= rendering_options.length; i++) {
             // value is either empty (==default rendering options) or
@@ -176,9 +176,9 @@ var poster = new function () {
 
         if (hyperlink.composite != undefined) {
             // legacy version
-            if (hyperlink.composite.hasOwnProperty('dm4.webbrowser.url')) {
-                poster.data.buylink = hyperlink.composite['dm4.webbrowser.url'].value;
-                poster.data.buylabel = hyperlink.composite['dm4.webbrowser.web_resource_description'].value;
+            if (hyperlink.childs.hasOwnProperty('dm4.webbrowser.url')) {
+                poster.data.buylink = hyperlink.childs['dm4.webbrowser.url'].value;
+                poster.data.buylabel = hyperlink.childs['dm4.webbrowser.web_resource_description'].value;
                 poster.data.buylabel = poster.data.buylabel.toString() // .replaceAll("<p>", "").replaceAll("</p>", "")
                 $('a.support-link').text("Artist Link")
                 $('a.support-link').attr("href", poster.data.buylink)
@@ -215,9 +215,9 @@ var poster = new function () {
         for (var item in poster.sounds) {
             var sound = poster.sounds[item]
             // prepare data for each list-item
-            var sound_name = (sound.composite.hasOwnProperty('com.soundposter.sound_name')) ? sound.composite['com.soundposter.sound_name'].value  : ""
-            var album_name = (sound.composite.hasOwnProperty('com.soundposter.album_name')) ? sound.composite['com.soundposter.album_name'][0].value  : "" // just render 1st album at hand
-            var artists_name = (sound.composite.hasOwnProperty('com.soundposter.artist_name')) ? sound.composite['com.soundposter.artist_name'].value  : [""]
+            var sound_name = (sound.childs.hasOwnProperty('com.soundposter.sound_name')) ? sound.childs['com.soundposter.sound_name'].value  : ""
+            var album_name = (sound.childs.hasOwnProperty('com.soundposter.album_name')) ? sound.childs['com.soundposter.album_name'][0].value  : "" // just render 1st album at hand
+            var artists_name = (sound.childs.hasOwnProperty('com.soundposter.artist_name')) ? sound.childs['com.soundposter.artist_name'].value  : [""]
             var artist_name = ""
             var idx = 0
             for (var name in artists_name) {
@@ -228,19 +228,19 @@ var poster = new function () {
                 }
             }
             //
-            var sound_description = (sound.composite.hasOwnProperty('com.soundposter.sound_description')) ? sound.composite['com.soundposter.sound_description'].value  : ""
-            var gig_start_time = (sound.composite.hasOwnProperty('com.soundposter.gig_start_time')) ? sound.composite['com.soundposter.gig_start_time'].value  : ""
-            var publisher_homepage = (sound.composite.hasOwnProperty('com.soundposter.publisher_info')) ? sound.composite['com.soundposter.publisher_info'].value  : ""
-            var publisher_name = (sound.composite.hasOwnProperty('com.soundposter.publisher_name')) ? sound.composite['com.soundposter.publisher_name'].value  : ""
-            var license_info = (sound.composite.hasOwnProperty('com.soundposter.license_info')) ? sound.composite['com.soundposter.license_info'].value  : ""
-            var track_position = (sound.composite.hasOwnProperty('com.soundposter.ordinal_number')) ? parseInt(sound.composite['com.soundposter.ordinal_number'].value) : 0
+            var sound_description = (sound.childs.hasOwnProperty('com.soundposter.sound_description')) ? sound.childs['com.soundposter.sound_description'].value  : ""
+            var gig_start_time = (sound.childs.hasOwnProperty('com.soundposter.gig_start_time')) ? sound.childs['com.soundposter.gig_start_time'].value  : ""
+            var publisher_homepage = (sound.childs.hasOwnProperty('com.soundposter.publisher_info')) ? sound.childs['com.soundposter.publisher_info'].value  : ""
+            var publisher_name = (sound.childs.hasOwnProperty('com.soundposter.publisher_name')) ? sound.childs['com.soundposter.publisher_name'].value  : ""
+            var license_info = (sound.childs.hasOwnProperty('com.soundposter.license_info')) ? sound.childs['com.soundposter.license_info'].value  : ""
+            var track_position = (sound.childs.hasOwnProperty('com.soundposter.ordinal_number')) ? parseInt(sound.childs['com.soundposter.ordinal_number'].value) : 0
             if (poster.rendering.sound_times) {
                 // overriding track positio with gig_times value
                 track_position = gig_start_time
             }
-            var source_page = (sound.composite.hasOwnProperty('com.soundposter.source_page')) ? sound.composite['com.soundposter.source_page'].value : "com.soundposter.unspecified_source"
-            var stream_info = (sound.composite.hasOwnProperty('dm4.webbrowser.url')) ? sound.composite['dm4.webbrowser.url'].value : ""
-            var stream_unavailable = (sound.composite.hasOwnProperty('com.soundposter.stream_unavailable')) ? sound.composite['com.soundposter.stream_unavailable'].value  : ""
+            var source_page = (sound.childs.hasOwnProperty('com.soundposter.source_page')) ? sound.childs['com.soundposter.source_page'].value : "com.soundposter.unspecified_source"
+            var stream_info = (sound.childs.hasOwnProperty('dm4.webbrowser.url')) ? sound.childs['dm4.webbrowser.url'].value : ""
+            var stream_unavailable = (sound.childs.hasOwnProperty('com.soundposter.stream_unavailable')) ? sound.childs['com.soundposter.stream_unavailable'].value  : ""
             //
             var stream_provider_class = "unspecified-stream"
             var stream_provider_placeholder = ""
@@ -293,18 +293,18 @@ var poster = new function () {
         for (var item in poster.events) {
             var event = poster.get_topic_by_id(poster.events[item].id, true)
                 // sort sounds by gig time
-                event.composite['com.soundposter.sound'].sort(poster.gig_sort)
+                event.childs['com.soundposter.sound'].sort(poster.gig_sort)
             // append event-header
             $listing.append('<li data-role="list-divider" data-divider-theme="a">' +event.value+ '</a>')
             // construct sound-items
-            if (event.composite.hasOwnProperty('com.soundposter.sound')) {
-                for (var key in event.composite['com.soundposter.sound']) {
-                    var sound = event.composite['com.soundposter.sound'][key]
-                    var sound_name = (sound.composite.hasOwnProperty('com.soundposter.sound_name')) ? sound.composite['com.soundposter.sound_name'].value  : ""
-                    var gig_start_time = (sound.composite.hasOwnProperty('com.soundposter.gig_start_time')) ? sound.composite['com.soundposter.gig_start_time'].value  : ""
+            if (event.childs.hasOwnProperty('com.soundposter.sound')) {
+                for (var key in event.childs['com.soundposter.sound']) {
+                    var sound = event.childs['com.soundposter.sound'][key]
+                    var sound_name = (sound.childs.hasOwnProperty('com.soundposter.sound_name')) ? sound.childs['com.soundposter.sound_name'].value  : ""
+                    var gig_start_time = (sound.childs.hasOwnProperty('com.soundposter.gig_start_time')) ? sound.childs['com.soundposter.gig_start_time'].value  : ""
                     var track_position = (gig_start_time != undefined) ? gig_start_time : ""
-                    var source_page = (sound.composite.hasOwnProperty('com.soundposter.source_page')) ? sound.composite['com.soundposter.source_page'].value : "com.soundposter.unspecified_source"
-                    var stream_info = (sound.composite.hasOwnProperty('dm4.webbrowser.url')) ? sound.composite['dm4.webbrowser.url'].value : ""
+                    var source_page = (sound.childs.hasOwnProperty('com.soundposter.source_page')) ? sound.childs['com.soundposter.source_page'].value : "com.soundposter.unspecified_source"
+                    var stream_info = (sound.childs.hasOwnProperty('dm4.webbrowser.url')) ? sound.childs['dm4.webbrowser.url'].value : ""
                     var stream_provider_class = "unspecified-stream"
                     var stream_provider_placeholder = ""
                     // fixme: currently calculating the streaming provider based on stream-location-uri
@@ -834,7 +834,7 @@ var poster = new function () {
 
     this.show_track_selection = function () {
         if (!poster.rendering.sounds) { // if sound-labels are not rendered, we display the title of selected_track
-            var sound_name = this.selected_track.value // .composite["com.soundposter.sound_name"].value
+            var sound_name = this.selected_track.value // .childs["com.soundposter.sound_name"].value
             poster.selected_track_name = sound_name
             $('#selection').text("Title: " + sound_name)
             $('#selection').fadeIn({duration: 900});
@@ -1134,8 +1134,8 @@ var poster = new function () {
 
     // compare "a" and "b" in some fashion, and return -1, 0, or 1
     this.gig_sort = function (a, b) {
-        var gigA = (a.composite.hasOwnProperty('com.soundposter.gig_start_time')) ? a.composite['com.soundposter.gig_start_time'].value  : 0
-        var gigB = (b.composite.hasOwnProperty('com.soundposter.gig_start_time')) ? b.composite['com.soundposter.gig_start_time'].value  : 0
+        var gigA = (a.childs.hasOwnProperty('com.soundposter.gig_start_time')) ? a.childs['com.soundposter.gig_start_time'].value  : 0
+        var gigB = (b.childs.hasOwnProperty('com.soundposter.gig_start_time')) ? b.childs['com.soundposter.gig_start_time'].value  : 0
         if (gigA < gigB) // sort string ascending
           return -1
         if (gigA > gigB)
@@ -1157,8 +1157,8 @@ var poster = new function () {
 
     // compare "a" and "b" in some fashion, and return -1, 0, or 1
     this.track_sort = function (compositeA, compositeB) {
-        var trackA = compositeA.composite['com.soundposter.ordinal_number']
-        var trackB = compositeB.composite['com.soundposter.ordinal_number']
+        var trackA = compositeA.childs['com.soundposter.ordinal_number']
+        var trackB = compositeB.childs['com.soundposter.ordinal_number']
         if (trackA == undefined) {
           if (debugControls) console.log("trackA undefined ordinal number value")
           return -1
@@ -1215,7 +1215,7 @@ var poster = new function () {
     }
 
     this.get_topic_by_id = function(topic_id, fetch_composite) {
-        return request("GET", "/core/topic/" + topic_id + "?fetch_composite=" + fetch_composite)
+        return request("GET", "/core/topic/" + topic_id + "?include_childs=" + fetch_composite)
     }
 
     /**
@@ -1226,9 +1226,9 @@ var poster = new function () {
 
         // var audiofile = this.get_topic_by_id(url_topic.id, true)
         var audiofile = this.load_sound_from_local_setlist(sound.id)
-        if (audiofile.composite["dm4.webbrowser.url"] != undefined) {
-            if (debugModel) console.log("fetched url: " + audiofile.composite["dm4.webbrowser.url"].value)
-            return audiofile.composite["dm4.webbrowser.url"].value
+        if (audiofile.childs["dm4.webbrowser.url"] != undefined) {
+            if (debugModel) console.log("fetched url: " + audiofile.childs["dm4.webbrowser.url"].value)
+            return audiofile.childs["dm4.webbrowser.url"].value
         }
         return undefined
     }
@@ -1241,9 +1241,9 @@ var poster = new function () {
 
         // var audiofile = this.get_topic_by_id(url_topic.id, true)
         var gig_start_time = this.load_sound_from_local_setlist(sound.id)
-        if (gig_start_time.composite["com.soundposter.gig_start_time"] != undefined) {
-            if (debugModel) console.log("fetched gig_time: " + gig_start_time.composite["com.soundposter.gig_start_time"].value)
-            return gig_start_time.composite["com.soundposter.gig_start_time"].value
+        if (gig_start_time.childs["com.soundposter.gig_start_time"] != undefined) {
+            if (debugModel) console.log("fetched gig_time: " + gig_start_time.childs["com.soundposter.gig_start_time"].value)
+            return gig_start_time.childs["com.soundposter.gig_start_time"].value
         }
         return undefined
     }
@@ -1255,10 +1255,10 @@ var poster = new function () {
     this.get_source_info = function (sound) {
 
         var audiofile = this.load_sound_from_local_setlist(sound.id)
-        if (audiofile.composite["com.soundposter.source_page"] != undefined) {
-            if (debugModel) console.log("fetched source_page: " + audiofile.composite["com.soundposter.source_page"].value)
+        if (audiofile.childs["com.soundposter.source_page"] != undefined) {
+            if (debugModel) console.log("fetched source_page: " + audiofile.childs["com.soundposter.source_page"].value)
             console.log(audiofile.composite)
-            return audiofile.composite["com.soundposter.source_page"].value
+            return audiofile.childs["com.soundposter.source_page"].value
         }
         return undefined
     }

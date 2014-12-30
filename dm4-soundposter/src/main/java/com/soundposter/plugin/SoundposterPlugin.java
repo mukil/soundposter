@@ -3,9 +3,9 @@ package com.soundposter.plugin;
 
 import com.soundposter.plugin.service.SoundposterService;
 import de.deepamehta.core.osgi.PluginActivator;
+import de.deepamehta.core.service.Inject;
 import de.deepamehta.core.service.PluginService;
 import de.deepamehta.plugins.accesscontrol.service.AccessControlService;
-import de.deepamehta.core.service.annotation.ConsumesService;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,7 +17,6 @@ import javax.ws.rs.*;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.codehaus.jettison.json.JSONTokener;
 
 /**
  *
@@ -34,12 +33,16 @@ import org.codehaus.jettison.json.JSONTokener;
 public class SoundposterPlugin extends PluginActivator implements SoundposterService {
 
     private Logger log = Logger.getLogger(getClass().getName());
+    
+    @Inject
     private AccessControlService acService;
 
     private final String BANDCAMP_API_SERVICE_KEY = "";
     // private final String SOUNDCLOUD_API_SERVICE_KEY = "";
 
-    /** --- Bandcamp Service Getters --- */
+    /** --- Bandcamp Service Getters ---
+     * @param artistName
+     * @return  JSONArray */
 
     @Override
     public JSONArray findBandcampBands(String artistName) {
@@ -143,29 +146,10 @@ public class SoundposterPlugin extends PluginActivator implements SoundposterSer
         }
     }
 
-
     /**
      * Implementing a soundposter search would trigger the following getTopic-Calls() to fulltext_key indexed types:
      *  Sound name, Sound Description, Set Name, Set Description, Poster Subtitle, Poster Description, Publisher Name,
      *  Album Name, Artist Name, futurewise: Tags, too and at last probably: com.soundposter.account_name
      **/
-
-    /** --- Implementing PluginService Interfaces to consume AccessControlService --- */
-
-    @Override
-    @ConsumesService("de.deepamehta.plugins.accesscontrol.service.AccessControlService")
-    public void serviceArrived(PluginService service) {
-        if (service instanceof AccessControlService) {
-            acService = (AccessControlService) service;
-        }
-    }
-
-    @Override
-    @ConsumesService("de.deepamehta.plugins.accesscontrol.service.AccessControlService")
-    public void serviceGone(PluginService service) {
-        if (service == acService) {
-            acService = null;
-        }
-    }
 
 }

@@ -1,11 +1,8 @@
 package com.soundposter.plugin.migrations;
 
 import de.deepamehta.core.AssociationType;
-import de.deepamehta.core.Topic;
 import de.deepamehta.core.TopicType;
 import de.deepamehta.core.model.AssociationDefinitionModel;
-import de.deepamehta.core.model.SimpleValue;
-import de.deepamehta.core.model.TopicModel;
 import de.deepamehta.core.service.Migration;
 
 

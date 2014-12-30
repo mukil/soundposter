@@ -158,12 +158,12 @@ public class Migration4 extends Migration {
         dms.createAssociation(new AssociationModel("dm4.core.aggregation",
             new TopicRoleModel(topic.getId(), "dm4.core.parent"),
             new TopicRoleModel("de.workspaces.deepamehta", "dm4.core.child")
-        ), null);
+        ));
     }
 
     private boolean hasWorkspace(Topic topic) {
         return topic.getRelatedTopics("dm4.core.aggregation", "dm4.core.parent", "dm4.core.child",
-            "dm4.workspaces.workspace", false, false, 0).getSize() > 0;
+            "dm4.workspaces.workspace", 0).getSize() > 0;
     }
 
 }
