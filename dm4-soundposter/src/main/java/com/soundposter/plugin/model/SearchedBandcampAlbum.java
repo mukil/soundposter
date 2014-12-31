@@ -1,10 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.soundposter.plugin.website.model;
 
-import java.util.ArrayList;
+package com.soundposter.plugin.model;
 
 /**
  *
