@@ -25,7 +25,7 @@ import org.codehaus.jettison.json.JSONTokener;
 
 /**
  *
- * Soundposter Webservice running on <http://www.soundposter.com>
+ * Soundposter Application model running on <http://www.soundposter.com>
  * @version 1.1-SNAPSHOT
  * @author Copyright 2013-2014, Malte Reißig <malte@mikromedia.de>
  *

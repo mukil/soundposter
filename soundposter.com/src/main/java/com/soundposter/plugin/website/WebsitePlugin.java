@@ -147,11 +147,44 @@ public class WebsitePlugin extends WebActivatorPlugin {
     /** Soundposter.com Website Methods */
 
     @GET
-    @Path("/xml/sitemap")
+    @Path("/google/sitemap")
     @Produces(MediaType.APPLICATION_XML)
     public String getSoundposterGoogleSitemap() {
-        // ### 
-        return "TBD";
+        StringBuilder xml = new StringBuilder();
+        xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+            "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n" +
+            "  <url> \n" +
+            "    <loc>http://soundposter.com/browse</loc> \n" +
+            "    <lastmod>2014-12-3106:00CET</lastmod> \n" +
+            "    <changefreq>daily</changefreq> \n" +
+            "    <priority>0.9</priority> \n" +
+            "  </url>\n" +
+            "  <url> \n" +
+            "    <loc>http://soundposter.com/sign-up</loc> \n" +
+            "    <lastmod>2014-12-3106:00CET</lastmod> \n" +
+            "    <changefreq>daily</changefreq> \n" +
+            "    <priority>1.0</priority> \n" +
+            "  </url>\n" +
+            "  <url> \n" +
+            "    <loc>http://soundposter.com/help</loc> \n" +
+            "    <lastmod>2014-12-3106:00CET</lastmod> \n" +
+            "    <changefreq>daily</changefreq> \n" +
+            "    <priority>0.8</priority> \n" +
+            "  </url>\n" +
+            "  <url> \n" +
+            "    <loc>http://soundposter.com/pricing</loc> \n" +
+            "    <lastmod>2014-12-3106:00CET</lastmod> \n" +
+            "    <changefreq>daily</changefreq> \n" +
+            "    <priority>0.7</priority> \n" +
+            "  </url>\n" +
+            "  <url> \n" +
+            "    <loc>http://soundposter.com/</loc> \n" +
+            "    <lastmod>2014-12-3106:00CET</lastmod> \n" +
+            "    <changefreq>always</changefreq> \n" +
+            "    <priority>0.7</priority> \n" +
+            "  </url>\n" +
+            "</urlset></xml>");
+        return xml.toString();
     }
 
     @GET
@@ -251,8 +284,24 @@ public class WebsitePlugin extends WebActivatorPlugin {
     public InputStream getFavicon() {
         return getSoundposterFavIcon();
     }
+    
+    @GET
+    @Path("/sign-up")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable getLegacySignupPage() {
+        log.info("Requesting soundposter.com sign-up page .. ");
+        return getSignupPage();
+    }
+    
+    @GET
+    @Path("/thestory.html")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable getLegacyStoryPage() {
+        log.info("Requesting soundposter.com legacy about page .. ");
+        return getPhilosophyPage();
+    }
 
-	@GET
+    @GET
     @Path("/contact")
     @Produces(MediaType.TEXT_HTML)
     public Viewable getSignupPage() {
@@ -316,7 +365,6 @@ public class WebsitePlugin extends WebActivatorPlugin {
     }
 
     @GET
-    @Path("/")
     @Produces(MediaType.TEXT_HTML)
     public Viewable getFrontpage() {
         log.info("Requesting front page without pathinfo.. ");
@@ -726,13 +774,6 @@ public class WebsitePlugin extends WebActivatorPlugin {
         return dms.getTopic(random_sound.getId()).loadChildTopics();
     }
 
-    @GET
-    @Path("/sound/identify/poster")
-    public ResultList<RelatedTopic> getSoundposterBySound(Topic soundTopic) {
-        return soundTopic.getRelatedTopics("dm4.topicmaps.topic_mapcontext", "dm4.topicmaps.topicmap_topic",
-                DEFAULT_URI, TOPICMAP_TYPE_URI, 1);
-    }
-
     // #### ?
     @GET
     @Path("/create/signup/{signupInfo}/{name}")
@@ -1001,6 +1042,11 @@ public class WebsitePlugin extends WebActivatorPlugin {
         if (acService.getUsername() == null) {
             throw new WebApplicationException(new Throwable("You have to be logged in."), 401);
         }
+    }
+    
+    private ResultList<RelatedTopic> getSoundposterBySound(Topic soundTopic) {
+        return soundTopic.getRelatedTopics("dm4.topicmaps.topic_mapcontext", "dm4.topicmaps.topicmap_topic",
+                DEFAULT_URI, TOPICMAP_TYPE_URI, 1);
     }
     
     private boolean isValidFrontpageSound (Topic sound) {
