@@ -56,7 +56,8 @@
         <script type="text/javascript" src="/com.soundposter.website/script/vendor/adapt/adapt.min.js"></script>
 
         <!-- Piwik -->
-        <script type="text/javascript">
+        <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
             var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.soundposter.com/p/" : "http://stats.soundposter.com/p/");
             document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
             </script><script type="text/javascript">
@@ -65,6 +66,7 @@
                 piwikTracker.trackPageView();
                 piwikTracker.enableLinkTracking();
             } catch( err ) {}
+        /*]]>*/
         </script>
         <!-- End Piwik Tracking Code -->
 
