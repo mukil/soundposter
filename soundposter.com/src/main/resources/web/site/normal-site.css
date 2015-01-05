@@ -2,8 +2,8 @@
 
 body.page.browse {
     margin: 30px;
-
 }
+
 .page.browse .footer ul.low-menu {
     position: relative;
     left: 30px;
@@ -11,12 +11,6 @@ body.page.browse {
 
 body.page.browse .poster-preview {
     width: 640px;
-}
-
-#hello .logo img {
-    width: 400px;
-    height: 400px;
-    padding-left: 20px;
 }
 
 #hello .logo {
@@ -27,9 +21,11 @@ body.page.browse .poster-preview {
     margin-top: 30px;
 }
 
+.page .new-main,
 .page .main,
 #hello {
     min-width: 420px;
+    width: 70%;
 }
 
 .page.welcome .main {

@@ -5,7 +5,7 @@
 
 #hello .logo {
     padding-right: 60px;
-    margin-top: 110px;
+    margin-top: 80px;
     padding-left: 40px;
 }
 
@@ -17,3 +17,9 @@
     margin-top: 135px;
 } **/
 
+
+/** New Page Layout */
+
+.page.welcome .side-panel {
+    font-size: 1.5em;
+}

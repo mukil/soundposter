@@ -1,26 +1,16 @@
 
 #hello .logo {
     margin-top: 90px;
-    padding-left: 40px;
 }
 
 #hello .frontpage-track {
     margin-top: 50px;
 }
 
-#hello .logo img {
-    width: 400px;
-    height: 400px;
-    padding-left: 20px;
-}
-
 .page .main,
 #hello {
     min-width: 420px;
-}
-
-.page.welcome .main {
     margin: auto;
-    width: 70%;
+    margin-left: 40px;
 }
 

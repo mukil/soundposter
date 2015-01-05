@@ -534,7 +534,7 @@ var poster = new function () {
                 $('.timer').hide()
             // backup, unselection of highlighted track
             },
-            swfPath: "/com.soundposter.website/script/vendor/jquery.player/",
+            swfPath: "/com.soundposter.website/script/vendor/jquery.player/2.9.2/",
             supplied: "mp3",
             solution: "html, flash",
             errorAlerts: false

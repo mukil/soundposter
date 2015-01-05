@@ -34,7 +34,7 @@
                     '790px  to 1032px	= tablet-site.css',
                     '1032px  to 1240px	= normal-site.css',
                     '1240px  to 1480px	= poster-site.css',
-                    '1480px				= panorama-site.css'
+                    '1480px             = panorama-site.css'
                 ]
             }
 
@@ -66,25 +66,42 @@
 
         <div class="side-panel">
 
-            <a href="/" title="Frontpage on soundposter.com">
-                <img class="home" src="/com.soundposter.website/images/logos/SP_Logo_ohne_dreieck_ffffff_blank_grounded.jpg" border="0"
+            <h3 class="status"></h3>
+            
+            <div class="control">
+                <a href="/" title="Frontpage on soundposter.com">
+                    <img class="home" src="/com.soundposter.website/images/logos/SP_Logo_ohne_dreieck_ffffff_blank_grounded.jpg" border="0"
                         width="256px" height="256px"/>
-            </a><br/><br/>
-
-            <div class="filter-menu">
-                Browsing <span class="filter-item selected">soundposters</span><br/><br/>
-                <span class="filter-item selected">Last edited first<br/></span><br/>
-
-                <!-- a href="/browse/by_artists" class="filter-item">Artist</a>
-                <a href="/browse/by_sounds"  class="filter-item">Sound</a-->
+                </a>
+                <div class="filter-menu">
+                    Browsing <span class="filter-item">soundposters</span><br/><br/>
+                    <span class="filter-item selected">Last edited first<br/></span><br/>
+                    <!-- a href="/browse/by_artists" class="filter-item">Artist</a>
+                    <a href="/browse/by_sounds"  class="filter-item">Sound</a-->
+                </div>
+                <a th:href="${previous_page_url}" th:class="${!page.on_first_page} ? 'previous-page' : 'no-previous-page'">Previous</a>
+                <a th:href="${next_page_url}" th:class="${!page.on_last_page} ? 'next-page' : 'no-next-page'">Next</a>
             </div>
-            <br/><br/>
 
-            <a th:href="${previous_page_url}" th:class="${!on_first_page} ? 'previous-page' : 'no-previous-page'">Previous</a>
-            <!-- div class="image" title="This is soundposter.com"></div-->
-            <a th:href="${next_page_url}" th:class="${!on_last_page} ? 'next-page' : 'no-next-page'">Next</a>
-
+            <ul class="menu">
+                <li><a href="/sign-up">Sign up</a></li>
+                <li><a href="/help">Intro</a></li>
+                <li><a href="/browse" class="selected">Explore</a></li>
+                <li><a href="/pricing">Subscriptions</a></li>
+            </ul>
+            
+            <div id="soundsystem" class="control player"></div>
             <div class="container"></div>
+            
+            <ul class="secondary-menu">
+                <li><a href="/legal">Legal</a></li>
+                <li><a href="http://blog.soundposter.com" title="Official Soundposter Blog">Blog</a></li>
+                <li><a href="/philosophy">Philosophy</a></li>
+                <!-- li><a href="/contact">Contact</a></li -->
+                <li><a href="/about-us">About us</a></li>
+                <li><a href="/imprint">Imprint</a></li>
+            </ul>
+            
 
         </div>
 
@@ -93,7 +110,7 @@
         </div -->
 
         <div class="new-main">
-            <div class="poster-preview" th:each="poster : ${set}">
+            <div class="poster-preview" th:each="poster : ${page.set}">
                 <div th:style="${poster.background_css}" class="graphic" th:attr="onclick=${poster.onclick}">
                     <!-- span class="username" th:title="'Username ' + ${poster.username}" th:alt="'Username ' + ${poster.username}" th:text="${poster.username}"></span-->
                     <a class="link" th:title="'Watch Soundposter: ' + ${poster.title}" th:href="${poster.url}" th:text="${poster.title}"></a>
@@ -108,30 +125,8 @@
             </div>
         </div>
 
-
         <div class="footer">
-            <ul class="low-menu">
-                <li><a href="/help">Help</a></li>
-            </ul>
-            <ul class="low-menu">
-                <li><a href="/browse" class="selected">Explore</a></li>
-            </ul>
-            <ul class="low-menu">
-                <li><a href="/contact">Contact</a></li>
-            </ul>
-            <ul class="low-menu">
-                <li><a href="/legal">Legal</a></li>
-            </ul>
-            <ul class="low-menu">
-                <li><a href="/pricing">Plans</a></li>
-            </ul>
-            <ul class="low-menu">
-                <li><a href="/imprint">Imprint</a></li>
-                <li><a href="/about-us">About us</a></li>
-                <li><a href="/philosophy">Philosophy</a></li>
-                <li><a href="http://blog.soundposter.com" title="Official Soundposter Blog">Blog</a></li>
-            </ul>
-            <div id="soundsystem" class="control player"></div>
+            
         </div>
 
         <noscript>

@@ -8,11 +8,6 @@
     font-size: 1.5em;
 }
 
-#hello .logo img {
-    width: 360px;
-    height: 360px;
-}
-
 .page.welcome .main {
     font-size: 1em;
     width: 85%;
@@ -47,10 +42,6 @@
 body.page.browse {
     margin: 30px;
 
-}
-.page.browse .footer ul.low-menu {
-    position: relative;
-    left: 30px;
 }
 
 body.page.browse .new-main {

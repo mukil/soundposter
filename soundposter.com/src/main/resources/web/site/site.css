@@ -1,34 +1,44 @@
 
-@font-face {
-  font-family: 'Pontano Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Pontano Sans'),
-       url('Pontano_Sans/PontanoSans-Regular.woff') format('woff'),
-       url('Pontano_Sans/PontanoSans-Regular.ttf') format('truetype');
-}
-
 body {
-    font-family: 'Pontano Sans', 'Myriad Pro Regular', 'Trebuchet MS', 'sans-serif';
+    font-family: 'Pontano Sans', 'PontanoSans-Regular', 'Myriad Pro Regular', 'Trebuchet MS', 'sans-serif';
     /** 'Advent Pro' */
     background-image: url("/com.soundposter.website/images/website_pattern.jpg");
     letter-spacing: 2px;
+    overflow-y: scroll;
 }
 
+
+// ------------------------------------ Color Palette -------------- //
+
+/** someblue: #71bbe2;
+other yellow: e9ba00;
+other highblue: afcee0;
+signalo red: ed2700;
+smooth violet: #5e599b;
+straight blue: 3370b0;
+high orange: ff6432; **/
+
+
+
+// -------- Basic Elements (Typography, Paddings and Margins) -------- //
+
+// Pages: Title, Subtitle, Paragraphs, Menu, Secondary Menu, LIs and As
+
 body.page {
-	padding-top: 30px;
-	padding-bottom: 70px;
+    padding-top: 30px;
+    padding-bottom: 70px;
     /** background: linen; **/
-    color: darkgray;
+    color: #a9a9a9;
     margin: 60px;
+    overflow-style: panner;
+}
+
+.page a {
+    color: #71bbe2;
 }
 
 body.page.welcome {
     margin: 15px;
-}
-
-.page .subtitle a {
-    padding-top: 2px;
 }
 
 .page .title {
@@ -50,15 +60,12 @@ body.page.welcome {
     margin: 30px 90px;
     line-height: 1.5em;
     margin-top: 0px;
+    color: #a9a9a9;
 }
 
 /** .page .title .subtitle {
     font-size: 1.4em;
 } **/
-
-.page a {
-    color: #71bbe2;
-}
 
 /** .page .title a.expanded {
     background: #71bbe2;
@@ -66,23 +73,6 @@ body.page.welcome {
 
 .page .title .logo {
     color: #555;
-}
-
-.page .title a {
-    text-decoration: none;
-    color: #000;
-}
-
-.page .subtitle a.active {
-    background-color: #71bbe2;
-    color: #fff;
-    padding-left: 5px;
-    padding-right: 5px;
-}
-
-.page .subtitle a {
-    float: none;
-    text-decoration: none;
 }
 
 .page div.left-side {
@@ -123,6 +113,7 @@ body.page.welcome {
     padding-top: 40px; width: 40%; **/
     text-align: center;
     min-width: 600px;
+    width: 67%;
     height: 100%;
     /** background-image: url("/com.soundposter.website/images/website_pattern.jpg"); */
     /* -webkit-box-shadow: -3px 0px 4px 0px #a9a9a9;
@@ -133,7 +124,7 @@ body.page.welcome {
 
 div.side-panel {
     position: fixed; right: 0px; top: 0px;
-    padding-top: 10%;
+    padding-top: 2%;
     padding-bottom: 10%;
     text-align: center;
     width: 33%;
@@ -146,11 +137,7 @@ div.side-panel {
     min-width: 340px;
 }
 
-.page.browse .new-main {
-    width: 67%;
-    position: relative;
-    top: 0px;
-    margin: 0px;
+.side-panel h3.status {
 }
 
 div.side-panel div.image {
@@ -167,15 +154,79 @@ div.side-panel div.image:hover {
     cursor: pointer;
 }
 
+div.side-panel .menu {
+    text-align: right;
+}
+
+div.side-panel .menu li {
+    line-height: 2.4em;
+    text-align: right;
+}
+
+div.side-panel ul.secondary-menu {
+    position: fixed;
+    bottom: 40px;
+    text-align: left;
+    padding-left: 0px;
+}
+
+div.side-panel .secondary-menu li {
+    font-size: 0.8em;
+    /** display: inline-block; **/
+    line-height: 2.3em;
+    margin: 0px;
+    padding: 0px;
+    list-style-type: none;
+}
+
+.page .side-panel .menu li {
+    list-style-type: none;
+    margin-right: 0px;
+}
+
+.page ul.low-menu li {
+    list-style-type: none;
+    margin-left: 0px;
+    margin-right: 20px;
+}
+
+
+/** Old Page Layout */
+
 .page.welcome .main {
     width: 60%;
     margin: auto;
     /** padding-top: 10%; **/
 }
 
-#hello #play-button {
+#play-button {
     cursor: pointer;
 }
+
+/** New Page Layout */
+
+.page .side-panel {
+    font-size: 1.5em;
+}
+
+.page .side-panel .control {
+    font-size: .8em;
+    line-height: 1em;
+    z-index: 1001;
+    margin-bottom: 70px;
+}
+
+.page .new-main {
+    width: 67%;
+    position: relative;
+    top: 40px;
+    margin: 0px;
+}
+
+/** .page.welcome .new-main {
+    margin: 110px;
+} **/
+
 
 /** Specifics in frontpage title **/
 
@@ -225,6 +276,12 @@ div.side-panel div.image:hover {
     display: inline-block;
 }
 
+#hello .highlight img {
+    margin-top: 0px;
+    margin-bottom: 40px;
+    border: 1px solid #a9a9a9;
+}
+
 #hello ul.low-menu li a {
     background-color: #fff;
     color: #333;
@@ -255,29 +312,32 @@ h2.page-title {
     padding-right: 15px;
 }
 
-#hello .frontpage-track {
+.control .frontpage-track {
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 30px;
-    font-size: 1.2em;
+    margin-top: 10px;
+    font-size: 1em;
     line-height: 2em;
     text-align: center;
-    margin-top: 60px;
+    color: #a9a9a9;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
-#hello .sound-label {
-    font-weight: 700;
-    position: relative; top: 5px;
-}
+/** .control .sound-label {
+    color: #000;
+} **/
 
 .page #hello div.highlight {
-    margin-top: 40px;
+    margin-top: 80px;
     font-size: 2em;
     line-height: 2.2em;
     text-align: center;
     font-weight: 700;
+    color: #a9a9a9;
 }
 
+.page #hello .logo a.posterlink,
 .page #hello div.highlight a {
     background-color: #fff;
     color: #000;
@@ -286,11 +346,13 @@ h2.page-title {
     text-decoration: none;
 }
 
+.page #hello .logo a.posterlink:hover,
 .page #hello div.highlight a:hover {
     background-color: #ffb900;
     color: #fff;
 }
 
+.page #hello .logo a.posterlink,
 .page #hello .highlight a {
     text-decoration: none;
 }
@@ -390,6 +452,10 @@ b.available {
     background-image: url('/com.soundposter.website/images/SP_Logo_ohne_dreieck_fitzel_71bbe2_right_sided_700.jpg');
     background-repeat: no-repeat;
     background-position:  0px 0px;
+}
+
+.page.browse .side-panel img {
+    margin-top: 14px;
 }
 
 .page.browse .side-panel .container {
@@ -708,8 +774,10 @@ p.box b {
 
 .browse .filter-menu {
     position: relative;
-    font-size: 1.2em;
-    display: inline;
+    font-size: 1em;
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 .browse .filter-menu a {
@@ -763,7 +831,6 @@ p.box b {
 }
 
 .browse .sort-menu a,
-.page.browse .side-panel a,
 .browse .filter-menu a {
     text-decoration: none;
     padding: 5px;
@@ -779,12 +846,16 @@ a.previous-page {
     color: #333;
     cursor: pointer;
     background-color: #ffffff;
+    text-decoration: none;
+    padding: 4px;
+    padding-left: 8px; padding-right: 8px;
 }
 
 .browse .filter-menu .selected {
-    color: #333;
+    color: #000;
     background-color: transparent;
     cursor: auto;
+    font-weight: 700;
 }
 
 .browse .sort-menu a,
@@ -799,35 +870,28 @@ a.no-next-page,
 a.no-previous-page {
     color: darkgrey;
     cursor: text;
+    text-decoration: none;
     padding: 5px;
     padding-left: 10px;
     padding-right: 10px;
 }
 
-.page.welcome .subtitle {
+.page .subtitle {
     text-align: center;
-    /** margin-right: 60px; **/
-    margin-top: 110px;
+    padding: 100px;
+}
+
+.page .content {
+    background-color: #fff;
+    padding: 20px;
+    margin-left: 40px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .page.welcome .subtitle span.example {
     line-height: 2em;
-}
-
-.page.welcome .subtitle span.example a {
-    padding: 5px;
-    color: #333;
-    background-color: #fff;
-}
-
-.page.welcome .subtitle span.example {
     display: inline;
-}
-
-.page.welcome .subtitle span.example a:hover {
-    background-color: #ffb900;
-    cursor: pointer;
-    color: #fff;
 }
 
 .page.welcome .main .standard-features {
@@ -871,34 +935,22 @@ a.no-previous-page {
 /** New Footer **/
 
 .page .footer {
-    width: 100%;
-    background-color: #333;
+    /** background-color: #333; **/
+    padding: 40px;
     margin: 0px;
     color: #a9a9a9;
-    height: 35px;
-    position: fixed;
-    left: 0px; bottom: 0px;
-    text-align: center;
+    /** 
     -webkit-transition: 300ms linear height 1.5s;
     -moz-transition: 300ms linear height 1.5s;
     -o-transition: 300ms linear height 1.5s;
     -ms-transition: 300ms linear height 1.5s;
-    transition: 300ms linear height 1.5s;
-    background-image: url("/com.soundposter.website/images/website_pattern_dg.jpg");
+    transition: 300ms linear height 1.5s; **/
+    /** background-image: url("/com.soundposter.website/images/website_pattern_dg.jpg"); */
 }
 
-.page.browse .footer {
-    text-align: left;
-}
-
-.page.browse .footer ul.low-menu {
-    position: relative;
-    left: 60px;
-}
-
-.page .footer:hover {
+/** .page .footer:hover {
     height: 140px;
-}
+} **/
 
 .new-footer {
     padding: 30px;
@@ -913,19 +965,10 @@ a.lower-brand-type {
     font-weight: 900;
 }
 
-/** picked colors...
-someblue: #71bbe2;
-other yellow: e9ba00;
-other highblue: afcee0;
-signalo red: ed2700;
-smooth violet: #5e599b;
-straight blue: 3370b0;
-high orange: ff6432; **/
-
 .page ul.low-menu {
     vertical-align: top;
 	/** margin-right: 30px; **/
-	line-height: 2em;
+    line-height: 2em;
     padding: 0px; padding-top: 3px;
     position: relative;
     top: -1px;
@@ -935,22 +978,78 @@ high orange: ff6432; **/
 
 }
 
-/** .page .footer:hover ul.low-menu {
-    margin-top: 10px;
-} **/
 
-.page ul.low-menu li {
-    list-style-type: none;
-	margin-left: 0px;
-    margin-right: 20px;
+// ------------------------------------------------------------------------ //
+
+/** Button / Hyperlink Styles */
+
+.page .title a {
+    text-decoration: none;
+    color: #000;
 }
 
+.page .subtitle a.active {
+    background-color: #71bbe2;
+    color: #fff;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.page .subtitle a {
+    float: none;
+    text-decoration: none;
+    padding-top: 2px;
+}
+
+.page .side-panel .menu a,
+.page.welcome .subtitle span.example a {
+    padding: 4px;
+    color: #333;
+    background-color: #fff;
+    padding-bottom: 5px;
+}
+
+.page .side-panel .menu a:hover {
+    /** background-color: #afcee0; */
+    cursor: pointer;
+    color: #333;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.page .side-panel .menu li a.selected {
+    background-color: #ff6432;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: #333;
+}
+
+.page.welcome .subtitle span.example a:hover {
+    background-color: #ffb900;
+    cursor: pointer;
+    color: #fff;
+}
+
+.page .side-panel .secondary-menu a,
+.page .side-panel .menu a,
 .page ul.low-menu a {
     text-decoration: none;
     padding: 6px;
-    color: darkgrey;
     padding-left: 10px; padding-right: 10px;
     padding-top: 8px;
+}
+
+.page .side-panel .secondary-menu a {
+    background-color: #afcee0;
+    color: #fff;
+}
+
+.page .side-panel .secondary-menu a:hover {
+    padding-right: 20px;
+}
+
+.page ul.low-menu a {
+    color: darkgrey;
 }
 
 .page ul.low-menu a:hover,

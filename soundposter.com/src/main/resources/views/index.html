@@ -8,7 +8,7 @@
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta name="keywords" content="random track, creating, making, visual playlist, playlists, sound, music, web communication,
               tool, audible websites, publishing, platform, digital music distribution"/>
-        <meta name="title" content="Random track" />
+        <meta name="title" content="Frontpage - Random track" />
         <meta name="description" content="Soundposter is a platform for illustrating and publishing audible websites." />
         <meta name="author" content="Malte Reissig, http://www.mikromedia.de" />
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1"/>
@@ -18,14 +18,15 @@
             jQuery Player, jQuery Touch Punch, Adapt.js, Radphael, Modernizr and DeepaMehta 4.
         -->
 
-        <link href="/com.soundposter.website/site/site.css" rel="stylesheet" />
+        <link href="/com.soundposter.website/site/site.css" rel="stylesheet" type="text/css" />
         <link href="http://fonts.googleapis.com/css?family=Pontano+Sans" rel="stylesheet" type="text/css" />
 
         <script type="text/javascript" src="/com.soundposter.website/site/site.js"></script>
 
         <script type="text/javascript" src="/com.soundposter.website/script/vendor/jquery/jquery-1.9.1.min.js"></script>
         <script type="text/javascript" src="/com.soundposter.website/script/vendor/jquery.ui/jquery-ui-1.10.3.custom.min.js"></script>
-        <script type="text/javascript" src="/com.soundposter.website/script/vendor/jquery.player/jquery.jplayer.min.js"></script>
+        <script type="text/javascript" src="/com.soundposter.website/script/vendor/jquery.player/2.9.2/jquery.jplayer.min.js"></script>
+        <script type="text/javascript" src="/com.soundposter.website/script/vendor/raphaeljs/raphael-min.js"></script>
 
         <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
@@ -39,7 +40,7 @@
                     '790px  to 1032px	= tablet-site.css',
                     '1032px  to 1240px	= normal-site.css',
                     '1240px  to 1480px	= poster-site.css',
-                    '1480px				= panorama-site.css'
+                    '1480px             = panorama-site.css'
                 ]
             }
 
@@ -49,6 +50,9 @@
                 // initialize play button hover function
                 site.interactive_frontpage()
                 site.set_resource(sound_url)
+                
+                // 
+                site.render_player_controls()
             })
 
         /*]]>*/
@@ -73,32 +77,60 @@
     </head>
 
     <body class="page" th:attrappend="class=${' ' + pageId}">
+        
+        <div class="side-panel">
+
+            <h3 class="status"></h3>
+            
+            <div class="control" id="playback-control">
+                <!-- img src="/com.soundposter.website/images/logos/SP_Logo_backgrounded_ffffff_play_512.jpg" height="256" id="play-button"
+                         title="This is soundposter.com" th:title="'Listen to soundposter: ' + ${subtitle} + ' by ' + ${author}" /-->
+                <div class="frontpage-track">
+                    <span class="sound-label" th:text="${poster_name}"></span><br/>
+                    <!-- a th:href="'/' + ${profile_alias} + '/' + ${poster_alias} + '/' + ${sound_id}" class="" th:text="${sound_nr}"></a-->
+                    <span class="sound-label" th:text="${sound_name}"></span>
+                    <!-- span class="sound-label" th:text="${artist_name}"></span><br/-->
+                    <!-- a th:href="'/' + ${profile_alias} + '/' + ${poster_alias} + '/' + ${sound_id}" th:text="${poster_name}"></a-->
+                </div>
+            </div>
+            
+            <ul class="menu">
+                <li><a href="javascript:site.show_sign_up_view()" class="signup-btn">Sign up</a></li>
+                <li><a href="javascript:site.show_intro_view()" class="intro-btn">Intro</a></li>
+                <li><a href="/browse" class="explore-btn">Explore</a></li>
+                <li><a href="/pricing" class="plans-btn">Subscriptions</a></li>
+            </ul>
+            
+            <div id="soundsystem" class="control player"></div>
+            <div class="container"></div>
+
+            <ul class="secondary-menu">
+                <li><a href="/legal">Legal</a></li>
+                <li><a href="http://blog.soundposter.com" title="Official Soundposter Blog">Blog</a></li>
+                <li><a href="/philosophy">Philosophy</a></li>
+                <!-- li><a href="/contact">Contact</a></li -->
+                <li><a href="/about-us">About us</a></li>
+                <li><a href="/imprint">Imprint</a></li>
+            </ul>
+            
+        </div>
 
         <div id="hello">
 
             <div class="logo panel">
-
+                
                 <div class="title">
                     <span class="punchline pre-logo">Illustrating sounds on the web with </span>
-                    <span class="higher-brand-type">soundposter.com</span>
+                    <span class="higher-brand-type">soundposter.com</span> like <a class="posterlink" th:href="'/' + ${profile_alias} + '/' + ${poster_alias}" th:text="${poster_name}"></a><br/>
                 </div>
-
-                <div class="frontpage-track">
-                    Track <a th:href="'/' + ${profile_alias} + '/' + ${poster_alias} + '/' + ${sound_id}" class="" th:text="${sound_nr}"></a> in soundposter <a th:href="'/' + ${profile_alias} + '/' + ${poster_alias}" th:text="${poster_name}"></a><br/>
-                    <span class="sound-label" th:text="${sound_name}"></span>
+                <div class="highlight">
+                    <img th:src="${graphic}" class="preview" width="297" height="420" title="Selected soundposter.." /><br/>
+                    <a href="/browse">Browse</a> all soundposters
                 </div>
-                <img src="/com.soundposter.website/images/logos/SP_Logo_backgrounded_ffffff_play_512.jpg" height="450" id="play-button"
-                         title="This is soundposter.com" th:title="'Listen to soundposter: ' + ${subtitle} + ' by ' + ${author}" />
-                <div class="highlight"><a href="/browse">Browse</a> all soundposters</div>
                 <!-- <span class="selection-label">It's </span> <a class="link" th:href="${link}" th:text="${subtitle}"></a> -->
 
             </div>
-
-        </div>
-
-        <div class="main">
-
-
+            
             <div class="subtitle">
 
                 When working with soundposters you can do a
@@ -111,31 +143,15 @@
 
             </div>
 
+
+        </div>
+
+        <div class="new-main">
+
         </div>
 
         <div class="footer">
-            <ul class="low-menu">
-                <li><a href="/help">Help</a></li>
-            </ul>
-            <ul class="low-menu">
-                <li><a href="/browse">Explore</a></li>
-            </ul>
-            <ul class="low-menu">
-                <li><a href="/contact">Contact</a></li>
-            </ul>
-            <ul class="low-menu">
-                <li><a href="/legal">Legal</a></li>
-            </ul>
-            <ul class="low-menu">
-                <li><a href="/pricing">Plans</a></li>
-            </ul>
-            <ul class="low-menu">
-                <li><a href="/imprint">Imprint</a></li>
-                <li><a href="/about-us">About us</a></li>
-                <li><a href="/philosophy">Philosophy</a></li>
-                <li><a href="http://blog.soundposter.com" title="Official Soundposter Blog">Blog</a></li>
-            </ul>
-            <div id="soundsystem" class="control player"></div>
+            
         </div>
 
         <noscript>
