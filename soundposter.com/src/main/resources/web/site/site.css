@@ -19,10 +19,7 @@ straight blue: 3370b0;
 high orange: ff6432; **/
 
 
-
-// -------- Basic Elements (Typography, Paddings and Margins) -------- //
-
-// Pages: Title, Subtitle, Paragraphs, Menu, Secondary Menu, LIs and As
+// ----------- Basic Page Elements
 
 body.page {
     padding-top: 30px;
@@ -33,12 +30,82 @@ body.page {
     overflow-style: panner;
 }
 
+body.page.welcome {
+    margin: 15px;
+}
+
+.page div.info {
+    padding: 30px;
+    padding-bottom: 10px;
+    background-color: #e8e8e8;
+    position: relative;
+    min-height: 370px;
+}
+
+quote {
+    display: block;
+    margin: 10px;
+    line-height: 1.5em;
+    font-size: 1.1em;
+    font-style: italic;
+}
+
+quote span.marks {
+    font-size: 2em;
+    font-style: italic;
+    font-weight: 100;
+    vertical-align: bottom;
+    padding-right: 4px;
+}
+
+#play-button {
+    cursor: pointer;
+}
+
 .page a {
     color: #71bbe2;
 }
 
-body.page.welcome {
-    margin: 15px;
+b.unavailable {
+    color: #a90000;
+}
+
+b.available {
+    color: #ffb900;
+}
+
+b.by {
+    padding-left: 10px;
+}
+
+// --------------------------------------------- Page titles and subtitles
+
+
+.page .title .logo {
+    color: #555;
+}
+
+.page .subtitle {
+    font-size: 1.5em;
+    margin: 30px 90px;
+    line-height: 1.5em;
+    margin-top: 0px;
+    color: #a9a9a9;
+    text-align: center;
+    padding-top: 60px;
+}
+
+.page.legal .title,
+.page.help .title,
+.page.about .title,
+.page.philosophy .title {
+    text-align: center;
+    padding-left: 10px;
+}
+
+.page.welcome .subtitle span.example {
+    line-height: 2em;
+    display: inline;
 }
 
 .page .title {
@@ -55,71 +122,84 @@ body.page.welcome {
     vertical-align: top; */
 }
 
-.page .subtitle {
-    font-size: 1.5em;
-    margin: 30px 90px;
-    line-height: 1.5em;
-    margin-top: 0px;
-    color: #a9a9a9;
-}
-
-/** .page .title .subtitle {
-    font-size: 1.4em;
-} **/
-
-/** .page .title a.expanded {
-    background: #71bbe2;
-} **/
-
-.page .title .logo {
-    color: #555;
-}
-
-.page div.left-side {
-    position: fixed; top: 0px; left: 0px;
-    background-color: white;
-    /** background: url('/com.soundposter.website/images/site/_background_left_side.png') repeat-y;
-    border-right: 1px solid #3a3a3a; **/
-    height: 100%; width: 57px;
-}
-
-.page div.right-side {
-    position: fixed; top: 0px; right: 0px;
-    background-color: white;
-    /* background: url('/com.soundposter.website/images/site/_background_right_side.png') repeat-y;
-    border-left: 1px solid #3a3a3a; **/
-    height: 100%; width: 58px;
-}
-
-.page.legal .title,
-.page.help .title,
-.page.about .title,
-.page.philosophy .title {
-    text-align: center;
-    padding-left: 10px;
-}
-
-/** new Frontpgae speciifcs */
-
-.higher-brand-type {
-    color: #000;
+.page .title a {
     text-decoration: none;
-    font-weight: 900;
+    color: #000;
 }
+
+.page .subtitle a.active {
+    background-color: #71bbe2;
+    color: #fff;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.page .subtitle a {
+    float: none;
+    text-decoration: none;
+    padding-top: 2px;
+}
+
+.page .side-panel .menu a,
+.page.welcome .subtitle span.example a {
+    padding: 4px;
+    color: #333;
+    background-color: #fff;
+    padding-bottom: 5px;
+}
+
+.page.welcome .subtitle span.example a:hover {
+    background-color: #ffb900;
+    cursor: pointer;
+    color: #fff;
+}
+
+.page.help h2 {
+    /** padding-left: 10px; **/
+    text-align: left;
+    max-width: 760px;
+    margin: auto;
+}
+
+.page div.main h3 {
+    color: #71bbe2;
+}
+
+/** Specifics in welcome and browse title **/
+
+.page.browse .title,
+.page.welcome .title {
+    display: inline-block;
+    margin: 10px 60px;
+}
+
+.page.welcome .title span.link {
+    color: #000;
+}
+
+.page.welcome .title a.bummer {
+    background-color: #fff;
+    color: #000;
+    padding: 7px;
+}
+
+.page.welcome .title a.bummer:hover {
+    background-color: #ffb900;
+    color: #fff;
+}
+
+.page.welcome .main .cases.standard-features {
+    margin-top: 60px;
+}
+
+
+// ----------------------------------------- New Layout: Page containers
 
 #hello {
-    /** position: fixed; right: 0px; top: 0px;
-    padding-right: 40px;
-    padding-top: 40px; width: 40%; **/
     text-align: center;
     min-width: 600px;
     width: 67%;
     height: 100%;
-    /** background-image: url("/com.soundposter.website/images/website_pattern.jpg"); */
-    /* -webkit-box-shadow: -3px 0px 4px 0px #a9a9a9;
-	   -moz-box-shadow: -3px 0px 4px 0px #a9a9a9;
-	        box-shadow: -3px 0px 4px 0px #a9a9a9;
-    overflow-y: scroll; **/
 }
 
 div.side-panel {
@@ -137,8 +217,101 @@ div.side-panel {
     min-width: 340px;
 }
 
-.side-panel h3.status {
+.page .main-area {
+    width: 67%;
+    position: relative;
+    top: 40px;
+    margin: 0px;
 }
+
+.page.help .main,
+.page.legal .main,
+.page.about .main,
+.page.philosophy .main {
+    background-color: #fff;
+    padding: 20px;
+    margin: auto;
+}
+
+.page.help div.main,
+.page.search-results div.main,
+.page.legal div.main,
+.page.philosophy div.main,
+.page.about div.main {
+    max-width: 760px;
+    padding-top: 15px;
+    padding-right: 30px;
+    padding-left: 15px;
+    padding-bottom: 30px;
+    margin: auto;
+    margin-top: 60px;
+}
+
+.page.about div.main ul li {
+    margin: 5px;
+}
+
+.page .content {
+    background-color: #fff;
+    padding: 20px;
+    margin-left: 40px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.page .content-links {
+    padding: 0px;
+    padding-top: 20px;
+    margin-left: 40px;
+    margin-bottom: 20px;
+}
+
+
+// ----------------------------------------------------- Welcome Area
+
+#hello .logo {
+    display: inline-block;
+}
+
+#hello .highlight img {
+    margin-top: 0px;
+    margin-bottom: 40px;
+    border: 1px solid #a9a9a9;
+}
+
+.page #hello div.highlight {
+    margin-top: 80px;
+    font-size: 2em;
+    line-height: 2.2em;
+    text-align: center;
+    font-weight: 700;
+    color: #a9a9a9;
+}
+
+.page #hello .logo a.posterlink,
+.page #hello div.highlight a {
+    background-color: #fff;
+    color: #000;
+    padding: 10px;
+    padding-top: 5px; padding-bottom: 5px;
+    text-decoration: none;
+}
+
+.page #hello .logo a.posterlink:hover,
+.page #hello div.highlight a:hover {
+    background-color: #ffb900;
+    color: #fff;
+}
+
+.page #hello .logo a.posterlink,
+.page #hello .highlight a {
+    text-decoration: none;
+}
+
+#hello {
+    width: 67%;
+}
+// --------------------------------------------------------- Side Panel
 
 div.side-panel div.image {
     width: 200px; height: 200px;
@@ -185,27 +358,6 @@ div.side-panel .secondary-menu li {
     margin-right: 0px;
 }
 
-.page ul.low-menu li {
-    list-style-type: none;
-    margin-left: 0px;
-    margin-right: 20px;
-}
-
-
-/** Old Page Layout */
-
-.page.welcome .main {
-    width: 60%;
-    margin: auto;
-    /** padding-top: 10%; **/
-}
-
-#play-button {
-    cursor: pointer;
-}
-
-/** New Page Layout */
-
 .page .side-panel {
     font-size: 1.5em;
 }
@@ -214,106 +366,6 @@ div.side-panel .secondary-menu li {
     font-size: .8em;
     line-height: 1em;
     z-index: 1001;
-}
-
-.page .new-main {
-    width: 67%;
-    position: relative;
-    top: 40px;
-    margin: 0px;
-}
-
-/** .page.welcome .new-main {
-    margin: 110px;
-} **/
-
-/** Specifics in frontpage title **/
-
-.page.browse .title,
-.page.welcome .title {
-    display: inline-block;
-    margin: 10px 60px;
-}
-
-.page.browse .title {
-    margin-top: 60px;
-}
-
-.page.welcome .title span.link {
-    color: #000;
-}
-
-.page.welcome .title a.bummer {
-    background-color: #fff;
-    color: #000;
-    padding: 7px;
-}
-
-.page.welcome .title a.bummer:hover {
-    background-color: #ffb900;
-    color: #fff;
-}
-
-.page.help .main.standard-features .show-item a,
-.page.welcome .standard-features .show-item a {
-    position: relative;
-    background-color: #fff;
-    text-decoration: none;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-right: 15px;
-    line-height: 2.4em;
-    display: block;
-}
-
-.page.welcome .main .cases.standard-features {
-    margin-top: 60px;
-}
-
-.page.help .main.standard-features .show-item a:hover,
-.page.welcome .standard-features .show-item a:hover {
-    background-color: #ffb900;
-    color: #000;
-}
-
-#hello .logo {
-    display: inline-block;
-}
-
-#hello .highlight img {
-    margin-top: 0px;
-    margin-bottom: 40px;
-    border: 1px solid #a9a9a9;
-}
-
-#hello ul.low-menu li a {
-    background-color: #fff;
-    color: #333;
-    border-bottom: 1px solid #fff;
-}
-
-#hello ul.low-menu li a:hover {
-    background-color: #aa0000;
-    color: #fff;
-}
-
-#new-header {
-    position: relative;
-    left: 0px;
-    text-align: center;
-    width: 90%;
-    z-index: 1003;
-    margin-left: 5%;
-    margin-right: 5%;
-    height: 310px;
-    padding-top: 10px;
-}
-
-h2.page-title {
-    background-color: #fff;
-    padding: 5px;
-    padding-left: 20px;
-    padding-right: 15px;
 }
 
 .control .frontpage-track {
@@ -328,69 +380,71 @@ h2.page-title {
     padding-right: 20px;
 }
 
-/** .control .sound-label {
-    color: #000;
-} **/
-
-.page #hello div.highlight {
-    margin-top: 80px;
-    font-size: 2em;
-    line-height: 2.2em;
-    text-align: center;
-    font-weight: 700;
-    color: #a9a9a9;
+.page .side-panel .menu a:hover {
+    /** background-color: #afcee0; */
+    cursor: pointer;
+    color: #333;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
-.page #hello .logo a.posterlink,
-.page #hello div.highlight a {
-    background-color: #fff;
-    color: #000;
-    padding: 10px;
-    padding-top: 5px; padding-bottom: 5px;
+.page .side-panel .menu li a.selected {
+    background-color: #ff6432;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: #333;
+}
+
+.page .side-panel .secondary-menu a,
+.page .side-panel .menu a,
+.page ul.low-menu a {
     text-decoration: none;
+    padding: 6px;
+    padding-left: 10px; padding-right: 10px;
+    padding-top: 8px;
 }
 
-.page #hello .logo a.posterlink:hover,
-.page #hello div.highlight a:hover {
-    background-color: #ffb900;
+.page .side-panel .secondary-menu a {
+    background-color: #afcee0;
     color: #fff;
 }
 
-.page #hello .logo a.posterlink,
-.page #hello .highlight a {
+.page .side-panel .secondary-menu a:hover {
+    padding-right: 20px;
+}
+
+
+
+// -------------------------------------------------------  Help Page
+
+.page.help .main.standard-features .show-item a,
+.page.welcome .standard-features .show-item a {
+    position: relative;
+    background-color: #fff;
+    text-decoration: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 15px;
+    line-height: 2.4em;
+    display: block;
+}
+
+.page.help .main.standard-features .show-item a:hover,
+.page.welcome .standard-features .show-item a:hover {
+    background-color: #ffb900;
+    color: #000;
+}
+
+.page .standard-features a {
     text-decoration: none;
 }
 
-/** Thank you page */
-
-.page.thanks .title,
-.page.thanks .logo {
-    text-align: center;
+.page.help .main.standard-features {
+    margin-top: 20px;
 }
 
-/** Pricing Page Specifics **/
 
-.pricing #hello .title {
-    width: 30%;
-    display: inline-block;
-    text-align: right;
-    margin-top: 0px;
-}
-
-.pricing #hello .logo img {
-    height: 225px;
-}
-
-.pricing #hello .logo {
-    width: 300px;
-}
-
-.page.pricing .title {
-    text-align: center;
-    max-width: 760px;
-    margin-left: auto;
-    margin-right: auto
-}
+// ------------------------------------------------- Subscriptions page
 
 .page .plans img.fitzel {
     width: 90%;
@@ -436,39 +490,82 @@ h2.page-title {
     margin-right: 100px;
 }
 
-b.unavailable {
-    color: #a90000;
+// ------------------------- Imprint Page
+
+.page .main-area .content.imprint p {
+    max-width: 640px;
 }
 
-b.available {
-    color: #ffb900;
+.page .main-area .content.imprint img {
+    margin-bottom: 20px;
 }
-
-/** Philosophy page specifics .. */
 
 .page.imprint .main,
-.page.help .main,
-.page.legal .main,
-.page.sign-up .main,
-.page.about .main,
-.page.philosophy .main {
-    background-color: #fff;
-    padding: 20px;
-    margin: auto;
+.page.sign-up .main {
+    top: 250px;
+    margin-left: 60px;
 }
 
-.page.help .backdrop,
-.page.legal .backdrop,
-.page.philosophy .backdrop {
-    z-index: -1;
-    margin: 0px;
-    padding: 0px;
-    width: 700px;
-    height: 1704px;
-    position: absolute; top: 300px; right: 0px;
-    background-image: url('/com.soundposter.website/images/SP_Logo_ohne_dreieck_fitzel_71bbe2_right_sided_700.jpg');
-    background-repeat: no-repeat;
-    background-position:  0px 0px;
+.page div.main img.picture-me {
+    border: 1px solid #ffb900;
+    float: right;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+// --------------------- Subscriptions Page
+
+.page div.plan-a,
+.page div.plan-b,
+.page div.plan-c {
+	background-color: #fff;
+    color: darkgrey;
+	padding: 10px;
+}
+
+// ------------------------------------ API Search Pages
+
+.page.search-results div.main {
+    max-width: 85%;
+}
+
+.page.search-results .main.area .result-view {
+    padding: 15px;
+    padding-left: 0px;
+}
+
+.page.search-results .main.area .result-view {
+    padding: 15px;
+    padding-left: 0px;
+}
+
+.page.search-results .main.area .result-view .track-view {
+    padding-left: 15px;
+}
+
+.page.search-results .main.area .result-view span.streaming-url {
+    margin-left: 10px;
+}
+
+.page.search-results .result-view.set a.set-title:hover:before,
+.page.search-results .result-view.set .track-view a.track-title:hover:before,
+.page.search-results .result-view.track a.track-title:hover:before {
+    content: "+";
+}
+.page.search-results .result-view.band a.source,
+.page.search-results .result-view.album a.source,
+.page.search-results .result-view.set a.source,
+.page.search-results .result-view.track a.source {
+    font-size: small;
+    color: #71bbe2;
+}
+
+
+
+// ---------------------------------------- Browse Page
+
+.page.browse .title {
+    margin-top: 60px;
 }
 
 .page.browse .side-panel img {
@@ -487,204 +584,60 @@ b.available {
     overflow: hidden;
 }
 
-.page.about .backdrop {
-    z-index: -1;
-    margin: 0px;
-    padding: 0px;
-    width: 700px;
-    height: 1704px;
-    position: absolute; top: 300px; right: 0px;
-    background-image: url('/com.soundposter.website/images/SP_Logo_ohne_dreieck_fitzel_ffb900_right_sided.jpg');
-    background-repeat: no-repeat;
-    background-position:  0px 0px;
-}
-
-/** Touch us page specifics */
-
-input.text,
-textarea.message {
-    font-size: 20px;
-    padding: 10px 15px 10px 15px;
-    margin: 0 0 15px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    color: #555;
-    -moz-box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
-    -webkit-box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
-    box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
-}
-
-input.submit {
-    margin-top: 20px;
-    /** background-color: rgba(39, 99, 140, 1.0); **/
-    /** color: rgba(255, 255, 255, 1.0); **/
-    cursor: pointer;
-    display: inline-block;
-    padding: 10px;
-}
-
-input[disabled] {
-    background-color: rgba(99, 99, 99, 1.0);
-}
-
-textarea.message {
-    width: 80%;
-}
-
-.page .new-main .content.imprint p {
-    max-width: 640px;
-}
-
-.page .new-main .content.imprint img {
-    margin-bottom: 20px;
-}
-
-/** .page.imprint .title,
-.page.imprint .main,
-.page.sign-up .main,
-.page.sign-up .title {
-    right: 60px;
-    position: absolute;
-}
-
-.page.imprint .title,
-.page.sign-up .title {
-    padding-right: 10px;
-} **/
-
-/*** .page.legal .title,
-.page.about .title,
-.page.philosophy .title {
-    margin: 0px;
-    margin-bottom: 40px;
-    text-align: center;
-} **/
-
-/** .page.sign-up .title {
-    margin: 0px;
-    padding-left: 260px;
-} ***/
-
-.page.imprint .main,
-.page.sign-up .main {
-    top: 250px;
-    margin-left: 60px;
-}
-
-.page.imprint .backdrop,
-.page.sign-up .backdrop {
-    z-index: -1;
-    margin: 0px;
-    padding: 0px;
-    width: 700px;
-    height: 1704px;
-    position: absolute; top: 0px; left: 0px;
-    background-image: url('/com.soundposter.website/images/SP_Logo_fitzel_mit_dreieck_000000_left_sided.jpg');
-    background-repeat: no-repeat;
-    background-position:  0px 0px;
-}
-
-/** Generics? */
-
-.page.help h2 {
-    /** padding-left: 10px; **/
-    text-align: left;
-    max-width: 760px;
-    margin: auto;
-}
-
-.page.help div.main,
-.page.search-results div.main,
-.page.imprint div.main,
-.page.legal div.main,
-.page.philosophy div.main,
-.page.sign-up div.main,
-.page.about div.main {
-    max-width: 760px;
-    padding-top: 15px;
-    padding-right: 30px;
-    padding-left: 15px;
-    padding-bottom: 30px;
-    margin: auto;
-    margin-top: 60px;
-}
-
-.page.about div.main ul li {
-    margin: 5px;
-}
-
-.page.imprint div.main img {
-    border: 1px solid #ffb900;
-    float: right;
-    margin-left: 10px;
-    margin-bottom: 10px;
-}
-
-.page div.main h3 {
-    color: #71bbe2;
-}
-
-.page div.plan-a,
-.page div.plan-b,
-.page div.plan-c {
-	background-color: #fff;
-    color: darkgrey;
-	padding: 10px;
-}
-
-.page div.info {
-	padding: 30px;
-    padding-bottom: 10px;
-	background-color: #e8e8e8;
+.browse .main .page-controls {
+    height: 30px;
     position: relative;
-    min-height: 370px;
+    top: 0px; right: 60px;
+    background-color: #fff;
+    color: darkgrey;
+    text-align: right;
+    margin-bottom: 0px;
 }
 
-quote {
-    display: block;
-    margin: 10px;
-    line-height: 1.5em;
-    font-size: 1.1em;
-    font-style: italic;
-}
-
-quote span.marks {
-    font-size: 2em;
-    font-style: italic;
-    font-weight: 100;
-    vertical-align: bottom;
-    padding-right: 4px;
-}
-
-b.by {
+.browse .sort-menu a,
+.browse .filter-menu a {
+    text-decoration: none;
+    padding: 5px;
     padding-left: 10px;
+    padding-right: 10px;
+    font-size: 1.2em;
 }
 
-div.box {
-    max-width: 45%;
-    min-width: 30%;
-    padding: 15px;
-    padding-left: 0px;
-    padding-right: 0px;
-    padding-top: 0px;
-    float: left;
-    margin: 15px;
-    margin-top: 0px;
+.browse .sort-menu a,
+.browse .filter-menu a,
+a.next-page,
+a.previous-page {
+    color: #333;
+    cursor: pointer;
+    background-color: #ffffff;
+    text-decoration: none;
+    padding: 4px;
+    padding-left: 8px; padding-right: 8px;
 }
 
-p.box {
-    max-width: 45%;
-    min-width: 30%;
-    position: relative; top: 20px; left: 20px;
-    padding: 15px;
-    padding-left: 0px;
-    padding-right: 0px;
-    font-style: italic;
+.browse .filter-menu .selected {
+    color: #000;
+    background-color: transparent;
+    cursor: auto;
+    font-weight: 700;
 }
 
-p.box b {
-    font-style: normal;
-    font-weight: 900;
+.browse .sort-menu a,
+.browse .filter-menu a:hover,
+a.next-page:hover,
+a.previous-page:hover {
+    background-color: #ffb900;
+    color: #fff;
+}
+
+a.no-next-page,
+a.no-previous-page {
+    color: darkgrey;
+    cursor: text;
+    text-decoration: none;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .browse .space-maker .space {
@@ -781,117 +734,7 @@ p.box b {
     margin-left: 10px;
 }
 
-.page.search-results div.main {
-    max-width: 85%;
-}
-
-.page.search-results .main.area .result-view {
-    padding: 15px;
-    padding-left: 0px;
-}
-
-.page.search-results .main.area .result-view {
-    padding: 15px;
-    padding-left: 0px;
-}
-
-.page.search-results .main.area .result-view .track-view {
-    padding-left: 15px;
-}
-
-.page.search-results .main.area .result-view span.streaming-url {
-    margin-left: 10px;
-}
-
-.page.search-results .result-view.set a.set-title:hover:before,
-.page.search-results .result-view.set .track-view a.track-title:hover:before,
-.page.search-results .result-view.track a.track-title:hover:before {
-    content: "+";
-}
-.page.search-results .result-view.band a.source,
-.page.search-results .result-view.album a.source,
-.page.search-results .result-view.set a.source,
-.page.search-results .result-view.track a.source {
-    font-size: small;
-    color: #71bbe2;
-}
-
-
-.browse .main .page-controls {
-    height: 30px;
-    position: relative;
-    top: 0px; right: 60px;
-    background-color: #fff;
-    color: darkgrey;
-    text-align: right;
-    margin-bottom: 0px;
-}
-
-.browse .sort-menu a,
-.browse .filter-menu a {
-    text-decoration: none;
-    padding: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    font-size: 1.2em;
-}
-
-.browse .sort-menu a,
-.browse .filter-menu a,
-a.next-page,
-a.previous-page {
-    color: #333;
-    cursor: pointer;
-    background-color: #ffffff;
-    text-decoration: none;
-    padding: 4px;
-    padding-left: 8px; padding-right: 8px;
-}
-
-.browse .filter-menu .selected {
-    color: #000;
-    background-color: transparent;
-    cursor: auto;
-    font-weight: 700;
-}
-
-.browse .sort-menu a,
-.browse .filter-menu a:hover,
-a.next-page:hover,
-a.previous-page:hover {
-    background-color: #ffb900;
-    color: #fff;
-}
-
-a.no-next-page,
-a.no-previous-page {
-    color: darkgrey;
-    cursor: text;
-    text-decoration: none;
-    padding: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-.page .subtitle {
-    text-align: center;
-    padding-top: 60px;
-}
-
-.page .content {
-    background-color: #fff;
-    padding: 20px;
-    margin-left: 40px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-.page .content-links {
-    padding: 0px;
-    padding-top: 20px;
-    margin-left: 40px;
-    margin-bottom: 20px;
-}
+// ----------------------------------------------- Page content links
 
 .page.pricing .content-links,
 .page.imprint .content-links,
@@ -928,177 +771,111 @@ a.no-previous-page {
     background-color: #FF6432;
 }
 
-.page.welcome .subtitle span.example {
-    line-height: 2em;
-    display: inline;
-}
 
-.page.welcome .main .standard-features {
-    font-size: 1.5em;
-    text-align: left;
-    max-width: 600px;
-    display: inline-block;
-    margin-top: 200px;
-    background-color: #fff;
-    padding: 30px;
-}
-
-.page .standard-features a {
-    text-decoration: none;
-}
-
-.page.help .main.standard-features {
-    margin-top: 20px;
-}
-
-/** Footer Animations **/
-
-/** @-webkit-keyframes footerheight
-{
-    0%   { height: 40px; }
-    100% { height: 200px; }
-}
-
-@keyframes footerheight
-{
-    0%   { height: 40px; }
-    100% { height: 200px; }
-}
-
-.page .footer:hover {
-    -webkit-animation: footerheight 5s linear 1s infinite alternate;
-    animation: footerheight 5s linear 1s infinite alternate;
-} **/
-
-
-/** New Footer **/
+// -------------------------------------------------- Footer
 
 .page .footer {
-    /** background-color: #333; **/
     padding: 40px;
     margin: 0px;
     color: #a9a9a9;
-    /** 
-    -webkit-transition: 300ms linear height 1.5s;
-    -moz-transition: 300ms linear height 1.5s;
-    -o-transition: 300ms linear height 1.5s;
-    -ms-transition: 300ms linear height 1.5s;
-    transition: 300ms linear height 1.5s; **/
-    /** background-image: url("/com.soundposter.website/images/website_pattern_dg.jpg"); */
 }
-
-/** .page .footer:hover {
-    height: 140px;
-} **/
 
 .new-footer {
     padding: 30px;
     text-align: center;
 }
 
-a.lower-brand-type {
-    float: right;
-    font-size: 2.4em;
-    color: #333;
-    text-decoration: none;
-    font-weight: 900;
+
+// ------------------------------------------- Backdrops / Sides
+
+.page div.left-side {
+    position: fixed; top: 0px; left: 0px;
+    background-color: white;
+    border-right: 1px solid #3a3a3a;
+    height: 100%; width: 57px;
 }
 
-.page ul.low-menu {
-    vertical-align: top;
-	/** margin-right: 30px; **/
-    line-height: 2em;
-    padding: 0px; padding-top: 3px;
-    position: relative;
-    top: -1px;
-    text-align: left;
+.page div.right-side {
+    position: fixed; top: 0px; right: 0px;
+    background-color: white;
+    border-left: 1px solid #3a3a3a;
+    height: 100%; width: 58px;
+}
+
+.page.help .backdrop,
+.page.legal .backdrop,
+.page.philosophy .backdrop {
+    z-index: -1;
+    margin: 0px;
+    padding: 0px;
+    width: 700px;
+    height: 1704px;
+    position: absolute; top: 300px; right: 0px;
+    background-image: url('/com.soundposter.website/images/SP_Logo_ohne_dreieck_fitzel_71bbe2_right_sided_700.jpg');
+    background-repeat: no-repeat;
+    background-position:  0px 0px;
+}
+
+.page.about .backdrop {
+    z-index: -1;
+    margin: 0px;
+    padding: 0px;
+    width: 700px;
+    height: 1704px;
+    position: absolute; top: 300px; right: 0px;
+    background-image: url('/com.soundposter.website/images/SP_Logo_ohne_dreieck_fitzel_ffb900_right_sided.jpg');
+    background-repeat: no-repeat;
+    background-position:  0px 0px;
+}
+
+.page.imprint .backdrop,
+.page.sign-up .backdrop {
+    z-index: -1;
+    margin: 0px;
+    padding: 0px;
+    width: 700px;
+    height: 1704px;
+    position: absolute; top: 0px; left: 0px;
+    background-image: url('/com.soundposter.website/images/SP_Logo_fitzel_mit_dreieck_000000_left_sided.jpg');
+    background-repeat: no-repeat;
+    background-position:  0px 0px;
+}
+
+// ------------------------------------------------------ Signup page 
+
+input.type,
+textarea.type {
+    font-size: 20px;
+    padding: 10px 15px 10px 15px;
+    margin: 0 0 15px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #555;
+    -moz-box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
+    -webkit-box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
+    box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
+}
+
+input.submit {
+    margin-top: 20px;
+    /** background-color: rgba(39, 99, 140, 1.0); **/
+    /** color: rgba(255, 255, 255, 1.0); **/
+    cursor: pointer;
     display: inline-block;
-    margin-top: 0px;
-
+    padding: 10px;
 }
 
-
-// ------------------------------------------------------------------------ //
-
-/** Button / Hyperlink Styles */
-
-.page .title a {
-    text-decoration: none;
-    color: #000;
+input[disabled] {
+    background-color: rgba(99, 99, 99, 1.0);
 }
 
-.page .subtitle a.active {
-    background-color: #71bbe2;
-    color: #fff;
-    padding-left: 5px;
-    padding-right: 5px;
+#newsletter textarea.message {
+    width: 80%;
 }
 
-.page .subtitle a {
-    float: none;
-    text-decoration: none;
-    padding-top: 2px;
-}
+// ------------------------------------------------ Thank you page
 
-.page .side-panel .menu a,
-.page.welcome .subtitle span.example a {
-    padding: 4px;
-    color: #333;
-    background-color: #fff;
-    padding-bottom: 5px;
+.page.thanks .title,
+.page.thanks .logo {
+    text-align: center;
 }
-
-.page .side-panel .menu a:hover {
-    /** background-color: #afcee0; */
-    cursor: pointer;
-    color: #333;
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
-.page .side-panel .menu li a.selected {
-    background-color: #ff6432;
-    padding-left: 20px;
-    padding-right: 20px;
-    color: #333;
-}
-
-.page.welcome .subtitle span.example a:hover {
-    background-color: #ffb900;
-    cursor: pointer;
-    color: #fff;
-}
-
-.page .side-panel .secondary-menu a,
-.page .side-panel .menu a,
-.page ul.low-menu a {
-    text-decoration: none;
-    padding: 6px;
-    padding-left: 10px; padding-right: 10px;
-    padding-top: 8px;
-}
-
-.page .side-panel .secondary-menu a {
-    background-color: #afcee0;
-    color: #fff;
-}
-
-.page .side-panel .secondary-menu a:hover {
-    padding-right: 20px;
-}
-
-.page ul.low-menu a {
-    color: darkgrey;
-}
-
-.page ul.low-menu a:hover,
-.page ul.low-menu li a.selected {
-    color: #333;
-    background-color: #fff;
-}
-
-/* .page ul.low-menu li a.selected,
-.page ul.low-menu a:hover {
-	border-bottom: 2px solid #ffd463;
-    color: #343434;
-} **/

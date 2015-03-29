@@ -29,7 +29,7 @@ var site = new function () {
         $('a.plans-btn').removeClass("selected")
         $('a.signup-btn').addClass("selected")
 
-        var $body = $(".new-main")
+        var $body = $(".main-area")
             $body.empty()
             $body.append('<h3 class="title" >Sign up<h3>')
         
@@ -42,9 +42,9 @@ var site = new function () {
                 + 'If you are interested to use this service on an experimental base, please leave us your contact-information so we can get in touc with you and support you to do so.'
             + '</p>'
             + '<form id="newsletter" action="/register" method="GET">'
-                + '<input type="text" class="text" name="name" placeholder="Your name"/><br/>'
-                + '<input type="text" class="text" name="mailbox" placeholder="Your e-mail"/><br/>'
-                + '<textarea class="message" name="message" rows="6" placeholder="Leave us a message"></textarea><br/>'
+                + '<input type="text" class="text type" name="name" placeholder="Your name"/><br/>'
+                + '<input type="text" class="text type" name="mailbox" placeholder="Your e-mail"/><br/>'
+                + '<textarea class="message type" name="message" rows="6" placeholder="Leave us a message"></textarea><br/>'
                 + '<input type="submit" class="submit" name="Ok" value="OK"/>'
             + '</form>'
             + '<p>'
@@ -67,7 +67,7 @@ var site = new function () {
         $('a.plans-btn').removeClass("selected")
         $('a.intro-btn').addClass("selected")
         
-        var $body = $(".new-main")
+        var $body = $(".main-area")
             $body.empty()
             $body.append('<h2 class="title">Introduction</h2>')
         var $main = $('<div class="content">')
@@ -121,7 +121,7 @@ var site = new function () {
         $('a.intro-btn').removeClass("selected")
         $('a.plans-btn').addClass("selected")
         //
-        var $body = $(".new-main")
+        var $body = $(".main-area")
             $body.empty()
             $body.append('<h2 class="title">Plans and Pricing</h2>')
         var $main = $('<div class="plans">')
@@ -179,7 +179,7 @@ var site = new function () {
         $('a.intro-btn').removeClass("selected")
         $('a.plans-btn').removeClass("selected")
         //
-        var $body = $(".new-main")
+        var $body = $(".main-area")
             $body.empty()
             $body.append('<h2 class="title">Imprint</h2>')
 
@@ -187,7 +187,7 @@ var site = new function () {
             $main.append('<p>'
                 + 'Hi, i am Malte Rei&szlig;ig and the creator of soundposter.com.</p>'
                 + '<p>'
-                    + '<img src="/com.soundposter.website/images/malte_foto.jpg" alt="Picture of me"/><br/>'
+                    + '<img src="/com.soundposter.website/images/malte_foto.jpg" alt="Picture of me" class="picture-me"/><br/>'
                     + 'I currently design and develop this publishing platform in my spare time (Advertisement: <a href="http://mikromedia.de">mikromedia.de</a>) using a computer and some coffee. The concepts though, were distilled on a journey which started somewhat about 2 1/2 years ago and during which I talked with lots of <a href="/about-us">really cool people</a>.'
                 + '</p>'
                 + '<p>'
@@ -428,7 +428,6 @@ var site = new function () {
 
     this.set_resource = function (path) {
         url_set = path
-        console.log("Sound source URL is: " + sound_source_url)
     }
 
     this.interactive_frontpage = function () {

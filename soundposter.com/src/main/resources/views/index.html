@@ -54,9 +54,10 @@
                 //
                 if (sound_url.indexOf('soundcloud') != -1) {
                     $('a.origin-btn').html('<img src="/com.soundposter.website/images/80x50_orange.png" width="60"'
-                        + 'title="Go to the origin of this sound and support the artist">')
-                } else if (sound_url.indexOf('poppler') != -1) {
-                    $('a.origin-btn').text('Bandcamp')
+                        + 'title="Visit the webpage of this sound and support the artist!">')
+                } else if (sound_url.indexOf('poppler') != -1 || sound_url.indexOf('album') != -1 ) {
+                    $('a.origin-btn').html('<img src="/com.soundposter.website/images/bandcamp_130x27_black.png" width="120'
+                        + 'title="Visit the Bandcamp page of this track and support the artist!">')
                 }
                 // set page content
                 if (window.document.location.href.indexOf('intro') != -1) {
@@ -113,7 +114,7 @@
                        th:text="${poster_name}"></a><br/>
                     <span class="sound-label" th:text="${sound_name}"></span>
                     <!-- span class="sound-label" th:text="${artist_name}"></span><br/--><br/>
-                    (<a th:href="${sound_source_url}" title="Go to the source of this sound" class="origin-btn">Origin</a>)
+                    <a th:href="${sound_source_url}" title="Go to the source of this sound" class="origin-btn">Origin</a>
                 </div>
             </div>
             
@@ -169,7 +170,7 @@
 
         </div>
 
-        <div class="new-main">
+        <div class="main-area">
 
         </div>
 

@@ -9,21 +9,10 @@
     padding-left: 40px;
 }
 
-/** .page .main .standard-features {
-    margin-top: 240px;
-} **/
-
-/** .page #hello div.highlight {
-    margin-top: 135px;
-} **/
-
-
-/** New Page Layout */
-
 .page.welcome .side-panel {
     font-size: 1.5em;
 }
 
-.page.browse .new-main {
+.page.browse .main-area {
     margin: 40px;
 }

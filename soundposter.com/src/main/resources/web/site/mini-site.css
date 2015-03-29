@@ -9,7 +9,7 @@ body.page .main {
     margin: 30px;
 }
 
-body.page .new-main {
+body.page .main-area {
     margin: 20px;
 }
 
@@ -27,8 +27,8 @@ body.page .side-panel {
     padding-top: 0px;
 }
 
-body.page .new-main .poster-preview,
-body.page .new-main {
+body.page .main-area  .poster-preview,
+body.page .main-area  {
     width: 85%;
     min-width: 220px;
 }
