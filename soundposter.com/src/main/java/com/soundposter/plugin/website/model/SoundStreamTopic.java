@@ -49,7 +49,7 @@ public class SoundStreamTopic implements JSONEnabled {
     public SoundStreamTopic(Topic sound, DeepaMehtaService dms, WebsitePlugin plugin) {
         this.dms = dms;
         this.website = plugin;
-        this.stream = sound;
+        this.stream = sound.loadChildTopics();
         // this.soundposters = dms.getTopic(posterId).loadChildTopics();
         // this.accounts = dms.getTopic(posterId).loadChildTopics();
     }
@@ -90,5 +90,13 @@ public class SoundStreamTopic implements JSONEnabled {
         }
         return streamSourceURL;
     }
-    
+
+    public String getTitle() {
+        return stream.getSimpleValue().toString();
+    }
+
+    public Topic getItem() {
+        return stream;
+    }
+
 }

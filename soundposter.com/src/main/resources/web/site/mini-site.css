@@ -15,6 +15,7 @@ body.page .new-main {
 
 body.page .side-panel .secondary-menu {
     position: relative;
+    top: 30px;
 }
 
 body.page .side-panel {
@@ -238,4 +239,12 @@ body.page .new-main {
 .page.pricing .plans {
     margin: 0px;
     width: 90%;
+}
+
+.page .content {
+    margin-left: 20px;
+}
+
+.page .content-links {
+    margin-left: 20px;
 }

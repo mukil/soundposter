@@ -156,6 +156,7 @@ div.side-panel div.image:hover {
 
 div.side-panel .menu {
     text-align: right;
+    margin-top: 30px;
 }
 
 div.side-panel .menu li {
@@ -165,7 +166,7 @@ div.side-panel .menu li {
 
 div.side-panel ul.secondary-menu {
     position: fixed;
-    bottom: 40px;
+    bottom: 30px;
     text-align: left;
     padding-left: 0px;
 }
@@ -213,7 +214,6 @@ div.side-panel .secondary-menu li {
     font-size: .8em;
     line-height: 1em;
     z-index: 1001;
-    margin-bottom: 70px;
 }
 
 .page .new-main {
@@ -227,12 +227,16 @@ div.side-panel .secondary-menu li {
     margin: 110px;
 } **/
 
-
 /** Specifics in frontpage title **/
 
+.page.browse .title,
 .page.welcome .title {
     display: inline-block;
     margin: 10px 60px;
+}
+
+.page.browse .title {
+    margin-top: 60px;
 }
 
 .page.welcome .title span.link {
@@ -388,15 +392,24 @@ h2.page-title {
     margin-right: auto
 }
 
-.page.pricing .plans {
-    font-size: 1.5em;
-    display: inline-block;
-    width: 100%;
-    text-align: center;
+.page .plans img.fitzel {
+    width: 90%;
 }
 
+/** first is new class name */
+.page .plans,
+.page.pricing .plans {
+    font-size: 1em;
+    display: inline-block;
+    width: 95%;
+    margin-left: 40px;
+    margin-top: 40px;
+}
+
+/** first is new class name */
+.page .plans .offer,
 .page.pricing .plans .offer {
-    width: 340px;
+    width: 260px;
     display: inline-block;
     text-align: left;
     margin-right: 60px;
@@ -406,17 +419,21 @@ h2.page-title {
     background-color: #fff;
 }
 
+/** first is new class name */
+.page .plans .offer.unavailable,
 .page.pricing .plans .offer.unavailable {
     opacity: .6;
 }
 
+/** first is new class name */
+.page .plans .details,
 .page.pricing .plans .details {
     margin-top: 60px;
     max-width: 740px;
     display: inline-block;
     text-align: left;
     margin-left: 30px;
-    margin-right: 30px;
+    margin-right: 100px;
 }
 
 b.unavailable {
@@ -484,11 +501,12 @@ b.available {
 
 /** Touch us page specifics */
 
-.page.sign-up input.text,
-.page.sign-up textarea.message {
-    padding: 5px 10px 5px 10px;
-    margin: 0 0 10px 0;
-    /** border: 1px solid #ccc; **/
+input.text,
+textarea.message {
+    font-size: 20px;
+    padding: 10px 15px 10px 15px;
+    margin: 0 0 15px 0;
+    border: 1px solid #ccc;
     border-radius: 5px;
     color: #555;
     -moz-box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
@@ -496,15 +514,29 @@ b.available {
     box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
 }
 
-.page.sign-up input.message {
-    width: 320px;
-}
-
-.page .sign-up .ok {
-    background-color: rgba(39, 99, 140, 1.0);
-    color: rgba(255, 255, 255, 1.0);
+input.submit {
+    margin-top: 20px;
+    /** background-color: rgba(39, 99, 140, 1.0); **/
+    /** color: rgba(255, 255, 255, 1.0); **/
     cursor: pointer;
     display: inline-block;
+    padding: 10px;
+}
+
+input[disabled] {
+    background-color: rgba(99, 99, 99, 1.0);
+}
+
+textarea.message {
+    width: 80%;
+}
+
+.page .new-main .content.imprint p {
+    max-width: 640px;
+}
+
+.page .new-main .content.imprint img {
+    margin-bottom: 20px;
 }
 
 /** .page.imprint .title,
@@ -575,41 +607,6 @@ b.available {
     padding-bottom: 30px;
     margin: auto;
     margin-top: 60px;
-}
-
-#newsletter textarea.message,
-#newsletter input.text {
-    display: block;
-    height: 30px;
-    padding-left: 10px;
-    border: 2px solid #71bbe2;
-    background-color: #fff;
-    font-family: "Myriad Pro Regular", "Trebuchet MS", sans-serif;
-    font-size: 1.1em;
-    color: #343434;
-    margin: 15px;
-    width: 300px;
-    margin-left: 0px;
-}
-
-#newsletter textarea.message {
-    height: 140px;
-    padding-top: 10px;
-}
-
-#newsletter input:focus {
-    border-top: 2px solid #343434;
-}
-
-#newsletter input.submit {
-    cursor: pointer;
-    font-family: "Myriad Pro Regular", "Trebuchet MS", sans-serif;
-    font-size: 1.1em;
-    color: #343434;
-    padding: 10px;
-    margin: 15px;
-    height: 44px;
-    margin-left: 0px;
 }
 
 .page.about div.main ul li {
@@ -878,7 +875,7 @@ a.no-previous-page {
 
 .page .subtitle {
     text-align: center;
-    padding: 100px;
+    padding-top: 60px;
 }
 
 .page .content {
@@ -887,6 +884,48 @@ a.no-previous-page {
     margin-left: 40px;
     margin-top: 20px;
     margin-bottom: 20px;
+}
+
+.page .content-links {
+    padding: 0px;
+    padding-top: 20px;
+    margin-left: 40px;
+    margin-bottom: 20px;
+}
+
+.page.pricing .content-links,
+.page.imprint .content-links,
+.page.thanks .content-links,
+.page.sign-up .content-links,
+.page.help .content-links,
+.page.about .content-links,
+.page.legal .content-links,
+.page.philosophy .content-links {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 80px;
+}
+
+.page .plans .content-links {
+    margin-left: 0px;
+}
+
+.page .content-links h3 {
+    margin-left: 20px;
+    padding-bottom: 20px;
+}
+
+.page .content-links a {
+    padding: 8px 10px 6px;
+    background-color: #fff;
+    text-decoration: none;
+    font-size: 1.5em;
+    margin-right: 20px;
+    color: #333;
+}
+
+.page .content-links a:hover {
+    background-color: #FF6432;
 }
 
 .page.welcome .subtitle span.example {

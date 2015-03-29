@@ -16,6 +16,7 @@ import de.deepamehta.core.*;
 import de.deepamehta.core.model.*;
 import de.deepamehta.core.service.Inject;
 import de.deepamehta.core.service.ResultList;
+import de.deepamehta.core.service.Transactional;
 import de.deepamehta.plugins.accesscontrol.service.AccessControlService;
 import de.deepamehta.core.storage.spi.DeepaMehtaTransaction;
 import de.deepamehta.plugins.accesscontrol.model.ACLEntry;
@@ -34,6 +35,7 @@ import java.util.logging.Logger;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -156,109 +158,44 @@ public class WebsitePlugin extends WebActivatorPlugin {
         StringBuilder xml = new StringBuilder();
         xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
             "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n" +
-            "  <url> \n" +
+            "  <url>\n" +
             "    <loc>http://soundposter.com/browse</loc> \n" +
             "    <lastmod>2014-12-3106:00CET</lastmod> \n" +
-            "    <changefreq>daily</changefreq> \n" +
+            "    <changefreq>weekly</changefreq> \n" +
             "    <priority>0.9</priority> \n" +
             "  </url>\n" +
-            "  <url> \n" +
+            "  <url>\n" +
             "    <loc>http://soundposter.com/sign-up</loc> \n" +
             "    <lastmod>2014-12-3106:00CET</lastmod> \n" +
-            "    <changefreq>daily</changefreq> \n" +
-            "    <priority>1.0</priority> \n" +
+            "    <changefreq>monthly</changefreq> \n" +
+            "    <priority>0.9</priority> \n" +
             "  </url>\n" +
-            "  <url> \n" +
-            "    <loc>http://soundposter.com/help</loc> \n" +
+            "  <url>\n" +
+            "    <loc>http://soundposter.com/intro</loc> \n" +
             "    <lastmod>2014-12-3106:00CET</lastmod> \n" +
-            "    <changefreq>daily</changefreq> \n" +
+            "    <changefreq>monthly</changefreq> \n" +
             "    <priority>0.8</priority> \n" +
             "  </url>\n" +
-            "  <url> \n" +
-            "    <loc>http://soundposter.com/pricing</loc> \n" +
+            "  <url>\n" +
+            "    <loc>http://soundposter.com/help</loc> \n" +
             "    <lastmod>2014-12-3106:00CET</lastmod> \n" +
-            "    <changefreq>daily</changefreq> \n" +
+            "    <changefreq>monthly</changefreq> \n" +
             "    <priority>0.7</priority> \n" +
             "  </url>\n" +
-            "  <url> \n" +
+            "  <url>\n" +
+            "    <loc>http://soundposter.com/pricing</loc> \n" +
+            "    <lastmod>2014-12-3106:00CET</lastmod> \n" +
+            "    <changefreq>monthly</changefreq> \n" +
+            "    <priority>0.9</priority> \n" +
+            "  </url>\n" +
+            "  <url>\n" +
             "    <loc>http://soundposter.com/</loc> \n" +
             "    <lastmod>2014-12-3106:00CET</lastmod> \n" +
             "    <changefreq>always</changefreq> \n" +
-            "    <priority>0.7</priority> \n" +
+            "    <priority>1.0</priority> \n" +
             "  </url>\n" +
             "</urlset></xml>");
         return xml.toString();
-    }
-
-    @GET
-    @Path("/manifest.webapp")
-    @Produces("application/x-web-app-manifest+json")
-    public String getFirefoxOSWebAppManifest() {
-        // todo: fix ApacheConfig with "AddType application/x-web-app-manifest+json .webapp"
-        try {
-            log.info("Requesting FirefoxOS Web-App Manifest");
-            JSONObject manifest = new JSONObject();
-            manifest.put("version", "0.1-SNAPSHOT");
-            manifest.put("name", "soundposter.com");
-            manifest.put("description", "Soundposter - Audible websites with images");
-            manifest.put("launch_path", "/");
-            manifest.put("type", "web");
-            manifest.put("icons", new JSONObject()
-                    .put("128", "/com.soundposter.website/images/soundposter_play_button_600.png")); // todo:
-            manifest.put("developer", new JSONObject()
-                    .put("name", "Malte Reißig")
-                    .put("url", "http://www.soundposter.com"));
-            manifest.put("install_allowed_from", new JSONArray().put("*"));
-            manifest.put("locales", new JSONObject()  // todo:
-                    .put("en", new JSONObject()
-                        .put("description", "The Soundposter Web-App is an audio-player for streaming sounds "
-                            + "with images.")
-                        .put("developer", "http://www.mikromedia.de")));
-            manifest.put("default_locale", "en");  // todo:
-            manifest.put("permissions", new JSONObject()
-                    .put("audio-channel-normal", true)
-                    .put("audio-channel-content", true)); // todo: check FFOS audio?
-            // we would like to have the permission for "backgroundservice", "systemXHR" to load data in "packaged" app?
-            /** {
-                "version": "0.1",
-                "name": "Your App",
-                "description": "Your new awesome Open Web App",
-                "launch_path": "/index.html",
-                "icons": {
-                    "16": "/img/icons/mortar-16.png",
-                    "48": "/img/icons/mortar-48.png",
-                    "128": "/img/icons/mortar-128.png"
-                },
-                "developer": {
-                    "name": "Your Name",
-                    "url": "http://yourawesomeapp.com"
-                },
-                "installs_allowed_from": ["*"],
-                "locales": {
-                    "es": {
-                        "description": "Su nueva aplicación impresionante Open Web",
-                        "developer": {
-                            "url": "http://yourawesomeapp.com"
-                        }
-                    },
-                    "it": {
-                        "description": "Il vostro nuovo fantastico Open Web App",
-                        "developer": {
-                            "url": "http://yourawesomeapp.com"
-                        }
-                    }
-                },
-                "default_locale": "en",
-                "permissions": {
-                    "systemXHR": {}
-                }
-            } **/
-
-            return manifest.toString();
-        } catch (JSONException ex) {
-            Logger.getLogger(WebsitePlugin.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "Error";
     }
 
     @GET
@@ -287,15 +224,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
     public InputStream getFavicon() {
         return getSoundposterFavIcon();
     }
-    
-    @GET
-    @Path("/sign-up")
-    @Produces(MediaType.TEXT_HTML)
-    public Viewable getLegacySignupPage() {
-        log.info("Requesting soundposter.com sign-up page .. ");
-        return getSignupPage();
-    }
-    
+
     @GET
     @Path("/thestory.html")
     @Produces(MediaType.TEXT_HTML)
@@ -305,12 +234,43 @@ public class WebsitePlugin extends WebActivatorPlugin {
     }
 
     @GET
+    @Path("/sign-up")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable getLegacySignupPage() {
+        log.info("REDIRECTING to new frontpage via SIGN-UP");
+        return getFrontpage();
+    }
+
+    @GET
     @Path("/contact")
     @Produces(MediaType.TEXT_HTML)
     public Viewable getSignupPage() {
-        log.info("Requesting soundposter.com sign-up page .. ");
-        viewData("pageId", "sign-up");
-        return view(PAGE_REGISTRATION);
+        log.info("REDIRECTING to new frontpage via CONTACT");
+        return getFrontpage();
+    }
+
+    @GET
+    @Path("/intro")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable getIntroPage() {
+        log.info("REDIRECTING to new frontpage via INTRO");
+        return getFrontpage();
+    }
+
+    @GET
+    @Path("/imprint")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable getImprint() {
+        log.info("REDIRECTING to new frontpage via IMPRINT");
+        return getFrontpage();
+    }
+
+    @GET
+    @Path("/pricing")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable getPricingPage() {
+        log.info("REDIRECTING to new frontpage via PRICING");
+        return getFrontpage();
     }
 
     @GET
@@ -341,15 +301,6 @@ public class WebsitePlugin extends WebActivatorPlugin {
     }
 
     @GET
-    @Path("/imprint")
-    @Produces(MediaType.TEXT_HTML)
-    public Viewable getImprint() {
-        log.info("Requesting soundposter.com imprint page .. ");
-        viewData("pageId", PAGE_IMPRINT);
-        return view(PAGE_IMPRINT);
-    }
-
-    @GET
     @Path("/about-us")
     @Produces(MediaType.TEXT_HTML)
     public Viewable getAboutPage() {
@@ -359,19 +310,10 @@ public class WebsitePlugin extends WebActivatorPlugin {
     }
 
     @GET
-    @Path("/pricing")
-    @Produces(MediaType.TEXT_HTML)
-    public Viewable getPricingPage() {
-        log.info("Requesting soundposter.com plans and pricing page .. ");
-        viewData("pageId", PAGE_PRICING);
-        return view(PAGE_PRICING);
-    }
-
-    @GET
     @Produces(MediaType.TEXT_HTML)
     public Viewable getFrontpage() {
-        log.info("Requesting front page without pathinfo.. ");
         viewData("pageId", "welcome");
+        // 1 fetch some soundposter to check if one is there
         Topic featured = getRandomFeaturedSoundposter();
         if (featured == null) {
             viewData("subtitle", "Edit your first soundposter so it to shows up here.");
@@ -385,13 +327,15 @@ public class WebsitePlugin extends WebActivatorPlugin {
             viewData("hashtag", "soundposter");
             return view(PAGE_FRONTPAGE);
         }
-        // fetch some sound
+        // 2 fetch some random sound
         Topic frontpage_sound = getRandomSound();
-        // fetch related soundposter and the related users webalias
-        while (getValidSoundStreamTopic(frontpage_sound) != null) {
+        // 3 check if random sound is valid (has soundposter which is published and that has a user related)
+        while (!isValidSoundStreamTopic(frontpage_sound)) {
             frontpage_sound = getRandomSound();
         }
-        ResultList<RelatedTopic> soundposter = getSoundposterBySound(frontpage_sound);
+        if (frontpage_sound == null) throw new RuntimeException("No valid sound found ..");
+        ResultList<RelatedTopic> soundposter = getSoundposterByTopic(frontpage_sound);
+        if (soundposter.getSize() == 0) throw new RuntimeException("No soundposter found for valid sound .. " + frontpage_sound.getSimpleValue().toString() + " ID: " + frontpage_sound.getId());
         Topic random_featured_poster = (soundposter.getSize() > 0) ? soundposter.getItems().get(0) : null;
         // prepare page, find the poster graphic
         String graphicPath = getPreviewGraphicURL(random_featured_poster);
@@ -453,8 +397,12 @@ public class WebsitePlugin extends WebActivatorPlugin {
     @GET
     @Path("/register")
     @Produces(MediaType.TEXT_HTML)
+    @Transactional
     public Viewable registerSimpleNewsAccount(@QueryParam("name") String name, @QueryParam("mailbox") String mailbox,
             @QueryParam("message") String message) {
+        if (message.contains("script") || name.contains("script") || mailbox.contains("script")) {
+            throw new WebApplicationException(Status.BAD_REQUEST);
+        }
         try {
             ChildTopicsModel personData =  new ChildTopicsModel()
                 .add(MAILBOX_TYPE_URI, new TopicModel(MAILBOX_TYPE_URI, new SimpleValue(mailbox)))
@@ -467,8 +415,8 @@ public class WebsitePlugin extends WebActivatorPlugin {
             viewData("pageId", PAGE_THANKS);
             return view(PAGE_THANKS);
         } catch (Exception e) {
-            log.warning(e.getMessage());
-            throw new WebApplicationException(e.getCause());
+            log.log(Level.WARNING, "Could not create simple news account", e);
+            throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -1048,51 +996,74 @@ public class WebsitePlugin extends WebActivatorPlugin {
         }
     }
     
-    public ResultList<RelatedTopic> getSoundposterBySound(Topic soundTopic) {
-        return soundTopic.getRelatedTopics("dm4.topicmaps.topic_mapcontext", "dm4.topicmaps.topicmap_topic",
+    public ResultList<RelatedTopic> getSoundposterByTopic(Topic sound) {
+        return sound.getRelatedTopics("dm4.topicmaps.topic_mapcontext", "dm4.topicmaps.topicmap_topic",
                 DEFAULT_URI, TOPICMAP_TYPE_URI, 1);
     }
     
-    public SoundStreamTopic getValidSoundStreamTopic (Topic item) {
+    public SoundStreamTopic getSoundStreamTopic(Topic item) {
+        return new SoundStreamTopic(item, dms, this);
+    }
+
+    public boolean isValidSoundStreamTopic (Topic item) {
         SoundStreamTopic sound = new SoundStreamTopic(item, dms, this);
         
         // 1) check sound topic for AN ordinal number? 
         int soundNr = sound.getOrdinalNumber(); // ### maybe we dont want to do that?
-        if (soundNr == 0) return null;
+        if (soundNr == 0) {
+            log.fine("> Skipping invalid sound .. \"" + sound.getTitle() + "\" for having no ordinal number");
+            return false;
+        }
         viewData("sound_nr", soundNr);
         
         // 2) for a stream resource url, for source, and soundposter)
         String resourceUrl = sound.getStreamResourceURL();
-        if (resourceUrl.isEmpty()) return null;
+        if (resourceUrl.isEmpty()) {
+            log.fine("> Skipping invalid sound .. \"" + sound.getTitle() + "\" for empty streaming URL");
+            return false;
+        }
         viewData("sound_url", resourceUrl);
 
         // 3) for a source
-        String sourceUrl = "";
-        if (sourceUrl.isEmpty()) return null;
+        String sourceUrl = sound.getStreamSourceURL();
+        if (sourceUrl.isEmpty()) {
+            log.fine("> Skipping invalid sound .. \"" + sound.getTitle() + "\" for empty source URL");
+            return false;
+        }
         viewData("sound_source_url", sourceUrl);
         
         // 4) for a soundposter check sounds related soundposter 
         //    (as that is our publishing container for single sounds) if that is valid, too.
-        ResultList<RelatedTopic> soundposters = getSoundposterBySound(item);
-        if (soundposters.getSize() > 0) {
-            Topic soundposterTopic = soundposters.getItems().get(0);
-            SoundPosterTopic soundposter = new SoundPosterTopic(soundposterTopic, dms, this);
-            // 4.1) Validates if related soundposter is (a) published
-            if (!soundposter.isPublished()) return null; // related soundposter is not published
-            // 4.2) Validates if soundposter has (b) a web-alias and (c) a related user profile.
-            String posterWebAlias = soundposter.getWebAlias();
-            String profileWebAlias = soundposter.getUsernameWebAlias();
-            if (profileWebAlias == null) return null; // no user profile related to related soundposter
-            if (posterWebAlias == null) return null; // no web alias related to related soundposter
-            // after check passes, prepare our template
-            viewData("poster_name", soundposter.getTitle());
-            viewData("poster_alias", posterWebAlias);
-            viewData("profile_alias", profileWebAlias);
-            log.info("Identified soundposter \"" + soundposter.getTitle()+ "\", Web-Alias: "
-                    + posterWebAlias + " by user \"" + profileWebAlias + "\"");
-            return sound;
+        ResultList<RelatedTopic> soundposters = getSoundposterByTopic(item);
+        if (soundposters.getSize() == 0) {
+            log.fine("> Skipping invalid sound for frontpage .. \"" + sound.getTitle() + "\" for not being part of a soundposter ..");
+            return false;
         }
-        return null;
+        Topic soundposterTopic = soundposters.getItems().get(0);
+        SoundPosterTopic soundposter = new SoundPosterTopic(soundposterTopic, dms, this);
+        // 4.1) Validates if related soundposter is (a) published
+        if (!soundposter.isPublished()) {
+            log.fine("> Skipping invalid sound for frontpage .. \"" + sound.getTitle() + "\" for being part of an unpublished soundposter ..");
+            return false;
+        } // related soundposter is not published
+        // 4.2) Validates if soundposter has (b) a web-alias and (c) a related user profile.
+        String posterWebAlias = soundposter.getWebAlias();
+        String profileWebAlias = soundposter.getUsernameWebAlias();
+        if (profileWebAlias == null) {
+            log.fine("> Skipping invalid sound for frontpage .. \"" + sound.getTitle() + "\" for being part of a soundposter without user web-alias ..");
+            return false;
+        } // no user profile related to related soundposter
+        if (posterWebAlias == null) {
+            log.fine("> Skipping invalid sound for frontpage .. \"" + sound.getTitle() + "\" for being part of a soundposter without poster web-alias ..");
+            return false;
+        } // no web alias related to related soundposter
+        // after check passes, prepare our template
+        viewData("poster_name", soundposter.getTitle());
+        viewData("poster_alias", posterWebAlias);
+        viewData("profile_alias", profileWebAlias);
+        log.info("> Identified valid sound \"" +sound.getTitle()+ "\" in soundposter \"" + soundposter.getTitle()+ "\", Web-Alias: "
+                + posterWebAlias + " by user \"" + profileWebAlias + "\"");
+        return true;
     }
     
     public boolean hasPosterProfileRelation(Topic profileAlias, Topic poster) {
@@ -1125,8 +1096,13 @@ public class WebsitePlugin extends WebActivatorPlugin {
     }
 
     public String getPreviewGraphicURL (Topic poster) {
-        Topic previewGraphic = poster.getRelatedTopic(POSTER_PREVIEW_GRAPHIC_EDGE,
+        Topic previewGraphic = null;
+        if (poster != null) {
+            previewGraphic = poster.getRelatedTopic(POSTER_PREVIEW_GRAPHIC_EDGE,
                 DEFAULT_URI, DEFAULT_URI, "dm4.files.file");
+        } else {
+            log.warning("Into getPreviewGraphicURL was passed a NULL parameter");
+        }
         if (previewGraphic != null) {
             return "/filerepo" + previewGraphic.getChildTopics().getString("dm4.files.path");
         }

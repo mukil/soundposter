@@ -15,6 +15,7 @@ body.page .new-main {
 
 body.page .side-panel .secondary-menu {
     position: relative;
+    top: 30px;
 }
 
 body.page .side-panel {
@@ -203,10 +204,7 @@ body.page .new-main {
     height: 420px;
 }
 
-.page.pricing img.fitzel {
-    width: 500px;
-}
-
+.page .plans .offer,
 .page.pricing .plans .offer {
     display: block;
     width: 85%;
@@ -214,7 +212,16 @@ body.page .new-main {
     margin-left: 30px;
 }
 
+.page .plans,
 .page.pricing .plans {
     margin: 30px;
     width: 90%;
+}
+
+.page .content {
+    margin-left: 20px;
+}
+
+.page .content-links {
+    margin-left: 20px;
 }

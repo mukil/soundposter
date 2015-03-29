@@ -33,6 +33,7 @@
 
             var poster = /*[[${poster}]]*/ '{}'
             var sound_url = /*[[${sound_url}]]*/ '{}'
+            var sound_source_url = /*[[${sound_source_url}]]*/ '{}'
             var ADAPT_CONFIG = { path: '/com.soundposter.website/site/', dynamic: true,
                 range: [
                     '0px    to 598px	= mini-site.css',
@@ -50,7 +51,28 @@
                 // initialize play button hover function
                 site.interactive_frontpage()
                 site.set_resource(sound_url)
-                
+                //
+                if (sound_url.indexOf('soundcloud') != -1) {
+                    $('a.origin-btn').html('<img src="/com.soundposter.website/images/80x50_orange.png" width="60"'
+                        + 'title="Go to the origin of this sound and support the artist">')
+                } else if (sound_url.indexOf('poppler') != -1) {
+                    $('a.origin-btn').text('Bandcamp')
+                }
+                // set page content
+                if (window.document.location.href.indexOf('intro') != -1) {
+                    console.log("> load intro page")
+                    site.show_intro_view()
+                } else if (window.document.location.href.indexOf('sign-up') != -1 ||
+                           window.document.location.href.indexOf('contact') != -1) {
+                    console.log("> load sign-up page")
+                    site.show_sign_up_view()
+                } else if (window.document.location.href.indexOf('pricing') != -1) {
+                    console.log("> load plans page")
+                    site.show_plans_view()
+                } else if (window.document.location.href.indexOf('imprint') != -1) {
+                    console.log("> load imprint page")
+                    site.show_imprint_view()
+                }
                 // 
                 site.render_player_controls()
             })
@@ -62,7 +84,7 @@
         <!-- Piwik -->
         <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
-            var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.soundposter.com/p/" : "http://stats.soundposter.com/p/");
+            var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.soundposter.com/" : "http://stats.soundposter.com/");
             document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
             </script><script type="text/javascript">
             try {
@@ -85,12 +107,13 @@
             <div class="control" id="playback-control">
                 <!-- img src="/com.soundposter.website/images/logos/SP_Logo_backgrounded_ffffff_play_512.jpg" height="256" id="play-button"
                          title="This is soundposter.com" th:title="'Listen to soundposter: ' + ${subtitle} + ' by ' + ${author}" /-->
-                <div class="frontpage-track">
-                    <span class="sound-label" th:text="${poster_name}"></span><br/>
-                    <!-- a th:href="'/' + ${profile_alias} + '/' + ${poster_alias} + '/' + ${sound_id}" class="" th:text="${sound_nr}"></a-->
+                <div class="frontpage-track" title="Press play">
+                    <!--span class="sound-label" th:text="${poster_name}"></span-->
+                    <a th:href="'/' + ${profile_alias} + '/' + ${poster_alias} + '/' + ${sound_id}" title="Visit soundposter and see this track"
+                       th:text="${poster_name}"></a><br/>
                     <span class="sound-label" th:text="${sound_name}"></span>
-                    <!-- span class="sound-label" th:text="${artist_name}"></span><br/-->
-                    <!-- a th:href="'/' + ${profile_alias} + '/' + ${poster_alias} + '/' + ${sound_id}" th:text="${poster_name}"></a-->
+                    <!-- span class="sound-label" th:text="${artist_name}"></span><br/--><br/>
+                    (<a th:href="${sound_source_url}" title="Go to the source of this sound" class="origin-btn">Origin</a>)
                 </div>
             </div>
             
@@ -98,19 +121,19 @@
                 <li><a href="javascript:site.show_sign_up_view()" class="signup-btn">Sign up</a></li>
                 <li><a href="javascript:site.show_intro_view()" class="intro-btn">Intro</a></li>
                 <li><a href="/browse" class="explore-btn">Explore</a></li>
-                <li><a href="/pricing" class="plans-btn">Subscriptions</a></li>
+                <li><a href="javascript:site.show_plans_view()" class="plans-btn">Subscriptions</a></li>
             </ul>
             
             <div id="soundsystem" class="control player"></div>
             <div class="container"></div>
 
             <ul class="secondary-menu">
-                <li><a href="/legal">Legal</a></li>
+                <!-- li><a href="/legal">Legal</a></li-->
+                <li><a href="javascript:site.show_imprint_view()">Imprint</a></li>
                 <li><a href="http://blog.soundposter.com" title="Official Soundposter Blog">Blog</a></li>
-                <li><a href="/philosophy">Philosophy</a></li>
+                <!-- li><a href="/philosophy">Philosophy</a></li-->
                 <!-- li><a href="/contact">Contact</a></li -->
-                <li><a href="/about-us">About us</a></li>
-                <li><a href="/imprint">Imprint</a></li>
+                <!-- li><a href="/about-us">About us</a></li-->
             </ul>
             
         </div>
@@ -155,7 +178,7 @@
         </div>
 
         <noscript>
-            <p><img src="http://stats.soundposter.com/p/piwik.php?idsite=1" style="border:0" alt="" /></p>
+            <p><img src="http://stats.soundposter.com/piwik.php?idsite=1" style="border:0" alt="" /></p>
         </noscript>
 
     </body>

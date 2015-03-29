@@ -16,24 +16,45 @@ var site = new function () {
     
     var ringAnimation = undefined
     var bufferAnimation = undefined
-    
+
+
+
+    // --- The 4 AJAX Single Pages ---
+
     this.show_sign_up_view = function () {
         var $hello = $("#hello")
             $hello.hide()
         // 
         $('a.intro-btn').removeClass("selected")
+        $('a.plans-btn').removeClass("selected")
         $('a.signup-btn').addClass("selected")
 
         var $body = $(".new-main")
             $body.empty()
-            $body.append('<h3 class="title" >Sign up for your username</h3>')
+            $body.append('<h3 class="title" >Sign up<h3>')
         
         var $main = $('<div class="content">')
-            $main.append('<p>'
+            $main.append('<h3>Hi</h3>'
+            + '<p>'
+                + 'Since we do not want to leave anyone back disappointed we cannot really hand out user-accounts yet. This is also because the <a href="/legal">legal</a> issues we face if we open up our tool for the public.'
+            + '</p>'
+            + '<p>'
+                + 'If you are interested to use this service on an experimental base, please leave us your contact-information so we can get in touc with you and support you to do so.'
+            + '</p>'
+            + '<form id="newsletter" action="/register" method="GET">'
+                + '<input type="text" class="text" name="name" placeholder="Your name"/><br/>'
+                + '<input type="text" class="text" name="mailbox" placeholder="Your e-mail"/><br/>'
+                + '<textarea class="message" name="message" rows="6" placeholder="Leave us a message"></textarea><br/>'
+                + '<input type="submit" class="submit" name="Ok" value="OK"/>'
+            + '</form>'
+            + '<p>'
+                + 'We surely will use your contact-information for no other purpose than informing you about the proceedings of soundposter.com.'
+            + '</p>')
+            /** $main.append('<p>'
                 + 'To start bookmarking sound streams with soundposter.com we need to <br/>'
                 + '- know your desired username and <br/>'
                 + '- check your mailbox.'
-                + '</p>')
+                + '</p>') **/
             $body.append($main)
         
     }
@@ -43,11 +64,12 @@ var site = new function () {
             $hello.hide()
         // 
         $('a.signup-btn').removeClass("selected")
+        $('a.plans-btn').removeClass("selected")
         $('a.intro-btn').addClass("selected")
         
         var $body = $(".new-main")
             $body.empty()
-            $body.append('<h2 class="title" >Intro to soundposter.com</h2>')
+            $body.append('<h2 class="title">Introduction</h2>')
         var $main = $('<div class="content">')
         var $list = $("<ol>")
             $list.append("<li>Sign up for your username - The simplest of all</li>")
@@ -57,29 +79,143 @@ var site = new function () {
             $list.append("<li>Publish your soundposter - Sharing it worldwide</li>")
             // 
             $main.append('<p>Soundposters have many more options as here described. For example, one can easily turn your soundposter '
-            + ' into a fully-fledged audible &amp; mobile festival guide with interactive specials! But let us leave that for sometime '
-            + 'soon and go on with the basics, if we get those right, nothing will stop your soundposter from evolving into a super-huge '
-            + 'audible graphic landscape.</p>')
-            $main.append('<h3>To create &amp; publish your own soundposter you need to</h3>')
+            + ' into a fully-fledged audible &amp; mobile festival guide with interactive specials but let us leave that for sometime '
+            + 'soon and go on with the basics. If we have the basics right nothing will stop you turning your soundposter into a super-huge '
+            + 'audible website.</p>')
+            $main.append('<h3>To create &amp; publish a soundposter this is what you need to do:</h3>')
             $main.append($list)
-            $main.append('<p>All of this is very easy if you got your own sounds and graphics already, or friends providing those.</p>')
+            $main.append('<p>All of this is easy if you got your own sounds and graphics already, or if you know some people '
+                + 'who can provide you with those.</p>')
             
         var $footer = $('<div class="content">')
-            $footer.append("<p>The two more creative parts in here are</p>")
+            $footer.append('<p>The two creative parts in here are</p>')
             $footer.append('<h3>Reference streams from the web</h3>')
-            $footer.append("<p>....</p>")
+            $footer.append('<p>You can re-use any of your bookmarks pointing to a SoundCloud or Bandcamp track. '
+                + 'Additionally to using simple URLs to self-hosted sounds one can synchronize a soundposter setlist with a SoundCloud set.</p>')
             // 
             $footer.append('<h3>Create and upload your soundposter graphic</h3>')
-            $footer.append("<p>...</p>")
+            $footer.append('<p>To be compatible and working with mobile web-browsers your poster graphic should not exceed 5 MP in bitmap size, '
+                + 'which for example, is the case for a bitmap of 2500px width and 1900px height. The file format of your poster-graphic needs '
+                + 'to be PNG or JPG/JPEG.</p>'
+                + '<p>If you do not need your soundposter accessible as a mobile web-app the only limit for the size of your poster graphic is the a moderate file size limit.</p>'
+                + '<p>Additionally we suggest you to prepare a second bitmap graphic as a preview for your soundposter with the a width of 297px and a height of 420px.</p>')
             $footer.append('<p>The important part left then is<br/>')
             $footer.append('<h3>The legal stuff</h3>'
-            + '- check the copyrights for your graphic and choose a license for it<br/>'
-            + '- choose a license for your soundposter (your set of tracks and the graphic)</p>')
+            + 'Please check the copyrights for your graphic and choose a license for it.<br/>'
+            + 'Do choose a license for your soundposter, one to cover your personal arrangement of tracks and one for the poster-graphic.</p>')
             $body.append($main).append($footer)
+
+        var $menu = $('<div class="content-links">')
+            $menu.append(''
+            + '<a href="/legal" title="Read more legal info about publishing on soundposter.com">Legal</a>'
+            + '<a href="/philosophy" title="Read about our philosophy behind soundposter.com">Philosophy</a>'
+            + '<a href="/about-us" title="Read more about the people soundposter.com">About us</a>')
+            $body.append($menu)
     }
     
-    this.show_hello_view = function () {
+    this.show_plans_view = function () {
+        var $hello = $("#hello")
+            $hello.hide()
+
+        $('a.signup-btn').removeClass("selected")
+        $('a.intro-btn').removeClass("selected")
+        $('a.plans-btn').addClass("selected")
+        //
+        var $body = $(".new-main")
+            $body.empty()
+            $body.append('<h2 class="title">Plans and Pricing</h2>')
+        var $main = $('<div class="plans">')
+            $main.append('<div class="offer">'
+               + '<b>Standard</b><br/><br/>'
+               + 'One soundposter for free with all standard features, incl. hosting and basic support for one year.'
+               + '<p>&nbsp;</p>'
+               + '<b class="available">Free</b>, like in "0$ per Year".'
+            + '</div>')
+
+            $main.append('<div class="offer unavailable">'
+               + '<b>Publisher</b><br/><br/>'
+               + 'Up to five soundposters with extended customization possibilities, hosting and direct support.'
+               + '<p>&nbsp;</p>'
+               + '<b class="unavailable">Officially unavailable</b>'
+            + '</div>')
+
+            $main.append('<div class="offer unavailable">'
+                + '<b>Professional</b><br/><br/>'
+                + 'Unlimited number of public or private soundposters with extended customization possibilities, hosting and direct support.'
+                + '<p>&nbsp;</p>'
+                + '<b class="unavailable">Officially unavailable</b>'
+            + '</div>')
+
+            $main.append('<div class="content-links"><a href="/sign-up" title="Try publishing with soundposter.com">Contact us</a>')
+
+            $main.append('<p>&nbsp;</p>'
+                + '<img class="fitzel" src="/com.soundposter.website/images/fitzel-rot-1200.png" title="This is a fitzel on soundposter.com"/>')
         
+            $main.append('<div class="details">'
+                + '<h3>Standard features</h3>'
+                + '<p>You find information about the standard features of each soundposter in this paragraph <a href="/help#short-overview">on our Help</a> page.</p><br/><br/>'
+                + '<h3>Terms of service</h3>'
+                + 'As we find it important that many people can easily understand the contents of our "terms of service", we herewith try to make all the important details explicit. One definition per line.'
+                + '<br/><br/>Please feel free to ask us directly if, after reading all the details, you are still unsure about what we have on offer and what we do not have on offer.<br/><br/>'
+                + '<br/>'
+                + '<i>hosting</i>; free of charge web service for your soundposter on soundposter.com up to many thousand visitors per day'
+                + '<br/><br/>'
+                + '<i>one year rule</i>; when a new soundposter was made public we guarantee that it will be there for at least 365 days (98% of the time).'
+                + '<br/><br/>'
+                + '<i>basic support</i>; honest, effective and goal-oriented support for you 24/7 via e-mail and a response at latest within one working week.'
+                + '<br/><br/>'
+                + '<i>sound</i>; a reference to a browser compatible audiostream served by some other web service but explicitly not from soundposter.com'
+                + '<br/><br/>'
+                + '<i>poster graphic</i>; a still graphic or image-file as the backdrop illustration for your sounds'
+                + '<p><br/><br/></p></div>')
+            $body.append($main)
+    }
+
+    this.show_imprint_view = function () {
+        var $hello = $("#hello")
+            $hello.hide()
+
+        $('a.signup-btn').removeClass("selected")
+        $('a.intro-btn').removeClass("selected")
+        $('a.plans-btn').removeClass("selected")
+        //
+        var $body = $(".new-main")
+            $body.empty()
+            $body.append('<h2 class="title">Imprint</h2>')
+
+        var $main = $('<div class="content imprint">')
+            $main.append('<p>'
+                + 'Hi, i am Malte Rei&szlig;ig and the creator of soundposter.com.</p>'
+                + '<p>'
+                    + '<img src="/com.soundposter.website/images/malte_foto.jpg" alt="Picture of me"/><br/>'
+                    + 'I currently design and develop this publishing platform in my spare time (Advertisement: <a href="http://mikromedia.de">mikromedia.de</a>) using a computer and some coffee. The concepts though, were distilled on a journey which started somewhat about 2 1/2 years ago and during which I talked with lots of <a href="/about-us">really cool people</a>.'
+                + '</p>'
+                + '<p>'
+                    + 'Additionally, what I have to point out here: I am standing on the shoulders of giants of whom most are working hard to keep the web open and you can find out about all of them in the <a href="http://blog.soundposter.com/tagged/technical">technical section of our blog</a>.'
+                + '</p>'
+                + '<p>'
+                    + '<i>soundposter.com</i> is an idea and service developed &amp; provided by<br/><br/>Malte Rei&szlig;ig<br/><br/>'
+                    + 'Contact: malte|@|soundposter.com<br/>'
+                    + 'Mobile: +49 175 340 3734<br/><br/>'
+                    + 'Address:<br/>'
+                    + 'M&uuml;llerstra&szlig;e 59a<br/>'
+                    + '13349 Berlin, Germany<br/>'
+                    + '<br/>'
+                    + 'Hire me: <a href="http://www.mikromedia.de">www.mikromedia.de</a>'
+                + '</p><br/>'
+                + '<h3>Privacy &amp; Disclaimer</h3>'
+                + '<p>'
+                    + 'For analytical purposes we collect anonymized (e.g. 192.168.1.x) usage statistics for all requests to our site and store these in (a) the access and error logs of our webservers and (b) in a database.<br/><br/>'
+                    + 'Irregularly we delete this usage data from our webservers and we do not share these anonymized access-data with anyone else, except the creators of a soundposter.com.<br/><br/>'
+                    + 'We use the Google Fonts API service on this website, so Google Inc. also knows about your clicks around here. The soundposter section does not use Google Fonts API service.'
+                + '</p>')
+            $body.append($main)
+        var $menu = $('<div class="content-links">')
+            $menu.append(''
+            + '<a href="/legal" title="Read more legal info about publishing on soundposter.com">Legal</a>'
+            + '<a href="/philosophy" title="Read about our philosophy behind soundposter.com">Philosophy</a>'
+            + '<a href="/about-us" title="Read more about the people soundposter.com">About us</a>')
+            $body.append($menu)
     }
     
     this.render_player_controls = function () {
@@ -111,15 +247,12 @@ var site = new function () {
             logo.attr("cursor", "pointer")
             
             logo.click(function () {
-   
-                console.log("Clicked main control .. ")
-                
                 if (!now_playing) {
                     if (!playback_set) {
                         if (url_set) {
                             // ### move svg init 
-                            site.setupBufferingAnimation()
-                            site.setupPlaybackAnimation()
+                            site.setup_buffering_animation()
+                            site.setup_playback_animation()
                             $player.jPlayer("setMedia", {mp3: url_set})
                             $player.jPlayer("play")
                             playback_set = true
@@ -130,7 +263,6 @@ var site = new function () {
                 } else {
                     $player.jPlayer("pause")
                 }
-                
             })
             // 
             logo.hover(function() { // in
@@ -166,22 +298,26 @@ var site = new function () {
             **/
             
     }
-                
-    this.setupPlaybackAnimation = function () {
+
+
+
+    // --- The playing controls for the frontpage
+
+    this.setup_playback_animation = function () {
         playingArc = r.path().attr({
             "stroke": "#FFB900", "stroke-width": 3, "opacity": 1,
             "stroke-linecap": "square"
         })
         console.log("New Animation: Playback Ring was added...")
     }
-        
-    this.updatePlaybackAnimation = function (value, duration) {
+
+    this.update_playback_animation = function (value, duration) {
         playingArc.animate({
             arc: [177, 143, value, duration, 126]
         }, 750, "linear")
     }
-    
-    this.setupBufferingAnimation = function () {
+
+    this.setup_buffering_animation = function () {
         bufferingArc = r.path().attr({
             "stroke": "#fff", "stroke-width": 10, "opacity": .9,
             arc: [177, 143, 40, 100, 135]
@@ -207,7 +343,7 @@ var site = new function () {
                 // $('.timer').text($.jPlayer.convertTime(event.jPlayer.status.duration))
                 var duration = event.jPlayer.status.duration
                 var time = event.jPlayer.status.currentTime
-                site.updatePlaybackAnimation(time, duration)
+                site.update_playback_animation(time, duration)
             },
             play: function(event) {
                 // keep state current
@@ -292,6 +428,7 @@ var site = new function () {
 
     this.set_resource = function (path) {
         url_set = path
+        console.log("Sound source URL is: " + sound_source_url)
     }
 
     this.interactive_frontpage = function () {
@@ -332,7 +469,7 @@ var site = new function () {
             })
     }
 
-     this.interactive_browse_page = function () {
+    this.interactive_browse_page = function () {
         //
         var $home = $('.side-panel img.home')
             $home.hover(function () {

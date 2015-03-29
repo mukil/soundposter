@@ -23,3 +23,7 @@
 .page.welcome .side-panel {
     font-size: 1.5em;
 }
+
+.page.browse .new-main {
+    margin: 40px;
+}
