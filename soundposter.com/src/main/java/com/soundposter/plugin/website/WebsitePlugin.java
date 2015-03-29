@@ -194,7 +194,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
             "    <changefreq>always</changefreq> \n" +
             "    <priority>1.0</priority> \n" +
             "  </url>\n" +
-            "</urlset></xml>");
+            "</urlset>");
         return xml.toString();
     }
 
