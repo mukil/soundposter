@@ -157,44 +157,51 @@ public class WebsitePlugin extends WebActivatorPlugin {
     public String getSoundposterGoogleSitemap() {
         StringBuilder xml = new StringBuilder();
         xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-            "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n" +
+            "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" "
+                + "xmlns:image=\"http://www.google.com/schemas/sitemap-image/1.1\">\n" +
             "  <url>\n" +
             "    <loc>http://soundposter.com/browse</loc> \n" +
-            "    <lastmod>2014-12-3106:00CET</lastmod> \n" +
+            "    <lastmod>2015-03-3106:00CET</lastmod> \n" +
             "    <changefreq>weekly</changefreq> \n" +
             "    <priority>0.9</priority> \n" +
             "  </url>\n" +
             "  <url>\n" +
             "    <loc>http://soundposter.com/sign-up</loc> \n" +
-            "    <lastmod>2014-12-3106:00CET</lastmod> \n" +
+            "    <lastmod>2015-03-3106:00CET</lastmod> \n" +
             "    <changefreq>monthly</changefreq> \n" +
             "    <priority>0.9</priority> \n" +
             "  </url>\n" +
             "  <url>\n" +
             "    <loc>http://soundposter.com/intro</loc> \n" +
-            "    <lastmod>2014-12-3106:00CET</lastmod> \n" +
+            "    <lastmod>2015-03-3106:00CET</lastmod> \n" +
             "    <changefreq>monthly</changefreq> \n" +
             "    <priority>0.8</priority> \n" +
             "  </url>\n" +
             "  <url>\n" +
             "    <loc>http://soundposter.com/help</loc> \n" +
-            "    <lastmod>2014-12-3106:00CET</lastmod> \n" +
+            "    <lastmod>2015-03-3106:00CET</lastmod> \n" +
             "    <changefreq>monthly</changefreq> \n" +
             "    <priority>0.7</priority> \n" +
             "  </url>\n" +
             "  <url>\n" +
             "    <loc>http://soundposter.com/pricing</loc> \n" +
-            "    <lastmod>2014-12-3106:00CET</lastmod> \n" +
+            "    <lastmod>2015-03-3106:00CET</lastmod> \n" +
             "    <changefreq>monthly</changefreq> \n" +
             "    <priority>0.9</priority> \n" +
             "  </url>\n" +
             "  <url>\n" +
             "    <loc>http://soundposter.com/</loc> \n" +
-            "    <lastmod>2014-12-3106:00CET</lastmod> \n" +
+            "    <image:image>" +
+            "       <image:title>soundposter.com</image:title>" +
+            "       <image:loc>http://soundposter.com/com.soundposter.website/images/logos/SP_Logo_mit_dreieck_ffffff_280.png</image:loc>" +
+            "       <image:caption>Play button of soundposter.com by Malte Reißig & Edwin Tomasianpour, Copyright 2014</image:caption>" +
+            "       <image:license>Copyright 2014, Malte Reißig & Edwin Tomasianpour, CC-BY-SA 1.0</image:license>" +
+            "    </image:image>" +
+            "    <lastmod>2015-03-3106:00CET</lastmod> \n" +
             "    <changefreq>always</changefreq> \n" +
             "    <priority>1.0</priority> \n" +
             "  </url>\n" +
-            "</urlset>");
+            "</urlset>  ");
         return xml.toString();
     }
 
