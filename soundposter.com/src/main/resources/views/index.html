@@ -6,11 +6,11 @@
         <title>Illustrating sounds on the web with soundposter.com</title>
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <meta name="keywords" content="random track, creating, making, visual playlist, playlists, sound, music, web communication,
-              tool, audible websites, publishing, platform, digital music distribution"/>
-        <meta name="title" content="Frontpage - Random track" />
-        <meta name="description" content="Soundposter is a platform for illustrating and publishing audible websites." />
-        <meta name="author" content="Malte Reissig, http://www.mikromedia.de" />
+        <meta name="keywords" content="frontpage, audible websites, soundposter, streams, images, sound, music graphics, mobile web app,
+              gigposter, poster graphics, records, recordings, albums, streaming, gigs, live, show, festivals, graphics, images, tracks, sets, sounds, 
+              audience building, record, song, bookmarking, visual playlist, playlists, sound, music, web communication, publishing, platform, digital music distribution, web making"/>
+        <meta name="description" content="Frontpage - Illustrating sounds on the web with soundposter." />
+        <meta name="author" content="Malte Reissig, http://www.soundposter.com" />
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1"/>
 
         <!--
@@ -56,7 +56,7 @@
                     $('a.origin-btn').html('<img src="/com.soundposter.website/images/80x50_orange.png" width="60"'
                         + 'title="Visit the webpage of this sound and support the artist!">')
                 } else if (sound_url.indexOf('poppler') != -1 || sound_url.indexOf('album') != -1 ) {
-                    $('a.origin-btn').html('<img src="/com.soundposter.website/images/bandcamp_130x27_black.png" width="120'
+                    $('a.origin-btn').html('<img src="/com.soundposter.website/images/bandcamp_60x23_blue" '
                         + 'title="Visit the Bandcamp page of this track and support the artist!">')
                 }
                 // set page content
@@ -85,7 +85,7 @@
         <!-- Piwik -->
         <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
-            var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.soundposter.com/" : "http://stats.soundposter.com/");
+            var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.infokitchen.net/" : "http://stats.infokitchen.net/");
             document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
             </script><script type="text/javascript">
             try {
@@ -119,10 +119,10 @@
             </div>
             
             <ul class="menu">
-                <li><a href="javascript:site.show_sign_up_view()" class="signup-btn">Sign up</a></li>
-                <li><a href="javascript:site.show_intro_view()" class="intro-btn">Intro</a></li>
-                <li><a href="/browse" class="explore-btn">Explore</a></li>
-                <li><a href="javascript:site.show_plans_view()" class="plans-btn">Subscriptions</a></li>
+                <li><a href="javascript:site.show_sign_up_view()" title="Register an user account" class="signup-btn">Sign up</a></li>
+                <li><a href="javascript:site.show_intro_view()" title="Introduction to our platform" class="intro-btn">Intro</a></li>
+                <li><a href="/browse" class="explore-btn" title="Browse soundposter">Explore</a></li>
+                <li><a href="javascript:site.show_plans_view()" title="Plans and Pricing" class="plans-btn">Subscriptions</a></li>
             </ul>
             
             <div id="soundsystem" class="control player"></div>
@@ -130,8 +130,8 @@
 
             <ul class="secondary-menu">
                 <!-- li><a href="/legal">Legal</a></li-->
-                <li><a href="javascript:site.show_imprint_view()">Imprint</a></li>
-                <li><a href="http://blog.soundposter.com" title="Official Soundposter Blog">Blog</a></li>
+                <li><a href="javascript:site.show_imprint_view()" title="Find out more about soundposter">Imprint</a></li>
+                <li><a href="http://blog.soundposter.com" title="We do blog (from time to time)!">Blog</a></li>
                 <!-- li><a href="/philosophy">Philosophy</a></li-->
                 <!-- li><a href="/contact">Contact</a></li -->
                 <!-- li><a href="/about-us">About us</a></li-->
@@ -179,7 +179,7 @@
         </div>
 
         <noscript>
-            <p><img src="http://stats.soundposter.com/piwik.php?idsite=1" style="border:0" alt="" /></p>
+            <p><img src="http://stats.infokitchen.net/piwik.php?idsite=1" style="border:0" alt="" /></p>
         </noscript>
 
     </body>
