@@ -192,6 +192,47 @@ b.by {
     margin-top: 60px;
 }
 
+// ----------------------------------------- Input elements
+
+#type-mail,
+#type-name,
+#type-message {
+    font-size: 20px;
+    padding: 10px 15px 10px 15px;
+}
+
+#type-mail,
+#type-name,
+#type-message,
+input.type,
+textarea.type {
+    font-size: 20px;
+    padding: 10px 15px 10px 15px;
+    margin: 0 0 15px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #555;
+    -moz-box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
+    -webkit-box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
+    box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
+}
+
+input.submit {
+    margin-top: 20px;
+    /** background-color: rgba(39, 99, 140, 1.0); **/
+    /** color: rgba(255, 255, 255, 1.0); **/
+    cursor: pointer;
+    display: inline-block;
+    padding: 10px;
+}
+
+input[disabled] {
+    background-color: rgba(99, 99, 99, 1.0);
+}
+
+#newsletter textarea.message {
+    width: 80%;
+}
 
 // ----------------------------------------- New Layout: Page containers
 
@@ -568,6 +609,10 @@ div.side-panel .secondary-menu li {
     margin-top: 60px;
 }
 
+.page-browse .main-area {
+    margin-left: 40px;
+}
+
 .page.browse .side-panel img {
     margin-top: 14px;
 }
@@ -843,35 +888,6 @@ a.no-previous-page {
 
 // ------------------------------------------------------ Signup page 
 
-input.type,
-textarea.type {
-    font-size: 20px;
-    padding: 10px 15px 10px 15px;
-    margin: 0 0 15px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    color: #555;
-    -moz-box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
-    -webkit-box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
-    box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
-}
-
-input.submit {
-    margin-top: 20px;
-    /** background-color: rgba(39, 99, 140, 1.0); **/
-    /** color: rgba(255, 255, 255, 1.0); **/
-    cursor: pointer;
-    display: inline-block;
-    padding: 10px;
-}
-
-input[disabled] {
-    background-color: rgba(99, 99, 99, 1.0);
-}
-
-#newsletter textarea.message {
-    width: 80%;
-}
 
 // ------------------------------------------------ Thank you page
 

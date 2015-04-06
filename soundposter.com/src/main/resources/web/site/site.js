@@ -31,6 +31,7 @@ var site = new function () {
 
         var $body = $(".main-area")
             $body.empty()
+            $body.append('<a name="sign-up">&nbsp;</>')
             $body.append('<h3 class="title" >Sign up<h3>')
         
         var $main = $('<div class="content">')
@@ -42,9 +43,9 @@ var site = new function () {
                 + 'If you are interested to use this service on an experimental base, please leave us your contact-information so we can get in touc with you and support you to do so.'
             + '</p>'
             + '<form id="newsletter" action="/register" method="GET">'
-                + '<input type="text" class="text type" name="name" placeholder="Your name"/><br/>'
-                + '<input type="text" class="text type" name="mailbox" placeholder="Your e-mail"/><br/>'
-                + '<textarea class="message type" name="message" rows="6" placeholder="Leave us a message"></textarea><br/>'
+                + '<input type="text" id="type-name" name="name" placeholder="Your name"/><br/>'
+                + '<input type="text" id="type-mail" name="mailbox" placeholder="Your e-mail"/><br/>'
+                + '<textarea class="message type" id="type-message" name="message" rows="6" placeholder="Leave us a message"></textarea><br/>'
                 + '<input type="submit" class="submit" name="Ok" value="OK"/>'
             + '</form>'
             + '<p>'
@@ -69,6 +70,7 @@ var site = new function () {
         
         var $body = $(".main-area")
             $body.empty()
+            $body.append('<a name="intro">&nbsp;</>')
             $body.append('<h2 class="title">Introduction</h2>')
         var $main = $('<div class="content">')
         var $list = $("<ol>")
@@ -123,6 +125,7 @@ var site = new function () {
         //
         var $body = $(".main-area")
             $body.empty()
+            $body.append('<a name="pricing">&nbsp;</>')
             $body.append('<h2 class="title">Plans and Pricing</h2>')
         var $main = $('<div class="plans">')
             $main.append('<div class="offer">'
@@ -181,6 +184,7 @@ var site = new function () {
         //
         var $body = $(".main-area")
             $body.empty()
+            $body.append('<a name="imprint">&nbsp;</>')
             $body.append('<h2 class="title">Imprint</h2>')
 
         var $main = $('<div class="content imprint">')
@@ -296,6 +300,13 @@ var site = new function () {
                 // load next track
             })
             **/
+
+        // ### small widescreen layout fix
+        if (window.innerHeight < 700 && window.innerWidth > 790) {
+            $('div.side-panel .menu').attr("style", "margin-top:0px;")
+            $('#playback-control').attr("style", "margin-top:100px;")
+            $('div.side-panel .control .frontpage-track').attr("style", "position:fixed; top: 0px; width:400px;")
+        }
             
     }
 
@@ -308,10 +319,10 @@ var site = new function () {
             "stroke": "#FFB900", "stroke-width": 3, "opacity": 1,
             "stroke-linecap": "square"
         })
-        console.log("New Animation: Playback Ring was added...")
     }
 
     this.update_playback_animation = function (value, duration) {
+        if (isNaN(value) || isNaN(duration)) return
         playingArc.animate({
             arc: [177, 143, value, duration, 126]
         }, 750, "linear")
@@ -325,10 +336,9 @@ var site = new function () {
             arc: [177, 143, 100, 100, 135]
         }, 1200, "bounce")
         bufferingArc.click(function (e) {
-            // 
+            // ###
             console.log("Clicked to seek ..", e)
         })
-        console.log("New Animation: Seek Ring was added...")
     }
 
     this.initialize_player = function () {

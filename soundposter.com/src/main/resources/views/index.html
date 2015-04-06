@@ -56,7 +56,7 @@
                     $('a.origin-btn').html('<img src="/com.soundposter.website/images/80x50_orange.png" width="60"'
                         + 'title="Visit the webpage of this sound and support the artist!">')
                 } else if (sound_url.indexOf('poppler') != -1 || sound_url.indexOf('album') != -1 ) {
-                    $('a.origin-btn').html('<img src="/com.soundposter.website/images/bandcamp_60x23_blue" '
+                    $('a.origin-btn').html('<img src="/com.soundposter.website/images/bandcamp_60x23_blue.png" '
                         + 'title="Visit the Bandcamp page of this track and support the artist!">')
                 }
                 // set page content
@@ -68,7 +68,7 @@
                     console.log("> load sign-up page")
                     site.show_sign_up_view()
                 } else if (window.document.location.href.indexOf('pricing') != -1) {
-                    console.log("> load plans page")
+                    console.log("> load plans and pricing page")
                     site.show_plans_view()
                 } else if (window.document.location.href.indexOf('imprint') != -1) {
                     console.log("> load imprint page")
@@ -85,7 +85,7 @@
         <!-- Piwik -->
         <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
-            var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.infokitchen.net/" : "http://stats.infokitchen.net/");
+            var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.soundposter.com/" : "http://stats.soundposter.com/");
             document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
             </script><script type="text/javascript">
             try {
@@ -119,10 +119,10 @@
             </div>
             
             <ul class="menu">
-                <li><a href="javascript:site.show_sign_up_view()" title="Register an user account" class="signup-btn">Sign up</a></li>
-                <li><a href="javascript:site.show_intro_view()" title="Introduction to our platform" class="intro-btn">Intro</a></li>
+                <li><a href="#sign-up" onclick="javascript:site.show_sign_up_view()" title="Register an user account" class="signup-btn">Sign up</a></li>
+                <li><a href="#intro" onclick="javascript:site.show_intro_view()" title="Introduction to our platform" class="intro-btn">Intro</a></li>
                 <li><a href="/browse" class="explore-btn" title="Browse soundposter">Explore</a></li>
-                <li><a href="javascript:site.show_plans_view()" title="Plans and Pricing" class="plans-btn">Subscriptions</a></li>
+                <li><a href="#pricing" onclick="javascript:site.show_plans_view()" title="Plans and Pricing" class="plans-btn">Subscriptions</a></li>
             </ul>
             
             <div id="soundsystem" class="control player"></div>
@@ -130,7 +130,7 @@
 
             <ul class="secondary-menu">
                 <!-- li><a href="/legal">Legal</a></li-->
-                <li><a href="javascript:site.show_imprint_view()" title="Find out more about soundposter">Imprint</a></li>
+                <li><a href="#imprint" onclick="javascript:site.show_imprint_view()" title="Find out more about soundposter">Imprint</a></li>
                 <li><a href="http://blog.soundposter.com" title="We do blog (from time to time)!">Blog</a></li>
                 <!-- li><a href="/philosophy">Philosophy</a></li-->
                 <!-- li><a href="/contact">Contact</a></li -->
@@ -179,7 +179,7 @@
         </div>
 
         <noscript>
-            <p><img src="http://stats.infokitchen.net/piwik.php?idsite=1" style="border:0" alt="" /></p>
+            <p><img src="http://stats.soundposter.com/piwik.php?idsite=1" style="border:0" alt="" /></p>
         </noscript>
 
     </body>
