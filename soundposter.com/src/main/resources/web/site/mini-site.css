@@ -115,17 +115,6 @@ body.page .main-area  {
     width: 100%;
 }
 
-.page .footer {
-    padding-top: 10px;
-    position: relative;
-    top: 60px;
-    height: 410px;
-}
-
-.page .footer ul {
-    display: block;
-}
-
 .page.browse .footer ul.low-menu {
     left: 0px;
 }

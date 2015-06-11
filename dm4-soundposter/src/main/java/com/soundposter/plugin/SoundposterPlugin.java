@@ -1,6 +1,5 @@
 package com.soundposter.plugin;
 
-
 import com.soundposter.plugin.model.SearchedSet;
 import com.soundposter.plugin.model.SearchedTrack;
 import com.soundposter.plugin.service.SoundposterService;
@@ -9,6 +8,7 @@ import de.deepamehta.core.model.ChildTopicsModel;
 import de.deepamehta.core.model.SimpleValue;
 import de.deepamehta.core.model.TopicModel;
 import de.deepamehta.core.osgi.PluginActivator;
+import de.deepamehta.core.storage.spi.DeepaMehtaTransaction;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -366,6 +366,7 @@ public class SoundposterPlugin extends PluginActivator implements SoundposterSer
 
     @Override
     public Topic createSoundCloudTrackTopic(SearchedTrack object) {
+        DeepaMehtaTransaction tx = dms.beginTx();
         //
         String uri = SOUNDCLOUD_TRACK_ID_PREFIX + object.trackId;
         Topic exists = dms.getTopic("uri", new SimpleValue(uri));
@@ -384,11 +385,15 @@ public class SoundposterPlugin extends PluginActivator implements SoundposterSer
         model.put(SOUND_ARTWORK_URI, object.artwork_url);
         TopicModel soundModel = new TopicModel(uri, SOUND_URI, model);
         //
-        return dms.createTopic(soundModel);
+        Topic track = dms.createTopic(soundModel);
+        tx.success();
+        tx.finish();
+        return track;
     }
 
     @Override
     public Topic createSoundCloudSetTopic(SearchedSet object) {
+        DeepaMehtaTransaction tx = dms.beginTx();
         //
         String uri = SOUNDCLOUD_SET_ID_PREFIX + object.setId;
         Topic exists = dms.getTopic("uri", new SimpleValue(uri));
@@ -405,8 +410,10 @@ public class SoundposterPlugin extends PluginActivator implements SoundposterSer
             model.addRef(SOUND_URI, topic.getId());
         }
         TopicModel soundModel = new TopicModel(uri, SET_URI, model);
-        //
-        return dms.createTopic(soundModel);
+        Topic set = dms.createTopic(soundModel);
+        tx.success();
+        tx.finish();
+        return set;
     }
 
 

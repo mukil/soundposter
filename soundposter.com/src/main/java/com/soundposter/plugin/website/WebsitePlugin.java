@@ -736,6 +736,7 @@ public class WebsitePlugin extends WebActivatorPlugin {
     // #### ?
     @GET
     @Path("/create/signup/{signupInfo}/{name}")
+    @Transactional
     public String createSignupInformation(@PathParam("signupInfo") String signup, @PathParam("name") String name) {
         try {
             Topic contact = dms.createTopic(new TopicModel(MAILBOX_TYPE_URI, new SimpleValue(signup)));
@@ -1134,9 +1135,13 @@ public class WebsitePlugin extends WebActivatorPlugin {
     }
 
     public Association createAuthorRelation(Topic sound, Topic username) {
-        return dms.createAssociation(new AssociationModel(SP_AUTHOR_EDGE,
+        DeepaMehtaTransaction dx = dms.beginTx();
+        Association authorEdge = dms.createAssociation(new AssociationModel(SP_AUTHOR_EDGE,
                 new TopicRoleModel(sound.getId(), PARENT_URI),
                 new TopicRoleModel(username.getId(), CHILD_URI)));
+        dx.success();
+        dx.finish();
+        return authorEdge;
     }
     
     public ArrayList<RelatedTopic> getResultSetSortedByTitle (ResultList<RelatedTopic> all) {

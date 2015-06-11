@@ -71,10 +71,6 @@ body.page .main-area {
     margin-top: 40px;
 }
 
-.page #hello div.highlight {
-    height: 140px;
-}
-
 .page.thanks .backdrop,
 .page.imprint .backdrop,
 .page.sign-up .backdrop,
@@ -83,21 +79,6 @@ body.page .main-area {
 .page.philosophy .backdrop,
 .page.about .backdrop {
     width: 100%;
-}
-
-.page .footer {
-    padding-top: 10px;
-    position: relative;
-    top: 80px;
-    height: 400px;
-}
-
-.page.browse .footer ul.low-menu {
-    left: 0px;
-}
-
-.page .footer ul {
-    display: block;
 }
 
 .page div.box {
