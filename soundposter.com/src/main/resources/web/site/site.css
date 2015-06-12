@@ -5,6 +5,7 @@ body {
     background-image: url("/com.soundposter.website/images/website_pattern.jpg");
     letter-spacing: 2px;
     overflow-y: scroll;
+    margin: 0px;
 }
 
 

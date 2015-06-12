@@ -109,9 +109,9 @@ var site = new function () {
 
         var $menu = $('<div class="content-links">')
             $menu.append(''
-            + '<a href="/legal" title="Read more legal info about publishing on soundposter.com">Legal</a>'
+            + '<a href="/about-us" title="Read more about the people soundposter.com">About us</a>'
             + '<a href="/philosophy" title="Read about our philosophy behind soundposter.com">Philosophy</a>'
-            + '<a href="/about-us" title="Read more about the people soundposter.com">About us</a>')
+            + '<a href="/legal" title="Read more legal info about publishing on soundposter.com">Legal</a>')
             $body.append($menu)
     }
     
